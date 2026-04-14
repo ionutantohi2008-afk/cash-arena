@@ -1,45 +1,28 @@
-// USER
-const user = { email: "player@casharena.com" };
+// LOGIN
+function login(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-document.getElementById("userEmail").innerText =
-  "👤 " + user.email;
-
-function logout(){
-  alert("Déconnecté de Cash Arena !");
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => window.location = "dashboard.html")
+    .catch(e => alert(e.message));
 }
 
-// TOURNOIS
-const tournaments = [
-  {
-    name:"Fortnite Elite Cup",
-    prize:500,
-    img:"https://images.unsplash.com/photo-1605902711622-cfb43c44367f"
-  },
-  {
-    name:"Warzone Kill Race",
-    prize:300,
-    img:"https://images.unsplash.com/photo-1511512578047-dfb367046420"
-  },
-  {
-    name:"Rocket League Clash",
-    prize:200,
-    img:"https://images.unsplash.com/photo-1542751371-adc38448a05e"
-  }
-];
+// REGISTER
+function register(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-const container = document.getElementById("tournaments");
-
-tournaments.forEach(t => {
-  container.innerHTML += `
-    <div class="card">
-      <img src="${t.img}">
-      <h3>${t.name}</h3>
-      <p>💰 ${t.prize}€</p>
-      <button onclick="join('${t.name}')">Rejoindre</button>
-    </div>
-  `;
-});
-
-function join(name){
-  alert("🔥 Inscription réussie au tournoi : " + name);
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(user => {
+      return db.collection("users").doc(user.user.uid).set({
+        email: email,
+        balance: 0
+      });
+    })
+    .then(() => window.location = "dashboard.html")
+    .catch(e => alert(e.message));
+    
+}function join(){
+  alert("Inscription au tournoi confirmée !");
 }
