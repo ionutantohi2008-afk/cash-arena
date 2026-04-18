@@ -33,3 +33,7 @@ function goLogin(){
 function goRegister(){
   window.location = "register.html";
 }
+
+function goHome(){
+  window.location = "index.html";
+}

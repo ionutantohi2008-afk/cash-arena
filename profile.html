@@ -33,6 +33,16 @@ auth.onAuthStateChanged(async user => {
     "💰 Solde : " + doc.data().balance + "€";
 });
 
+<nav style="display:flex; justify-content:space-between; padding:15px; background:#111827;">
+  <div>
+    <a href="index.html" style="color:#22c55e; text-decoration:none;">Accueil</a>
+  </div>
+
+  <div>
+    <button onclick="goHome()">⬅ Retour</button>
+  </div>
+</nav>
+
 function logout(){
   auth.signOut().then(() => window.location = "index.html");
 }

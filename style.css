@@ -36,3 +36,16 @@ button {
   cursor: pointer;
   border-radius: 8px;
 }
+
+button {
+  margin-left: 10px;
+}
+
+button {
+  background: #22c55e;
+  border: none;
+  padding: 8px 12px;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+}
