@@ -7,11 +7,11 @@ auth.onAuthStateChanged(async user => {
   document.getElementById("userEmail").innerText = user.email;
 
   const doc = await db.collection("users").doc(user.uid).get();
-  document.getElementById("balance").innerHTML =
+
+  document.getElementById("balance").innerText =
     "💰 Solde : " + doc.data().balance + "€";
 });
 
-// LOGOUT
 function logout(){
   auth.signOut().then(() => window.location = "index.html");
 }
@@ -51,28 +51,31 @@ async function joinTournament(id, name){
   const doc = await ref.get();
 
   if(doc.exists){
-    alert("Tu es déjà inscrit à ce tournoi !");
+    alert("Déjà inscrit !");
     return;
   }
 
-  try {
-    await ref.set({
-      email: user.email,
-      joinedAt: new Date()
-    });
+  await ref.set({
+    email: user.email,
+    joinedAt: new Date()
+  });
 
-    alert("Inscrit au tournoi " + name + " !");
+  alert("Inscrit à " + name);
 
-    document.querySelector(".tournament-card").style.display = "none";
-    document.getElementById("classement").style.display = "block";
+  document.querySelector(".tournament-card").style.display = "none";
+  document.getElementById("classement").style.display = "block";
 
-  } catch (e) {
-    alert(e.message);
-  }
+  loadBrawlPlayers();
+}
+
+function showClassement(){
+  document.querySelector(".tournament-card").style.display = "none";
+  document.getElementById("classement").style.display = "block";
+  loadBrawlPlayers();
 }
 
 async function loadBrawlPlayers(){
-  const list = document.getElementById("brawlPlayers");
+  const table = document.getElementById("brawlTable");
 
   const snapshot = await db
     .collection("tournaments")
@@ -80,43 +83,17 @@ async function loadBrawlPlayers(){
     .collection("players")
     .get();
 
-  list.innerHTML = "";
+  table.innerHTML = "";
+
+  let pos = 1;
 
   snapshot.forEach(doc => {
-    const li = document.createElement("li");
-    li.textContent = doc.data().email;
-    list.appendChild(li);
+    table.innerHTML += `
+      <tr>
+        <td>${pos++}</td>
+        <td>${doc.data().email}</td>
+        <td>0</td>
+      </tr>
+    `;
   });
-}
-
-// Date du tournoi : lundi 4 mai à 20h (modifiable)
-const startTime = new Date("May 4, 2026 20:00:00").getTime();
-
-function updateTimer(){
-  const now = new Date().getTime();
-  const distance = startTime - now;
-
-  if(distance <= 0){
-    document.getElementById("timer").innerText = "🔥 Le tournoi a commencé !";
-    return;
-  }
-
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  document.getElementById("timer").innerText =
-    `Début dans : ${days}j ${hours}h ${minutes}m ${seconds}s`;
-}
-
-// refresh chaque seconde
-setInterval(updateTimer, 1000);
-updateTimer();
-
-function showClassement(){
-  document.querySelector(".tournament-card").style.display = "none";
-  document.getElementById("classement").style.display = "block";
-
-  loadClassement(); // 🔥 important
 }
