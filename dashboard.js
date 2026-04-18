@@ -99,3 +99,11 @@ function updateTimer(){
 // refresh chaque seconde
 setInterval(updateTimer, 1000);
 updateTimer();
+
+function showClassement(){
+  // cacher la carte tournoi
+  document.querySelector(".tournament-card").style.display = "none";
+
+  // afficher classement
+  document.getElementById("classement").style.display = "block";
+}
