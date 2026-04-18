@@ -55,14 +55,20 @@ async function joinTournament(id, name){
     return;
   }
 
-  ref.set({
-    email: user.email,
-    joinedAt: new Date()
-  })
-  .then(() => {
+  try {
+    await ref.set({
+      email: user.email,
+      joinedAt: new Date()
+    });
+
     alert("Inscrit au tournoi " + name + " !");
-  })
-  .catch(e => alert(e.message));
+
+    document.querySelector(".tournament-card").style.display = "none";
+    document.getElementById("classement").style.display = "block";
+
+  } catch (e) {
+    alert(e.message);
+  }
 }
 
 async function loadBrawlPlayers(){
