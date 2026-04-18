@@ -21,7 +21,11 @@ const tournaments = [
   {id:"brawl", name:"Brawl Stars Test", prize:0},
 ];
 
-const container = document.getElementById("tournaments");
+const container = document.getElementById("classement");
+
+if (!container) {
+  console.error("❌ #classement introuvable dans le HTML");
+}
 
 tournaments.forEach(t => {
   container.innerHTML += `
@@ -97,3 +101,4 @@ async function loadBrawlPlayers(){
     `;
   });
 }
+
