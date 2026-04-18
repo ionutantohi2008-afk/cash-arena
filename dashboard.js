@@ -83,16 +83,19 @@ function updateTimer(){
   const distance = startTime - now;
 
   if(distance <= 0){
-    document.getElementById("timer").innerText = "Le tournoi a commencé !";
+    document.getElementById("timer").innerText = "🔥 Le tournoi a commencé !";
     return;
   }
 
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
   document.getElementById("timer").innerText =
-    "Début dans : " + minutes + "m " + seconds + "s";
+    `Début dans : ${days}j ${hours}h ${minutes}m ${seconds}s`;
 }
 
-// update chaque seconde
+// refresh chaque seconde
 setInterval(updateTimer, 1000);
+updateTimer();
