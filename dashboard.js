@@ -72,36 +72,25 @@ async function joinTournament(id, name){
   loadBrawlPlayers();
 }
 
-function showClassement(){
-  document.querySelector(".tournament-card").style.display = "none";
-  document.getElementById("classement").style.display = "block";
-  loadBrawlPlayers();
-}
-
 async function loadBrawlPlayers(){
   const table = document.getElementById("brawlTable");
 
-  const snapshot = await db
-    .collection("tournaments")
-    .doc("brawl")
-    .collection("players")
-    .get();
+  const snapshot = await db.collection("users").get();
 
-  // 🔥 DEBUG ICI
-  console.log("Nombre de joueurs :", snapshot.size);
+  console.log("Users trouvés :", snapshot.size);
 
   table.innerHTML = "";
 
   let pos = 1;
 
   snapshot.forEach(doc => {
-    console.log("Joueur trouvé :", doc.data()); // 🔥 DEBUG BONUS
+    const data = doc.data();
 
     table.innerHTML += `
       <tr>
         <td>${pos++}</td>
-        <td>${doc.data().email}</td>
-        <td>0</td>
+        <td>${data.email}</td>
+        <td>${data.points || 0}</td>
       </tr>
     `;
   });
