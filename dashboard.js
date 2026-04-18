@@ -18,8 +18,7 @@ function logout(){
 
 // TOURNOIS
 const tournaments = [
-  {name:"Fortnite Elite", prize:500},
-  {name:"Warzone Pro", prize:300},
+  {id:"brawl", name:"Brawl Stars Test", prize:0},
 ];
 
 const container = document.getElementById("tournaments");
@@ -29,11 +28,49 @@ tournaments.forEach(t => {
     <div class="card">
       <h3>${t.name}</h3>
       <p>${t.prize}€</p>
-      <button onclick="join('${t.name}', ${t.prize})">Join</button>
+      <button onclick="joinTournament('${t.id}', '${t.name}')">
+        Rejoindre
+      </button>
     </div>
   `;
 });
 
-function join(name, prize){
-  alert("Inscrit à " + name);
+function joinTournament(id, name){
+  const user = auth.currentUser;
+
+  if(!user){
+    alert("Connecte-toi !");
+    return;
+  }
+
+  db.collection("tournaments")
+    .doc(id)
+    .collection("players")
+    .doc(user.uid)
+    .set({
+      email: user.email,
+      joinedAt: new Date()
+    })
+    .then(() => {
+      alert("Inscrit au tournoi " + name + " !");
+    })
+    .catch(e => alert(e.message));
+}
+
+async function loadBrawlPlayers(){
+  const list = document.getElementById("brawlPlayers");
+
+  const snapshot = await db
+    .collection("tournaments")
+    .doc("brawl")
+    .collection("players")
+    .get();
+
+  list.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const li = document.createElement("li");
+    li.textContent = doc.data().email;
+    list.appendChild(li);
+  });
 }
