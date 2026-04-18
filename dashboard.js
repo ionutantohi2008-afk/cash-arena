@@ -87,11 +87,16 @@ async function loadBrawlPlayers(){
     .collection("players")
     .get();
 
+  // 🔥 DEBUG ICI
+  console.log("Nombre de joueurs :", snapshot.size);
+
   table.innerHTML = "";
 
   let pos = 1;
 
   snapshot.forEach(doc => {
+    console.log("Joueur trouvé :", doc.data()); // 🔥 DEBUG BONUS
+
     table.innerHTML += `
       <tr>
         <td>${pos++}</td>
@@ -101,4 +106,3 @@ async function loadBrawlPlayers(){
     `;
   });
 }
-
