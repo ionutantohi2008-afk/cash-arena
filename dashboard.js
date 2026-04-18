@@ -39,58 +39,69 @@ tournaments.forEach(t => {
   `;
 });
 
-async function joinTournament(id, name){
+async function joinTournament(tournamentId) {
   const user = auth.currentUser;
 
-  if(!user){
+  if (!user) {
     alert("Connecte-toi !");
     return;
   }
 
   const ref = db.collection("tournaments")
-    .doc(id)
+    .doc(tournamentId)
     .collection("players")
     .doc(user.uid);
 
   const doc = await ref.get();
 
-  if(doc.exists){
+  if (doc.exists) {
     alert("Déjà inscrit !");
+    showClassement();
     return;
   }
 
   await ref.set({
     email: user.email,
+    points: 0,
     joinedAt: new Date()
   });
 
-  alert("Inscrit à " + name);
+  alert("Inscription réussie !");
+  showClassement();
+}
 
+function showClassement() {
   document.querySelector(".tournament-card").style.display = "none";
   document.getElementById("classement").style.display = "block";
 
   loadBrawlPlayers();
 }
 
-async function loadBrawlPlayers(){
+async function loadBrawlPlayers() {
   const table = document.getElementById("brawlTable");
 
-  const snapshot = await db.collection("users").get();
+  const snapshot = await db.collection("tournaments")
+    .doc("brawl")
+    .collection("players")
+    .get();
 
-  console.log("Users trouvés :", snapshot.size);
+  let players = [];
+
+  snapshot.forEach(doc => {
+    players.push(doc.data());
+  });
+
+  // TRI PAR POINTS (important pour classement)
+  players.sort((a, b) => (b.points || 0) - (a.points || 0));
 
   table.innerHTML = "";
 
-  let pos = 1;
-
-  snapshot.forEach(doc => {
-    const data = doc.data();
-
+  players.forEach((p, index) => {
     table.innerHTML += `
       <tr>
-        <td>${pos++}</td>
-        <td>${data.email}</td>
-        <td>${data.points || 0}</td>
+        <td>${index + 1}</td>
+        <td>${p.email}</td>
+        <td>${p.points || 0}</td>
       </tr>
     `;
   });
