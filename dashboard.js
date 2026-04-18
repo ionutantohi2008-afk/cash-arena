@@ -74,3 +74,25 @@ async function loadBrawlPlayers(){
     list.appendChild(li);
   });
 }
+
+// Date du tournoi : lundi 4 mai à 20h (modifiable)
+const startTime = new Date("May 4, 2026 20:00:00").getTime();
+
+function updateTimer(){
+  const now = new Date().getTime();
+  const distance = startTime - now;
+
+  if(distance <= 0){
+    document.getElementById("timer").innerText = "Le tournoi a commencé !";
+    return;
+  }
+
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("timer").innerText =
+    "Début dans : " + minutes + "m " + seconds + "s";
+}
+
+// update chaque seconde
+setInterval(updateTimer, 1000);
