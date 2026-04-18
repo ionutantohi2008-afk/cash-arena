@@ -38,24 +38,35 @@
     CLASSEMENT DE TOURNOI BASIC
   </h2>
 
-  <table style="width:80%; margin:auto; text-align:center; background:#1f2937; border-radius:10px;">
+ async function loadClassement(){
+  const table = document.querySelector("#classement table");
+
+  const snapshot = await db
+    .collection("tournaments")
+    .doc("brawl")
+    .collection("players")
+    .get();
+
+  table.innerHTML = `
     <tr>
       <th>POS.</th>
       <th>JOUEUR</th>
       <th>POINTS</th>
     </tr>
+  `;
 
-    <tr><td>1</td><td>PlayerX</td><td>850</td></tr>
-    <tr><td>2</td><td>NovaPlayer</td><td>720</td></tr>
-    <tr><td>3</td><td>PlayerY</td><td>680</td></tr>
-    <tr><td>4</td><td>PlayerZ</td><td>660</td></tr>
-    <tr><td>5</td><td>NovaPlayer</td><td>540</td></tr>
-    <tr><td>6</td><td>SwiftStriker</td><td>420</td></tr>
-    <tr><td>7</td><td>PlayerY</td><td>300</td></tr>
-    <tr><td>8</td><td>Playername</td><td>330</td></tr>
-    <tr><td>9</td><td>Playername</td><td>220</td></tr>
-    <tr><td>10</td><td>Playername</td><td>160</td></tr>
-  </table>
+  let pos = 1;
+
+  snapshot.forEach(doc => {
+    table.innerHTML += `
+      <tr>
+        <td>${pos++}</td>
+        <td>${doc.data().email}</td>
+        <td>0</td>
+      </tr>
+    `;
+  });
+}
 
 </div>  
 

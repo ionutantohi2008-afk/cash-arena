@@ -35,7 +35,7 @@ tournaments.forEach(t => {
   `;
 });
 
-function joinTournament(id, name){
+async function joinTournament(id, name){
   const user = auth.currentUser;
 
   if(!user){
@@ -43,18 +43,26 @@ function joinTournament(id, name){
     return;
   }
 
-  db.collection("tournaments")
+  const ref = db.collection("tournaments")
     .doc(id)
     .collection("players")
-    .doc(user.uid)
-    .set({
-      email: user.email,
-      joinedAt: new Date()
-    })
-    .then(() => {
-      alert("Inscrit au tournoi " + name + " !");
-    })
-    .catch(e => alert(e.message));
+    .doc(user.uid);
+
+  const doc = await ref.get();
+
+  if(doc.exists){
+    alert("Tu es déjà inscrit à ce tournoi !");
+    return;
+  }
+
+  ref.set({
+    email: user.email,
+    joinedAt: new Date()
+  })
+  .then(() => {
+    alert("Inscrit au tournoi " + name + " !");
+  })
+  .catch(e => alert(e.message));
 }
 
 async function loadBrawlPlayers(){
@@ -101,9 +109,8 @@ setInterval(updateTimer, 1000);
 updateTimer();
 
 function showClassement(){
-  // cacher la carte tournoi
   document.querySelector(".tournament-card").style.display = "none";
-
-  // afficher classement
   document.getElementById("classement").style.display = "block";
+
+  loadClassement(); // 🔥 important
 }
