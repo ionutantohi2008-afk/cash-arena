@@ -12,12 +12,19 @@
 </head>
 <body>
 
-<nav>
-  <a href="index.html">Accueil</a>
-  <a href="dashboard.html">Tournois</a>
-  <a href="privacy.html">Confidentialité</a>
-  <a href="terms.html">Conditions</a>
-  <a href="contact.html">Contact</a>
+<nav style="display:flex; justify-content:space-between; align-items:center;">
+  <div>
+    <a href="index.html">Accueil</a>
+    <a href="dashboard.html">Tournois</a>
+    <a href="privacy.html">Confidentialité</a>
+    <a href="terms.html">Conditions</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div>
+    <button onclick="goLogin()">Se connecter</button>
+    <button onclick="goRegister()">S'inscrire</button>
+  </div>
 </nav>
 
 <div class="container">

@@ -4,7 +4,7 @@ function login(){
   const password = document.getElementById("password").value;
 
   auth.signInWithEmailAndPassword(email, password)
-    .then(() => window.location = "dashboard.html")
+    .then(() => window.location = "profile.html")
     .catch(e => alert(e.message));
 }
 
@@ -20,9 +20,16 @@ function register(){
         balance: 0
       });
     })
-    .then(() => window.location = "dashboard.html")
+    .then(() => window.location = "profile.html")
     .catch(e => alert(e.message));
     
 }function join(){
   alert("Inscription au tournoi confirmée !");
+}
+function goLogin(){
+  window.location = "login.html";
+}
+
+function goRegister(){
+  window.location = "register.html";
 }
