@@ -55,11 +55,43 @@ function logout(){
   auth.signOut().then(() => window.location = "index.html");
 }
 
-function linkBrawl(){
-  const brawlTag = document.getElementById("brawlTag").value;
-  const userId = auth.currentUser.uid;
+async function linkBrawl() {
+  const tag = document.getElementById("brawlTag").value.replace("#", "%23");
 
-  // Implement the logic to link the Brawl Stars account
+  if (!tag) {
+    alert("Entre ton tag !");
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api.brawlstars.com/v1/players/${tag}`, {
+      headers: {
+        Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImQxMGNiZDU2LTk0Y2UtNDZjYS1iYzc2LTgyZDY5ZWQ2YjQ3YSIsImlhdCI6MTc3NjA5OTUwMiwic3ViIjoiZGV2ZWxvcGVyL2E3Y2Y3NTE4LTBiNGYtYmFkMi0xYzE4LWQ1MmI3OWExOGZmOSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTUxLjYxLjIwMS4yMjciXSwidHlwZSI6ImNsaWVudCJ9XX0.FMI5Gc6h7jMe18qUdjptkyK31hXEBnxPYHQijR3rV44BycG1iC5mU0zIrSikdG1CEfA4xLGXDXrphqr3OqHcGg"
+      }
+    });
+
+    const data = await res.json();
+
+    if (data.reason) {
+      alert("Erreur : " + data.message);
+      return;
+    }
+
+    document.getElementById("brawlResult").innerText =
+      "✅ Joueur : " + data.name + " | Trophées : " + data.trophies;
+
+    // 🔥 Sauvegarde dans Firestore
+    const user = auth.currentUser;
+
+    await db.collection("users").doc(user.uid).update({
+      brawlTag: tag,
+      brawlName: data.name,
+      brawlTrophies: data.trophies
+    });
+
+  } catch (e) {
+    alert("Erreur API");
+  }
 }
 </script>
 
