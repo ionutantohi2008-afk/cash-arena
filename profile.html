@@ -54,7 +54,21 @@ auth.onAuthStateChanged(async user => {
 function logout(){
   auth.signOut().then(() => window.location = "index.html");
 }
+
+function linkBrawl(){
+  const brawlTag = document.getElementById("brawlTag").value;
+  const userId = auth.currentUser.uid;
+
+  // Implement the logic to link the Brawl Stars account
+}
 </script>
+
+<h3>Lier mon compte Brawl Stars</h3>
+
+<input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
+<button onclick="linkBrawl()">Lier mon compte</button>
+
+<p id="brawlResult"></p>
 
 </body>
 </html>
