@@ -70,6 +70,8 @@ async function linkBrawl() {
       }
     });
 
+    const tag = "#ABC123".replace("#", "%23");
+    
     const data = await res.json();
 
     if (data.reason) {
