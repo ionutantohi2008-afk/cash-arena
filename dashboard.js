@@ -7,37 +7,15 @@ auth.onAuthStateChanged(async user => {
   document.getElementById("userEmail").innerText = user.email;
 
   const doc = await db.collection("users").doc(user.uid).get();
-
-  document.getElementById("balance").innerText =
-    "💰 Solde : " + doc.data().balance + "€";
+  if (doc.exists) {
+    document.getElementById("balance").innerText =
+      "💰 Solde : " + (doc.data().balance || 0) + "€";
+  }
 });
 
 function logout(){
   auth.signOut().then(() => window.location = "index.html");
 }
-
-// TOURNOIS
-const tournaments = [
-  {id:"brawl", name:"Brawl Stars Test", prize:0},
-];
-
-const container = document.getElementById("classement");
-
-if (!container) {
-  console.error("❌ #classement introuvable dans le HTML");
-}
-
-tournaments.forEach(t => {
-  container.innerHTML += `
-    <div class="card">
-      <h3>${t.name}</h3>
-      <p>${t.prize}€</p>
-      <button onclick="joinTournament('${t.id}', '${t.name}')">
-        Rejoindre
-      </button>
-    </div>
-  `;
-});
 
 async function joinTournament(tournamentId) {
   const user = auth.currentUser;
@@ -46,6 +24,9 @@ async function joinTournament(tournamentId) {
     alert("Connecte-toi !");
     return;
   }
+
+  const userDoc = await db.collection("users").doc(user.uid).get();
+  const userData = userDoc.data() || {};
 
   const ref = db.collection("tournaments")
     .doc(tournamentId)
@@ -61,7 +42,11 @@ async function joinTournament(tournamentId) {
   }
 
   await ref.set({
+    uid: user.uid,
     email: user.email,
+    brawlTag: userData.brawlTag || null,
+    brawlName: userData.brawlName || null,
+    brawlTrophies: userData.brawlTrophies || 0,
     points: 0,
     joinedAt: new Date()
   });
@@ -73,7 +58,6 @@ async function joinTournament(tournamentId) {
 function showClassement() {
   document.querySelector(".tournament-card").style.display = "none";
   document.getElementById("classement").style.display = "block";
-
   loadBrawlPlayers();
 }
 
@@ -91,7 +75,6 @@ async function loadBrawlPlayers() {
     players.push(doc.data());
   });
 
-  // TRI PAR POINTS (important pour classement)
   players.sort((a, b) => (b.points || 0) - (a.points || 0));
 
   table.innerHTML = "";
@@ -100,7 +83,7 @@ async function loadBrawlPlayers() {
     table.innerHTML += `
       <tr>
         <td>${index + 1}</td>
-        <td>${p.email}</td>
+        <td>${p.brawlName || p.email}</td>
         <td>${p.points || 0}</td>
       </tr>
     `;

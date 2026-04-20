@@ -1,43 +1,43 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+  <!DOCTYPE html>
+  <html lang="fr">
+  <head>
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
 
-  <script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: 'eggoze90yi',
-    });
-</script>
+    <script type="text/javascript">
+      aclib.runAutoTag({
+          zoneId: 'eggoze90yi',
+      });
+  </script>
 
-  <meta charset="UTF-8">
-  <title>Profil</title>
-</head>
-<body>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+  </head>
+  <body>
 
-<h1>Mon Profil</h1>
+  <h1>Mon Profil</h1>
 
-<p id="email"></p>
-<p id="balance"></p>
+  <p id="email"></p>
+  <p id="balance"></p>
 
-<button onclick="logout()">Se déconnecter</button>
+  <button onclick="logout()">Se déconnecter</button>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-<script src="firebase.js"></script>
+  <script src="firebase.js"></script>
 
-<nav style="display:flex; justify-content:space-between; padding:15px; background:#111827;">
-  <div>
-    <a href="index.html" style="color:#22c55e; text-decoration:none;">Accueil</a>
-  </div>
+  <nav style="display:flex; justify-content:space-between; padding:15px; background:#111827;">
+    <div>
+      <a href="index.html" style="color:#22c55e; text-decoration:none;">Accueil</a>
+    </div>
 
-  <div>
-    <button onclick="goHome()">⬅ Retour</button>
-  </div>
-</nav>
+    <div>
+      <button onclick="goHome()">⬅ Retour</button>
+    </div>
+  </nav>
 
-<script>
+ <script>
 auth.onAuthStateChanged(async user => {
   if(!user){
     window.location = "index.html";
@@ -47,8 +47,29 @@ auth.onAuthStateChanged(async user => {
   document.getElementById("email").innerText = "📧 " + user.email;
 
   const doc = await db.collection("users").doc(user.uid).get();
-  document.getElementById("balance").innerText =
-    "💰 Solde : " + doc.data().balance + "€";
+  if (doc.exists) {
+    document.getElementById("balance").innerText =
+      "💰 Solde : " + (doc.data().balance || 0) + "€";
+  }
+});
+
+function logout(){
+  auth.signOut().then(() => window.location = "index.html");
+}
+
+auth.onAuthStateChanged(async user => {
+  if(!user){
+    window.location = "index.html";
+    return;
+  }
+
+  document.getElementById("email").innerText = "📧 " + user.email;
+
+  const doc = await db.collection("users").doc(user.uid).get();
+  if (doc.exists) {
+    document.getElementById("balance").innerText =
+      "💰 Solde : " + (doc.data().balance || 0) + "€";
+  }
 });
 
 function logout(){
@@ -56,53 +77,45 @@ function logout(){
 }
 
 async function linkBrawl() {
-  const tag = document.getElementById("brawlTag").value.replace("#", "%23");
-
-  if (!tag) {
-    alert("Entre ton tag !");
+  const input = document.getElementById("brawlTag").value.trim();
+  if (!input) {
+    alert("Entre ton tag Brawl Stars !");
     return;
   }
-
   try {
-    const res = await fetch(`https://api.brawlstars.com/v1/players/${tag}`, {
-      headers: {
-        Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImQxMGNiZDU2LTk0Y2UtNDZjYS1iYzc2LTgyZDY5ZWQ2YjQ3YSIsImlhdCI6MTc3NjA5OTUwMiwic3ViIjoiZGV2ZWxvcGVyL2E3Y2Y3NTE4LTBiNGYtYmFkMi0xYzE4LWQ1MmI3OWExOGZmOSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTUxLjYxLjIwMS4yMjciXSwidHlwZSI6ImNsaWVudCJ9XX0.FMI5Gc6h7jMe18qUdjptkyK31hXEBnxPYHQijR3rV44BycG1iC5mU0zIrSikdG1CEfA4xLGXDXrphqr3OqHcGg"
-      }
-    });
-
-    const tag = "#ABC123".replace("#", "%23");
-    
+    const cleanTag = input.startsWith("#") ? input : "#" + input;
+    const res = await fetch(`http://localhost:3000/api/brawl/player/${encodeURIComponent(cleanTag)}`);
     const data = await res.json();
-
-    if (data.reason) {
-      alert("Erreur : " + data.message);
+    if (!res.ok || data.error) {
+      alert("Erreur : " + (data.message || "Impossible de récupérer le joueur"));
       return;
     }
-
     document.getElementById("brawlResult").innerText =
-      "✅ Joueur : " + data.name + " | Trophées : " + data.trophies;
-
-    // 🔥 Sauvegarde dans Firestore
+      `✅ Joueur : ${data.name} | 🏆 Trophées : ${data.trophies}`;
     const user = auth.currentUser;
-
     await db.collection("users").doc(user.uid).update({
-      brawlTag: tag,
+      brawlTag: data.tag,
       brawlName: data.name,
-      brawlTrophies: data.trophies
+      brawlTrophies: data.trophies,
+      brawlHighestTrophies: data.highestTrophies || 0,
+      brawlExpLevel: data.expLevel || 0,
+      brawlClubName: data.club?.name || "",
+      updatedAt: new Date()
     });
-
+    alert("Compte Brawl Stars lié avec succès !");
   } catch (e) {
-    alert("Erreur API");
+    console.error(e);
+    alert("Erreur de connexion au serveur");
   }
 }
 </script>
 
-<h3>Lier mon compte Brawl Stars</h3>
+  <h3>Lier mon compte Brawl Stars</h3>
 
-<input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
-<button onclick="linkBrawl()">Lier mon compte</button>
+  <input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
+  <button onclick="linkBrawl()">Lier mon compte</button>
 
-<p id="brawlResult"></p>
+  <p id="brawlResult"></p>
 
-</body>
-</html>
+  </body>
+  </html>
