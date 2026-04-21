@@ -39,7 +39,7 @@
 
  <script>
 auth.onAuthStateChanged(async user => {
-  if(!user){
+  if (!user) {
     window.location = "index.html";
     return;
   }
@@ -47,28 +47,20 @@ auth.onAuthStateChanged(async user => {
   document.getElementById("email").innerText = "📧 " + user.email;
 
   const doc = await db.collection("users").doc(user.uid).get();
+
   if (doc.exists) {
+    const data = doc.data();
+
     document.getElementById("balance").innerText =
-      "💰 Solde : " + (doc.data().balance || 0) + "€";
-  }
-});
+      "💰 Solde : " + (data.balance || 0) + "€";
 
-function logout(){
-  auth.signOut().then(() => window.location = "index.html");
-}
-
-auth.onAuthStateChanged(async user => {
-  if(!user){
-    window.location = "index.html";
-    return;
-  }
-
-  document.getElementById("email").innerText = "📧 " + user.email;
-
-  const doc = await db.collection("users").doc(user.uid).get();
-  if (doc.exists) {
-    document.getElementById("balance").innerText =
-      "💰 Solde : " + (doc.data().balance || 0) + "€";
+    if (data.brawlName && data.brawlTag) {
+      document.getElementById("brawlSaved").innerText =
+        `🎮 Compte lié : ${data.brawlName} (${data.brawlTag}) | 🏆 ${data.brawlTrophies || 0} trophées`;
+    } else {
+      document.getElementById("brawlSaved").innerText =
+        "Aucun compte Brawl Stars lié.";
+    }
   }
 });
 
@@ -110,12 +102,15 @@ async function linkBrawl() {
 }
 </script>
 
-  <h3>Lier mon compte Brawl Stars</h3>
+<h3>Lier mon compte Brawl Stars</h3>
 
-  <input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
-  <button onclick="linkBrawl()">Lier mon compte</button>
+<input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
+<button onclick="linkBrawl()">Lier mon compte</button>
 
-  <p id="brawlResult"></p>
+<p id="brawlResult"></p>
+<p id="brawlSaved"></p>
+
+</script>
 
   </body>
   </html>
