@@ -55,11 +55,21 @@ auth.onAuthStateChanged(async user => {
       "💰 Solde : " + (data.balance || 0) + "€";
 
     if (data.brawlName && data.brawlTag) {
+
+      // ✅ afficher compte lié
       document.getElementById("brawlSaved").innerText =
-        `🎮 Compte lié : ${data.brawlName} (${data.brawlTag}) | 🏆 ${data.brawlTrophies || 0} trophées`;
+        `🎮 ${data.brawlName} (${data.brawlTag}) | 🏆 ${data.brawlTrophies || 0}`;
+
+      // 🔥 cacher la section
+      document.getElementById("linkSection").style.display = "none";
+
     } else {
+
       document.getElementById("brawlSaved").innerText =
         "Aucun compte Brawl Stars lié.";
+
+      // montrer la section si pas lié
+      document.getElementById("linkSection").style.display = "block";
     }
   }
 });
@@ -99,15 +109,20 @@ async function linkBrawl() {
     console.error(e);
     alert("Erreur de connexion au serveur");
   }
+  
+  document.getElementById("linkSection").style.display = "none";
 }
 </script>
 
-<h3>Lier mon compte Brawl Stars</h3>
+<div id="linkSection">
+  <h3>Lier mon compte Brawl Stars</h3>
 
-<input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
-<button onclick="linkBrawl()">Lier mon compte</button>
+  <input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
+  <button onclick="linkBrawl()">Lier mon compte</button>
 
-<p id="brawlResult"></p>
+  <p id="brawlResult"></p>
+</div>
+
 <p id="brawlSaved"></p>
 
 </script>
