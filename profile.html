@@ -84,7 +84,7 @@ async function linkBrawl() {
   }
   try {
     const cleanTag = input.startsWith("#") ? input : "#" + input;
-    const res = await fetch(`http://localhost:3000/api/brawl/player/${encodeURIComponent(cleanTag)}`);
+    const res = await fetch(`https://cash-arena-api.onrender.com/api/brawl/player/${encodeURIComponent(cleanTag)}`);
     const data = await res.json();
     if (!res.ok || data.error) {
       alert("Erreur : " + (data.message || "Impossible de récupérer le joueur"));
