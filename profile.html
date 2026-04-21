@@ -1,20 +1,30 @@
-  <!DOCTYPE html>
-  <html lang="fr">
-  <head>
-    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
 
-    <script type="text/javascript">
-      aclib.runAutoTag({
-          zoneId: 'eggoze90yi',
-      });
+  <script type="text/javascript">
+    aclib.runAutoTag({
+        zoneId: 'eggoze90yi',
+    });
   </script>
 
-    <meta charset="UTF-8">
-    <title>Profil</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
+  <meta charset="UTF-8">
+  <title>Profil</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-  <body>
+<body>
+
+<nav style="display:flex; justify-content:space-between; padding:15px; background:#111827;">
+  <div>
+    <a href="index.html" style="color:#22c55e; text-decoration:none;">Accueil</a>
+  </div>
+
+  <div>
+    <button onclick="goHome()">⬅ Retour</button>
+  </div>
+</nav>
 
 <div class="login-container">
 
@@ -50,13 +60,13 @@
 
 </div>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-  <script src="firebase.js"></script>
+<script src="firebase.js"></script>
 
- <script>
+<script>
 auth.onAuthStateChanged(async user => {
   if (!user) {
     window.location = "index.html";
@@ -75,20 +85,14 @@ auth.onAuthStateChanged(async user => {
 
     if (data.brawlName && data.brawlTag) {
 
-      // ✅ afficher compte lié
       document.getElementById("brawlSaved").innerText =
         `🎮 ${data.brawlName} (${data.brawlTag}) | 🏆 ${data.brawlTrophies || 0}`;
 
-      // 🔥 cacher la section
       document.getElementById("linkSection").style.display = "none";
 
     } else {
-
       document.getElementById("brawlSaved").innerText =
         "Aucun compte Brawl Stars lié.";
-
-      // montrer la section si pas lié
-      document.getElementById("linkSection").style.display = "block";
     }
   }
 });
@@ -99,54 +103,43 @@ function logout(){
 
 async function linkBrawl() {
   const input = document.getElementById("brawlTag").value.trim();
+
   if (!input) {
-    alert("Entre ton tag Brawl Stars !");
+    alert("Entre ton tag !");
     return;
   }
+
   try {
     const cleanTag = input.startsWith("#") ? input : "#" + input;
-    const res = await fetch(`https://cash-arena-api.onrender.com/api/brawl/player/${encodeURIComponent(cleanTag)}`);
+
+    const res = await fetch(`https://TON-URL-RENDER.onrender.com/api/brawl/player/${encodeURIComponent(cleanTag)}`);
     const data = await res.json();
+
     if (!res.ok || data.error) {
-      alert("Erreur : " + (data.message || "Impossible de récupérer le joueur"));
+      alert("Erreur : " + (data.message || "Impossible"));
       return;
     }
+
     document.getElementById("brawlResult").innerText =
-      `✅ Joueur : ${data.name} | 🏆 Trophées : ${data.trophies}`;
+      `✅ ${data.name} | 🏆 ${data.trophies}`;
+
     const user = auth.currentUser;
+
     await db.collection("users").doc(user.uid).update({
       brawlTag: data.tag,
       brawlName: data.name,
-      brawlTrophies: data.trophies,
-      brawlHighestTrophies: data.highestTrophies || 0,
-      brawlExpLevel: data.expLevel || 0,
-      brawlClubName: data.club?.name || "",
-      updatedAt: new Date()
+      brawlTrophies: data.trophies
     });
-    alert("Compte Brawl Stars lié avec succès !");
-  } catch (e) {
-    console.error(e);
-    alert("Erreur de connexion au serveur");
-  }
 
-  document.getElementById("linkSection").style.display = "none";
+    document.getElementById("linkSection").style.display = "none";
+    document.getElementById("brawlSaved").innerText =
+      `🎮 ${data.name} (${data.tag}) | 🏆 ${data.trophies}`;
+
+  } catch (e) {
+    alert("Erreur API");
+  }
 }
 </script>
 
-<div id="linkSection">
-  <h3>Lier mon compte Brawl Stars</h3>
-
-  <input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
-  <button onclick="linkBrawl()">Lier mon compte</button>
-
-  <p id="brawlResult"></p>
-</div>
-
-<p id="brawlSaved"></p>
-
-</script>
-
-<SCRIPT data-cfasync="false" SRC="//bdv.bidvertiser.com/BidVertiser.dbm?pid=942034&bid=2104448&fid=2104448" TYPE="text/javascript"></SCRIPT>
-
-  </body>
-  </html>
+</body>
+</html>
