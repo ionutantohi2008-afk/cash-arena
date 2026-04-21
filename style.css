@@ -187,3 +187,64 @@ tr:hover {
 .feature-card {
   box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
 }
+
+/* 🔥 fond comme accueil */
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(180deg, #0b0f1a, #020617);
+  color: white;
+}
+
+/* centrer */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 70px);
+}
+
+/* carte login */
+.login-card {
+  background: #1f2937;
+  padding: 30px;
+  border-radius: 15px;
+  width: 300px;
+  text-align: center;
+
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
+  border: 2px solid #a855f7;
+}
+
+/* titre */
+.login-card h1 {
+  margin-bottom: 20px;
+}
+
+/* inputs */
+.login-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: none;
+  background: #111827;
+  color: white;
+}
+
+/* bouton */
+.login-card button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #9333ea, #6b21a8);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* hover */
+.login-card button:hover {
+  opacity: 0.9;
+}
