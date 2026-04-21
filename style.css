@@ -95,6 +95,11 @@ button {
   margin-top: 10px;
 }
 
+.tournament-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .tournament-card button:hover {
   opacity: 0.9;
 }

@@ -29,12 +29,13 @@
     <a href="contact.html">Contact</a>
 </nav>
 
-
 <div class="tournament-card">
-  <h2>BRAWL STARS - Tournoi Test</h2>
-  <p>Récompense : 0€</p>
+  <h2>BRAWL STARS - Tournoi 2€</h2>
+  <p class="reward">Récompense : 2€</p>
 
-  <button onclick="joinTournament('brawl')">
+  <p id="timer">Chargement du timer...</p>
+
+  <button id="joinBtn" onclick="joinTournament('brawl')">
     REJOINDRE LE TOURNOI
   </button>
 </div>
@@ -55,7 +56,6 @@
     <tbody id="brawlTable"></tbody>
   </table>
 </div>
-
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
