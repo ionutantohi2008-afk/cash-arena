@@ -1,9 +1,6 @@
   <!DOCTYPE html>
   <html lang="fr">
   <head>
-
-    <link rel="stylesheet" href="style.css">
-    
     <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
 
     <script type="text/javascript">
@@ -14,25 +11,44 @@
 
     <meta charset="UTF-8">
     <title>Profil</title>
+    <link rel="stylesheet" href="style.css">
   </head>
+
   <body>
 
-  <nav style="display:flex; justify-content:space-between; padding:15px; background:#111827;">
-    <div>
-      <a href="index.html" style="color:#22c55e; text-decoration:none;">Accueil</a>
+<div class="login-container">
+
+  <div class="login-card">
+
+    <h1>👤 Mon Profil</h1>
+    <p class="login-sub">Gère ton compte Cash Arena</p>
+
+    <p id="email"></p>
+    <p id="balance"></p>
+
+    <!-- Lier compte -->
+    <div id="linkSection">
+      <h3>Lier Brawl Stars</h3>
+
+      <div class="input-group">
+        <input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
+      </div>
+
+      <button onclick="linkBrawl()">Lier mon compte</button>
+
+      <p id="brawlResult"></p>
     </div>
 
-    <div>
-      <button onclick="goHome()">⬅ Retour</button>
-    </div>
-  </nav>
+    <!-- Affichage compte -->
+    <p id="brawlSaved" style="margin-top:15px;"></p>
 
-  <h1>Mon Profil</h1>
+    <button onclick="logout()" style="margin-top:20px; background:#ef4444;">
+      Se déconnecter
+    </button>
 
-  <p id="email"></p>
-  <p id="balance"></p>
+  </div>
 
-  <button onclick="logout()">Se déconnecter</button>
+</div>
 
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
