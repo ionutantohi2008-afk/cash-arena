@@ -331,3 +331,165 @@ body {
 .hero-buttons button:hover {
   opacity: 0.85;
 }
+
+.games-section {
+  padding: 70px 20px 40px;
+}
+
+.games-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.games-badge {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 184, 166, 0.35);
+  background: rgba(20, 184, 166, 0.08);
+  color: #2dd4bf;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.games-header h2 {
+  font-size: 48px;
+  margin: 0 0 12px;
+}
+
+.games-header p {
+  color: #94a3b8;
+  font-size: 18px;
+  margin: 0;
+}
+
+.games-header strong {
+  color: white;
+}
+
+.games-group {
+  margin-bottom: 28px;
+}
+
+.games-group-title {
+  margin: 0 0 14px;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.games-group-title.available {
+  color: #2dd4bf;
+}
+
+.games-group-title.coming {
+  color: #cbd5e1;
+}
+
+.games-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.available-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
+}
+
+.coming-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 130px;
+  padding: 18px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+}
+
+.game-icon {
+  font-size: 34px;
+  margin-bottom: 14px;
+}
+
+.game-name {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.coming-grid .game-name {
+  font-size: 18px;
+}
+
+.game-status {
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.45);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.game-status.soon {
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.game-brawl {
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.45), rgba(15, 23, 42, 0.9));
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  box-shadow: 0 0 28px rgba(20, 184, 166, 0.28);
+}
+
+.game-brawl:hover {
+  box-shadow: 0 0 36px rgba(20, 184, 166, 0.38);
+}
+
+.game-rocket {
+  background: linear-gradient(135deg, rgba(120, 53, 15, 0.5), rgba(15, 23, 42, 0.9));
+}
+
+.game-fortnite {
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.35), rgba(15, 23, 42, 0.92));
+}
+
+.game-lol {
+  background: linear-gradient(135deg, rgba(120, 53, 15, 0.35), rgba(15, 23, 42, 0.92));
+}
+
+.game-valorant {
+  background: linear-gradient(135deg, rgba(127, 29, 29, 0.38), rgba(15, 23, 42, 0.92));
+}
+
+.game-fifa {
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.38), rgba(15, 23, 42, 0.92));
+}
+
+.game-cod {
+  background: linear-gradient(135deg, rgba(51, 65, 85, 0.4), rgba(15, 23, 42, 0.92));
+}
+
+@media (max-width: 768px) {
+  .games-header h2 {
+    font-size: 36px;
+  }
+
+  .games-header p {
+    font-size: 16px;
+  }
+
+  .game-name {
+    font-size: 24px;
+  }
+}
