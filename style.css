@@ -507,3 +507,74 @@ body {
 .profile-circle:hover {
   transform: scale(1.1);
 }
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #0f172a;
+  border-bottom: 1px solid #1f2937;
+}
+
+/* LOGO */
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+  color: #22c55e;
+  text-decoration: none;
+}
+
+/* LIENS */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+/* STYLE DES BOUTONS */
+.nav-links a {
+  position: relative;
+  color: #cbd5f5;
+  text-decoration: none;
+  padding: 6px 10px;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+/* HOVER COOL */
+.nav-links a:hover {
+  color: white;
+}
+
+/* UNDERLINE ANIMÉ */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #9333ea, #22c55e);
+  transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ACTIVE (page actuelle) */
+.nav-links a.active {
+  color: white;
+}
+
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+}
