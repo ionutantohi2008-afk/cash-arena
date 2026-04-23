@@ -37,3 +37,11 @@ function goRegister(){
 function goHome(){
   window.location = "index.html";
 }
+
+function goTournaments() {
+  window.location = "dashboard.html";
+}
+
+function goDiscord() {
+  window.open("https://discord.gg/YZ48BUhNm9", "_blank");
+}
