@@ -489,3 +489,21 @@ body {
     font-size: 24px;
   }
 }
+
+.profile-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #9333ea, #22c55e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+  transition: 0.3s;
+}
+
+.profile-circle:hover {
+  transform: scale(1.1);
+}

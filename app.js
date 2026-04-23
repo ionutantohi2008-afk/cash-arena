@@ -45,3 +45,28 @@ function goTournaments() {
 function goDiscord() {
   window.open("https://discord.gg/YZ48BUhNm9", "_blank");
 }
+
+auth.onAuthStateChanged(user => {
+  const container = document.getElementById("authSection");
+
+  if (!container) return;
+
+  if (user) {
+    // connecté
+    container.innerHTML = `
+      <div class="profile-circle" onclick="goProfile()">
+        👤
+      </div>
+    `;
+  } else {
+    // pas connecté
+    container.innerHTML = `
+      <button onclick="goLogin()">Se connecter</button>
+      <button onclick="goRegister()">S'inscrire</button>
+    `;
+  }
+});
+
+function goProfile() {
+  window.location = "profile.html";
+}
