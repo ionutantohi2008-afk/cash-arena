@@ -472,10 +472,6 @@ body {
   background: linear-gradient(135deg, rgba(127, 29, 29, 0.38), rgba(15, 23, 42, 0.92));
 }
 
-.game-fifa {
-  background: linear-gradient(135deg, rgba(6, 95, 70, 0.38), rgba(15, 23, 42, 0.92));
-}
-
 .game-cod {
   background: linear-gradient(135deg, rgba(51, 65, 85, 0.4), rgba(15, 23, 42, 0.92));
 }
