@@ -72,6 +72,8 @@
       <p id="brawlResult"></p>
     </div>
 
+    <button onclick="refreshBrawlStats()">🔄 Actualiser mes stats</button>
+
     <!-- Affichage compte -->
     <p id="brawlSaved" style="margin-top:15px;"></p>
 
@@ -254,6 +256,50 @@ async function savePseudo() {
 function editPseudo() {
   document.getElementById("pseudoForm").style.display = "block";
   document.getElementById("pseudoDisplay").style.display = "none";
+}
+
+async function refreshBrawlStats() {
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Connecte-toi !");
+    return;
+  }
+
+  const userDoc = await db.collection("users").doc(user.uid).get();
+  const userData = userDoc.data();
+
+  if (!userData.brawlTag) {
+    alert("Aucun compte Brawl Stars lié.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://cash-arena-api.onrender.com/api/brawl/player/${encodeURIComponent(userData.brawlTag)}`);
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      alert("Erreur API Brawl Stars");
+      return;
+    }
+
+    await db.collection("users").doc(user.uid).update({
+      brawlName: data.name,
+      brawlTrophies: data.trophies,
+      brawlHighestTrophies: data.highestTrophies || 0,
+      brawlExpLevel: data.expLevel || 0,
+      brawlClubName: data.club?.name || "",
+      brawlUpdatedAt: new Date()
+    });
+
+    document.getElementById("brawlSaved").innerText =
+      `🎮 ${data.name} (${data.tag}) | 🏆 ${data.trophies}`;
+
+    alert("Stats mises à jour !");
+  } catch (e) {
+    console.error(e);
+    alert("Erreur serveur");
+  }
 }
 
 </script>
