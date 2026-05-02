@@ -18,9 +18,18 @@ function logout() {
   auth.signOut().then(() => window.location = "index.html");
 }
 
-// Date du tournoi : 4 mai à 19h30
-// ⚠️ Mets bien l’année que tu veux
+// Date de début du tournoi
 const tournamentStartDate = new Date("2026-05-04T19:30:00");
+
+// Durée du tournoi en jours
+const tournamentDurationDays = 2;
+
+// Date de fin automatique
+const tournamentEndDate = new Date(
+  tournamentStartDate.getTime() + tournamentDurationDays * 24 * 60 * 60 * 1000
+);
+
+let rewardsAlreadyTriggered = false;
 
 function updateTimer() {
   const now = new Date();
@@ -52,6 +61,33 @@ function updateTimer() {
 
 setInterval(updateTimer, 1000);
 updateTimer();
+
+function updateEndTimer() {
+  const now = new Date();
+  const diff = tournamentEndDate - now;
+
+  const endTimer = document.getElementById("endTimer");
+
+  if (!endTimer) return;
+
+  if (diff <= 0) {
+    endTimer.innerText = "🏁 Le tournoi est terminé.";
+
+    autoGiveRewards();
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  endTimer.innerText =
+    `🏁 Fin du tournoi dans ${days}j ${hours}h ${minutes}m ${seconds}s`;
+}
+
+setInterval(updateEndTimer, 1000);
+updateEndTimer();
 
 async function joinTournament(tournamentId) {
   const now = new Date();
@@ -141,4 +177,55 @@ players.forEach((p, index) => {
     </tr>
   `;
 });
+}
+
+async function finishTournament() {
+  try {
+    const res = await fetch("https://TON-API.onrender.com/api/tournaments/brawl/give-rewards", {
+      method: "POST"
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      alert(data.message || "Erreur récompenses");
+      return;
+    }
+
+    alert("Récompenses distribuées !");
+    loadBrawlPlayers();
+
+  } catch (e) {
+    console.error(e);
+    alert("Erreur serveur");
+  }
+}
+
+async function autoGiveRewards() {
+  if (rewardsAlreadyTriggered) return;
+
+  rewardsAlreadyTriggered = true;
+
+  try {
+    const res = await fetch("https://cash-arena-api.onrender.com/api/tournaments/brawl/give-rewards", {
+      method: "POST"
+    });
+
+    const data = await res.json();
+
+    const status = document.getElementById("rewardStatus");
+
+    if (!res.ok || data.error) {
+      status.innerText = data.message || "Erreur récompenses";
+      return;
+    }
+
+    status.innerText = "✅ Récompenses distribuées automatiquement !";
+    loadBrawlPlayers();
+
+  } catch (e) {
+    console.error(e);
+    document.getElementById("rewardStatus").innerText =
+      "Erreur serveur récompenses.";
+  }
 }
