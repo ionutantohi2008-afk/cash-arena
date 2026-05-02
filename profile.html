@@ -37,6 +37,15 @@
     <p id="email"></p>
     <p id="balance"></p>
 
+    <div id="pseudoSection">
+  <h3>Choisir mon pseudo</h3>
+
+  <input type="text" id="pseudoInput" placeholder="Ton pseudo">
+  <button onclick="savePseudo()">Enregistrer le pseudo</button>
+
+  <p id="pseudoSaved"></p>
+</div>
+
     <!-- Lier compte -->
     <div id="linkSection">
       <h3>Lier Brawl Stars</h3>
@@ -80,6 +89,16 @@ auth.onAuthStateChanged(async user => {
 
   if (doc.exists) {
     const data = doc.data();
+
+    if (data.pseudo) {
+  document.getElementById("pseudoSaved").innerText =
+    "✅ Pseudo actuel : " + data.pseudo;
+
+  document.getElementById("pseudoInput").value = data.pseudo;
+} else {
+  document.getElementById("pseudoSaved").innerText =
+    "Aucun pseudo choisi.";
+}
 
     document.getElementById("balance").innerText =
       "💰 Solde : " + (data.balance || 0) + "€";
@@ -139,6 +158,41 @@ async function linkBrawl() {
   } catch (e) {
     alert("Erreur API");
   }
+}
+
+async function savePseudo() {
+  const pseudo = document.getElementById("pseudoInput").value.trim();
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Connecte-toi !");
+    return;
+  }
+
+  if (!pseudo) {
+    alert("Entre un pseudo !");
+    return;
+  }
+
+  if (pseudo.length < 3) {
+    alert("Le pseudo doit faire au moins 3 caractères.");
+    return;
+  }
+
+  if (pseudo.length > 16) {
+    alert("Le pseudo doit faire maximum 16 caractères.");
+    return;
+  }
+
+  await db.collection("users").doc(user.uid).update({
+    pseudo: pseudo,
+    pseudoUpdatedAt: new Date()
+  });
+
+  document.getElementById("pseudoSaved").innerText =
+    "✅ Pseudo actuel : " + pseudo;
+
+  alert("Pseudo enregistré !");
 }
 </script>
 

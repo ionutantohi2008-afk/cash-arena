@@ -84,15 +84,16 @@ async function joinTournament(tournamentId) {
     return;
   }
 
-  await ref.set({
-    uid: user.uid,
-    email: user.email,
-    brawlTag: userData.brawlTag || null,
-    brawlName: userData.brawlName || user.email,
-    brawlTrophies: userData.brawlTrophies || 0,
-    points: 0,
-    joinedAt: new Date()
-  });
+await ref.set({
+  uid: user.uid,
+  email: user.email,
+  pseudo: userData.pseudo || userData.brawlName || user.email,
+  brawlTag: userData.brawlTag || null,
+  brawlName: userData.brawlName || null,
+  brawlTrophies: userData.brawlTrophies || 0,
+  points: 0,
+  joinedAt: new Date()
+});
 
   alert("Inscription réussie !");
   showClassement();
@@ -126,7 +127,7 @@ async function loadBrawlPlayers() {
     table.innerHTML += `
       <tr>
         <td>${index + 1}</td>
-        <td>${p.brawlName || p.email}</td>
+        <td>${p.pseudo || p.brawlName || p.email}</td>
         <td>${p.points || 0}</td>
       </tr>
     `;
