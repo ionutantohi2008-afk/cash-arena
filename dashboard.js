@@ -181,7 +181,7 @@ players.forEach((p, index) => {
 
 async function finishTournament() {
   try {
-    const res = await fetch("https://TON-API.onrender.com/api/tournaments/brawl/give-rewards", {
+    const res = await fetch("https://cash-arena-api.onrender.com/api/tournaments/brawl/give-rewards", {
       method: "POST"
     });
 
