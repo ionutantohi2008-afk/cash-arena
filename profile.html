@@ -146,7 +146,7 @@ async function linkBrawl() {
   try {
     const cleanTag = input.startsWith("#") ? input : "#" + input;
 
-    const res = await fetch(`https://TON-URL-RENDER.onrender.com/api/brawl/player/${encodeURIComponent(cleanTag)}`);
+    const res = await fetch(`https://cash-arena-api.onrender.com/api/brawl/player/${encodeURIComponent(cleanTag)}`);
     const data = await res.json();
 
     if (!res.ok || data.error) {
