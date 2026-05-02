@@ -37,13 +37,25 @@
     <p id="email"></p>
     <p id="balance"></p>
 
-    <div id="pseudoSection">
-  <h3>Choisir mon pseudo</h3>
+<div id="pseudoSection">
 
-  <input type="text" id="pseudoInput" placeholder="Ton pseudo">
-  <button onclick="savePseudo()">Enregistrer le pseudo</button>
+  <!-- FORMULAIRE -->
+  <div id="pseudoForm">
+    <h3>Choisir mon pseudo</h3>
 
-  <p id="pseudoSaved"></p>
+    <input type="text" id="pseudoInput" placeholder="Ton pseudo">
+    <button onclick="savePseudo()">Enregistrer</button>
+  </div>
+
+  <!-- AFFICHAGE -->
+  <div id="pseudoDisplay" style="display:none;">
+    <p id="pseudoText"></p>
+
+    <button onclick="editPseudo()" style="margin-left:10px;">
+      ✏️
+    </button>
+  </div>
+
 </div>
 
     <!-- Lier compte -->
@@ -90,14 +102,16 @@ auth.onAuthStateChanged(async user => {
   if (doc.exists) {
     const data = doc.data();
 
-    if (data.pseudo) {
-  document.getElementById("pseudoSaved").innerText =
-    "✅ Pseudo actuel : " + data.pseudo;
+   if (data.pseudo) {
+  document.getElementById("pseudoText").innerText =
+    "🎮 Pseudo : " + data.pseudo;
 
-  document.getElementById("pseudoInput").value = data.pseudo;
+  document.getElementById("pseudoForm").style.display = "none";
+  document.getElementById("pseudoDisplay").style.display = "block";
+
 } else {
-  document.getElementById("pseudoSaved").innerText =
-    "Aucun pseudo choisi.";
+  document.getElementById("pseudoForm").style.display = "block";
+  document.getElementById("pseudoDisplay").style.display = "none";
 }
 
     document.getElementById("balance").innerText =
@@ -164,36 +178,35 @@ async function savePseudo() {
   const pseudo = document.getElementById("pseudoInput").value.trim();
   const user = auth.currentUser;
 
-  if (!user) {
-    alert("Connecte-toi !");
-    return;
-  }
-
   if (!pseudo) {
     alert("Entre un pseudo !");
     return;
   }
 
   if (pseudo.length < 3) {
-    alert("Le pseudo doit faire au moins 3 caractères.");
-    return;
-  }
-
-  if (pseudo.length > 16) {
-    alert("Le pseudo doit faire maximum 16 caractères.");
+    alert("Minimum 3 caractères !");
     return;
   }
 
   await db.collection("users").doc(user.uid).update({
-    pseudo: pseudo,
-    pseudoUpdatedAt: new Date()
+    pseudo: pseudo
   });
 
-  document.getElementById("pseudoSaved").innerText =
-    "✅ Pseudo actuel : " + pseudo;
+  // afficher directement
+  document.getElementById("pseudoText").innerText =
+    "🎮 Pseudo : " + pseudo;
+
+  document.getElementById("pseudoForm").style.display = "none";
+  document.getElementById("pseudoDisplay").style.display = "block";
 
   alert("Pseudo enregistré !");
 }
+
+function editPseudo() {
+  document.getElementById("pseudoForm").style.display = "block";
+  document.getElementById("pseudoDisplay").style.display = "none";
+}
+
 </script>
 
 <!-- Begin BidVertiser code -->
