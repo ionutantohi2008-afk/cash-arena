@@ -123,13 +123,22 @@ async function loadBrawlPlayers() {
 
   table.innerHTML = "";
 
-  players.forEach((p, index) => {
-    table.innerHTML += `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${p.pseudo || p.brawlName || p.email}</td>
-        <td>${p.points || 0}</td>
-      </tr>
-    `;
-  });
+players.forEach((p, index) => {
+
+  let reward = "0€";
+
+  if (index === 0) reward = "1.00€";
+  else if (index === 1) reward = "0.50€";
+  else if (index === 2) reward = "0.25€";
+  else if (index === 3) reward = "0.25€";
+
+  table.innerHTML += `
+    <tr>
+      <td>${reward}</td>
+      <td>${index + 1}</td>
+      <td>${p.pseudo || p.brawlName || p.email}</td>
+      <td>${p.points || 0}</td>
+    </tr>
+  `;
+});
 }

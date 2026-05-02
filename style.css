@@ -760,3 +760,19 @@ body {
     font-size: 13px;
   }
 }
+
+td:first-child {
+  font-weight: bold;
+}
+
+tr:nth-child(1) td:first-child {
+  color: gold;
+}
+
+tr:nth-child(2) td:first-child {
+  color: silver;
+}
+
+tr:nth-child(3) td:first-child {
+  color: #cd7f32; /* bronze */
+}

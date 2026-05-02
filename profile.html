@@ -178,6 +178,11 @@ async function savePseudo() {
   const pseudo = document.getElementById("pseudoInput").value.trim();
   const user = auth.currentUser;
 
+  if (!user) {
+    alert("Connecte-toi !");
+    return;
+  }
+
   if (!pseudo) {
     alert("Entre un pseudo !");
     return;
@@ -188,18 +193,61 @@ async function savePseudo() {
     return;
   }
 
-  await db.collection("users").doc(user.uid).update({
-    pseudo: pseudo
-  });
+  if (pseudo.length > 16) {
+    alert("Maximum 16 caractères !");
+    return;
+  }
 
-  // afficher directement
-  document.getElementById("pseudoText").innerText =
-    "🎮 Pseudo : " + pseudo;
+  const pseudoKey = pseudo.toLowerCase();
 
-  document.getElementById("pseudoForm").style.display = "none";
-  document.getElementById("pseudoDisplay").style.display = "block";
+  const usernameRef = db.collection("usernames").doc(pseudoKey);
+  const userRef = db.collection("users").doc(user.uid);
 
-  alert("Pseudo enregistré !");
+  try {
+    await db.runTransaction(async transaction => {
+      const usernameDoc = await transaction.get(usernameRef);
+      const userDoc = await transaction.get(userRef);
+
+      const oldPseudoKey = userDoc.exists && userDoc.data().pseudoKey
+        ? userDoc.data().pseudoKey
+        : null;
+
+      if (usernameDoc.exists && usernameDoc.data().uid !== user.uid) {
+        throw new Error("PSEUDO_TAKEN");
+      }
+
+      if (oldPseudoKey && oldPseudoKey !== pseudoKey) {
+        transaction.delete(db.collection("usernames").doc(oldPseudoKey));
+      }
+
+      transaction.set(usernameRef, {
+        uid: user.uid,
+        pseudo: pseudo,
+        createdAt: new Date()
+      });
+
+      transaction.update(userRef, {
+        pseudo: pseudo,
+        pseudoKey: pseudoKey,
+        pseudoUpdatedAt: new Date()
+      });
+    });
+
+    document.getElementById("pseudoText").innerText =
+      "🎮 Pseudo : " + pseudo;
+
+    document.getElementById("pseudoForm").style.display = "none";
+    document.getElementById("pseudoDisplay").style.display = "block";
+
+    alert("Pseudo enregistré !");
+  } catch (e) {
+    if (e.message === "PSEUDO_TAKEN") {
+      alert("Ce pseudo est déjà pris !");
+    } else {
+      console.error(e);
+      alert("Erreur lors de l'enregistrement du pseudo.");
+    }
+  }
 }
 
 function editPseudo() {
