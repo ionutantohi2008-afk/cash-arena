@@ -785,7 +785,7 @@ tr:nth-child(3) td:first-child {
   height: 100%;
   object-fit: cover;
   z-index: -2;
-  opacity: 0.15;
+  opacity: 1;
   filter: blur(2px) brightness(0.6);
 }
 
