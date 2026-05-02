@@ -152,31 +152,48 @@ async function loadBrawlPlayers() {
   let players = [];
 
   snapshot.forEach(doc => {
-    players.push(doc.data());
+    players.push({
+      id: doc.id,
+      ...doc.data()
+    });
   });
+
+  for (const player of players) {
+    const newPoints = await calculatePlayerPoints(player);
+
+    player.points = newPoints;
+
+    await db.collection("tournaments")
+      .doc("brawl")
+      .collection("players")
+      .doc(player.id)
+      .update({
+        points: newPoints,
+        pointsUpdatedAt: new Date()
+      });
+  }
 
   players.sort((a, b) => (b.points || 0) - (a.points || 0));
 
   table.innerHTML = "";
 
-players.forEach((p, index) => {
+  players.forEach((p, index) => {
+    let reward = "0€";
 
-  let reward = "0€";
+    if (index === 0) reward = "1.00€";
+    else if (index === 1) reward = "0.50€";
+    else if (index === 2) reward = "0.25€";
+    else if (index === 3) reward = "0.25€";
 
-  if (index === 0) reward = "1.00€";
-  else if (index === 1) reward = "0.50€";
-  else if (index === 2) reward = "0.25€";
-  else if (index === 3) reward = "0.25€";
-
-  table.innerHTML += `
-    <tr>
-      <td>${reward}</td>
-      <td>${index + 1}</td>
-      <td>${p.pseudo || p.brawlName || p.email}</td>
-      <td>${p.points || 0}</td>
-    </tr>
-  `;
-});
+    table.innerHTML += `
+      <tr>
+        <td>${reward}</td>
+        <td>${index + 1}</td>
+        <td>${p.pseudo || p.brawlName || p.email}</td>
+        <td>${p.points || 0}</td>
+      </tr>
+    `;
+  });
 }
 
 async function finishTournament() {
@@ -227,5 +244,62 @@ async function autoGiveRewards() {
     console.error(e);
     document.getElementById("rewardStatus").innerText =
       "Erreur serveur récompenses.";
+  }
+}
+
+async function calculatePlayerPoints(player) {
+  if (!player.brawlTag) return 0;
+
+  const res = await fetch(
+    `https://cash-arena-api.onrender.com/api/brawl/player/${encodeURIComponent(player.brawlTag)}/battlelog`
+  );
+
+  const data = await res.json();
+
+  if (!res.ok || data.error || !data.items) {
+    console.error("Erreur battlelog", data);
+    return player.points || 0;
+  }
+
+  let points = 0;
+
+  data.items.forEach(item => {
+    const battleTime = parseBrawlTime(item.battleTime);
+
+    if (battleTime < tournamentStartDate) {
+      return;
+    }
+
+    const result = item.battle?.result;
+
+    if (result === "victory") {
+      points += 3;
+    } else if (result === "defeat") {
+      points += 1;
+    }
+  });
+
+  return points;
+}
+
+function parseBrawlTime(battleTime) {
+  // Format Brawl Stars : 20260504T193000.000Z
+  const year = battleTime.slice(0, 4);
+  const month = battleTime.slice(4, 6);
+  const day = battleTime.slice(6, 8);
+  const hour = battleTime.slice(9, 11);
+  const minute = battleTime.slice(11, 13);
+  const second = battleTime.slice(13, 15);
+
+  return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}Z`);
+}
+
+async function autoSyncBattlelogs() {
+  try {
+    await fetch("https://cash-arena-api.onrender.com/api/tournaments/brawl/sync-battlelogs", {
+      method: "POST"
+    });
+  } catch (e) {
+    console.log("sync failed");
   }
 }
