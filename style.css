@@ -799,3 +799,7 @@ tr:nth-child(3) td:first-child {
   opacity: 0.85;
   z-index: -1;
 }
+
+#bgVideo {
+  filter: blur(3px) brightness(0.4);
+}
