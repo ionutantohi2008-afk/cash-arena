@@ -124,9 +124,11 @@ await ref.set({
   uid: user.uid,
   email: user.email,
   pseudo: userData.pseudo || userData.brawlName || user.email,
+
   brawlTag: userData.brawlTag || null,
   brawlName: userData.brawlName || null,
   brawlTrophies: userData.brawlTrophies || 0,
+
   points: 0,
   joinedAt: new Date()
 });
@@ -292,14 +294,4 @@ function parseBrawlTime(battleTime) {
   const second = battleTime.slice(13, 15);
 
   return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}Z`);
-}
-
-async function autoSyncBattlelogs() {
-  try {
-    await fetch("https://cash-arena-api.onrender.com/api/tournaments/brawl/sync-battlelogs", {
-      method: "POST"
-    });
-  } catch (e) {
-    console.log("sync failed");
-  }
 }
