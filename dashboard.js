@@ -1,3 +1,5 @@
+let isRegistered = false;
+
 auth.onAuthStateChanged(async user => {
   if (!user) {
     window.location = "index.html";
@@ -18,7 +20,8 @@ auth.onAuthStateChanged(async user => {
     .doc(user.uid)
     .get();
 
-  isRegistered = playerDoc.exists;
+isRegistered = playerDoc.exists;
+console.log("Déjà inscrit ?", isRegistered);
 updateJoinButton();
 });
 
@@ -33,8 +36,6 @@ const tournamentDurationDays = 2;
 const tournamentEndDate = new Date(
   tournamentStartDate.getTime() + tournamentDurationDays * 24 * 60 * 60 * 1000
 );
-
-let isRegistered = false;
 
 let rewardsAlreadyTriggered = false;
 
@@ -130,9 +131,10 @@ async function joinTournament(tournamentId) {
   const doc = await ref.get();
 
   if (doc.exists) {
-    alert("Déjà inscrit !");
-    showClassement();
-    return;
+ isRegistered = true;
+updateJoinButton();
+showClassement();
+return;
   }
 
 await ref.set({
@@ -315,16 +317,27 @@ function parseBrawlTime(battleTime) {
 
 function updateJoinButton() {
   const joinBtn = document.getElementById("joinBtn");
-  if (!joinBtn) return;
 
-  if (isRegistered) {
+  console.log("Bouton trouvé :", joinBtn);
+  console.log("isRegistered :", isRegistered);
+
+  if (!joinBtn) {
+    console.error("❌ Bouton #joinBtn introuvable");
+    return;
+  }
+
+  if (isRegistered === true) {
     joinBtn.innerText = "CLASSEMENT";
     joinBtn.disabled = false;
     joinBtn.style.opacity = "1";
     joinBtn.style.cursor = "pointer";
-    joinBtn.onclick = () => showClassement();
+    joinBtn.onclick = function () {
+      showClassement();
+    };
   } else {
     joinBtn.innerText = "REJOINDRE LE TOURNOI";
-    joinBtn.onclick = () => joinTournament("brawl");
+    joinBtn.onclick = function () {
+      joinTournament("brawl");
+    };
   }
 }
