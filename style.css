@@ -826,3 +826,14 @@ tr:nth-child(3) td:first-child {
     transform: scale(1.05);
   }
 }
+
+.tournament-card {
+  text-align: center;
+}
+
+.tournament-card button {
+  width: 100%;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: bold;
+}
