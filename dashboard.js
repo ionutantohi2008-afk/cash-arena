@@ -18,7 +18,8 @@ auth.onAuthStateChanged(async user => {
     .doc(user.uid)
     .get();
 
-  updateJoinButton(playerDoc.exists);
+  isRegistered = playerDoc.exists;
+updateJoinButton();
 });
 
 
@@ -33,6 +34,8 @@ const tournamentEndDate = new Date(
   tournamentStartDate.getTime() + tournamentDurationDays * 24 * 60 * 60 * 1000
 );
 
+let isRegistered = false;
+
 let rewardsAlreadyTriggered = false;
 
 function updateTimer() {
@@ -44,22 +47,17 @@ function updateTimer() {
 
   if (!timer || !joinBtn) return;
 
-  // Si le bouton est déjà CLASSEMENT, on ne le bloque jamais
-  if (joinBtn.innerText === "CLASSEMENT") {
-    joinBtn.disabled = false;
-    joinBtn.style.opacity = "1";
-    joinBtn.style.cursor = "pointer";
+  if (isRegistered) {
+    timer.innerText = "✅ Tu es déjà inscrit au tournoi.";
+    updateJoinButton();
+    return;
   }
 
   if (diff <= 0) {
     timer.innerText = "✅ Le tournoi a commencé ! Les inscriptions sont ouvertes.";
-
-    if (joinBtn.innerText !== "CLASSEMENT") {
-      joinBtn.disabled = false;
-      joinBtn.style.opacity = "1";
-      joinBtn.style.cursor = "pointer";
-    }
-
+    joinBtn.disabled = false;
+    joinBtn.style.opacity = "1";
+    joinBtn.style.cursor = "pointer";
     return;
   }
 
@@ -71,12 +69,9 @@ function updateTimer() {
   timer.innerText =
     `⏳ Début du tournoi dans ${days}j ${hours}h ${minutes}m ${seconds}s`;
 
-  // Si pas inscrit, on bloque l'inscription avant le début
-  if (joinBtn.innerText !== "CLASSEMENT") {
-    joinBtn.disabled = true;
-    joinBtn.style.opacity = "0.6";
-    joinBtn.style.cursor = "not-allowed";
-  }
+  joinBtn.disabled = true;
+  joinBtn.style.opacity = "0.6";
+  joinBtn.style.cursor = "not-allowed";
 }
 
 setInterval(updateTimer, 1000);
@@ -154,7 +149,8 @@ await ref.set({
 });
 
 alert("Inscription réussie !");
-updateJoinButton(true);
+isRegistered = true;
+updateJoinButton();
 showClassement();
 }
 
@@ -317,9 +313,8 @@ function parseBrawlTime(battleTime) {
   return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}Z`);
 }
 
-function updateJoinButton(isRegistered) {
+function updateJoinButton() {
   const joinBtn = document.getElementById("joinBtn");
-
   if (!joinBtn) return;
 
   if (isRegistered) {
@@ -331,6 +326,5 @@ function updateJoinButton(isRegistered) {
   } else {
     joinBtn.innerText = "REJOINDRE LE TOURNOI";
     joinBtn.onclick = () => joinTournament("brawl");
-    updateTimer();
   }
 }
