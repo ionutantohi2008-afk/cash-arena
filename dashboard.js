@@ -14,6 +14,22 @@ auth.onAuthStateChanged(async user => {
   }
 });
 
+const playerDoc = await db.collection("tournaments")
+  .doc("brawl")
+  .collection("players")
+  .doc(user.uid)
+  .get();
+
+const joinBtn = document.getElementById("joinBtn");
+
+if (playerDoc.exists) {
+  joinBtn.innerText = "CLASSEMENT";
+  joinBtn.onclick = () => showClassement();
+} else {
+  joinBtn.innerText = "REJOINDRE LE TOURNOI";
+  joinBtn.onclick = () => joinTournament("brawl");
+}
+
 function logout() {
   auth.signOut().then(() => window.location = "index.html");
 }
@@ -133,8 +149,11 @@ await ref.set({
   joinedAt: new Date()
 });
 
-  alert("Inscription réussie !");
-  showClassement();
+alert("Inscription réussie !");
+
+const joinBtn = document.getElementById("joinBtn");
+joinBtn.innerText = "CLASSEMENT";
+joinBtn.onclick = () => showClassement();
 }
 
 function showClassement() {
