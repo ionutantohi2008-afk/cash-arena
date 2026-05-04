@@ -347,4 +347,3 @@ function updateJoinButton() {
       joinTournament("brawl");
     };
   }
-}
