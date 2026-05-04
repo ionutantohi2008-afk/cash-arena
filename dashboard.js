@@ -42,11 +42,24 @@ function updateTimer() {
   const timer = document.getElementById("timer");
   const joinBtn = document.getElementById("joinBtn");
 
-  if (diff <= 0) {
-    timer.innerText = "✅ Le tournoi a commencé ! Les inscriptions sont ouvertes.";
+  if (!timer || !joinBtn) return;
+
+  // Si le bouton est déjà CLASSEMENT, on ne le bloque jamais
+  if (joinBtn.innerText === "CLASSEMENT") {
     joinBtn.disabled = false;
     joinBtn.style.opacity = "1";
     joinBtn.style.cursor = "pointer";
+  }
+
+  if (diff <= 0) {
+    timer.innerText = "✅ Le tournoi a commencé ! Les inscriptions sont ouvertes.";
+
+    if (joinBtn.innerText !== "CLASSEMENT") {
+      joinBtn.disabled = false;
+      joinBtn.style.opacity = "1";
+      joinBtn.style.cursor = "pointer";
+    }
+
     return;
   }
 
@@ -58,9 +71,12 @@ function updateTimer() {
   timer.innerText =
     `⏳ Début du tournoi dans ${days}j ${hours}h ${minutes}m ${seconds}s`;
 
-  joinBtn.disabled = true;
-  joinBtn.style.opacity = "0.6";
-  joinBtn.style.cursor = "not-allowed";
+  // Si pas inscrit, on bloque l'inscription avant le début
+  if (joinBtn.innerText !== "CLASSEMENT") {
+    joinBtn.disabled = true;
+    joinBtn.style.opacity = "0.6";
+    joinBtn.style.cursor = "not-allowed";
+  }
 }
 
 setInterval(updateTimer, 1000);
@@ -308,9 +324,13 @@ function updateJoinButton(isRegistered) {
 
   if (isRegistered) {
     joinBtn.innerText = "CLASSEMENT";
+    joinBtn.disabled = false;
+    joinBtn.style.opacity = "1";
+    joinBtn.style.cursor = "pointer";
     joinBtn.onclick = () => showClassement();
   } else {
     joinBtn.innerText = "REJOINDRE LE TOURNOI";
     joinBtn.onclick = () => joinTournament("brawl");
+    updateTimer();
   }
 }
