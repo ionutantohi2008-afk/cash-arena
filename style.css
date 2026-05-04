@@ -837,3 +837,95 @@ tr:nth-child(3) td:first-child {
   display: block;
   margin: 20px auto;
 }
+
+/* SECTION CLASSEMENT */
+#classement {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 25px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 18px;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.25);
+  text-align: center;
+}
+
+#classement h2 {
+  font-size: 32px;
+  margin-bottom: 25px;
+  background: linear-gradient(90deg, #9333ea, #22c55e);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* TABLEAU */
+#classement table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #0f172a;
+  border: none;
+}
+
+#classement th {
+  padding: 16px;
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+  font-size: 15px;
+  text-transform: uppercase;
+  border: none;
+}
+
+#classement td {
+  padding: 16px;
+  color: white;
+  border: none;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+#classement tr:hover td {
+  background: rgba(168, 85, 247, 0.12);
+}
+
+/* TOP 3 */
+#classement tbody tr:nth-child(1) td {
+  background: rgba(250, 204, 21, 0.12);
+}
+
+#classement tbody tr:nth-child(1) td:first-child {
+  color: #facc15;
+  font-weight: bold;
+}
+
+#classement tbody tr:nth-child(2) td:first-child {
+  color: #cbd5e1;
+  font-weight: bold;
+}
+
+#classement tbody tr:nth-child(3) td:first-child {
+  color: #cd7f32;
+  font-weight: bold;
+}
+
+/* TIMER FIN */
+#endTimer,
+#rewardStatus {
+  max-width: 1000px;
+  margin: 15px auto;
+  text-align: center;
+  color: #cbd5e1;
+  font-weight: bold;
+}
+
+/* EMAIL / SOLDE */
+#userEmail,
+#balance {
+  max-width: 1000px;
+  margin: 8px auto;
+  padding: 10px 15px;
+  color: #cbd5e1;
+  background: rgba(15, 23, 42, 0.55);
+  border-radius: 12px;
+}
