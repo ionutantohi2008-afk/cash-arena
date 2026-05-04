@@ -6,29 +6,21 @@ auth.onAuthStateChanged(async user => {
 
   document.getElementById("userEmail").innerText = user.email;
 
-  const doc = await db.collection("users").doc(user.uid).get();
+  const userDoc = await db.collection("users").doc(user.uid).get();
+  const userData = userDoc.data() || {};
 
-  if (doc.exists) {
-    document.getElementById("balance").innerText =
-      "💰 Solde : " + (doc.data().balance || 0) + "€";
-  }
+  document.getElementById("balance").innerText =
+    "💰 Solde : " + (userData.balance || 0) + "€";
 
   const playerDoc = await db.collection("tournaments")
-  .doc("brawl")
-  .collection("players")
-  .doc(user.uid)
-  .get();
+    .doc("brawl")
+    .collection("players")
+    .doc(user.uid)
+    .get();
 
-const joinBtn = document.getElementById("joinBtn");
-
-if (playerDoc.exists) {
-  joinBtn.innerText = "CLASSEMENT";
-  joinBtn.onclick = () => showClassement();
-} else {
-  joinBtn.innerText = "REJOINDRE LE TOURNOI";
-  joinBtn.onclick = () => joinTournament("brawl");
-}
+  updateJoinButton(playerDoc.exists);
 });
+
 
 // Date de début du tournoi
 const tournamentStartDate = new Date("2026-05-04T19:30:00");
@@ -146,10 +138,8 @@ await ref.set({
 });
 
 alert("Inscription réussie !");
-
-const joinBtn = document.getElementById("joinBtn");
-joinBtn.innerText = "CLASSEMENT";
-joinBtn.onclick = () => showClassement();
+updateJoinButton(true);
+showClassement();
 }
 
 function showClassement() {
@@ -309,4 +299,18 @@ function parseBrawlTime(battleTime) {
   const second = battleTime.slice(13, 15);
 
   return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}Z`);
+}
+
+function updateJoinButton(isRegistered) {
+  const joinBtn = document.getElementById("joinBtn");
+
+  if (!joinBtn) return;
+
+  if (isRegistered) {
+    joinBtn.innerText = "CLASSEMENT";
+    joinBtn.onclick = () => showClassement();
+  } else {
+    joinBtn.innerText = "REJOINDRE LE TOURNOI";
+    joinBtn.onclick = () => joinTournament("brawl");
+  }
 }
