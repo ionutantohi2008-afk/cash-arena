@@ -321,29 +321,12 @@ function updateJoinButton() {
 
   if (isRegistered) {
     joinBtn.innerText = "CLASSEMENT";
-    joinBtn.textContent = "CLASSEMENT";
     joinBtn.disabled = false;
     joinBtn.style.opacity = "1";
     joinBtn.style.cursor = "pointer";
     joinBtn.onclick = () => showClassement();
   } else {
     joinBtn.innerText = "REJOINDRE LE TOURNOI";
-    joinBtn.textContent = "REJOINDRE LE TOURNOI";
     joinBtn.onclick = () => joinTournament("brawl");
   }
 }
-
-  if (isRegistered === true) {
-    joinBtn.innerText = "CLASSEMENT";
-    joinBtn.disabled = false;
-    joinBtn.style.opacity = "1";
-    joinBtn.style.cursor = "pointer";
-    joinBtn.onclick = function () {
-      showClassement();
-    };
-  } else {
-    joinBtn.innerText = "REJOINDRE LE TOURNOI";
-    joinBtn.onclick = function () {
-      joinTournament("brawl");
-    };
-  }
