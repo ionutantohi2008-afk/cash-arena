@@ -12,9 +12,8 @@ auth.onAuthStateChanged(async user => {
     document.getElementById("balance").innerText =
       "💰 Solde : " + (doc.data().balance || 0) + "€";
   }
-});
 
-const playerDoc = await db.collection("tournaments")
+  const playerDoc = await db.collection("tournaments")
   .doc("brawl")
   .collection("players")
   .doc(user.uid)
@@ -29,10 +28,7 @@ if (playerDoc.exists) {
   joinBtn.innerText = "REJOINDRE LE TOURNOI";
   joinBtn.onclick = () => joinTournament("brawl");
 }
-
-function logout() {
-  auth.signOut().then(() => window.location = "index.html");
-}
+});
 
 // Date de début du tournoi
 const tournamentStartDate = new Date("2026-05-04T19:30:00");
