@@ -21,7 +21,6 @@ auth.onAuthStateChanged(async user => {
     .get();
 
 isRegistered = playerDoc.exists;
-console.log("Déjà inscrit ?", isRegistered);
 updateJoinButton();
 });
 
@@ -318,13 +317,21 @@ function parseBrawlTime(battleTime) {
 function updateJoinButton() {
   const joinBtn = document.getElementById("joinBtn");
 
-  console.log("Bouton trouvé :", joinBtn);
-  console.log("isRegistered :", isRegistered);
+  if (!joinBtn) return;
 
-  if (!joinBtn) {
-    console.error("❌ Bouton #joinBtn introuvable");
-    return;
+  if (isRegistered) {
+    joinBtn.innerText = "CLASSEMENT";
+    joinBtn.textContent = "CLASSEMENT";
+    joinBtn.disabled = false;
+    joinBtn.style.opacity = "1";
+    joinBtn.style.cursor = "pointer";
+    joinBtn.onclick = () => showClassement();
+  } else {
+    joinBtn.innerText = "REJOINDRE LE TOURNOI";
+    joinBtn.textContent = "REJOINDRE LE TOURNOI";
+    joinBtn.onclick = () => joinTournament("brawl");
   }
+}
 
   if (isRegistered === true) {
     joinBtn.innerText = "CLASSEMENT";
