@@ -2,6 +2,8 @@ let isRegistered = false;
 
 const TOURNAMENT_ID = "brawl-2";
 
+const TOURNAMENT_HAS_REWARDS = false;
+
 auth.onAuthStateChanged(async user => {
   if (!user) {
     window.location = "index.html";
@@ -94,7 +96,9 @@ function updateEndTimer() {
   if (diff <= 0) {
     endTimer.innerText = "🏁 Le tournoi est terminé.";
 
-    autoGiveRewards();
+    if (TOURNAMENT_HAS_REWARDS) {
+  autoGiveRewards();
+}
     return;
   }
 
@@ -205,24 +209,35 @@ async function loadBrawlPlayers() {
 
   table.innerHTML = "";
 
-  players.forEach((p, index) => {
-    let reward = "0€";
+if (TOURNAMENT_HAS_REWARDS) {
 
-    if (index === 0) reward = "1.00€";
-    else if (index === 1) reward = "0.50€";
-    else if (index === 2) reward = "0.25€";
-    else if (index === 3) reward = "0.25€";
+  let reward = "0€";
 
-    table.innerHTML += `
-      <tr>
-        <td>${reward}</td>
-        <td>${index + 1}</td>
-        <td>${p.pseudo || p.brawlName || p.email}</td>
-        <td>${p.points || 0}</td>
-      </tr>
-    `;
-  });
+  if (index === 0) reward = "1€";
+  else if (index === 1) reward = "0.50€";
+  else if (index === 2) reward = "0.25€";
+
+  table.innerHTML += `
+    <tr>
+      <td>${reward}</td>
+      <td>${index + 1}</td>
+      <td>${p.pseudo || p.brawlName || p.email}</td>
+      <td>${p.points || 0}</td>
+    </tr>
+  `;
+
+} else {
+
+  table.innerHTML += `
+    <tr>
+      <td>${index + 1}</td>
+      <td>${p.pseudo || p.brawlName || p.email}</td>
+      <td>${p.points || 0}</td>
+    </tr>
+  `;
+
 }
+  };
 
 async function finishTournament() {
   try {
