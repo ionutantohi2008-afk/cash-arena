@@ -1,5 +1,7 @@
 let isRegistered = false;
 
+const TOURNAMENT_ID = "brawl-2";
+
 auth.onAuthStateChanged(async user => {
   if (!user) {
     window.location = "index.html";
@@ -15,7 +17,7 @@ auth.onAuthStateChanged(async user => {
     "💰 Solde : " + (userData.balance || 0) + "€";
 
   const playerDoc = await db.collection("tournaments")
-    .doc("brawl")
+    .doc(TOURNAMENT_ID)
     .collection("players")
     .doc(user.uid)
     .get();
@@ -26,7 +28,7 @@ updateJoinButton();
 
 
 // Date de début du tournoi
-const tournamentStartDate = new Date("2026-05-04T19:30:00");
+const tournamentStartDate = new Date("2026-05-11T19:30:00");
 
 // Durée du tournoi en jours
 const tournamentDurationDays = 2;
@@ -108,7 +110,7 @@ async function joinTournament(tournamentId) {
   const now = new Date();
 
   if (now < tournamentStartDate) {
-    alert("Les inscriptions ouvriront le 4 mai à 19h30.");
+    alert("Les inscriptions ouvriront le 11 mai à 19h30.");
     return;
   }
 
@@ -165,7 +167,7 @@ async function loadBrawlPlayers() {
   const table = document.getElementById("brawlTable");
 
   const snapshot = await db.collection("tournaments")
-    .doc("brawl")
+    .doc(TOURNAMENT_ID)
     .collection("players")
     .get();
 
@@ -184,7 +186,7 @@ async function loadBrawlPlayers() {
     player.points = newPoints;
 
     await db.collection("tournaments")
-      .doc("brawl")
+      .doc(TOURNAMENT_ID)
       .collection("players")
       .doc(player.id)
       .update({
@@ -218,7 +220,7 @@ async function loadBrawlPlayers() {
 
 async function finishTournament() {
   try {
-    const res = await fetch("https://cash-arena-api.onrender.com/api/tournaments/brawl/give-rewards", {
+    const res = await fetch(`https://cash-arena-api.onrender.com/api/tournaments/${TOURNAMENT_ID}/give-rewards`, {
       method: "POST"
     });
 
@@ -244,7 +246,7 @@ async function autoGiveRewards() {
   rewardsAlreadyTriggered = true;
 
   try {
-    const res = await fetch("https://cash-arena-api.onrender.com/api/tournaments/brawl/give-rewards", {
+    const res = await fetch(`https://cash-arena-api.onrender.com/api/tournaments/${TOURNAMENT_ID}/give-rewards`, {
       method: "POST"
     });
 
@@ -271,7 +273,7 @@ async function calculatePlayerPoints(player) {
   if (!player.brawlTag) return 0;
 
   const res = await fetch(
-    `https://cash-arena-api.onrender.com/api/brawl/player/${encodeURIComponent(player.brawlTag)}/battlelog`
+    `https://cash-arena-api.onrender.com/api/brawl-2/player/${encodeURIComponent(player.brawlTag)}/battlelog`
   );
 
   const data = await res.json();
@@ -327,6 +329,6 @@ function updateJoinButton() {
     joinBtn.onclick = () => showClassement();
   } else {
     joinBtn.innerText = "REJOINDRE LE TOURNOI";
-    joinBtn.onclick = () => joinTournament("brawl");
+    joinBtn.onclick = () => joinTournament(TOURNAMENT_ID);
   }
 }
