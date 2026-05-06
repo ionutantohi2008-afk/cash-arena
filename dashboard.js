@@ -49,11 +49,15 @@ function updateTimer() {
 
   if (!timer || !joinBtn) return;
 
-  if (isRegistered) {
-    timer.innerText = "✅ Tu es déjà inscrit au tournoi.";
-    updateJoinButton();
-    return;
-  }
+if (isRegistered) {
+  timer.innerText = "✅ Tu es déjà inscrit au tournoi.";
+
+  const endTimer = document.getElementById("endTimer");
+  if (endTimer) endTimer.style.display = "block";
+
+  updateJoinButton();
+  return;
+}
 
   if (diff <= 0) {
     timer.innerText = "✅ Le tournoi a commencé ! Les inscriptions sont ouvertes.";
@@ -135,6 +139,8 @@ async function joinTournament(tournamentId) {
  isRegistered = true;
 updateJoinButton();
 showClassement();
+const endTimer = document.getElementById("endTimer");
+if (endTimer) endTimer.style.display = "block";
 return;
   }
 
@@ -328,7 +334,10 @@ function updateJoinButton() {
     joinBtn.style.cursor = "pointer";
     joinBtn.onclick = () => showClassement();
   } else {
-    joinBtn.innerText = "REJOINDRE LE TOURNOI";
-    joinBtn.onclick = () => joinTournament(TOURNAMENT_ID);
-  }
+  joinBtn.innerText = "REJOINDRE LE TOURNOI";
+  joinBtn.onclick = () => joinTournament(TOURNAMENT_ID);
+
+  const endTimer = document.getElementById("endTimer");
+  if (endTimer) endTimer.style.display = "none";
+}
 }
