@@ -139,6 +139,8 @@ async function joinTournament(tournamentId) {
  isRegistered = true;
 updateJoinButton();
 showClassement();
+const endTimer = document.getElementById("endTimer");
+if (endTimer) endTimer.style.display = "block";
 return;
   }
 
