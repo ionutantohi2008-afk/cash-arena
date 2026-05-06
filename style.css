@@ -799,3 +799,223 @@ input:focus {
     font-size: 12px;
   }
 }
+
+/* ========================= */
+/* ✨ GAMING ANIMATIONS ✨ */
+/* ========================= */
+
+/* Glow animé général */
+@keyframes neonPulse {
+  0% {
+    box-shadow:
+      0 0 10px rgba(168, 85, 247, 0.25),
+      0 0 20px rgba(168, 85, 247, 0.15);
+  }
+
+  50% {
+    box-shadow:
+      0 0 25px rgba(34, 197, 94, 0.35),
+      0 0 45px rgba(168, 85, 247, 0.25);
+  }
+
+  100% {
+    box-shadow:
+      0 0 10px rgba(168, 85, 247, 0.25),
+      0 0 20px rgba(168, 85, 247, 0.15);
+  }
+}
+
+/* Float animation */
+@keyframes floatCard {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Border glow */
+@keyframes borderGlow {
+  0% {
+    border-color: rgba(168, 85, 247, 0.25);
+  }
+
+  50% {
+    border-color: rgba(34, 197, 94, 0.55);
+  }
+
+  100% {
+    border-color: rgba(168, 85, 247, 0.25);
+  }
+}
+
+/* Shine effect */
+@keyframes shine {
+  0% {
+    left: -120%;
+  }
+
+  100% {
+    left: 120%;
+  }
+}
+
+/* ========================= */
+/* TOURNAMENT CARD */
+/* ========================= */
+
+.tournament-card {
+  position: relative;
+  overflow: hidden;
+
+  animation:
+    neonPulse 4s infinite ease-in-out,
+    floatCard 5s infinite ease-in-out,
+    borderGlow 4s infinite ease-in-out;
+}
+
+/* shine */
+.tournament-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.08),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+
+  animation: shine 5s infinite linear;
+}
+
+/* ========================= */
+/* BUTTONS */
+/* ========================= */
+
+button,
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+button::before,
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 50%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.2),
+    transparent
+  );
+
+  transform: skewX(-25deg);
+  transition: 0.5s;
+}
+
+button:hover::before,
+.btn-primary:hover::before {
+  left: 130%;
+}
+
+/* Hover gaming */
+button:hover,
+.btn-primary:hover,
+.game-card:hover,
+.feature-card:hover {
+  transform: translateY(-5px) scale(1.02);
+
+  box-shadow:
+    0 0 15px rgba(168, 85, 247, 0.35),
+    0 0 35px rgba(34, 197, 94, 0.2);
+}
+
+/* ========================= */
+/* TITRES */
+/* ========================= */
+
+.hero-title {
+  animation: titleGlow 3s infinite alternate;
+}
+
+@keyframes titleGlow {
+  from {
+    text-shadow:
+      0 0 10px rgba(168, 85, 247, 0.2);
+  }
+
+  to {
+    text-shadow:
+      0 0 25px rgba(34, 197, 94, 0.35),
+      0 0 45px rgba(168, 85, 247, 0.2);
+  }
+}
+
+/* ========================= */
+/* CLASSEMENT */
+/* ========================= */
+
+#classement tbody tr {
+  transition: 0.25s ease;
+}
+
+#classement tbody tr:hover {
+  transform: scale(1.01);
+}
+
+/* TOP 1 glow */
+#classement tbody tr:nth-child(1) {
+  animation: winnerGlow 2s infinite alternate;
+}
+
+@keyframes winnerGlow {
+  from {
+    box-shadow: inset 0 0 0 rgba(250,204,21,0);
+  }
+
+  to {
+    box-shadow: inset 0 0 20px rgba(250,204,21,0.12);
+  }
+}
+
+/* ========================= */
+/* PROFILE CIRCLE */
+/* ========================= */
+
+.profile-circle {
+  animation: profilePulse 3s infinite ease-in-out;
+}
+
+@keyframes profilePulse {
+  0% {
+    box-shadow: 0 0 0 rgba(168,85,247,0);
+  }
+
+  50% {
+    box-shadow:
+      0 0 20px rgba(168,85,247,0.35),
+      0 0 40px rgba(34,197,94,0.2);
+  }
+
+  100% {
+    box-shadow: 0 0 0 rgba(168,85,247,0);
+  }
+}
