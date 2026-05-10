@@ -33,7 +33,7 @@ updateJoinButton();
 const tournamentStartDate = new Date("2026-05-11T19:30:00");
 
 // Durée du tournoi en jours
-const tournamentDurationDays = 2;
+const tournamentDurationDays = 4;
 
 // Date de fin automatique
 const tournamentEndDate = new Date(
