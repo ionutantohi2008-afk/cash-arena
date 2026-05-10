@@ -1062,3 +1062,97 @@ button:hover,
   color: #cbd5e1;
   font-size: 14px;
 }
+
+/* ========================= */
+/* 🔥 PREMIUM GAMING BG */
+/* ========================= */
+
+/* background principal */
+.gaming-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+
+  background:
+    radial-gradient(circle at top left,
+      rgba(168, 85, 247, 0.22),
+      transparent 30%),
+
+    radial-gradient(circle at bottom right,
+      rgba(34, 197, 94, 0.18),
+      transparent 30%),
+
+    linear-gradient(
+      180deg,
+      #050816 0%,
+      #020617 100%
+    );
+}
+
+/* grille cyberpunk */
+.gaming-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -4;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+
+  background-size: 45px 45px;
+
+  mask-image: linear-gradient(to bottom,
+    rgba(0,0,0,0.9),
+    transparent);
+
+  animation: gridMove 12s linear infinite;
+}
+
+/* glow géant */
+.gaming-glow {
+  position: fixed;
+  width: 700px;
+  height: 700px;
+
+  top: -200px;
+  left: -200px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle,
+      rgba(168,85,247,0.22),
+      transparent 70%);
+
+  filter: blur(60px);
+
+  z-index: -3;
+
+  animation: glowMove 12s infinite alternate ease-in-out;
+}
+
+/* animation grille */
+@keyframes gridMove {
+  from {
+    transform: translateY(0px);
+  }
+
+  to {
+    transform: translateY(45px);
+  }
+}
+
+/* animation glow */
+@keyframes glowMove {
+  0% {
+    transform: translate(0px, 0px);
+  }
+
+  50% {
+    transform: translate(300px, 150px);
+  }
+
+  100% {
+    transform: translate(100px, 300px);
+  }
+}
