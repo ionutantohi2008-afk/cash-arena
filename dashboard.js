@@ -167,30 +167,24 @@ updateJoinButton();
 showClassement();
 }
 
-function showClassement() {
-  document.querySelector(".tournament-card").style.display = "none";
-  document.getElementById("classement").style.display = "block";
-  loadBrawlPlayers();
-}
-
 async function loadBrawlPlayers() {
+  console.log("loadBrawlPlayers lancé");
+
   const table = document.getElementById("brawlTable");
 
   const snapshot = await db.collection("tournaments")
     .doc(TOURNAMENT_ID)
     .collection("players")
     .get();
-    console.log("Tournoi lu :", TOURNAMENT_ID);
-console.log("Nombre de joueurs :", snapshot.size);
 
-  let players = [];
+  console.log("Tournoi lu :", TOURNAMENT_ID);
+  console.log("Nombre de joueurs :", snapshot.size);
 
-  snapshot.forEach(doc => {
-    players.push({
-      id: doc.id,
-      ...doc.data()
-    });
-  });
+function showClassement() {
+  document.querySelector(".tournament-card").style.display = "none";
+  document.getElementById("classement").style.display = "block";
+  loadBrawlPlayers();
+}
 
   for (const player of players) {
     const newPoints = await calculatePlayerPoints(player);
