@@ -180,6 +180,8 @@ async function loadBrawlPlayers() {
     .doc(TOURNAMENT_ID)
     .collection("players")
     .get();
+    console.log("Tournoi lu :", TOURNAMENT_ID);
+console.log("Nombre de joueurs :", snapshot.size);
 
   let players = [];
 
