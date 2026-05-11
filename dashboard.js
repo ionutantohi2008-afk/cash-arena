@@ -1,8 +1,16 @@
 let isRegistered = false;
 
 const TOURNAMENT_ID = "brawl-2";
-
 const TOURNAMENT_HAS_REWARDS = false;
+
+const tournamentStartDate = new Date("2026-05-11T19:30:00");
+const tournamentDurationDays = 4;
+
+const tournamentEndDate = new Date(
+  tournamentStartDate.getTime() + tournamentDurationDays * 24 * 60 * 60 * 1000
+);
+
+let rewardsAlreadyTriggered = false;
 
 auth.onAuthStateChanged(async user => {
   if (!user) {
@@ -24,23 +32,12 @@ auth.onAuthStateChanged(async user => {
     .doc(user.uid)
     .get();
 
-isRegistered = playerDoc.exists;
-updateJoinButton();
+  isRegistered = playerDoc.exists;
+
+  updateJoinButton();
+  updateTimer();
+  updateEndTimer();
 });
-
-
-// Date de début du tournoi
-const tournamentStartDate = new Date("2026-05-11T19:30:00");
-
-// Durée du tournoi en jours
-const tournamentDurationDays = 4;
-
-// Date de fin automatique
-const tournamentEndDate = new Date(
-  tournamentStartDate.getTime() + tournamentDurationDays * 24 * 60 * 60 * 1000
-);
-
-let rewardsAlreadyTriggered = false;
 
 function updateTimer() {
   const now = new Date();
@@ -48,18 +45,19 @@ function updateTimer() {
 
   const timer = document.getElementById("timer");
   const joinBtn = document.getElementById("joinBtn");
+  const endTimer = document.getElementById("endTimer");
 
   if (!timer || !joinBtn) return;
 
-if (isRegistered) {
-  timer.innerText = "✅ Tu es déjà inscrit au tournoi.";
+  if (endTimer) {
+    endTimer.style.display = isRegistered ? "block" : "none";
+  }
 
-  const endTimer = document.getElementById("endTimer");
-  if (endTimer) endTimer.style.display = "block";
-
-  updateJoinButton();
-  return;
-}
+  if (isRegistered) {
+    timer.innerText = "✅ Tu es déjà inscrit au tournoi.";
+    updateJoinButton();
+    return;
+  }
 
   if (diff <= 0) {
     timer.innerText = "✅ Le tournoi a commencé ! Les inscriptions sont ouvertes.";
@@ -86,19 +84,27 @@ setInterval(updateTimer, 1000);
 updateTimer();
 
 function updateEndTimer() {
-  const now = new Date();
-  const diff = tournamentEndDate - now;
-
   const endTimer = document.getElementById("endTimer");
 
   if (!endTimer) return;
+
+  if (!isRegistered) {
+    endTimer.style.display = "none";
+    return;
+  }
+
+  endTimer.style.display = "block";
+
+  const now = new Date();
+  const diff = tournamentEndDate - now;
 
   if (diff <= 0) {
     endTimer.innerText = "🏁 Le tournoi est terminé.";
 
     if (TOURNAMENT_HAS_REWARDS) {
-  autoGiveRewards();
-}
+      autoGiveRewards();
+    }
+
     return;
   }
 
@@ -140,31 +146,40 @@ async function joinTournament(tournamentId) {
   const doc = await ref.get();
 
   if (doc.exists) {
- isRegistered = true;
-updateJoinButton();
-showClassement();
-const endTimer = document.getElementById("endTimer");
-if (endTimer) endTimer.style.display = "block";
-return;
+    isRegistered = true;
+    updateJoinButton();
+    updateTimer();
+    updateEndTimer();
+    showClassement();
+    return;
   }
 
-await ref.set({
-  uid: user.uid,
-  email: user.email,
-  pseudo: userData.pseudo || userData.brawlName || user.email,
+  await ref.set({
+    uid: user.uid,
+    email: user.email,
+    pseudo: userData.pseudo || userData.brawlName || user.email,
 
-  brawlTag: userData.brawlTag || null,
-  brawlName: userData.brawlName || null,
-  brawlTrophies: userData.brawlTrophies || 0,
+    brawlTag: userData.brawlTag || null,
+    brawlName: userData.brawlName || null,
+    brawlTrophies: userData.brawlTrophies || 0,
 
-  points: 0,
-  joinedAt: new Date()
-});
+    points: 0,
+    joinedAt: new Date()
+  });
 
-alert("Inscription réussie !");
-isRegistered = true;
-updateJoinButton();
-showClassement();
+  alert("Inscription réussie !");
+
+  isRegistered = true;
+  updateJoinButton();
+  updateTimer();
+  updateEndTimer();
+  showClassement();
+}
+
+function showClassement() {
+  document.querySelector(".tournament-card").style.display = "none";
+  document.getElementById("classement").style.display = "block";
+  loadBrawlPlayers();
 }
 
 async function loadBrawlPlayers() {
@@ -180,11 +195,14 @@ async function loadBrawlPlayers() {
   console.log("Tournoi lu :", TOURNAMENT_ID);
   console.log("Nombre de joueurs :", snapshot.size);
 
-function showClassement() {
-  document.querySelector(".tournament-card").style.display = "none";
-  document.getElementById("classement").style.display = "block";
-  loadBrawlPlayers();
-}
+  let players = [];
+
+  snapshot.forEach(doc => {
+    players.push({
+      id: doc.id,
+      ...doc.data()
+    });
+  });
 
   for (const player of players) {
     const newPoints = await calculatePlayerPoints(player);
@@ -205,37 +223,37 @@ function showClassement() {
 
   table.innerHTML = "";
 
-if (TOURNAMENT_HAS_REWARDS) {
+  players.forEach((p, index) => {
+    if (TOURNAMENT_HAS_REWARDS) {
+      let reward = "0€";
 
-  let reward = "0€";
+      if (index === 0) reward = "1€";
+      else if (index === 1) reward = "0.50€";
+      else if (index === 2) reward = "0.25€";
 
-  if (index === 0) reward = "1€";
-  else if (index === 1) reward = "0.50€";
-  else if (index === 2) reward = "0.25€";
-
-  table.innerHTML += `
-    <tr>
-      <td>${reward}</td>
-      <td>${index + 1}</td>
-      <td>${p.pseudo || p.brawlName || p.email}</td>
-      <td>${p.points || 0}</td>
-    </tr>
-  `;
-
-} else {
-
-  table.innerHTML += `
-    <tr>
-      <td>${index + 1}</td>
-      <td>${p.pseudo || p.brawlName || p.email}</td>
-      <td>${p.points || 0}</td>
-    </tr>
-  `;
-
+      table.innerHTML += `
+        <tr>
+          <td>${reward}</td>
+          <td>${index + 1}</td>
+          <td>${p.pseudo || p.brawlName || p.email}</td>
+          <td>${p.points || 0}</td>
+        </tr>
+      `;
+    } else {
+      table.innerHTML += `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${p.pseudo || p.brawlName || p.email}</td>
+          <td>${p.points || 0}</td>
+        </tr>
+      `;
+    }
+  });
 }
-  };
 
 async function finishTournament() {
+  if (!TOURNAMENT_HAS_REWARDS) return;
+
   try {
     const res = await fetch(`https://cash-arena-api.onrender.com/api/tournaments/${TOURNAMENT_ID}/give-rewards`, {
       method: "POST"
@@ -258,6 +276,7 @@ async function finishTournament() {
 }
 
 async function autoGiveRewards() {
+  if (!TOURNAMENT_HAS_REWARDS) return;
   if (rewardsAlreadyTriggered) return;
 
   rewardsAlreadyTriggered = true;
@@ -272,25 +291,26 @@ async function autoGiveRewards() {
     const status = document.getElementById("rewardStatus");
 
     if (!res.ok || data.error) {
-      status.innerText = data.message || "Erreur récompenses";
+      if (status) status.innerText = data.message || "Erreur récompenses";
       return;
     }
 
-    status.innerText = "✅ Récompenses distribuées automatiquement !";
+    if (status) status.innerText = "✅ Récompenses distribuées automatiquement !";
     loadBrawlPlayers();
 
   } catch (e) {
     console.error(e);
-    document.getElementById("rewardStatus").innerText =
-      "Erreur serveur récompenses.";
+
+    const status = document.getElementById("rewardStatus");
+    if (status) status.innerText = "Erreur serveur récompenses.";
   }
 }
 
 async function calculatePlayerPoints(player) {
-  if (!player.brawlTag) return 0;
+  if (!player.brawlTag) return player.points || 0;
 
   const res = await fetch(
-    `https://cash-arena-api.onrender.com/api/brawl-2/player/${encodeURIComponent(player.brawlTag)}/battlelog`
+    `https://cash-arena-api.onrender.com/api/brawl/player/${encodeURIComponent(player.brawlTag)}/battlelog`
   );
 
   const data = await res.json();
@@ -300,12 +320,16 @@ async function calculatePlayerPoints(player) {
     return player.points || 0;
   }
 
+  const joinedAt = player.joinedAt?.toDate
+    ? player.joinedAt.toDate()
+    : tournamentStartDate;
+
   let points = 0;
 
   data.items.forEach(item => {
     const battleTime = parseBrawlTime(item.battleTime);
 
-    if (battleTime < tournamentStartDate) {
+    if (battleTime < joinedAt) {
       return;
     }
 
@@ -322,7 +346,6 @@ async function calculatePlayerPoints(player) {
 }
 
 function parseBrawlTime(battleTime) {
-  // Format Brawl Stars : 20260504T193000.000Z
   const year = battleTime.slice(0, 4);
   const month = battleTime.slice(4, 6);
   const day = battleTime.slice(6, 8);
@@ -345,10 +368,10 @@ function updateJoinButton() {
     joinBtn.style.cursor = "pointer";
     joinBtn.onclick = () => showClassement();
   } else {
-  joinBtn.innerText = "REJOINDRE LE TOURNOI";
-  joinBtn.onclick = () => joinTournament(TOURNAMENT_ID);
+    joinBtn.innerText = "REJOINDRE LE TOURNOI";
+    joinBtn.onclick = () => joinTournament(TOURNAMENT_ID);
 
-  const endTimer = document.getElementById("endTimer");
-  if (endTimer) endTimer.style.display = "none";
-}
+    const endTimer = document.getElementById("endTimer");
+    if (endTimer) endTimer.style.display = "none";
+  }
 }
