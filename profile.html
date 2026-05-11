@@ -115,8 +115,10 @@ auth.onAuthStateChanged(async user => {
     const data = doc.data();
 
     if (data.pseudo) {
-      document.getElementById("pseudoText").innerText =
-        "🎮 Pseudo : " + data.pseudo;
+        const creatorBadge = data.isContentCreator ? " <span class='creator-badge'>Content Creator</span>" : "";
+
+document.getElementById("pseudoText").innerHTML =
+  "🎮 Pseudo : " + data.pseudo + creatorBadge;
 
       document.getElementById("pseudoForm").style.display = "none";
       document.getElementById("pseudoDisplay").style.display = "block";

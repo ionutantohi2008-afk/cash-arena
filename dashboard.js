@@ -158,6 +158,7 @@ async function joinTournament(tournamentId) {
     uid: user.uid,
     email: user.email,
     pseudo: userData.pseudo || userData.brawlName || user.email,
+    isContentCreator: userData.isContentCreator || false,
 
     brawlTag: userData.brawlTag || null,
     brawlName: userData.brawlName || null,
@@ -235,7 +236,10 @@ async function loadBrawlPlayers() {
         <tr>
           <td>${reward}</td>
           <td>${index + 1}</td>
-          <td>${p.pseudo || p.brawlName || p.email}</td>
+          <td>
+  ${p.pseudo || p.brawlName || p.email}
+  ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
+</td>
           <td>${p.points || 0}</td>
         </tr>
       `;
@@ -243,7 +247,10 @@ async function loadBrawlPlayers() {
       table.innerHTML += `
         <tr>
           <td>${index + 1}</td>
-          <td>${p.pseudo || p.brawlName || p.email}</td>
+          <td>
+  ${p.pseudo || p.brawlName || p.email}
+  ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
+</td>
           <td>${p.points || 0}</td>
         </tr>
       `;
