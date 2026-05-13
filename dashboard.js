@@ -205,21 +205,6 @@ async function loadBrawlPlayers() {
     });
   });
 
-  for (const player of players) {
-    const newPoints = await calculatePlayerPoints(player);
-
-    player.points = newPoints;
-
-    await db.collection("tournaments")
-      .doc(TOURNAMENT_ID)
-      .collection("players")
-      .doc(player.id)
-      .update({
-        points: newPoints,
-        pointsUpdatedAt: new Date()
-      });
-  }
-
   players.sort((a, b) => (b.points || 0) - (a.points || 0));
 
   table.innerHTML = "";
