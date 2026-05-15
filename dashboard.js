@@ -1,9 +1,11 @@
+const { truncate } = require("node:fs");
+
 let isRegistered = false;
 
-const TOURNAMENT_ID = "brawl-2";
-const TOURNAMENT_HAS_REWARDS = false;
+const TOURNAMENT_ID = "brawl-3";
+const TOURNAMENT_HAS_REWARDS = true;
 
-const tournamentStartDate = new Date("2026-05-11T19:30:00");
+const tournamentStartDate = new Date("2026-05-18T19:30:00");
 const tournamentDurationDays = 4;
 
 const tournamentEndDate = new Date(
