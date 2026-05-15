@@ -1,5 +1,3 @@
-const { truncate } = require("node:fs");
-
 let isRegistered = false;
 
 const TOURNAMENT_ID = "brawl-3";
@@ -103,9 +101,9 @@ function updateEndTimer() {
   if (diff <= 0) {
     endTimer.innerText = "🏁 Le tournoi est terminé.";
 
-    if (TOURNAMENT_HAS_REWARDS) {
-      autoGiveRewards();
-    }
+if (TOURNAMENT_HAS_REWARDS && typeof autoGiveRewards === "function") {
+  autoGiveRewards();
+}
 
     return;
   }
