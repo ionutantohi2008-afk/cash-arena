@@ -126,7 +126,7 @@ async function joinTournament(tournamentId) {
   const now = new Date();
 
   if (now < tournamentStartDate) {
-    alert("Les inscriptions ouvriront le 11 mai à 19h30.");
+    alert("Les inscriptions ouvriront le 18 mai à 19h30.");
     return;
   }
 
