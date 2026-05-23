@@ -1,9 +1,9 @@
 let isRegistered = false;
 
-const TOURNAMENT_ID = "brawl-3";
-const TOURNAMENT_HAS_REWARDS = true;
+const TOURNAMENT_ID = "brawl-4";
+const TOURNAMENT_HAS_REWARDS = false;
 
-const tournamentStartDate = new Date("2026-05-18T19:30:00");
+const tournamentStartDate = new Date("2026-05-25T19:30:00");
 const tournamentDurationDays = 4;
 
 const tournamentEndDate = new Date(
@@ -25,6 +25,16 @@ auth.onAuthStateChanged(async user => {
 
   document.getElementById("balance").innerText =
     "💰 Solde : " + (userData.balance || 0) + "€";
+
+  if (userData.leaguePoints === undefined) {
+  await db.collection("users").doc(user.uid).set({
+    leaguePoints: 0,
+    leagueRank: "Bronze"
+  }, { merge: true });
+
+  userData.leaguePoints = 0;
+  userData.leagueRank = "Bronze";
+}
 
   const playerDoc = await db.collection("tournaments")
     .doc(TOURNAMENT_ID)

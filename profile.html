@@ -61,6 +61,9 @@
   <div id="pseudoDisplay" style="display:none;">
     <p id="pseudoText"></p>
 
+<p id="leagueRank"></p>
+<p id="leaguePoints"></p>
+
     <button onclick="editPseudo()" style="margin-left:10px;">
       ✏️
     </button>
@@ -114,6 +117,16 @@ auth.onAuthStateChanged(async user => {
   if (doc.exists) {
     const data = doc.data();
 
+if (data.leaguePoints === undefined) {
+  await db.collection("users").doc(user.uid).set({
+    leaguePoints: 0,
+    leagueRank: "Bronze"
+  }, { merge: true });
+
+  data.leaguePoints = 0;
+  data.leagueRank = "Bronze";
+}
+
     if (data.pseudo) {
         const creatorBadge = data.isContentCreator ? " <span class='creator-badge'>Content Creator</span>" : "";
 
@@ -129,6 +142,12 @@ document.getElementById("pseudoText").innerHTML =
 
     document.getElementById("balance").innerText =
       "💰 Solde : " + (data.balance || 0) + "€";
+
+      document.getElementById("leagueRank").innerText =
+  "🏆 Rank : " + (data.leagueRank || "Bronze");
+
+document.getElementById("leaguePoints").innerText =
+  "⭐ " + (data.leaguePoints || 0) + " LP";
 
     if (data.brawlName && data.brawlTag) {
       document.getElementById("brawlSaved").innerText =
