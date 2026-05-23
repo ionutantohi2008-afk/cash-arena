@@ -1314,3 +1314,18 @@ body {
 .league-table-card table {
   width: 100%;
 }
+
+.league-rank-separator td {
+  padding: 18px;
+
+  text-align: center;
+
+  font-size: 20px;
+  font-weight: bold;
+
+  background: rgba(168,85,247,0.18);
+
+  color: white;
+
+  border-top: 2px solid rgba(168,85,247,0.35);
+}

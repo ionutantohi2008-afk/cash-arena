@@ -20,47 +20,121 @@ async function loadLeague() {
 
   const table = document.getElementById("leagueTable");
 
-  const snapshot = await db.collection("users")
-    .orderBy("leaguePoints", "desc")
-    .limit(100)
-    .get();
-
-  table.innerHTML = "";
+  const snapshot = await db.collection("users").get();
 
   let players = [];
 
   snapshot.forEach(doc => {
-    players.push(doc.data());
+    players.push({
+      id: doc.id,
+      ...doc.data()
+    });
   });
 
-  players.forEach((p, index) => {
+  // Trier par LP
+  players.sort((a, b) =>
+    (b.leaguePoints || 0) - (a.leaguePoints || 0)
+  );
 
-    let promotion = "➖";
+  // Groupes par rank
+  const ranks = {
+    Bronze: [],
+    Silver: [],
+    Gold: [],
+    Platinum: [],
+    Diamond: [],
+    Champion: [],
+    Legend: []
+  };
 
-    if (index <= 2) {
-      promotion = "🔺";
+  players.forEach(player => {
+
+    const rank = player.leagueRank || "Bronze";
+
+    if (!ranks[rank]) {
+      ranks.Bronze.push(player);
+      return;
     }
 
-    if (index >= players.length - 3) {
-      promotion = "🔻";
-    }
+    ranks[rank].push(player);
+  });
+
+  table.innerHTML = "";
+
+  // Création des sections
+  for (const rankName in ranks) {
+
+    const rankPlayers = ranks[rankName];
+
+    if (rankPlayers.length === 0) continue;
 
     table.innerHTML += `
-      <tr>
-        <td>${promotion}</td>
-
-        <td>
-          ${p.pseudo || p.email}
-
-          ${p.isContentCreator
-            ? "<span class='creator-badge'>Content Creator</span>"
-            : ""}
+      <tr class="league-rank-separator">
+        <td colspan="5">
+          ${getRankEmoji(rankName)} ${rankName.toUpperCase()} LEAGUE
         </td>
-
-        <td>${p.leagueRank || "Bronze"}</td>
-
-        <td>${p.leaguePoints || 0} LP</td>
       </tr>
     `;
-  });
+
+    rankPlayers.forEach((p, index) => {
+
+      let promotion = "➖";
+
+      if (index <= 2) promotion = "🔺";
+
+      if (index >= rankPlayers.length - 3) {
+        promotion = "🔻";
+      }
+
+      table.innerHTML += `
+        <tr>
+          <td>${promotion}</td>
+
+          <td>#${index + 1}</td>
+
+          <td>
+            ${p.pseudo || p.email}
+
+            ${p.isContentCreator
+              ? "<span class='creator-badge'>Content Creator</span>"
+              : ""}
+          </td>
+
+          <td>${p.leagueRank || "Bronze"}</td>
+
+          <td>${p.leaguePoints || 0} LP</td>
+        </tr>
+      `;
+    });
+  }
+}
+
+function getRankEmoji(rank) {
+
+  switch(rank) {
+
+    case "Bronze":
+      return "🥉";
+
+    case "Silver":
+      return "🥈";
+
+    case "Gold":
+      return "🥇";
+
+    case "Platinum":
+      return "💎";
+
+    case "Diamond":
+      return "🔷";
+
+    case "Champion":
+      return "👑";
+
+    case "Legend":
+      return "🔥";
+
+    default:
+      return "🏆";
+  }
 }
