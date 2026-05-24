@@ -1,4 +1,5 @@
 console.log("league.js chargé");
+const promotionDate = getNextSunday1930();
 
 auth.onAuthStateChanged(async user => {
   if (!user) {
@@ -21,7 +22,7 @@ auth.onAuthStateChanged(async user => {
 async function loadLeague() {
 
   console.log("loadLeague lancé");
-  
+
   const table = document.getElementById("leagueTable");
 
   const snapshot = await db.collection("users").get();
@@ -172,3 +173,65 @@ function getRankBadge(rank) {
       return `<span class="rank-badge rank-bronze">🥉 Bronze</span>`;
   }
 }
+
+function getNextSunday1930() {
+
+  const now = new Date();
+
+  const nextSunday = new Date(now);
+
+  nextSunday.setDate(
+    now.getDate() + ((7 - now.getDay()) % 7)
+  );
+
+  nextSunday.setHours(19);
+  nextSunday.setMinutes(30);
+  nextSunday.setSeconds(0);
+
+  // Si on est déjà dimanche après 19h30
+  if (now > nextSunday) {
+    nextSunday.setDate(nextSunday.getDate() + 7);
+  }
+
+  return nextSunday;
+}
+
+function updateLeagueTimer() {
+
+  const timer = document.getElementById("leaguePromotionTimer");
+
+  if (!timer) return;
+
+  const now = new Date();
+
+  const diff = promotionDate - now;
+
+  if (diff <= 0) {
+
+    timer.innerText =
+      "🔥 Promotions en cours...";
+
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  const hours = Math.floor(
+    (diff / (1000 * 60 * 60)) % 24
+  );
+
+  const minutes = Math.floor(
+    (diff / (1000 * 60)) % 60
+  );
+
+  const seconds = Math.floor(
+    (diff / 1000) % 60
+  );
+
+  timer.innerText =
+    `🏆 Promotions League dans ${days}j ${hours}h ${minutes}m ${seconds}s`;
+}
+
+setInterval(updateLeagueTimer, 1000);
+
+updateLeagueTimer();

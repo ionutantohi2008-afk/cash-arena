@@ -1432,3 +1432,36 @@ body {
   text-shadow:
     0 0 10px rgba(168,85,247,0.6);
 }
+
+#leaguePromotionTimer {
+
+  margin-top: 14px;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  color: #a855f7;
+
+  text-shadow:
+    0 0 10px rgba(168,85,247,0.7);
+
+  animation: pulseLeague 2s infinite;
+}
+
+@keyframes pulseLeague {
+
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+}
