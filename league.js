@@ -1,3 +1,5 @@
+console.log("league.js chargé");
+
 auth.onAuthStateChanged(async user => {
   if (!user) {
     window.location = "index.html";
@@ -18,6 +20,8 @@ auth.onAuthStateChanged(async user => {
 
 async function loadLeague() {
 
+  console.log("loadLeague lancé");
+  
   const table = document.getElementById("leagueTable");
 
   const snapshot = await db.collection("users").get();
