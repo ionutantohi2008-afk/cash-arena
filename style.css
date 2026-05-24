@@ -1329,3 +1329,106 @@ body {
 
   border-top: 2px solid rgba(168,85,247,0.35);
 }
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-left: 8px;
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: bold;
+
+  animation: badgePulse 2s infinite ease-in-out;
+}
+
+/* BRONZE */
+.rank-bronze {
+  background: rgba(205, 127, 50, 0.18);
+  color: #cd7f32;
+  border: 1px solid rgba(205, 127, 50, 0.4);
+
+  box-shadow: 0 0 12px rgba(205,127,50,0.35);
+}
+
+/* SILVER */
+.rank-silver {
+  background: rgba(192,192,192,0.12);
+  color: #d1d5db;
+  border: 1px solid rgba(192,192,192,0.3);
+
+  box-shadow: 0 0 12px rgba(192,192,192,0.25);
+}
+
+/* GOLD */
+.rank-gold {
+  background: rgba(250,204,21,0.14);
+  color: #facc15;
+  border: 1px solid rgba(250,204,21,0.4);
+
+  box-shadow: 0 0 15px rgba(250,204,21,0.4);
+}
+
+/* PLATINUM */
+.rank-platinum {
+  background: rgba(34,211,238,0.14);
+  color: #22d3ee;
+  border: 1px solid rgba(34,211,238,0.35);
+
+  box-shadow: 0 0 16px rgba(34,211,238,0.35);
+}
+
+/* DIAMOND */
+.rank-diamond {
+  background: rgba(96,165,250,0.16);
+  color: #60a5fa;
+  border: 1px solid rgba(96,165,250,0.4);
+
+  box-shadow: 0 0 18px rgba(96,165,250,0.45);
+}
+
+/* CHAMPION */
+.rank-champion {
+  background: rgba(168,85,247,0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168,85,247,0.35);
+
+  box-shadow: 0 0 18px rgba(168,85,247,0.5);
+}
+
+/* LEGEND */
+.rank-legend {
+  background: rgba(239,68,68,0.16);
+  color: #f87171;
+  border: 1px solid rgba(239,68,68,0.45);
+
+  box-shadow: 0 0 22px rgba(239,68,68,0.6);
+}
+
+/* ANIMATION */
+@keyframes badgePulse {
+
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.lp-reward {
+  font-weight: bold;
+  color: #a855f7;
+
+  text-shadow:
+    0 0 10px rgba(168,85,247,0.6);
+}

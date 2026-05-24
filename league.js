@@ -138,3 +138,33 @@ function getRankEmoji(rank) {
       return "🏆";
   }
 }
+
+function getRankBadge(rank) {
+
+  switch(rank) {
+
+    case "Bronze":
+      return `<span class="rank-badge rank-bronze">🥉 Bronze</span>`;
+
+    case "Silver":
+      return `<span class="rank-badge rank-silver">🥈 Silver</span>`;
+
+    case "Gold":
+      return `<span class="rank-badge rank-gold">🥇 Gold</span>`;
+
+    case "Platinum":
+      return `<span class="rank-badge rank-platinum">💎 Platinum</span>`;
+
+    case "Diamond":
+      return `<span class="rank-badge rank-diamond">🔷 Diamond</span>`;
+
+    case "Champion":
+      return `<span class="rank-badge rank-champion">👑 Champion</span>`;
+
+    case "Legend":
+      return `<span class="rank-badge rank-legend">🔥 Legend</span>`;
+
+    default:
+      return `<span class="rank-badge rank-bronze">🥉 Bronze</span>`;
+  }
+}

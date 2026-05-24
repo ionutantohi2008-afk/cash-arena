@@ -1,7 +1,7 @@
 let isRegistered = false;
 
 const TOURNAMENT_ID = "brawl-4";
-const TOURNAMENT_HAS_REWARDS = false;
+const TOURNAMENT_HAS_REWARDS = true;
 
 const tournamentStartDate = new Date("2026-05-25T19:30:00");
 const tournamentDurationDays = 4;
@@ -221,18 +221,26 @@ async function loadBrawlPlayers() {
 
   players.forEach((p, index) => {
     if (TOURNAMENT_HAS_REWARDS) {
-      let reward = "0€";
+      let reward = "0 LP";
 
-      if (index === 0) reward = "1€";
-      else if (index === 1) reward = "0.50€";
-      else if (index === 2) reward = "0.25€";
+if (index === 0) reward = "30 LP";
+else if (index === 1) reward = "20 LP";
+else if (index === 2) reward = "10 LP";
+else if (index === 3) reward = "8 LP";
+else if (index === 4) reward = "7 LP";
+else if (index === 5) reward = "6 LP";
+else if (index === 6) reward = "5 LP";
+else if (index === 7) reward = "5 LP";
+else if (index === 8) reward = "4 LP";
+else if (index === 9) reward = "4 LP";
 
       table.innerHTML += `
         <tr>
-          <td>${reward}</td>
+          <<td class="lp-reward">${reward}</td>
           <td>${index + 1}</td>
           <td>
   ${p.pseudo || p.brawlName || p.email}
+  ${getRankBadge(p.leagueRank)}
   ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
 </td>
           <td>${p.points || 0}</td>
@@ -244,6 +252,7 @@ async function loadBrawlPlayers() {
           <td>${index + 1}</td>
           <td>
   ${p.pseudo || p.brawlName || p.email}
+  ${getRankBadge(p.leagueRank)}
   ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
 </td>
           <td>${p.points || 0}</td>
@@ -375,5 +384,35 @@ function updateJoinButton() {
 
     const endTimer = document.getElementById("endTimer");
     if (endTimer) endTimer.style.display = "none";
+  }
+}
+
+function getRankBadge(rank) {
+
+  switch(rank) {
+
+    case "Bronze":
+      return `<span class="rank-badge rank-bronze">🥉 Bronze</span>`;
+
+    case "Silver":
+      return `<span class="rank-badge rank-silver">🥈 Silver</span>`;
+
+    case "Gold":
+      return `<span class="rank-badge rank-gold">🥇 Gold</span>`;
+
+    case "Platinum":
+      return `<span class="rank-badge rank-platinum">💎 Platinum</span>`;
+
+    case "Diamond":
+      return `<span class="rank-badge rank-diamond">🔷 Diamond</span>`;
+
+    case "Champion":
+      return `<span class="rank-badge rank-champion">👑 Champion</span>`;
+
+    case "Legend":
+      return `<span class="rank-badge rank-legend">🔥 Legend</span>`;
+
+    default:
+      return `<span class="rank-badge rank-bronze">🥉 Bronze</span>`;
   }
 }
