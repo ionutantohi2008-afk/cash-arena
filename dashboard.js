@@ -10,6 +10,29 @@ const tournamentEndDate = new Date(
   tournamentStartDate.getTime() + tournamentDurationDays * 24 * 60 * 60 * 1000
 );
 
+function getDailyStartDate() {
+
+  const now = new Date();
+
+  const start = new Date(now);
+
+  start.setHours(19);
+  start.setMinutes(30);
+  start.setSeconds(0);
+
+  if (now > start) {
+    start.setDate(start.getDate() + 1);
+  }
+
+  return start;
+}
+
+const dailyStartDate = getDailyStartDate();
+
+const dailyEndDate = new Date(
+  dailyStartDate.getTime() + 24 * 60 * 60 * 1000
+);
+
 let rewardsAlreadyTriggered = false;
 
 auth.onAuthStateChanged(async user => {
@@ -129,6 +152,39 @@ if (TOURNAMENT_HAS_REWARDS && typeof autoGiveRewards === "function") {
 
 setInterval(updateEndTimer, 1000);
 updateEndTimer();
+
+function updateDailyTimer() {
+
+  const timer =
+    document.getElementById("dailyTimer");
+
+  const now = new Date();
+
+  const diff = dailyStartDate - now;
+
+  if (diff <= 0) {
+
+    timer.innerText =
+      "⚡ Daily Cup en cours !";
+
+    return;
+  }
+
+  const hours = Math.floor(
+    (diff / (1000 * 60 * 60))
+  );
+
+  const minutes = Math.floor(
+    (diff / (1000 * 60)) % 60
+  );
+
+  const seconds = Math.floor(
+    (diff / 1000) % 60
+  );
+
+  timer.innerText =
+    `⚡ Daily Cup dans ${hours}h ${minutes}m ${seconds}s`;
+}
 
 async function joinTournament(tournamentId) {
   const now = new Date();
