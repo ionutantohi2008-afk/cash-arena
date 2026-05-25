@@ -517,9 +517,69 @@ function getDailyTournamentId() {
 
 async function joinDailyTournament() {
 
-  const tournamentId = getDailyTournamentId();
+  const now = new Date();
 
-  joinTournament(tournamentId);
+  if (now < dailyStartDate) {
+
+    alert(
+      "Le Daily Cup n'est pas encore ouvert."
+    );
+
+    return;
+  }
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Connecte-toi !");
+    return;
+  }
+
+  const tournamentId =
+    getDailyTournamentId();
+
+  const userDoc = await db
+    .collection("users")
+    .doc(user.uid)
+    .get();
+
+  const userData = userDoc.data() || {};
+
+  const ref = db.collection("tournaments")
+    .doc(tournamentId)
+    .collection("players")
+    .doc(user.uid);
+
+  const doc = await ref.get();
+
+  if (doc.exists) {
+
+    alert("Déjà inscrit !");
+    return;
+  }
+
+  await ref.set({
+
+    uid: user.uid,
+
+    email: user.email,
+
+    pseudo:
+      userData.pseudo ||
+      user.email,
+
+    brawlTag:
+      userData.brawlTag || null,
+
+    brawlName:
+      userData.brawlName || null,
+
+    points: 0,
+
+    joinedAt: new Date()
+  });
+
+  alert("Inscription Daily réussie !");
 }
 
 db.collection("tournaments")
