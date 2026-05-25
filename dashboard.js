@@ -27,10 +27,29 @@ function getDailyStartDate() {
   return start;
 }
 
-const dailyStartDate = getDailyStartDate();
+function getDailyStartDate() {
+
+  const now = new Date();
+
+  const start = new Date(now);
+
+  start.setHours(19);
+  start.setMinutes(30);
+  start.setSeconds(0);
+
+  if (now > start) {
+    start.setDate(start.getDate() + 1);
+  }
+
+  return start;
+}
+
+const dailyStartDate =
+  getDailyStartDate();
 
 const dailyEndDate = new Date(
-  dailyStartDate.getTime() + 24 * 60 * 60 * 1000
+  dailyStartDate.getTime() +
+  24 * 60 * 60 * 1000
 );
 
 let rewardsAlreadyTriggered = false;
@@ -158,6 +177,8 @@ function updateDailyTimer() {
   const timer =
     document.getElementById("dailyTimer");
 
+  if (!timer) return;
+
   const now = new Date();
 
   const diff = dailyStartDate - now;
@@ -171,7 +192,7 @@ function updateDailyTimer() {
   }
 
   const hours = Math.floor(
-    (diff / (1000 * 60 * 60))
+    diff / (1000 * 60 * 60)
   );
 
   const minutes = Math.floor(
@@ -185,6 +206,10 @@ function updateDailyTimer() {
   timer.innerText =
     `⚡ Daily Cup dans ${hours}h ${minutes}m ${seconds}s`;
 }
+
+setInterval(updateDailyTimer, 1000);
+
+updateDailyTimer();
 
 async function joinTournament(tournamentId) {
   const now = new Date();
