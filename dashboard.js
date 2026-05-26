@@ -27,23 +27,6 @@ function getDailyStartDate() {
   return start;
 }
 
-function getDailyStartDate() {
-
-  const now = new Date();
-
-  const start = new Date(now);
-
-  start.setHours(19);
-  start.setMinutes(30);
-  start.setSeconds(0);
-
-  if (now > start) {
-    start.setDate(start.getDate() + 1);
-  }
-
-  return start;
-}
-
 const dailyStartDate =
   getDailyStartDate();
 
@@ -269,8 +252,15 @@ async function joinTournament(tournamentId) {
 }
 
 function showClassement() {
-  document.querySelector(".tournament-card").style.display = "none";
-  document.getElementById("classement").style.display = "block";
+
+  hideAllTournaments();
+
+  document.getElementById("classement")
+    .style.display = "block";
+
+  document.getElementById("dailyClassement")
+    .style.display = "none";
+
   loadBrawlPlayers();
 }
 
@@ -580,7 +570,81 @@ async function joinDailyTournament() {
   });
 
   alert("Inscription Daily réussie !");
+  showDailyClassement();
 }
 
 db.collection("tournaments")
   .doc(tournamentId)
+
+function hideAllTournaments() {
+
+  const cards =
+    document.querySelectorAll(".tournament-card");
+
+  cards.forEach(card => {
+    card.style.display = "none";
+  });
+}
+
+function showDailyClassement() {
+
+  hideAllTournaments();
+
+  document.getElementById("dailyClassement")
+    .style.display = "block";
+
+  document.getElementById("classement")
+    .style.display = "none";
+
+  loadDailyPlayers();
+}
+
+async function loadDailyPlayers() {
+
+  const table =
+    document.getElementById("dailyTable");
+
+  const tournamentId =
+    getDailyTournamentId();
+
+  const snapshot = await db
+    .collection("tournaments")
+    .doc(tournamentId)
+    .collection("players")
+    .get();
+
+  let players = [];
+
+  snapshot.forEach(doc => {
+
+    players.push({
+      id: doc.id,
+      ...doc.data()
+    });
+  });
+
+  players.sort(
+    (a, b) =>
+      (b.points || 0) - (a.points || 0)
+  );
+
+  table.innerHTML = "";
+
+  players.forEach((p, index) => {
+
+    table.innerHTML += `
+      <tr>
+
+        <td>${index + 1}</td>
+
+        <td>
+          ${p.pseudo || p.email}
+          ${getRankBadge(p.leagueRank)}
+        </td>
+
+        <td>${p.points || 0}</td>
+
+      </tr>
+    `;
+  });
+}
