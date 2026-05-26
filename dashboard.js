@@ -130,32 +130,53 @@ setInterval(updateTimer, 1000);
 updateTimer();
 
 function updateEndTimer() {
-  const endTimer = document.getElementById("endTimer");
+
+  const endTimer =
+    document.getElementById("endTimer");
 
   if (!endTimer) return;
 
-  if (!isRegistered) {
+  // IMPORTANT
+  if (
+    document.getElementById("classement")
+      .style.display !== "block"
+  ) {
+
     endTimer.style.display = "none";
+
     return;
   }
+
+  endTimer.style.display = "block";
 
   const now = new Date();
-  const diff = tournamentEndDate - now;
+
+  const diff =
+    tournamentEndDate - now;
 
   if (diff <= 0) {
-    endTimer.innerText = "🏁 Le tournoi est terminé.";
 
-if (TOURNAMENT_HAS_REWARDS && typeof autoGiveRewards === "function") {
-  autoGiveRewards();
-}
+    endTimer.innerText =
+      "🏁 Le tournoi est terminé.";
 
     return;
   }
 
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
+  const days = Math.floor(
+    diff / (1000 * 60 * 60 * 24)
+  );
+
+  const hours = Math.floor(
+    (diff / (1000 * 60 * 60)) % 24
+  );
+
+  const minutes = Math.floor(
+    (diff / (1000 * 60)) % 60
+  );
+
+  const seconds = Math.floor(
+    (diff / 1000) % 60
+  );
 
   endTimer.innerText =
     `🏁 Fin du tournoi dans ${days}j ${hours}h ${minutes}m ${seconds}s`;
