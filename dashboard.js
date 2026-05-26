@@ -1,4 +1,5 @@
 let isRegistered = false;
+let isDailyRegistered = false;
 
 const TOURNAMENT_ID = "brawl-4";
 const TOURNAMENT_HAS_REWARDS = true;
@@ -13,7 +14,6 @@ const tournamentEndDate = new Date(
 function getDailyStartDate() {
 
   const now = new Date();
-
   const start = new Date(now);
 
   start.setHours(19);
@@ -72,6 +72,17 @@ auth.onAuthStateChanged(async user => {
   updateJoinButton();
   updateTimer();
   updateEndTimer();
+
+  const dailyPlayerDoc = await db
+  .collection("tournaments")
+  .doc(getDailyTournamentId())
+  .collection("players")
+  .doc(user.uid)
+  .get();
+
+isDailyRegistered = dailyPlayerDoc.exists;
+
+updateDailyButton();
 });
 
 function updateTimer() {
@@ -560,6 +571,10 @@ async function joinDailyTournament() {
   });
 
   alert("Inscription Daily réussie !");
+  isDailyRegistered = true;
+
+  updateDailyButton();
+
   showDailyClassement();
 }
 
@@ -622,14 +637,33 @@ async function loadDailyPlayers() {
 
   players.forEach((p, index) => {
 
+    let reward = "";
+
+    if (index === 0) reward = "10 LP";
+    else if (index === 1) reward = "7 LP";
+    else if (index === 2) reward = "5 LP";
+    else if (index <= 4) reward = "3 LP";
+    else if (index <= 9) reward = "1 LP";
+
     table.innerHTML += `
+
       <tr>
+
+        <td>${reward}</td>
 
         <td>${index + 1}</td>
 
         <td>
-          ${p.pseudo || p.email}
+
+          ${p.pseudo || p.brawlName || p.email}
+
           ${getRankBadge(p.leagueRank)}
+
+          ${p.isContentCreator
+            ? "<span class='creator-badge'>Content Creator</span>"
+            : ""
+          }
+
         </td>
 
         <td>${p.points || 0}</td>
@@ -637,4 +671,49 @@ async function loadDailyPlayers() {
       </tr>
     `;
   });
+}
+
+function showTournaments() {
+
+  document.querySelectorAll(".tournament-card")
+    .forEach(card => {
+      card.style.display = "block";
+    });
+
+  document.getElementById("classement")
+    .style.display = "none";
+
+  document.getElementById("dailyClassement")
+    .style.display = "none";
+
+  document.getElementById("endTimer")
+    .style.display = "none";
+}
+
+function updateDailyButton() {
+
+  const btn =
+    document.getElementById("dailyJoinBtn");
+
+  if (!btn) return;
+
+  if (isDailyRegistered) {
+
+    btn.innerText = "CLASSEMENT";
+
+    btn.onclick = () => {
+
+      showDailyClassement();
+    };
+
+  } else {
+
+    btn.innerText =
+      "REJOINDRE LE TOURNOI";
+
+    btn.onclick = () => {
+
+      joinDailyTournament();
+    };
+  }
 }
