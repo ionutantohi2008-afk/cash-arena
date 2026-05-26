@@ -21,97 +21,97 @@ auth.onAuthStateChanged(async user => {
 
 async function loadLeague() {
 
-  console.log("loadLeague lancé");
+  const table =
+    document.getElementById("leagueTable");
 
-  const table = document.getElementById("leagueTable");
+  const user =
+    auth.currentUser;
 
-  const snapshot = await db.collection("users").get();
+  if (!user || !table) return;
+
+  // Joueur actuel
+  const currentUserDoc = await db
+    .collection("users")
+    .doc(user.uid)
+    .get();
+
+  const currentUserData =
+    currentUserDoc.data() || {};
+
+  const currentRank =
+    currentUserData.leagueRank || "Bronze";
+
+  // Affiche le rank en haut
+  document.getElementById("playerRank")
+    .innerHTML =
+      `🏆 Rank : ${getRankBadge(currentRank)} ${currentRank}`;
+
+  // Récupère tous les users
+  const snapshot = await db
+    .collection("users")
+    .get();
 
   let players = [];
 
   snapshot.forEach(doc => {
-    players.push({
-      id: doc.id,
-      ...doc.data()
-    });
-  });
 
-  // Trier par LP
-  players.sort((a, b) =>
-    (b.leaguePoints || 0) - (a.leaguePoints || 0)
-  );
+    const data = doc.data();
 
-  // Groupes par rank
-  const ranks = {
-    Bronze: [],
-    Silver: [],
-    Gold: [],
-    Platinum: [],
-    Diamond: [],
-    Champion: [],
-    Legend: []
-  };
+    // IMPORTANT :
+    // garde seulement le même rank
+    if (
+      (data.leagueRank || "Bronze")
+      === currentRank
+    ) {
 
-  players.forEach(player => {
-
-    const rank = player.leagueRank || "Bronze";
-
-    if (!ranks[rank]) {
-      ranks.Bronze.push(player);
-      return;
+      players.push({
+        id: doc.id,
+        ...data
+      });
     }
-
-    ranks[rank].push(player);
   });
+
+  // Tri LP
+  players.sort(
+    (a, b) =>
+      (b.leaguePoints || 0)
+      - (a.leaguePoints || 0)
+  );
 
   table.innerHTML = "";
 
-  // Création des sections
-  for (const rankName in ranks) {
+  players.forEach((p, index) => {
 
-    const rankPlayers = ranks[rankName];
+    let promotion = "—";
 
-    if (rankPlayers.length === 0) continue;
+    if (index < 5) {
+      promotion = "⬆ Promotion";
+    }
 
     table.innerHTML += `
-      <tr class="league-rank-separator">
-        <td colspan="5">
-          ${getRankEmoji(rankName)} ${rankName.toUpperCase()} LEAGUE
+
+      <tr>
+
+        <td>${promotion}</td>
+
+        <td>
+
+          ${p.pseudo || p.email}
+
+          ${getRankBadge(p.leagueRank)}
+
+          ${p.isContentCreator
+            ? "<span class='creator-badge'>Content Creator</span>"
+            : ""
+          }
+
         </td>
+
+        <td>${p.leaguePoints || 0}</td>
+
       </tr>
     `;
-
-    rankPlayers.forEach((p, index) => {
-
-      let promotion = "➖";
-
-      if (index <= 2) promotion = "🔺";
-
-      if (index >= rankPlayers.length - 3) {
-        promotion = "🔻";
-      }
-
-      table.innerHTML += `
-        <tr>
-          <td>${promotion}</td>
-
-          <td>#${index + 1}</td>
-
-          <td>
-            ${p.pseudo || p.email}
-
-            ${p.isContentCreator
-              ? "<span class='creator-badge'>Content Creator</span>"
-              : ""}
-          </td>
-
-          <td>${p.leagueRank || "Bronze"}</td>
-
-          <td>${p.leaguePoints || 0} LP</td>
-        </tr>
-      `;
-    });
-  }
+  });
 }
 
 function getRankEmoji(rank) {
