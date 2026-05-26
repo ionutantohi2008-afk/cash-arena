@@ -5,7 +5,7 @@ const TOURNAMENT_ID = "brawl-4";
 const TOURNAMENT_HAS_REWARDS = true;
 
 const tournamentStartDate = new Date("2026-05-25T19:30:00");
-const tournamentDurationDays = 4;
+const tournamentDurationDays = 6;
 
 const tournamentEndDate = new Date(
   tournamentStartDate.getTime() + tournamentDurationDays * 24 * 60 * 60 * 1000
@@ -322,6 +322,22 @@ async function loadBrawlPlayers() {
   players.sort((a, b) => (b.points || 0) - (a.points || 0));
 
   table.innerHTML = "";
+  
+for (const p of players) {
+
+  const userDoc = await db
+    .collection("users")
+    .doc(p.uid)
+    .get();
+
+  const userData = userDoc.data() || {};
+
+  p.leagueRank =
+    userData.leagueRank || "Bronze";
+
+  p.isContentCreator =
+    userData.isContentCreator || false;
+}
 
   players.forEach((p, index) => {
     if (TOURNAMENT_HAS_REWARDS) {
