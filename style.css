@@ -1680,3 +1680,82 @@ body {
 
   overflow-x: auto;
 }
+
+@media screen and (max-width: 768px) {
+
+  table {
+
+    width: 100%;
+
+    font-size: 11px;
+
+    table-layout: fixed;
+  }
+
+  th,
+  td {
+
+    padding: 6px 2px;
+
+    font-size: 11px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+
+    width: 22%;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+
+    width: 12%;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+
+    width: 46%;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4) {
+
+    width: 20%;
+  }
+
+  .rank-badge {
+
+    width: 16px;
+
+    height: 16px;
+
+    margin-left: 2px;
+  }
+
+  .creator-badge {
+
+    font-size: 8px;
+
+    padding: 2px 4px;
+
+    margin-left: 3px;
+  }
+
+  #classement,
+  #dailyClassement,
+  .league-table-card {
+
+    width: 98%;
+
+    margin: auto;
+
+    overflow-x: hidden;
+  }
+}
