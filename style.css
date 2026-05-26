@@ -1717,7 +1717,7 @@ body {
   th:nth-child(1),
   td:nth-child(1) {
 
-    width: 10%;
+    width: 18%;
   }
 
   th:nth-child(2),
@@ -1729,13 +1729,13 @@ body {
   th:nth-child(3),
   td:nth-child(3) {
 
-    width: 10%;
+    width: 90%;
   }
 
   th:nth-child(4),
   td:nth-child(4) {
 
-    width: 10%;
+    width: 40%;
   }
 
   /* BADGES RANK */
