@@ -44,7 +44,7 @@ async function loadLeague() {
   // Affiche le rank en haut
   document.getElementById("playerRank")
     .innerHTML =
-      `🏆 Rank : (currentRank)} ${currentRank}`;
+      `🏆 Rank : ${currentRank}`;
 
   // Récupère tous les users
   const snapshot = await db
@@ -97,8 +97,6 @@ async function loadLeague() {
         <td>
 
           ${p.pseudo || p.email}
-
-          (p.leagueRank)}
 
           ${p.isContentCreator
             ? "<span class='creator-badge'>Content Creator</span>"
