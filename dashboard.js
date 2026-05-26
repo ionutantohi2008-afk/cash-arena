@@ -194,15 +194,18 @@ function updateDailyTimer() {
 
   const now = new Date();
 
-  const diff = dailyStartDate - now;
+  const end = new Date();
 
-  if (diff <= 0) {
+  end.setHours(19);
+  end.setMinutes(30);
+  end.setSeconds(0);
 
-    timer.innerText =
-      "⚡ Daily Cup en cours !";
-
-    return;
+  // Si après 19h30 → prochaine fin demain
+  if (now > end) {
+    end.setDate(end.getDate() + 1);
   }
+
+  const diff = end - now;
 
   const hours = Math.floor(
     diff / (1000 * 60 * 60)
@@ -217,7 +220,7 @@ function updateDailyTimer() {
   );
 
   timer.innerText =
-    `⚡ Daily Cup dans ${hours}h ${minutes}m ${seconds}s`;
+    `⚡ Daily Cup en cours • Fin dans ${hours}h ${minutes}m ${seconds}s`;
 }
 
 setInterval(updateDailyTimer, 1000);
@@ -322,7 +325,7 @@ async function loadBrawlPlayers() {
   players.sort((a, b) => (b.points || 0) - (a.points || 0));
 
   table.innerHTML = "";
-  
+
 for (const p of players) {
 
   const userDoc = await db
