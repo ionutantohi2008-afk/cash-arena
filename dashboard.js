@@ -194,18 +194,22 @@ function updateDailyTimer() {
 
   const now = new Date();
 
-  const end = new Date();
+  const nextReset = new Date();
 
-  end.setHours(19);
-  end.setMinutes(30);
-  end.setSeconds(0);
+  nextReset.setHours(19);
+  nextReset.setMinutes(30);
+  nextReset.setSeconds(0);
 
-  // Si après 19h30 → prochaine fin demain
-  if (now > end) {
-    end.setDate(end.getDate() + 1);
+  // Si déjà passé aujourd'hui
+  if (now >= nextReset) {
+
+    nextReset.setDate(
+      nextReset.getDate() + 1
+    );
   }
 
-  const diff = end - now;
+  const diff =
+    nextReset - now;
 
   const hours = Math.floor(
     diff / (1000 * 60 * 60)
@@ -544,15 +548,36 @@ function getDailyTournamentId() {
 
   const now = new Date();
 
-  const year = now.getFullYear();
+  // Heure reset : 19h30
+  const resetHour = 19;
+  const resetMinute = 30;
 
-  const month = String(
-    now.getMonth() + 1
-  ).padStart(2, "0");
+  // Si avant 19h30
+  // on utilise le tournoi d'hier
+  if (
 
-  const day = String(
-    now.getDate()
-  ).padStart(2, "0");
+    now.getHours() < resetHour ||
+
+    (
+      now.getHours() === resetHour &&
+      now.getMinutes() < resetMinute
+    )
+
+  ) {
+
+    now.setDate(now.getDate() - 1);
+  }
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(now.getMonth() + 1)
+    .padStart(2, "0");
+
+  const day =
+    String(now.getDate())
+    .padStart(2, "0");
 
   return `brawl-daily-${year}-${month}-${day}`;
 }
