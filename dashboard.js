@@ -685,6 +685,23 @@ async function loadDailyPlayers() {
 
   let players = [];
 
+  for (const p of players) {
+
+  const userDoc = await db
+    .collection("users")
+    .doc(p.uid)
+    .get();
+
+  const userData =
+    userDoc.data() || {};
+
+  p.leagueRank =
+    userData.leagueRank || "Bronze";
+
+  p.isContentCreator =
+    userData.isContentCreator || false;
+}
+
   snapshot.forEach(doc => {
 
     players.push({
