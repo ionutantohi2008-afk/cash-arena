@@ -128,8 +128,6 @@ function updateEndTimer() {
     return;
   }
 
-  endTimer.style.display = "block";
-
   const now = new Date();
   const diff = tournamentEndDate - now;
 
@@ -260,6 +258,9 @@ function showClassement() {
 
   document.getElementById("dailyClassement")
     .style.display = "none";
+
+  document.getElementById("endTimer")
+    .style.display = "block";
 
   loadBrawlPlayers();
 }
@@ -506,17 +507,6 @@ function getDailyTournamentId() {
 }
 
 async function joinDailyTournament() {
-
-  const now = new Date();
-
-  if (now < dailyStartDate) {
-
-    alert(
-      "Le Daily Cup n'est pas encore ouvert."
-    );
-
-    return;
-  }
 
   const user = auth.currentUser;
 
