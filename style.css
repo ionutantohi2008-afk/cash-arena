@@ -1306,9 +1306,19 @@ body {
   border-radius: 20px;
 }
 
-.league-table-card h2 {
-  text-align: center;
-  margin-bottom: 20px;
+.league-table-card {
+
+  width: 95%;
+
+  max-width: 1100px;
+
+  margin: 30px auto;
+
+  padding: 20px;
+
+  border-radius: 20px;
+
+  overflow-x: auto;
 }
 
 .league-table-card table {
@@ -1585,13 +1595,11 @@ body {
 
 @media screen and (max-width: 768px) {
 
-  table {
+  .league-table-card {
 
-    width: 100%;
+    width: 98%;
 
-    font-size: 13px;
-
-    border-collapse: collapse;
+    padding: 10px;
   }
 
   th,
