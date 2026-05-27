@@ -1595,39 +1595,61 @@ body {
 
 @media (max-width: 768px) {
 
+  /* CONTAINER */
+
   #classement,
   #dailyClassement,
   .league-table-card {
 
-    width: 100% !important;
+    width: 100vw !important;
 
-    padding: 4px !important;
+    max-width: 100vw !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
 
     overflow: hidden !important;
   }
 
+  /* TABLE */
+
   table {
 
-    width: 100% !important;
+    width: 100vw !important;
+
+    max-width: 100vw !important;
+
+    min-width: unset !important;
 
     table-layout: fixed !important;
 
     border-collapse: collapse !important;
   }
 
+  /* RESET */
+
   th,
   td {
 
-    padding: 6px 1px !important;
+    min-width: 0 !important;
 
-    font-size: 9px !important;
+    max-width: none !important;
 
-    text-align: center !important;
+    padding: 4px 1px !important;
+
+    font-size: 8px !important;
 
     white-space: nowrap !important;
+
+    overflow: hidden !important;
+
+    text-overflow: ellipsis !important;
+
+    text-align: center !important;
   }
 
-  /* REWARD */
+  /* COLONNES */
 
   th:nth-child(1),
   td:nth-child(1) {
@@ -1635,36 +1657,22 @@ body {
     width: 18% !important;
   }
 
-  /* POS */
-
   th:nth-child(2),
   td:nth-child(2) {
 
     width: 10% !important;
   }
 
-  /* JOUEUR */
-
   th:nth-child(3),
   td:nth-child(3) {
 
     width: 42% !important;
-
-    overflow: hidden !important;
-
-    text-overflow: ellipsis !important;
-
-    font-size: 8px !important;
   }
-
-  /* POINTS */
 
   th:nth-child(4),
   td:nth-child(4) {
 
     width: 30% !important;
-
-    font-size: 10px !important;
 
     font-weight: bold !important;
   }
@@ -1673,13 +1681,11 @@ body {
 
   .rank-badge {
 
-    width: 11px !important;
+    width: 10px !important;
 
-    height: 11px !important;
+    height: 10px !important;
 
     margin-left: 1px !important;
-
-    vertical-align: middle !important;
   }
 
   .creator-badge {
@@ -1687,16 +1693,6 @@ body {
     font-size: 5px !important;
 
     padding: 1px 2px !important;
-
-    margin-left: 1px !important;
-  }
-
-  /* TITRES */
-
-  #classement h2,
-  #dailyClassement h2 {
-
-    font-size: 18px !important;
   }
 }
 
