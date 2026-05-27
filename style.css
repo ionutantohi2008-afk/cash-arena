@@ -1638,7 +1638,7 @@ body {
 
     padding: 4px 1px !important;
 
-    font-size: 8px !important;
+    font-size: 10px !important;
 
     white-space: nowrap !important;
 
@@ -1674,6 +1674,8 @@ body {
 
     width: 30% !important;
 
+    font-size: 11px !important;
+
     font-weight: bold !important;
   }
 
@@ -1681,9 +1683,9 @@ body {
 
   .rank-badge {
 
-    width: 10px !important;
+    width: 8px !important;
 
-    height: 10px !important;
+    height: 8px !important;
 
     margin-left: 1px !important;
   }
