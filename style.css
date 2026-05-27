@@ -1698,3 +1698,209 @@ body {
   }
 }
 
+/* ===== LEAGUE DESIGN ===== */
+
+.league-table-card {
+
+  width: 95%;
+
+  max-width: 1200px;
+
+  margin: 40px auto;
+
+  padding: 25px;
+
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,20,35,0.96),
+      rgba(10,10,20,0.96)
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 0 40px rgba(0,0,0,0.45);
+
+  backdrop-filter: blur(14px);
+}
+
+/* TITRE */
+
+.league-table-card h2 {
+
+  text-align: center;
+
+  font-size: 38px;
+
+  margin-bottom: 25px;
+
+  font-weight: 800;
+
+  color: white;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+/* TABLE */
+
+.league-table-card table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+/* HEADER */
+
+.league-table-card th {
+
+  padding: 18px;
+
+  background:
+    rgba(168,85,247,0.18);
+
+  color: white;
+
+  font-size: 15px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+}
+
+/* LIGNES */
+
+.league-table-card tr {
+
+  transition: 0.25s;
+}
+
+.league-table-card tr:hover {
+
+  background:
+    rgba(255,255,255,0.04);
+
+  transform: scale(1.01);
+}
+
+/* CELLS */
+
+.league-table-card td {
+
+  padding: 18px;
+
+  text-align: center;
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.05);
+
+  color: white;
+
+  font-size: 15px;
+}
+
+/* TOP 1 */
+
+.league-table-card tr:nth-child(1) {
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,215,0,0.18),
+      rgba(255,215,0,0.04)
+    );
+
+  box-shadow:
+    0 0 20px rgba(255,215,0,0.15);
+}
+
+/* TOP 2 */
+
+.league-table-card tr:nth-child(2) {
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(180,180,180,0.15),
+      rgba(255,255,255,0.03)
+    );
+}
+
+/* TOP 3 */
+
+.league-table-card tr:nth-child(3) {
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(205,127,50,0.15),
+      rgba(255,255,255,0.03)
+    );
+}
+
+/* LP */
+
+.league-table-card td:last-child {
+
+  font-weight: 800;
+
+  color: #a855f7;
+
+  text-shadow:
+    0 0 12px rgba(168,85,247,0.5);
+}
+
+/* PROMOTION */
+
+.promotion-zone {
+
+  color: #22c55e;
+
+  font-weight: bold;
+
+  text-shadow:
+    0 0 10px rgba(34,197,94,0.4);
+}
+
+/* DEMOTION */
+
+.demotion-zone {
+
+  color: #ef4444;
+
+  font-weight: bold;
+}
+
+/* BADGES */
+
+.rank-badge {
+
+  width: 22px;
+
+  height: 22px;
+
+  margin-left: 6px;
+
+  vertical-align: middle;
+
+  filter:
+    drop-shadow(0 0 8px rgba(255,255,255,0.25));
+}
+
+/* TOP PLAYER GLOW */
+
+.top-player {
+
+  font-weight: 800;
+
+  color: #ffd700;
+
+  text-shadow:
+    0 0 12px rgba(255,215,0,0.5);
+}

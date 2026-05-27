@@ -82,11 +82,14 @@ async function loadLeague() {
 
   players.forEach((p, index) => {
 
-    let promotion = "—";
+  let promotion =
+     "<span class='demotion-zone'>—</span>";
 
-    if (index < 5) {
-      promotion = "⬆ Promotion";
-    }
+  if (index < 5) {
+
+  promotion =
+    "<span class='promotion-zone'>⬆ PROMOTION</span>";
+}
 
     table.innerHTML += `
 
@@ -94,7 +97,7 @@ async function loadLeague() {
 
         <td>${promotion}</td>
 
-        <td>
+        <td class="${index === 0 ? 'top-player' : ''}">
 
           ${p.pseudo || p.email}
 
