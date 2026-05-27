@@ -1595,71 +1595,102 @@ body {
 
 @media (max-width: 768px) {
 
-  table {
-    display: block !important;
-    width: 100% !important;
-    overflow-x: auto !important;
-  }
-
-  thead,
-  tbody,
-  tr {
-    width: 100% !important;
-  }
-
-  th,
-  td {
-
-    font-size: 10px !important;
-
-    padding: 6px 2px !important;
-
-    white-space: nowrap !important;
-
-    text-align: center !important;
-  }
-
-  td:nth-child(3),
-  th:nth-child(3) {
-
-    max-width: 90px !important;
-
-    overflow: hidden !important;
-
-    text-overflow: ellipsis !important;
-  }
-
-  td:nth-child(4),
-  th:nth-child(4) {
-
-    min-width: 55px !important;
-
-    font-weight: bold !important;
-  }
-
-  .rank-badge {
-
-    width: 12px !important;
-
-    height: 12px !important;
-  }
-
-  .creator-badge {
-
-    font-size: 6px !important;
-
-    padding: 1px 3px !important;
-  }
-
   #classement,
   #dailyClassement,
   .league-table-card {
 
     width: 100% !important;
 
-    overflow-x: auto !important;
+    padding: 10px !important;
 
-    padding: 5px !important;
+    overflow-x: auto !important;
+  }
+
+  table {
+
+    width: 100% !important;
+
+    border-collapse: collapse !important;
+
+    table-layout: fixed !important;
+  }
+
+  th,
+  td {
+
+    padding: 8px 4px !important;
+
+    text-align: center !important;
+
+    font-size: 11px !important;
+
+    white-space: nowrap !important;
+  }
+
+  /* REWARD */
+
+  th:nth-child(1),
+  td:nth-child(1) {
+
+    width: 20% !important;
+  }
+
+  /* POS */
+
+  th:nth-child(2),
+  td:nth-child(2) {
+
+    width: 12% !important;
+  }
+
+  /* JOUEUR */
+
+  th:nth-child(3),
+  td:nth-child(3) {
+
+    width: 43% !important;
+
+    overflow: hidden !important;
+
+    text-overflow: ellipsis !important;
+  }
+
+  /* POINTS */
+
+  th:nth-child(4),
+  td:nth-child(4) {
+
+    width: 25% !important;
+
+    font-size: 12px !important;
+
+    font-weight: bold !important;
+  }
+
+  .rank-badge {
+
+    width: 16px !important;
+
+    height: 16px !important;
+
+    vertical-align: middle !important;
+
+    margin-left: 2px !important;
+  }
+
+  .creator-badge {
+
+    font-size: 7px !important;
+
+    padding: 2px 4px !important;
+
+    margin-left: 2px !important;
+  }
+
+  #classement h2,
+  #dailyClassement h2 {
+
+    font-size: 22px !important;
   }
 }
 
