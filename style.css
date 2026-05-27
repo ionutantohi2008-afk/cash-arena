@@ -1904,3 +1904,217 @@ body {
   text-shadow:
     0 0 12px rgba(255,215,0,0.5);
 }
+
+/* ===== TABLEAUX ===== */
+
+table {
+
+  width: 100%;
+
+  border-collapse: separate;
+
+  border-spacing: 0 10px;
+}
+
+/* HEADER */
+
+th {
+
+  padding: 18px 22px;
+
+  text-align: center;
+
+  font-size: 15px;
+
+  color: #bdbdbd;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+/* LIGNES */
+
+tr {
+
+  background:
+    rgba(20,20,35,0.9);
+
+  transition: 0.25s;
+}
+
+tr:hover {
+
+  transform: scale(1.01);
+
+  background:
+    rgba(35,35,55,0.95);
+}
+
+/* CASES */
+
+td {
+
+  padding: 18px 22px;
+
+  font-size: 15px;
+
+  color: white;
+
+  vertical-align: middle;
+}
+
+/* JOUEUR */
+
+td:nth-child(2),
+td:nth-child(3) {
+
+  text-align: left;
+
+  padding-left: 35px;
+
+  min-width: 260px;
+}
+
+/* LP / POINTS */
+
+td:last-child {
+
+  text-align: right;
+
+  padding-right: 35px;
+
+  font-weight: 800;
+
+  font-size: 17px;
+
+  color: #a855f7;
+
+  text-shadow:
+    0 0 10px rgba(168,85,247,0.5);
+}
+
+/* BADGES */
+
+.rank-badge {
+
+  width: 28px;
+
+  height: 28px;
+
+  margin-left: 10px;
+
+  vertical-align: middle;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 0 10px rgba(255,255,255,0.35));
+}
+
+/* CONTENT CREATOR */
+
+.creator-badge {
+
+  display: inline-block;
+
+  margin-left: 8px;
+
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff4d6d,
+      #ff758f
+    );
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+/* TOP 1 */
+
+.top-player {
+
+  color: #ffd700;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 0 14px rgba(255,215,0,0.55);
+}
+
+/* PROMOTION */
+
+.promotion-zone {
+
+  color: #22c55e;
+
+  font-weight: bold;
+
+  padding-left: 15px;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  th {
+
+    font-size: 10px;
+
+    padding: 10px 4px;
+  }
+
+  td {
+
+    font-size: 10px;
+
+    padding: 12px 4px;
+  }
+
+  /* JOUEUR */
+
+  td:nth-child(2),
+  td:nth-child(3) {
+
+    padding-left: 12px;
+
+    min-width: unset;
+  }
+
+  /* LP */
+
+  td:last-child {
+
+    padding-right: 12px;
+
+    font-size: 12px;
+  }
+
+  /* BADGES */
+
+  .rank-badge {
+
+    width: 18px;
+
+    height: 18px;
+
+    margin-left: 4px;
+  }
+
+  /* CREATOR */
+
+  .creator-badge {
+
+    font-size: 7px;
+
+    padding: 2px 5px;
+  }
+}
