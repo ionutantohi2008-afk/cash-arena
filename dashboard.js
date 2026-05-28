@@ -365,7 +365,7 @@ else if (index === 9) reward = "4 LP";
         <tr>
           <<td class="lp-reward">${reward}</td>
           <td>${index + 1}</td>
-          <td>
+          <td class="${index === 0 ? 'top-player' : ''}">
   ${p.pseudo || p.brawlName || p.email}
   ${getRankBadge(p.leagueRank)}
   ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
@@ -377,7 +377,7 @@ else if (index === 9) reward = "4 LP";
       table.innerHTML += `
         <tr>
           <td>${index + 1}</td>
-          <td>
+          <td class="${index === 0 ? 'top-player' : ''}">
   ${p.pseudo || p.brawlName || p.email}
   ${getRankBadge(p.leagueRank)}
   ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
@@ -734,7 +734,7 @@ for (const p of players) {
 
         <td>${index + 1}</td>
 
-        <td>
+        <td class="${index === 0 ? 'top-player' : ''}">
 
           ${p.pseudo || p.brawlName || p.email}
 

@@ -1593,214 +1593,63 @@ body {
   color: white;
 }
 
-/* ===== LEAGUE DESIGN ===== */
+/* ===== GLOBAL LEADERBOARD ===== */
 
+#classement,
+#dailyClassement,
 .league-table-card {
 
   width: 95%;
 
-  max-width: 1200px;
+  max-width: 1350px;
 
   margin: 40px auto;
 
-  padding: 25px;
+  padding: 30px;
 
-  border-radius: 28px;
+  border-radius: 35px;
 
   background:
     linear-gradient(
       180deg,
-      rgba(20,20,35,0.96),
-      rgba(10,10,20,0.96)
+      rgba(15,15,30,0.96),
+      rgba(8,8,18,0.96)
     );
 
   border:
-    1px solid rgba(255,255,255,0.08);
+    1px solid rgba(255,255,255,0.06);
 
   box-shadow:
-    0 0 40px rgba(0,0,0,0.45);
+    0 0 60px rgba(0,0,0,0.55);
 
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(18px);
 }
 
-/* TITRE */
+/* ===== TITRES ===== */
 
+#classement h2,
+#dailyClassement h2,
 .league-table-card h2 {
 
   text-align: center;
 
-  font-size: 38px;
+  font-size: 42px;
 
-  margin-bottom: 25px;
+  font-weight: 900;
 
-  font-weight: 800;
-
-  color: white;
-
-  letter-spacing: 1px;
-
-  text-transform: uppercase;
-}
-
-/* TABLE */
-
-.league-table-card table {
-
-  width: 100%;
-
-  border-collapse: collapse;
-}
-
-/* HEADER */
-
-.league-table-card th {
-
-  padding: 18px;
-
-  background:
-    rgba(168,85,247,0.18);
+  margin-bottom: 35px;
 
   color: white;
 
-  font-size: 15px;
+  letter-spacing: 2px;
 
   text-transform: uppercase;
 
-  letter-spacing: 1px;
-}
-
-/* LIGNES */
-
-.league-table-card tr {
-
-  transition: 0.25s;
-}
-
-.league-table-card tr:hover {
-
-  background:
-    rgba(255,255,255,0.04);
-
-  transform: scale(1.01);
-}
-
-/* CELLS */
-
-.league-table-card td {
-
-  padding: 18px;
-
-  text-align: center;
-
-  border-bottom:
-    1px solid rgba(255,255,255,0.05);
-
-  color: white;
-
-  font-size: 15px;
-}
-
-/* TOP 1 */
-
-.league-table-card tr:nth-child(1) {
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,215,0,0.18),
-      rgba(255,215,0,0.04)
-    );
-
-  box-shadow:
-    0 0 20px rgba(255,215,0,0.15);
-}
-
-/* TOP 2 */
-
-.league-table-card tr:nth-child(2) {
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(180,180,180,0.15),
-      rgba(255,255,255,0.03)
-    );
-}
-
-/* TOP 3 */
-
-.league-table-card tr:nth-child(3) {
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(205,127,50,0.15),
-      rgba(255,255,255,0.03)
-    );
-}
-
-/* LP */
-
-.league-table-card td:last-child {
-
-  font-weight: 800;
-
-  color: #a855f7;
-
   text-shadow:
-    0 0 12px rgba(168,85,247,0.5);
+    0 0 25px rgba(168,85,247,0.45);
 }
 
-/* PROMOTION */
-
-.promotion-zone {
-
-  color: #22c55e;
-
-  font-weight: bold;
-
-  text-shadow:
-    0 0 10px rgba(34,197,94,0.4);
-}
-
-/* DEMOTION */
-
-.demotion-zone {
-
-  color: #ef4444;
-
-  font-weight: bold;
-}
-
-/* BADGES */
-
-.rank-badge {
-
-  width: 22px;
-
-  height: 22px;
-
-  margin-left: 6px;
-
-  vertical-align: middle;
-
-  filter:
-    drop-shadow(0 0 8px rgba(255,255,255,0.25));
-}
-
-/* TOP PLAYER GLOW */
-
-.top-player {
-
-  font-weight: 800;
-
-  color: #ffd700;
-
-  text-shadow:
-    0 0 12px rgba(255,215,0,0.5);
-}
-
-/* ===== TABLEAUX ===== */
+/* ===== TABLE ===== */
 
 table {
 
@@ -1808,114 +1657,134 @@ table {
 
   border-collapse: separate;
 
-  border-spacing: 0 10px;
+  border-spacing: 0 14px;
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 
 th {
 
-  padding: 18px 22px;
+  padding: 20px;
 
-  text-align: center;
+  font-size: 14px;
 
-  font-size: 15px;
-
-  color: #bdbdbd;
+  text-transform: uppercase;
 
   letter-spacing: 1px;
 
-  text-transform: uppercase;
+  color: #bdbdbd;
+
+  text-align: center;
 }
 
-/* LIGNES */
+/* ===== LIGNES ===== */
 
 tr {
 
   background:
-    rgba(20,20,35,0.9);
+    linear-gradient(
+      90deg,
+      rgba(32,32,52,0.95),
+      rgba(18,18,35,0.95)
+    );
 
   transition: 0.25s;
+
+  border-radius: 24px;
 }
 
 tr:hover {
 
-  transform: scale(1.01);
+  transform:
+    scale(1.015);
 
   background:
-    rgba(35,35,55,0.95);
+    linear-gradient(
+      90deg,
+      rgba(55,55,95,0.98),
+      rgba(30,30,50,0.98)
+    );
+
+  box-shadow:
+    0 0 30px rgba(168,85,247,0.15);
 }
 
-/* CASES */
+/* ===== CELLS ===== */
 
 td {
 
-  padding: 18px 22px;
-
-  font-size: 15px;
+  padding: 24px;
 
   color: white;
+
+  font-size: 16px;
+
+  text-align: center;
 
   vertical-align: middle;
 }
 
-/* JOUEUR */
+/* ===== JOUEURS ===== */
 
 td:nth-child(2),
 td:nth-child(3) {
 
   text-align: left;
 
-  padding-left: 35px;
+  padding-left: 45px;
 
-  min-width: 260px;
+  min-width: 340px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
 }
 
-/* LP / POINTS */
+/* ===== LP / POINTS ===== */
 
 td:last-child {
 
   text-align: right;
 
-  padding-right: 35px;
+  padding-right: 45px;
 
-  font-weight: 800;
+  font-size: 19px;
 
-  font-size: 17px;
+  font-weight: 900;
 
   color: #a855f7;
 
   text-shadow:
-    0 0 10px rgba(168,85,247,0.5);
+    0 0 18px rgba(168,85,247,0.55);
 }
 
-/* BADGES */
+/* ===== BADGES RANK ===== */
 
 .rank-badge {
 
-  width: 28px;
+  width: 38px;
 
-  height: 28px;
+  height: 38px;
 
-  margin-left: 10px;
+  margin-left: 12px;
 
   vertical-align: middle;
 
   object-fit: contain;
 
   filter:
-    drop-shadow(0 0 10px rgba(255,255,255,0.35));
+    drop-shadow(0 0 12px rgba(255,255,255,0.4));
 }
 
-/* CONTENT CREATOR */
+/* ===== CONTENT CREATOR ===== */
 
 .creator-badge {
 
   display: inline-block;
 
-  margin-left: 8px;
+  margin-left: 10px;
 
-  padding: 4px 10px;
+  padding: 5px 12px;
 
   border-radius: 999px;
 
@@ -1930,70 +1799,130 @@ td:last-child {
 
   font-size: 11px;
 
-  font-weight: 700;
+  font-weight: 800;
+
+  box-shadow:
+    0 0 14px rgba(255,77,109,0.35);
 }
 
-/* TOP 1 */
+/* ===== TOP 1 ===== */
+
+tr:nth-child(1) {
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,215,0,0.22),
+      rgba(60,45,0,0.92)
+    );
+
+  box-shadow:
+    0 0 40px rgba(255,215,0,0.22);
+}
+
+/* ===== TOP 2 ===== */
+
+tr:nth-child(2) {
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(200,200,200,0.16),
+      rgba(35,35,35,0.92)
+    );
+}
+
+/* ===== TOP 3 ===== */
+
+tr:nth-child(3) {
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(205,127,50,0.18),
+      rgba(45,25,10,0.92)
+    );
+}
+
+/* ===== TOP PLAYER ===== */
 
 .top-player {
 
   color: #ffd700;
 
-  font-weight: 800;
-
   text-shadow:
-    0 0 14px rgba(255,215,0,0.55);
+    0 0 18px rgba(255,215,0,0.55);
 }
 
-/* PROMOTION */
+/* ===== PROMOTION ===== */
 
 .promotion-zone {
 
   color: #22c55e;
 
-  font-weight: bold;
+  font-weight: 900;
 
-  padding-left: 15px;
+  text-shadow:
+    0 0 15px rgba(34,197,94,0.45);
 }
 
-/* MOBILE */
+/* ===== MOBILE ===== */
 
 @media (max-width: 768px) {
 
+  #classement,
+  #dailyClassement,
+  .league-table-card {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border-radius: 20px;
+  }
+
+  h2 {
+
+    font-size: 24px !important;
+  }
+
+  table {
+
+    width: 100%;
+
+    table-layout: fixed;
+  }
+
   th {
 
-    font-size: 10px;
+    font-size: 9px;
 
-    padding: 10px 4px;
+    padding: 10px 2px;
   }
 
   td {
 
     font-size: 10px;
 
-    padding: 12px 4px;
+    padding: 14px 3px;
   }
-
-  /* JOUEUR */
 
   td:nth-child(2),
   td:nth-child(3) {
 
-    padding-left: 12px;
-
     min-width: unset;
-  }
 
-  /* LP */
+    padding-left: 10px;
+
+    font-size: 9px;
+  }
 
   td:last-child {
 
-    padding-right: 12px;
+    padding-right: 10px;
 
-    font-size: 12px;
+    font-size: 11px;
   }
-
-  /* BADGES */
 
   .rank-badge {
 
@@ -2004,117 +1933,10 @@ td:last-child {
     margin-left: 4px;
   }
 
-  /* CREATOR */
-
   .creator-badge {
 
-    font-size: 7px;
+    font-size: 6px;
 
     padding: 2px 5px;
-  }
-}
-
-@media (max-width: 768px) {
-
-  /* CONTAINER */
-
-  #classement,
-  #dailyClassement,
-  .league-table-card {
-
-    width: 100vw !important;
-
-    max-width: 100vw !important;
-
-    margin: 0 !important;
-
-    padding: 0 !important;
-
-    overflow: hidden !important;
-  }
-
-  /* TABLE */
-
-  table {
-
-    width: 100vw !important;
-
-    max-width: 100vw !important;
-
-    min-width: unset !important;
-
-    table-layout: fixed !important;
-
-    border-collapse: collapse !important;
-  }
-
-  /* RESET */
-
-  th,
-  td {
-
-    min-width: 0 !important;
-
-    max-width: none !important;
-
-    padding: 4px 1px !important;
-
-    font-size: 10px !important;
-
-    white-space: nowrap !important;
-
-    overflow: hidden !important;
-
-    text-overflow: ellipsis !important;
-
-    text-align: center !important;
-  }
-
-  /* COLONNES */
-
-  th:nth-child(1),
-  td:nth-child(1) {
-
-    width: 18% !important;
-  }
-
-  th:nth-child(2),
-  td:nth-child(2) {
-
-    width: 10% !important;
-  }
-
-  th:nth-child(3),
-  td:nth-child(3) {
-
-    width: 42% !important;
-  }
-
-  th:nth-child(4),
-  td:nth-child(4) {
-
-    width: 30% !important;
-
-    font-size: 11px !important;
-
-    font-weight: bold !important;
-  }
-
-  /* BADGES */
-
-  .rank-badge {
-
-    width: 10px !important;
-
-    height: 10px !important;
-
-    margin-left: 1px !important;
-  }
-
-  .creator-badge {
-
-    font-size: 5px !important;
-
-    padding: 1px 2px !important;
   }
 }
