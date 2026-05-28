@@ -798,3 +798,43 @@ function updateDailyButton() {
     };
   }
 }
+
+function showRankUp(oldRank, newRank) {
+
+  const popup =
+    document.getElementById(
+      "rankUpPopup"
+    );
+
+  const text =
+    document.getElementById(
+      "rankUpText"
+    );
+
+  if (!popup || !text) return;
+
+  text.innerText =
+    `${oldRank} → ${newRank}`;
+
+  popup.classList.add("show");
+
+  setTimeout(() => {
+
+    popup.classList.remove("show");
+
+  }, 5000);
+}
+
+const oldRank =
+  userData.leagueRank;
+
+const newRank =
+  calculateRank(lp);
+
+if (newRank !== oldRank) {
+
+  showRankUp(
+    oldRank,
+    newRank
+  );
+}
