@@ -1,5 +1,5 @@
 console.log("league.js chargé");
-const promotionDate = getNextSunday1930();
+const promotionDate = getNextSunday2130();
 
 auth.onAuthStateChanged(async user => {
   if (!user) {
@@ -180,7 +180,7 @@ function getRankBadge(rank) {
   }
 }
 
-function getNextSunday1930() {
+function getNextSunday2130() {
 
   const now = new Date();
 
@@ -190,11 +190,11 @@ function getNextSunday1930() {
     now.getDate() + ((7 - now.getDay()) % 7)
   );
 
-  nextSunday.setHours(19);
+  nextSunday.setHours(21);
   nextSunday.setMinutes(30);
   nextSunday.setSeconds(0);
 
-  // Si on est déjà dimanche après 19h30
+  // Si on est déjà dimanche après 21h30
   if (now > nextSunday) {
     nextSunday.setDate(nextSunday.getDate() + 7);
   }
