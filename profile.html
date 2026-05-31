@@ -113,6 +113,31 @@
 
 </div>
 
+<div class="language-selector">
+
+  <button id="langBtn">
+    🌍 Langue
+  </button>
+
+  <div id="langMenu" class="lang-menu">
+
+    <button onclick="changeLanguage('fr')">
+      🇫🇷 Français
+    </button>
+
+    <button onclick="changeLanguage('en')">
+      🇬🇧 English
+    </button>
+
+    <button onclick="changeLanguage('es')">
+      🇪🇸 Español
+    </button>
+
+  </div>
+
+</div>
+
+
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
@@ -404,30 +429,6 @@ document.getElementById("langBtn")
 
 
 </script>
-
-<div class="language-selector">
-
-  <button id="langBtn">
-    🌍 Langue
-  </button>
-
-  <div id="langMenu" class="lang-menu">
-
-    <button onclick="changeLanguage('fr')">
-      🇫🇷 Français
-    </button>
-
-    <button onclick="changeLanguage('en')">
-      🇬🇧 English
-    </button>
-
-    <button onclick="changeLanguage('es')">
-      🇪🇸 Español
-    </button>
-
-  </div>
-
-</div>
 
 </body>
 </html>
