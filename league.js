@@ -48,8 +48,13 @@ async function loadLeague() {
 
   // Récupère tous les users
   const snapshot = await db
-    .collection("users")
-    .get();
+  .collection("users")
+  .where(
+    "leagueRank",
+    "==",
+    currentRank
+  )
+  .get();
 
   let players = [];
 

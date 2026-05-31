@@ -266,18 +266,36 @@ async function joinTournament(tournamentId) {
   }
 
   await ref.set({
-    uid: user.uid,
-    email: user.email,
-    pseudo: userData.pseudo || userData.brawlName || user.email,
-    isContentCreator: userData.isContentCreator || false,
+  uid: user.uid,
+  email: user.email,
 
-    brawlTag: userData.brawlTag || null,
-    brawlName: userData.brawlName || null,
-    brawlTrophies: userData.brawlTrophies || 0,
+  pseudo:
+    userData.pseudo ||
+    userData.brawlName ||
+    user.email,
 
-    points: 0,
-    joinedAt: new Date()
-  });
+  isContentCreator:
+    userData.isContentCreator || false,
+
+  leagueRank:
+    userData.leagueRank || "Bronze",
+
+  leaguePoints:
+    userData.leaguePoints || 0,
+
+  brawlTag:
+    userData.brawlTag || null,
+
+  brawlName:
+    userData.brawlName || null,
+
+  brawlTrophies:
+    userData.brawlTrophies || 0,
+
+  points: 0,
+
+  joinedAt: new Date()
+});
 
   alert("Inscription réussie !");
 
@@ -305,85 +323,134 @@ function showClassement() {
 }
 
 async function loadBrawlPlayers() {
+
   console.log("loadBrawlPlayers lancé");
 
-  const table = document.getElementById("brawlTable");
+  const table =
+    document.getElementById("brawlTable");
 
-  const snapshot = await db.collection("tournaments")
+  if (!table) return;
+
+  const snapshot = await db
+    .collection("tournaments")
     .doc(TOURNAMENT_ID)
     .collection("players")
     .get();
 
-  console.log("Tournoi lu :", TOURNAMENT_ID);
-  console.log("Nombre de joueurs :", snapshot.size);
+  console.log(
+    "Tournoi lu :",
+    TOURNAMENT_ID
+  );
+
+  console.log(
+    "Nombre de joueurs :",
+    snapshot.size
+  );
 
   let players = [];
 
   snapshot.forEach(doc => {
+
     players.push({
+
       id: doc.id,
+
       ...doc.data()
     });
   });
 
-  players.sort((a, b) => (b.points || 0) - (a.points || 0));
+  players.sort(
+    (a, b) =>
+      (b.points || 0)
+      - (a.points || 0)
+  );
 
   table.innerHTML = "";
 
-for (const p of players) {
-
-  const userDoc = await db
-    .collection("users")
-    .doc(p.uid)
-    .get();
-
-  const userData = userDoc.data() || {};
-
-  p.leagueRank =
-    userData.leagueRank || "Bronze";
-
-  p.isContentCreator =
-    userData.isContentCreator || false;
-}
-
   players.forEach((p, index) => {
+
     if (TOURNAMENT_HAS_REWARDS) {
+
       let reward = "0 LP";
 
-if (index === 0) reward = "30 LP";
-else if (index === 1) reward = "20 LP";
-else if (index === 2) reward = "10 LP";
-else if (index === 3) reward = "8 LP";
-else if (index === 4) reward = "7 LP";
-else if (index === 5) reward = "6 LP";
-else if (index === 6) reward = "5 LP";
-else if (index === 7) reward = "5 LP";
-else if (index === 8) reward = "4 LP";
-else if (index === 9) reward = "4 LP";
+      if (index === 0) reward = "30 LP";
+      else if (index === 1) reward = "20 LP";
+      else if (index === 2) reward = "10 LP";
+      else if (index === 3) reward = "8 LP";
+      else if (index === 4) reward = "7 LP";
+      else if (index === 5) reward = "6 LP";
+      else if (index === 6) reward = "5 LP";
+      else if (index === 7) reward = "5 LP";
+      else if (index === 8) reward = "4 LP";
+      else if (index === 9) reward = "4 LP";
 
       table.innerHTML += `
-        <tr>
-          <<td class="lp-reward">${reward}</td>
-          <td>${index + 1}</td>
-          <td class="${index === 0 ? 'top-player' : ''}">
-  ${p.pseudo || p.brawlName || p.email}
-  ${getRankBadge(p.leagueRank)}
-  ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
-</td>
-          <td>${p.points || 0}</td>
-        </tr>
+
+      <tr>
+
+        <td class="lp-reward">
+          ${reward}
+        </td>
+
+        <td>
+          ${index + 1}
+        </td>
+
+        <td class="${index === 0 ? 'top-player' : ''}">
+
+          ${p.pseudo || p.brawlName || p.email}
+
+          ${getRankBadge(
+            p.leagueRank || "Bronze"
+          )}
+
+          ${
+            p.isContentCreator
+            ? "<span class='creator-badge'>Content Creator</span>"
+            : ""
+          }
+
+        </td>
+
+        <td>
+          ${p.points || 0}
+        </td>
+
+      </tr>
       `;
-    } else {
+    }
+
+    else {
+
       table.innerHTML += `
-        <tr>
-          <td>${index + 1}</td>
-          <td class="${index === 0 ? 'top-player' : ''}">
-  ${p.pseudo || p.brawlName || p.email}
-  ${getRankBadge(p.leagueRank)}
-  ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
-</td>
-          <td>${p.points || 0}</td>
-        </tr>
+
+      <tr>
+
+        <td>
+          ${index + 1}
+        </td>
+
+        <td class="${index === 0 ? 'top-player' : ''}">
+
+          ${p.pseudo || p.brawlName || p.email}
+
+          ${getRankBadge(
+            p.leagueRank || "Bronze"
+          )}
+
+          ${
+            p.isContentCreator
+            ? "<span class='creator-badge'>Content Creator</span>"
+            : ""
+          }
+
+        </td>
+
+        <td>
+          ${p.points || 0}
+        </td>
+
+      </tr>
       `;
     }
   });
@@ -616,24 +683,33 @@ async function joinDailyTournament() {
 
   await ref.set({
 
-    uid: user.uid,
+  uid: user.uid,
 
-    email: user.email,
+  email: user.email,
 
-    pseudo:
-      userData.pseudo ||
-      user.email,
+  pseudo:
+    userData.pseudo ||
+    user.email,
 
-    brawlTag:
-      userData.brawlTag || null,
+  isContentCreator:
+    userData.isContentCreator || false,
 
-    brawlName:
-      userData.brawlName || null,
+  leagueRank:
+    userData.leagueRank || "Bronze",
 
-    points: 0,
+  leaguePoints:
+    userData.leaguePoints || 0,
 
-    joinedAt: new Date()
-  });
+  brawlTag:
+    userData.brawlTag || null,
+
+  brawlName:
+    userData.brawlName || null,
+
+  points: 0,
+
+  joinedAt: new Date()
+});
 
   alert("Inscription Daily réussie !");
   isDailyRegistered = true;
@@ -699,22 +775,6 @@ async function loadDailyPlayers() {
   );
 
   table.innerHTML = "";
-  
-for (const p of players) {
-
-  const userDoc = await db
-    .collection("users")
-    .doc(p.uid)
-    .get();
-
-  const userData = userDoc.data() || {};
-
-  p.leagueRank =
-    userData.leagueRank || "Bronze";
-
-  p.isContentCreator =
-    userData.isContentCreator || false;
-}
 
   players.forEach((p, index) => {
 
