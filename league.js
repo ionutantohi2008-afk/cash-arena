@@ -90,7 +90,7 @@ async function loadLeague() {
   let promotion =
      "<span class='demotion-zone'>—</span>";
 
-  if (index < 5) {
+  if (index < 3) {
 
   promotion =
     "<span class='promotion-zone'>⬆ PROMOTION</span>";
