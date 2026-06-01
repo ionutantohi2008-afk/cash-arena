@@ -42,6 +42,10 @@ function goTournaments() {
   window.location = "dashboard.html";
 }
 
+function goLeague() {
+  window.location = "league.html";
+}
+
 function goDiscord() {
   window.open("https://discord.gg/YZ48BUhNm9", "_blank");
 }

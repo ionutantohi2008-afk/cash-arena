@@ -12,7 +12,7 @@
 </script>
 
   <meta charset="UTF-8">
-  <title id="pageTitle">Inscription</title>
+  <title>Inscription</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -23,33 +23,22 @@
 
 <nav style="display:flex; justify-content:space-between; padding:15px; background:#111827;">
   <div>
-    <a href="index.html" id="navHome" style="color:#22c55e; text-decoration:none;">
-      Accueil
-    </a>
+    <a href="index.html" style="color:#22c55e; text-decoration:none;">Accueil</a>
   </div>
 
   <div>
-    <button onclick="goHome()" id="btnBack">
-      ⬅ Retour
-    </button>
+    <button onclick="goHome()">⬅ Retour</button>
   </div>
 </nav>
 
 <div class="login-container">
   <div class="login-card">
-    <h1 id="registerTitle">
-      Créer un compte
-    </h1>
+    <h1>Créer un compte</h1>
 
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Mot de passe">
 
-     <button
-      onclick="register()"
-      id="registerBtn"
-    >
-      S'inscrire
-    </button>
+     <button onclick="register()">S'inscrire</button>
   </div>
 </div>
 
@@ -59,11 +48,6 @@
 
 <script src="firebase.js"></script>
 <script src="app.js"></script>
-
-<script>
-const savedLanguage = localStorage.getItem("language") || "fr";
-applyLanguage(savedLanguage);
-</script>
 
 </body>
 </html>
