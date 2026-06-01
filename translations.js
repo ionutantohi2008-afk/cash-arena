@@ -68,7 +68,14 @@ const translations = {
     comingSoon: "À VENIR",
 
     available: "◔ Disponible",
-    soon: "◔ Bientôt"
+    soon: "◔ Bientôt",
+
+    pageTitle: "Inscription",
+    btnBack: "⬅ Retour",
+    registerTitle: "Créer un compte",
+    registerBtn: "S'inscrire",
+    emailPlaceholder: "Email",
+    passwordPlaceholder: "Mot de passe",
   },
 
   en: {
@@ -139,7 +146,14 @@ const translations = {
     comingSoon: "COMING SOON",
 
     available: "◔ Available",
-    soon: "◔ Coming Soon"
+    soon: "◔ Coming Soon",
+
+    pageTitle: "Register",
+    btnBack: "⬅ Back",
+    registerTitle: "Create Account",
+    registerBtn: "Sign Up",
+    emailPlaceholder: "Email",
+    passwordPlaceholder: "Password",
   },
 
   es: {
@@ -210,7 +224,14 @@ const translations = {
     comingSoon: "PRÓXIMAMENTE",
 
     available: "◔ Disponible",
-    soon: "◔ Próximamente"
+    soon: "◔ Próximamente",
+
+    pageTitle: "Registro",
+    btnBack: "⬅ Volver",
+    registerTitle: "Crear Cuenta",
+    registerBtn: "Registrarse",
+    emailPlaceholder: "Correo electrónico",
+    passwordPlaceholder: "Contraseña",
   }
 };
 
@@ -323,4 +344,24 @@ document.getElementById("valorantStatus").textContent =
 
 document.getElementById("codStatus").textContent =
   t.soon;
+
+  document.title = t.pageTitle;
+
+document.getElementById("navHome").textContent =
+  t.navHome;
+
+document.getElementById("btnBack").textContent =
+  t.btnBack;
+
+document.getElementById("registerTitle").textContent =
+  t.registerTitle;
+
+document.getElementById("registerBtn").textContent =
+  t.registerBtn;
+
+document.getElementById("email").placeholder =
+  t.emailPlaceholder;
+
+document.getElementById("password").placeholder =
+  t.passwordPlaceholder;
 }
