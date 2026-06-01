@@ -46,9 +46,9 @@
   </div>
 
   <div class="nav-links">
-    <a href="index.html">Accueil</a>
-    <a href="dashboard.html">Tournois</a>
-    <a href="league.html">League</a>
+    <a href="index.html" id="navHome">Accueil</a>
+    <a href="dashboard.html" id="navTournaments">Tournois</a>
+    <a href="league.html" id="navLeague">League</a>
   </div>
 
   <div id="authSection"></div>
@@ -63,26 +63,28 @@
 
 <div class="hero">
 
-  <div class="badge">⚡ Plateforme de tournois compétitifs</div>
+  <div class="badge" id="heroBadge">
+  ⚡ Plateforme de tournois compétitifs
+</div>
 
   <h1 class="hero-title">
     <span>CASH</span><br>
     ARENA
   </h1>
 
-  <p class="hero-sub">
-    Participez à des tournois compétitifs, grimpez dans le classement et remportez de l'argent réel grâce à vos performances.
-  </p>
+  <p class="hero-sub" id="heroSub">
+  Participez à des tournois compétitifs, grimpez dans le classement et remportez de l'argent réel grâce à vos performances.
+</p>
 
   <div class="hero-buttons">
 
-    <button onclick="goTournaments()" class="btn-primary">
-      🏆 Voir les tournois
-    </button>
+    <button onclick="goTournaments()" class="btn-primary" id="btnTournaments">
+  🏆 Voir les tournois
+</button>
 
-    <button class="btn-secondary">
-      League →
-    </button>
+    <button class="btn-secondary" id="btnLeague">
+  League →
+</button>
 
     <button onclick="goDiscord()" class="btn-discord">
       💬 Discord
@@ -117,132 +119,176 @@
 </script>
 
 <section class="how-section">
-  <h2>Comment ça marche ?</h2>
-  <p class="how-subtitle">Rejoins un tournoi en quelques étapes simples.</p>
+  <h2 id="howTitle">Comment ça marche ?</h2>
 
-  <div class="how-grid">
-    <div class="how-card">
+  <p class="how-subtitle" id="howSubtitle">
+    Rejoins un tournoi en quelques étapes simples.
+  </p>
+
+  <div class="how-card">
       <span>1</span>
-      <h3>Crée ton compte</h3>
-      <p>Inscris-toi gratuitement sur Cash Arena.</p>
+      <h3 id="step1Title">Crée ton compte</h3>
+      <p id="step1Desc">
+        Inscris-toi gratuitement sur Cash Arena.
+      </p>
     </div>
 
     <div class="how-card">
       <span>2</span>
-      <h3>Lie Brawl Stars</h3>
-      <p>Ajoute ton tag Brawl Stars depuis ton profil.</p>
+      <h3 id="step2Title">Lie Brawl Stars</h3>
+      <p id="step2Desc">
+        Ajoute ton tag Brawl Stars depuis ton profil.
+      </p>
     </div>
 
-    <div class="how-card">
+     <div class="how-card">
       <span>3</span>
-      <h3>Rejoins le tournoi</h3>
-      <p>Inscris-toi avant ou pendant l’ouverture du tournoi.</p>
+      <h3 id="step3Title">Rejoins le tournoi</h3>
+      <p id="step3Desc">
+        Inscris-toi avant ou pendant l'ouverture du tournoi.
+      </p>
     </div>
 
     <div class="how-card">
       <span>4</span>
-      <h3>Gagne des points</h3>
-      <p>Victoire = 3 points, défaite = 1 point après ton inscription.</p>
+      <h3 id="step4Title">Gagne des points</h3>
+      <p id="step4Desc">
+        Victoire = 3 points, défaite = 1 point après ton inscription.
+      </p>
     </div>
-  </div>
-</section>
 
 <div class="features-section">
-  <h2>Pourquoi <span>Cash Arena</span> ?</h2>
-  <p class="subtitle">
+   <h2 id="featuresTitle">
+    Pourquoi <span>Cash Arena</span> ?
+  </h2>
+    <p class="subtitle" id="featuresSubtitle">
     Une plateforme pensée pour la compétition, la performance et les récompenses.
   </p>
 
   <div class="features-grid">
 
-    <div class="feature-card">
-      <h3>🏆 Tournois variés</h3>
-      <p>Élimination directe, points, classement. Plusieurs modes pour tous les styles de jeu.</p>
+     <div class="feature-card">
+      <h3 id="feature1Title">🏆 Tournois variés</h3>
+      <p id="feature1Desc">
+        Élimination directe, points, classement. Plusieurs modes pour tous les styles de jeu.
+      </p>
     </div>
 
     <div class="feature-card">
-      <h3>📊 Classement automatique</h3>
-      <p>Votre position évolue en temps réel selon vos performances et vos victoires.</p>
+      <h3 id="feature2Title">📊 Classement automatique</h3>
+      <p id="feature2Desc">
+        Votre position évolue en temps réel selon vos performances et vos victoires.
+      </p>
     </div>
 
     <div class="feature-card">
-      <h3>💰 Gains réels</h3>
-      <p>Remportez de l'argent réel en gagnant des tournois. Retirez vos gains facilement.</p>
+      <h3 id="feature3Title">💰 Gains réels</h3>
+      <p id="feature3Desc">
+        Remportez de l'argent réel en gagnant des tournois. Retirez vos gains facilement.
+      </p>
     </div>
 
     <div class="feature-card">
-      <h3>🔒 Sécurisé</h3>
-      <p>Système de paiement sécurisé et fair-play garanti pour tous les participants.</p>
+      <h3 id="feature4Title">🔒 Sécurisé</h3>
+      <p id="feature4Desc">
+        Système de paiement sécurisé et fair-play garanti pour tous les participants.
+      </p>
     </div>
 
     <div class="feature-card">
-      <h3>⚡ 100% automatisé</h3>
-      <p>Résultats, classements et distributions de prix gérés automatiquement.</p>
+      <h3 id="feature5Title">⚡ 100% automatisé</h3>
+      <p id="feature5Desc">
+        Résultats, classements et distributions de prix gérés automatiquement.
+      </p>
     </div>
 
     <div class="feature-card">
-      <h3>👥 Communauté</h3>
-      <p>Affrontez des joueurs du monde entier et construisez votre réputation.</p>
+      <h3 id="feature6Title">👥 Communauté</h3>
+      <p id="feature6Desc">
+        Affrontez des joueurs du monde entier et construisez votre réputation.
+      </p>
     </div>
 
   </div>
 </div>
 
-<SCRIPT data-cfasync="false" SRC="//bdv.bidvertiser.com/BidVertiser.dbm?pid=942034&bid=2104448" TYPE="text/javascript"></SCRIPT>
-
 <section class="games-section">
   <div class="games-header">
-    <div class="games-badge">🕘 Disponible & Prochainement</div>
-    <h2>Nos jeux</h2>
-    <p>
+
+    <div class="games-badge" id="gamesBadge">
+      🕘 Disponible & Prochainement
+    </div>
+
+    <h2 id="gamesTitle">
+      Nos jeux
+    </h2>
+
+    <p id="gamesSubtitle">
       Commence avec <strong>Brawl Stars</strong> — d'autres jeux arrivent très bientôt !
     </p>
+
   </div>
 
   <div class="games-group">
-    <h3 class="games-group-title available">DISPONIBLE MAINTENANT</h3>
+    <h3 class="games-group-title available" id="availableNow">
+      DISPONIBLE MAINTENANT
+    </h3>
 
     <div class="games-grid available-grid">
-      <a class="game-card game-brawl" href="dashboard.html">
+       <a class="game-card game-brawl" href="dashboard.html">
         <div class="game-icon">🏆</div>
         <div class="game-name">Brawl Stars</div>
-        <div class="game-status">◔ Disponible</div>
+        <div class="game-status" id="brawlStatus">
+          ◔ Disponible
+        </div>
       </a>
     </div>
   </div>
 
   <div class="games-group">
-    <h3 class="games-group-title coming">À VENIR</h3>
+    <h3 class="games-group-title coming" id="comingSoon">
+      À VENIR
+    </h3>
 
     <div class="games-grid coming-grid">
       <div class="game-card game-rocket">
         <div class="game-icon">🚀</div>
         <div class="game-name">Rocket League</div>
-        <div class="game-status soon">◔ Bientôt</div>
+        <div class="game-status soon" id="rocketStatus">
+          ◔ Bientôt
+        </div>
       </div>
 
       <div class="game-card game-fortnite">
         <div class="game-icon">🎯</div>
         <div class="game-name">Fortnite</div>
-        <div class="game-status soon">◔ Bientôt</div>
+        <div class="game-status soon" id="fortniteStatus">
+          ◔ Bientôt
+        </div>
       </div>
 
       <div class="game-card game-lol">
         <div class="game-icon">⚔️</div>
         <div class="game-name">League of Legends</div>
-        <div class="game-status soon">◔ Bientôt</div>
+        <div class="game-status soon" id="lolStatus">
+          ◔ Bientôt
+        </div>
       </div>
 
       <div class="game-card game-valorant">
         <div class="game-icon">🔫</div>
         <div class="game-name">Valorant</div>
-        <div class="game-status soon">◔ Bientôt</div>
+        <div class="game-status soon" id="valorantStatus">
+          ◔ Bientôt
+        </div>
       </div>
 
       <div class="game-card game-cod">
         <div class="game-icon">💣</div>
         <div class="game-name">Call of Duty</div>
-        <div class="game-status soon">◔ Bientôt</div>
+        <div class="game-status soon" id="codStatus">
+          ◔ Bientôt
+        </div>
       </div>
     </div>
   </div>
@@ -261,6 +307,15 @@
   </p>
 
 </footer>
+
+<script src="translations.js"></script>
+
+<script>
+const savedLanguage =
+  localStorage.getItem("language") || "fr";
+
+applyLanguage(savedLanguage);
+</script>
 
 <body>
 

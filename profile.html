@@ -427,6 +427,17 @@ document.getElementById("langBtn")
       : "block";
 });
 
+function changeLanguage(lang) {
+
+  localStorage.setItem("language", lang);
+
+  applyLanguage(lang);
+}
+
+const savedLanguage =
+  localStorage.getItem("language") || "fr";
+
+applyLanguage(savedLanguage);
 
 </script>
 

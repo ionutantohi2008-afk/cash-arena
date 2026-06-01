@@ -898,8 +898,3 @@ if (newRank !== oldRank) {
     newRank
   );
 }
-
-
-
-const savedLanguage = localStorage.getItem("language") || "fr";
-applyLanguage(savedLanguage);
