@@ -572,6 +572,44 @@ function getRankBadge(rank) {
   }
 }
 
+function getDailyTournamentId() {
+
+  const now = new Date();
+
+  // Heure reset : 19h30
+  const resetHour = 19;
+  const resetMinute = 30;
+
+  // Si avant 19h30
+  // on utilise le tournoi d'hier
+  if (
+
+    now.getHours() < resetHour ||
+
+    (
+      now.getHours() === resetHour &&
+      now.getMinutes() < resetMinute
+    )
+
+  ) {
+
+    now.setDate(now.getDate() - 1);
+  }
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(now.getMonth() + 1)
+    .padStart(2, "0");
+
+  const day =
+    String(now.getDate())
+    .padStart(2, "0");
+
+  return `brawl-daily-${year}-${month}-${day}`;
+}
+
 async function joinDailyTournament() {
 
   const user = auth.currentUser;
