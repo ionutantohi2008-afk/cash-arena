@@ -511,45 +511,6 @@ async function autoGiveRewards() {
   }
 }
 
-async function calculatePlayerPoints(player) {
-  if (!player.brawlTag) return player.points || 0;
-
-  const res = await fetch(
-    `https://cash-arena-api.onrender.com/api/brawl/player/${encodeURIComponent(player.brawlTag)}/battlelog`
-  );
-
-  const data = await res.json();
-
-  if (!res.ok || data.error || !data.items) {
-    console.error("Erreur battlelog", data);
-    return player.points || 0;
-  }
-
-  const joinedAt = player.joinedAt?.toDate
-    ? player.joinedAt.toDate()
-    : tournamentStartDate;
-
-  let points = 0;
-
-  data.items.forEach(item => {
-    const battleTime = parseBrawlTime(item.battleTime);
-
-    if (battleTime < joinedAt) {
-      return;
-    }
-
-    const result = item.battle?.result;
-
-    if (result === "victory") {
-      points += 3;
-    } else if (result === "defeat") {
-      points += 1;
-    }
-  });
-
-  return points;
-}
-
 function parseBrawlTime(battleTime) {
   const year = battleTime.slice(0, 4);
   const month = battleTime.slice(4, 6);
@@ -609,44 +570,6 @@ function getRankBadge(rank) {
     default:
       return `<span class="rank-badge rank-bronze">🥉 Bronze</span>`;
   }
-}
-
-function getDailyTournamentId() {
-
-  const now = new Date();
-
-  // Heure reset : 19h30
-  const resetHour = 19;
-  const resetMinute = 30;
-
-  // Si avant 19h30
-  // on utilise le tournoi d'hier
-  if (
-
-    now.getHours() < resetHour ||
-
-    (
-      now.getHours() === resetHour &&
-      now.getMinutes() < resetMinute
-    )
-
-  ) {
-
-    now.setDate(now.getDate() - 1);
-  }
-
-  const year =
-    now.getFullYear();
-
-  const month =
-    String(now.getMonth() + 1)
-    .padStart(2, "0");
-
-  const day =
-    String(now.getDate())
-    .padStart(2, "0");
-
-  return `brawl-daily-${year}-${month}-${day}`;
 }
 
 async function joinDailyTournament() {
