@@ -1,11 +1,11 @@
 let isRegistered = false;
 let isDailyRegistered = false;
 
-const TOURNAMENT_ID = "brawl-5";
+const TOURNAMENT_ID = "cacs-1";
 const TOURNAMENT_HAS_REWARDS = true;
 
-const tournamentStartDate = new Date("2026-06-01T19:30:00");
-const tournamentDurationDays = 5;
+const tournamentStartDate = new Date("2026-09-07T21:00:00");
+const tournamentDurationDays = 30;
 
 const tournamentEndDate = new Date(
   tournamentStartDate.getTime() + tournamentDurationDays * 24 * 60 * 60 * 1000
