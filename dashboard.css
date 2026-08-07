@@ -1,0 +1,1318 @@
+/* =========================================================
+   CASH ARENA — DASHBOARD
+   STYLE BRAWL STARS / GAMING NEON
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+:root {
+    --bg: #030613;
+    --bg-2: #070a19;
+    --card: #090c1e;
+
+    --purple: #8b3dff;
+    --purple-light: #b86cff;
+    --purple-dark: #5516bd;
+
+    --green: #19ed68;
+    --green-light: #55ff91;
+    --green-dark: #079e45;
+
+    --blue: #28c8ff;
+
+    --gold: #ffc52e;
+    --silver: #dce4f5;
+    --bronze: #cd8741;
+
+    --white: #ffffff;
+    --text: #d8dced;
+    --muted: #858ca7;
+
+    --border: rgba(255, 255, 255, 0.08);
+
+    --purple-border:
+        rgba(139, 61, 255, 0.55);
+
+    --green-border:
+        rgba(25, 237, 104, 0.55);
+
+    --purple-glow:
+        0 0 45px rgba(139, 61, 255, 0.22);
+
+    --green-glow:
+        0 0 45px rgba(25, 237, 104, 0.18);
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    color: var(--white);
+
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 8% 10%,
+            rgba(110, 39, 210, 0.30),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 92% 12%,
+            rgba(0, 190, 90, 0.22),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(70, 40, 180, 0.13),
+            transparent 40%
+        ),
+
+        linear-gradient(
+            135deg,
+            #02040d,
+            #050819 55%,
+            #02050d
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   GRILLE DE FOND
+   ========================================================= */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.18;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.035) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+
+    z-index: -2;
+}
+
+
+/* =========================================================
+   PARTICULES / LUMIÈRES
+   ========================================================= */
+
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    top: -220px;
+    left: -180px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(126, 46, 255, 0.16),
+            transparent 70%
+        );
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+/* =========================================================
+   CONTENEURS PRINCIPAUX
+   ========================================================= */
+
+main,
+.dashboard,
+.container,
+.dashboard-container {
+    width: min(
+        1400px,
+        calc(100% - 70px)
+    );
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =========================================================
+   TITRES
+   ========================================================= */
+
+h1,
+h2,
+h3 {
+    color: white;
+    font-weight: 800;
+}
+
+h1 {
+    font-size: clamp(
+        42px,
+        5vw,
+        72px
+    );
+
+    line-height: 0.95;
+
+    text-align: center;
+
+    margin: 30px 0 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+h1 span {
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #9c55ff,
+            #25e76e
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+}
+
+h2 {
+    font-size: 32px;
+}
+
+p {
+    color: var(--text);
+}
+
+
+/* =========================================================
+   SOUS-TITRE
+   ========================================================= */
+
+.subtitle,
+.description,
+.page-subtitle {
+    text-align: center;
+
+    color: #aeb4ca;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+
+    margin-bottom: 35px;
+}
+
+
+/* =========================================================
+   INFORMATIONS COMPTE
+   EMAIL / SOLDE
+   ========================================================= */
+
+.user-info,
+.account-info,
+.top-info {
+    width: min(1100px, 100%);
+
+    margin: 30px auto 45px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 35px;
+}
+
+.user-info > div,
+.account-info > div,
+.top-info > div {
+    min-height: 90px;
+
+    padding: 22px 28px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(12, 16, 37, 0.95),
+            rgba(4, 7, 19, 0.95)
+        );
+
+    border: 1px solid
+        rgba(139, 61, 255, 0.30);
+
+    box-shadow:
+        inset 0 0 30px
+        rgba(139, 61, 255, 0.035),
+
+        0 15px 40px
+        rgba(0, 0, 0, 0.22);
+}
+
+.user-info > div:nth-child(2),
+.account-info > div:nth-child(2),
+.top-info > div:nth-child(2) {
+    border-color:
+        rgba(25, 237, 104, 0.30);
+}
+
+
+/* =========================================================
+   TOURNOIS
+   ========================================================= */
+
+.tournaments,
+.tournament-container,
+.tournaments-container,
+.cards-container {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 45px;
+
+    margin-top: 30px;
+}
+
+
+/* =========================================================
+   CARTE TOURNOI
+   ========================================================= */
+
+.tournament-card {
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 590px;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(10, 13, 32, 0.98),
+            rgba(3, 6, 17, 0.99)
+        );
+
+    border: 1px solid
+        var(--purple-border);
+
+    box-shadow:
+        var(--purple-glow),
+
+        inset 0 0 70px
+        rgba(139, 61, 255, 0.035);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.tournament-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 20px 70px
+        rgba(139, 61, 255, 0.28),
+
+        inset 0 0 70px
+        rgba(139, 61, 255, 0.05);
+}
+
+
+/* =========================================================
+   DAILY CARD
+   ========================================================= */
+
+.tournament-card.daily,
+.daily-card {
+    border-color:
+        var(--green-border);
+
+    box-shadow:
+        var(--green-glow),
+
+        inset 0 0 70px
+        rgba(25, 237, 104, 0.035);
+}
+
+.tournament-card.daily:hover,
+.daily-card:hover {
+    box-shadow:
+        0 20px 70px
+        rgba(25, 237, 104, 0.25),
+
+        inset 0 0 70px
+        rgba(25, 237, 104, 0.05);
+}
+
+
+/* =========================================================
+   IMAGES DES CARTES
+   ========================================================= */
+
+.tournament-card img {
+    display: block;
+
+    width: 100%;
+
+    height: 220px;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   OVERLAY IMAGE
+   ========================================================= */
+
+.tournament-card::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 230px;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 25%,
+            rgba(3, 6, 18, 0.96) 100%
+        );
+}
+
+
+/* =========================================================
+   CONTENU CARTE
+   ========================================================= */
+
+.tournament-card .content,
+.tournament-card-content,
+.tournament-content {
+    position: relative;
+
+    z-index: 2;
+
+    padding: 25px 30px 30px;
+}
+
+
+/* =========================================================
+   TITRE TOURNOI
+   ========================================================= */
+
+.tournament-card h2 {
+    margin-bottom: 8px;
+
+    font-size: 32px;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+.tournament-card.weekly h2,
+.weekly-card h2 {
+    color: var(--purple-light);
+
+    text-shadow:
+        0 0 20px
+        rgba(139, 61, 255, 0.35);
+}
+
+.tournament-card.daily h2,
+.daily-card h2 {
+    color: var(--green);
+
+    text-shadow:
+        0 0 20px
+        rgba(25, 237, 104, 0.30);
+}
+
+
+/* =========================================================
+   DESCRIPTION TOURNOI
+   ========================================================= */
+
+.tournament-card p {
+    color: #aeb5ca;
+
+    line-height: 1.6;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   INFOS TOURNOI
+   ========================================================= */
+
+.tournament-info {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 14px;
+
+    margin: 25px 0;
+}
+
+.tournament-info > div {
+    padding: 15px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+}
+
+.tournament-info small {
+    display: block;
+
+    color: #777e98;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    margin-bottom: 7px;
+}
+
+.tournament-info strong {
+    color: white;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   RECOMPENSES
+   ========================================================= */
+
+.rewards,
+.reward-box,
+.tournament-reward {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    margin: 20px 0;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(139, 61, 255, 0.10),
+            rgba(139, 61, 255, 0.025)
+        );
+
+    border:
+        1px solid
+        rgba(139, 61, 255, 0.20);
+}
+
+.daily .rewards,
+.daily-card .rewards,
+.daily .reward-box {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(25, 237, 104, 0.09),
+            rgba(25, 237, 104, 0.02)
+        );
+
+    border-color:
+        rgba(25, 237, 104, 0.20);
+}
+
+.rewards strong,
+.reward-box strong {
+    font-size: 20px;
+
+    color: white;
+}
+
+
+/* =========================================================
+   BOUTON REJOINDRE
+   ========================================================= */
+
+#joinBtn,
+.join-btn,
+.join-button,
+.tournament-card button {
+    width: 100%;
+
+    min-height: 58px;
+
+    margin-top: 15px;
+
+    padding: 16px 24px;
+
+    border: 0;
+
+    border-radius: 14px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7024ff,
+            #a64bff
+        );
+
+    font-size: 16px;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px
+        rgba(139, 61, 255, 0.30);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+#joinBtn:hover,
+.join-btn:hover,
+.join-button:hover,
+.tournament-card button:hover {
+    transform: translateY(-3px);
+
+    filter: brightness(1.1);
+
+    box-shadow:
+        0 15px 40px
+        rgba(139, 61, 255, 0.45);
+}
+
+
+/* DAILY BOUTON */
+
+.daily #joinBtn,
+.daily .join-btn,
+.daily .join-button {
+    color: #031109;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0fd052,
+            #37ef77
+        );
+
+    box-shadow:
+        0 10px 30px
+        rgba(25, 237, 104, 0.24);
+}
+
+.daily #joinBtn:hover,
+.daily .join-btn:hover {
+    box-shadow:
+        0 15px 40px
+        rgba(25, 237, 104, 0.38);
+}
+
+
+/* =========================================================
+   TIMER
+   ========================================================= */
+
+#timer,
+#endTimer,
+.timer {
+    color: #9ea5bc;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    margin: 15px 0;
+}
+
+#endTimer {
+    color: var(--green);
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   CLASSEMENT
+   ========================================================= */
+
+#classement {
+    display: none;
+
+    width: 100%;
+
+    margin-top: 55px;
+
+    padding: 32px;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 13, 32, 0.98),
+            rgba(3, 6, 17, 0.99)
+        );
+
+    border:
+        1px solid
+        rgba(139, 61, 255, 0.45);
+
+    box-shadow:
+        0 0 70px
+        rgba(139, 61, 255, 0.12);
+}
+
+
+/* =========================================================
+   TITRE CLASSEMENT
+   ========================================================= */
+
+#classement h2 {
+    margin-bottom: 25px;
+
+    font-size: clamp(
+        30px,
+        4vw,
+        46px
+    );
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    color: white;
+}
+
+#classement h2 span {
+    background:
+        linear-gradient(
+            90deg,
+            #a557ff,
+            #28c8ff,
+            #25eb72
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+}
+
+
+/* =========================================================
+   TABLEAUX
+   ========================================================= */
+
+#classement table {
+    width: 100%;
+
+    border-collapse: separate;
+
+    border-spacing: 0 10px;
+}
+
+
+/* HEADER */
+
+#classement thead th {
+    padding: 15px 18px;
+
+    color: #969db5;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+/* LIGNES */
+
+#classement tbody tr {
+    background:
+        rgba(11, 15, 35, 0.95);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+#classement tbody tr:hover {
+    transform: translateX(4px);
+
+    background:
+        rgba(26, 31, 59, 0.98);
+}
+
+#classement tbody td {
+    padding: 20px 18px;
+
+    border-top:
+        1px solid
+        rgba(139, 61, 255, 0.10);
+
+    border-bottom:
+        1px solid
+        rgba(139, 61, 255, 0.10);
+}
+
+#classement tbody td:first-child {
+    border-left:
+        1px solid
+        rgba(139, 61, 255, 0.10);
+
+    border-radius:
+        14px 0 0 14px;
+}
+
+#classement tbody td:last-child {
+    border-right:
+        1px solid
+        rgba(139, 61, 255, 0.10);
+
+    border-radius:
+        0 14px 14px 0;
+}
+
+
+/* =========================================================
+   DAILY TABLE
+   ========================================================= */
+
+#dailyTable tr:first-child {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 186, 25, 0.18),
+            rgba(75, 48, 0, 0.12)
+        );
+
+    box-shadow:
+        0 0 30px
+        rgba(255, 190, 30, 0.10);
+}
+
+#dailyTable tr:first-child td {
+    border-color:
+        rgba(255, 194, 40, 0.45);
+}
+
+#dailyTable tr:first-child td:last-child {
+    color: var(--gold);
+
+    font-size: 24px;
+
+    font-weight: 900;
+}
+
+
+/* TOP 2 */
+
+#dailyTable tr:nth-child(2) td:last-child {
+    color: #aeb8d0;
+
+    font-size: 21px;
+
+    font-weight: 900;
+}
+
+
+/* TOP 3 */
+
+#dailyTable tr:nth-child(3) td:last-child {
+    color: #d58b48;
+
+    font-size: 20px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   BRAWL TABLE
+   ========================================================= */
+
+#brawlTable tr {
+    background:
+        rgba(11, 15, 35, 0.95);
+}
+
+#brawlTable td {
+    padding: 18px;
+}
+
+#brawlTable tr:hover {
+    background:
+        rgba(139, 61, 255, 0.09);
+}
+
+
+/* =========================================================
+   RANK UP
+   ========================================================= */
+
+.rankup-title {
+    margin-top: 35px;
+
+    color: #b76aff;
+
+    font-size: 18px;
+
+    font-weight: 900;
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 20px
+        rgba(139, 61, 255, 0.55);
+
+    animation:
+        rankupGlow 2s ease-in-out infinite;
+}
+
+
+.rankup-text {
+    margin-top: 8px;
+
+    color: white;
+
+    font-size: 28px;
+
+    font-weight: 900;
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a758ff,
+            #ffffff,
+            #27e96d
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+}
+
+
+@keyframes rankupGlow {
+
+    0%,
+    100% {
+        opacity: 0.75;
+
+        text-shadow:
+            0 0 10px
+            rgba(139, 61, 255, 0.30);
+    }
+
+    50% {
+        opacity: 1;
+
+        text-shadow:
+            0 0 30px
+            rgba(139, 61, 255, 0.75);
+    }
+
+}
+
+
+/* =========================================================
+   BADGES DE RANG
+   ========================================================= */
+
+.rank,
+.league-rank,
+.player-rank {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-weight: 800;
+}
+
+
+/* Bronze */
+
+.rank.bronze,
+.bronze {
+    color: #cd8741;
+}
+
+
+/* Silver */
+
+.rank.silver,
+.silver {
+    color: #dbe3f2;
+}
+
+
+/* Gold */
+
+.rank.gold,
+.gold {
+    color: #ffc52e;
+}
+
+
+/* Platinum */
+
+.rank.platinum,
+.platinum {
+    color: #50e5e8;
+}
+
+
+/* Diamond */
+
+.rank.diamond,
+.diamond {
+    color: #63b9ff;
+}
+
+
+/* Champion */
+
+.rank.champion,
+.champion {
+    color: #b867ff;
+}
+
+
+/* Legend */
+
+.rank.legend,
+.legend {
+    color: #ff4747;
+
+    text-shadow:
+        0 0 12px
+        rgba(255, 55, 55, 0.45);
+}
+
+
+/* =========================================================
+   POINTS
+   ========================================================= */
+
+.points,
+.player-points {
+    font-weight: 900;
+
+    color: #a65cff;
+
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   PREMIER JOUEUR
+   ========================================================= */
+
+#dailyTable tr:first-child .points,
+#dailyTable tr:first-child .player-points {
+    color: var(--gold);
+}
+
+
+/* =========================================================
+   BLOCS D'INFORMATIONS DU BAS
+   ========================================================= */
+
+.dashboard-info,
+.features,
+.info-row {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    margin-top: 35px;
+}
+
+.dashboard-info > div,
+.features > div,
+.info-row > div {
+    padding: 25px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(7, 10, 25, 0.88);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+}
+
+.dashboard-info h3,
+.features h3,
+.info-row h3 {
+    margin-bottom: 8px;
+
+    font-size: 16px;
+}
+
+.dashboard-info p,
+.features p,
+.info-row p {
+    color: var(--muted);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #03050d;
+}
+
+::-webkit-scrollbar-thumb {
+    background:
+        linear-gradient(
+            #7b2dff,
+            #19df68
+        );
+
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   RESPONSIVE TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+    main,
+    .dashboard,
+    .container,
+    .dashboard-container {
+        width:
+            calc(100% - 40px);
+    }
+
+    .tournaments,
+    .tournament-container,
+    .tournaments-container,
+    .cards-container {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+    }
+
+    .dashboard-info,
+    .features,
+    .info-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    main,
+    .dashboard,
+    .container,
+    .dashboard-container {
+        width:
+            calc(100% - 24px);
+    }
+
+    .user-info,
+    .account-info,
+    .top-info {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+
+        margin-bottom: 30px;
+    }
+
+    .tournament-card {
+        min-height: auto;
+
+        border-radius: 19px;
+    }
+
+    .tournament-card img {
+        height: 180px;
+    }
+
+    .tournament-card .content,
+    .tournament-card-content,
+    .tournament-content {
+        padding: 20px;
+    }
+
+    .tournament-card h2 {
+        font-size: 27px;
+    }
+
+    .tournament-info {
+        grid-template-columns: 1fr;
+    }
+
+    #classement {
+        padding: 18px;
+
+        overflow-x: auto;
+    }
+
+    #classement table {
+        min-width: 650px;
+    }
+
+    h1 {
+        font-size: 42px;
+    }
+}
+
+
+/* =========================================================
+   PETIT MOBILE
+   ========================================================= */
+
+@media (max-width: 450px) {
+
+    .tournament-card img {
+        height: 155px;
+    }
+
+    .tournament-card h2 {
+        font-size: 24px;
+    }
+
+    #joinBtn,
+    .join-btn,
+    .join-button,
+    .tournament-card button {
+        min-height: 52px;
+
+        font-size: 14px;
+    }
+
+    .rankup-text {
+        font-size: 22px;
+    }
+}
