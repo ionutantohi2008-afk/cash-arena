@@ -1,242 +1,289 @@
-console.log("League chargée");
-
-const RANKS = [
-  {
-    name: "Bronze",
-    icon: "🥉",
-    min: 0,
-    max: 100
-  },
-  {
-    name: "Silver",
-    icon: "🥈",
-    min: 100,
-    max: 250
-  },
-  {
-    name: "Gold",
-    icon: "🥇",
-    min: 250,
-    max: 500
-  },
-  {
-    name: "Platinum",
-    icon: "💎",
-    min: 500,
-    max: 1000
-  },
-  {
-    name: "Diamond",
-    icon: "🔷",
-    min: 1000,
-    max: 2000
-  },
-  {
-    name: "Champion",
-    icon: "👑",
-    min: 2000,
-    max: 3500
-  },
-  {
-    name: "Legend",
-    icon: "🔥",
-    min: 3500,
-    max: 999999999
-  }
-];
+console.log("League chargé");
 
 let currentUser = null;
-let currentData = null;
 
-auth.onAuthStateChanged(async(user)=>{
+const RANKS = [
 
-    if(!user){
+{
+name:"Bronze",
+icon:"🥉",
+min:0,
+max:100
+},
 
-        window.location="index.html";
-        return;
+{
+name:"Silver",
+icon:"🥈",
+min:100,
+max:250
+},
 
-    }
+{
+name:"Gold",
+icon:"🥇",
+min:250,
+max:500
+},
 
-    currentUser=user;
+{
+name:"Platinum",
+icon:"💎",
+min:500,
+max:1000
+},
 
-    const doc=await db.collection("users")
-    .doc(user.uid)
-    .get();
+{
+name:"Diamond",
+icon:"🔷",
+min:1000,
+max:2000
+},
 
-    currentData=doc.data()||{};
+{
+name:"Champion",
+icon:"👑",
+min:2000,
+max:3500
+},
 
-    loadLeague();
+{
+name:"Legend",
+icon:"🔥",
+min:3500,
+max:null
+}
+
+];
+
+auth.onAuthStateChanged(async user=>{
+
+if(!user){
+
+window.location="index.html";
+return;
+
+}
+
+currentUser=user;
+
+const doc=await db
+.collection("users")
+.doc(user.uid)
+.get();
+
+const data=doc.data()||{};
+
+const lp=data.leaguePoints||0;
+
+const rank=getRankFromLP(lp);
+
+document.getElementById("playerRank").innerText=
+rank.icon+" "+rank.name;
+
+document.getElementById("rankIcon").innerText=
+rank.icon;
+
+document.getElementById("playerLP").innerText=
+lp+" LP";
+
+updateProgress(lp);
+
+highlightRoad(rank.name);
+
+if(rank.name==="Legend"){
+
+document.getElementById("legendCard").style.display="block";
+
+loadLegend();
+
+}
+else{
+
+document.getElementById("legendCard").style.display="none";
+
+}
 
 });
 
-function getCurrentRank(lp){
+function getRankFromLP(lp){
 
-    for(const rank of RANKS){
+for(const rank of RANKS){
 
-        if(lp>=rank.min && lp<rank.max){
+if(rank.max===null){
 
-            return rank;
-
-        }
-
-    }
-
-    return RANKS[RANKS.length-1];
+return rank;
 
 }
 
-function getNextRank(lp){
+if(lp>=rank.min && lp<rank.max){
 
-    for(const rank of RANKS){
-
-        if(lp<rank.max){
-
-            return rank;
-
-        }
-
-    }
-
-    return null;
+return rank;
 
 }
 
-async function loadLeague(){
+}
 
-    const lp=currentData.leaguePoints||0;
-
-    const rank=getCurrentRank(lp);
-
-    document.getElementById("playerRank").innerHTML=
-    rank.icon+" "+rank.name;
-
-    document.getElementById("playerLP").innerHTML=
-    lp+" LP";
-
-    document.getElementById("rankIcon").innerHTML=
-    rank.icon;
-
-    updateProgress(lp);
-
-    if(rank.name==="Legend"){
-
-        document.getElementById("legendContainer").style.display="block";
-
-        loadLegendLeaderboard();
-
-    }
-
-    else{
-
-        document.getElementById("legendContainer").style.display="none";
-
-    }
+return RANKS[0];
 
 }
 
 function updateProgress(lp){
 
-    const rank=getCurrentRank(lp);
+const rank=getRankFromLP(lp);
 
-    const progress=document.getElementById("progressBar");
+const fill=
+document.getElementById("progressFill");
 
-    const nextText=document.getElementById("nextRank");
+const text=
+document.getElementById("progressText");
 
-    if(rank.name==="Legend"){
+const nextText=
+document.getElementById("nextRank");
 
-        progress.style.width="100%";
+if(rank.max===null){
 
-        nextText.innerHTML=
-        "🏆 Tu as atteint le rang maximal.";
+fill.style.width="100%";
 
+text.innerText=
+lp+" LP";
+
+nextText.innerHTML=
+"🔥 Tu as atteint le rang maximum !";
+
+return;
+
+}
+
+const current=
+lp-rank.min;
+
+const total=
+rank.max-rank.min;
+
+const percent=
+(current/total)*100;
+
+fill.style.width=
+percent+"%";
+
+text.innerHTML=
+lp+" / "+rank.max+" LP";
+
+const nextRank=
+RANKS[
+RANKS.indexOf(rank)+1
+];
+
+nextText.innerHTML=
+"Encore <b>"+(rank.max-lp)+" LP</b> avant <b>"+nextRank.name+"</b>";
+
+}
+
+function highlightRoad(rankName){
+
+document
+.querySelectorAll(".road-rank")
+.forEach(rank=>{
+
+rank.classList.remove("active");
+
+});
+
+const id=
+"road"+rankName;
+
+const card=
+document.getElementById(id);
+
+if(card){
+
+card.classList.add("active");
+
+}
+
+}
+
+// ======================================
+// RANK UP
+// ======================================
+
+let previousRank = null;
+
+async function checkRankUp() {
+
+    if (!currentUser) return;
+
+    const doc = await db
+        .collection("users")
+        .doc(currentUser.uid)
+        .get();
+
+    const data = doc.data() || {};
+
+    const lp = data.leaguePoints || 0;
+
+    const rank = getRankFromLP(lp);
+
+    if (previousRank === null) {
+        previousRank = rank.name;
         return;
-
     }
 
-    const currentMin=rank.min;
+    if (previousRank !== rank.name) {
 
-    const currentMax=rank.max;
+        showRankUp(rank);
 
-    const percent=((lp-currentMin)/(currentMax-currentMin))*100;
-
-    progress.style.width=percent+"%";
-
-    const remaining=currentMax-lp;
-
-    const nextRank=RANKS.find(r=>r.min===currentMax);
-
-    nextText.innerHTML=
-    `Encore <b>${remaining} LP</b> avant <b>${nextRank.icon} ${nextRank.name}</b>`;
-
-}
-
-async function checkRankUp(){
-
-    const userRef=db.collection("users")
-    .doc(currentUser.uid);
-
-    const doc=await userRef.get();
-
-    const data=doc.data()||{};
-
-    const lp=data.leaguePoints||0;
-
-    const oldRank=data.leagueRank||"Bronze";
-
-    const newRank=getCurrentRank(lp).name;
-
-    if(oldRank!==newRank){
-
-        await userRef.update({
-
-            leagueRank:newRank
-
-        });
-
-        showRankUp(oldRank,newRank);
+        previousRank = rank.name;
 
     }
 
 }
 
-function showRankUp(oldRank,newRank){
+function showRankUp(rank) {
 
-    const popup=document.getElementById("rankUpPopup");
+    const popup =
+        document.getElementById("rankUpPopup");
 
-    const text=document.getElementById("rankUpText");
+    const icon =
+        document.getElementById("rankUpIcon");
 
-    if(!popup || !text) return;
+    const text =
+        document.getElementById("rankUpText");
 
-    text.innerHTML=
-    `${oldRank}<br>⬇<br>${newRank}`;
+    icon.innerText =
+        rank.icon;
+
+    text.innerText =
+        rank.name;
 
     popup.classList.add("show");
 
-}
+    setTimeout(() => {
 
-function closeRankUp(){
+        popup.classList.remove("show");
 
-    document
-    .getElementById("rankUpPopup")
-    .classList
-    .remove("show");
+    }, 5000);
 
 }
 
-setInterval(checkRankUp,5000);
+// Vérifie toutes les 3 secondes
+setInterval(checkRankUp,3000);
 
-async function loadLegendLeaderboard() {
+// ======================================
+// LEADERBOARD LEGEND
+// ======================================
 
-    const table = document.getElementById("leagueTable");
+async function loadLegend() {
+
+    const table =
+        document.getElementById("legendTable");
 
     if (!table) return;
 
-    table.innerHTML =
-        "<tr><td colspan='3'>Chargement...</td></tr>";
-
-    const snapshot = await db
+    const snapshot =
+        await db
         .collection("users")
-        .where("leagueRank", "==", "Legend")
+        .where("leagueRank","==","Legend")
         .get();
 
     let players = [];
@@ -244,55 +291,75 @@ async function loadLegendLeaderboard() {
     snapshot.forEach(doc => {
 
         players.push({
+
             id: doc.id,
+
             ...doc.data()
+
         });
 
     });
 
-    players.sort((a, b) =>
+    players.sort((a,b)=>
+
         (b.leaguePoints || 0) -
+
         (a.leaguePoints || 0)
+
     );
 
     table.innerHTML = "";
 
-    if (players.length === 0) {
+    if(players.length===0){
 
-        table.innerHTML =
-            "<tr><td colspan='3'>Aucun joueur Legend.</td></tr>";
-
-        return;
-    }
-
-    players.forEach((player, index) => {
-
-        let medal = "";
-
-        if (index === 0) medal = "🥇";
-        else if (index === 1) medal = "🥈";
-        else if (index === 2) medal = "🥉";
-        else medal = "#" + (index + 1);
-
-        table.innerHTML += `
+        table.innerHTML=`
 
         <tr>
 
-            <td>${medal}</td>
+            <td colspan="3">
 
-            <td>
-
-                🔥 ${player.pseudo || player.email}
-
-                ${
-                    player.isContentCreator
-                    ? "<span class='creator-badge'>Content Creator</span>"
-                    : ""
-                }
+                Aucun joueur Legend.
 
             </td>
 
-            <td>${player.leaguePoints || 0} LP</td>
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+    players.forEach((player,index)=>{
+
+        let medal="";
+
+        if(index===0) medal="🥇";
+        else if(index===1) medal="🥈";
+        else if(index===2) medal="🥉";
+        else medal="#"+(index+1);
+
+        table.innerHTML+=`
+
+        <tr>
+
+            <td>
+
+                ${medal}
+
+            </td>
+
+            <td>
+
+                ${player.pseudo || player.email}
+
+            </td>
+
+            <td>
+
+                ⭐ ${player.leaguePoints || 0}
+
+            </td>
 
         </tr>
 
@@ -302,67 +369,103 @@ async function loadLegendLeaderboard() {
 
 }
 
-function getNextSunday2130() {
+// Actualise automatiquement toutes les 10 secondes
+setInterval(()=>{
 
-    const now = new Date();
+    const legendCard=document.getElementById("legendCard");
 
-    const next = new Date(now);
+    if(
+        legendCard &&
+        legendCard.style.display!=="none"
+    ){
 
-    next.setDate(
-        now.getDate() + ((7 - now.getDay()) % 7)
-    );
+        loadLegend();
 
-    next.setHours(21);
-    next.setMinutes(30);
-    next.setSeconds(0);
-    next.setMilliseconds(0);
-
-    if (next <= now) {
-        next.setDate(next.getDate() + 7);
     }
 
-    return next;
+},10000);
+
+// ======================================
+// RAFRAICHISSEMENT AUTOMATIQUE
+// ======================================
+
+async function refreshLeague(){
+
+    if(!currentUser) return;
+
+    const doc = await db
+        .collection("users")
+        .doc(currentUser.uid)
+        .get();
+
+    const data = doc.data() || {};
+
+    const lp = data.leaguePoints || 0;
+
+    const rank = getRankFromLP(lp);
+
+    document.getElementById("playerRank").innerHTML =
+        rank.icon + " " + rank.name;
+
+    document.getElementById("rankIcon").innerHTML =
+        rank.icon;
+
+    document.getElementById("playerLP").innerHTML =
+        lp + " LP";
+
+    updateProgress(lp);
+
+    highlightRoad(rank.name);
+
+    if(rank.name==="Legend"){
+
+        document.getElementById("legendCard").style.display="block";
+
+        loadLegend();
+
+    }else{
+
+        document.getElementById("legendCard").style.display="none";
+
+    }
 
 }
 
-let promotionDate = getNextSunday2130();
+// Mise à jour toutes les 5 secondes
+setInterval(refreshLeague,5000);
 
-function updateLeagueTimer() {
+// ======================================
+// ANIMATION BARRE DE PROGRESSION
+// ======================================
 
-    const timer =
-        document.getElementById("leaguePromotionTimer");
+function animateProgress(percent){
 
-    if (!timer) return;
+    const fill =
+        document.getElementById("progressFill");
 
-    const now = new Date();
+    if(!fill) return;
 
-    if (promotionDate <= now) {
-        promotionDate = getNextSunday2130();
-    }
+    fill.style.width="0%";
 
-    const diff = promotionDate - now;
+    setTimeout(()=>{
 
-    const days = Math.floor(diff / 86400000);
+        fill.style.width =
+            percent+"%";
 
-    const hours = Math.floor(
-        (diff % 86400000) / 3600000
-    );
-
-    const minutes = Math.floor(
-        (diff % 3600000) / 60000
-    );
-
-    const seconds = Math.floor(
-        (diff % 60000) / 1000
-    );
-
-    timer.innerHTML =
-        `🏆 Nouvelle saison dans ${days}j ${hours}h ${minutes}m ${seconds}s`;
+    },150);
 
 }
 
-setInterval(updateLeagueTimer, 1000);
+// ======================================
+// CHARGEMENT INITIAL
+// ======================================
 
-updateLeagueTimer();
+window.onload=()=>{
 
-console.log("✅ League chargée");
+    refreshLeague();
+
+};
+
+// ======================================
+// FIN DU FICHIER
+// ======================================

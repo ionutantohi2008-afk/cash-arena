@@ -9,6 +9,7 @@
 <title>Cash Arena • League</title>
 
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="league.css">
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -29,96 +30,225 @@
 </a>
 
 <div class="nav-links">
-
 <a href="index.html">Accueil</a>
-
 <a href="dashboard.html">Tournois</a>
-
-<a href="league.html" class="active">
-League
-</a>
-
+<a href="league.html" class="active">League</a>
 </div>
 
 <div id="authSection"></div>
 
 </nav>
 
-<div class="league-container">
+
+<div class="league-page">
 
 <div class="league-card">
 
-<div id="rankIcon" class="rank-icon">
-
+<div class="rank-icon" id="rankIcon">
 🥉
-
 </div>
 
 <h1 id="playerRank">
-
 Bronze
-
 </h1>
 
-<div id="playerLP" class="lp-text">
-
+<p id="playerLP">
 0 LP
+</p>
 
-</div>
+<div class="progress-box">
 
-<div class="progress-container">
+<div class="progress-bar">
 
 <div
-id="progressBar"
-class="progress-bar">
-
+class="progress-fill"
+id="progressFill">
 </div>
 
 </div>
 
-<div id="nextRank" class="next-rank">
+<p id="progressText">
 
-100 LP avant Silver
+0 / 100 LP
 
-</div>
-
-<div id="leaguePromotionTimer">
-
-Chargement...
+</p>
 
 </div>
 
+<p id="nextRank">
+
+Encore 100 LP avant Silver
+
+</p>
+
 </div>
+
 
 <div class="reward-card">
 
 <h2>
 
-Récompenses du rang
+🎁 Récompenses du rang
 
 </h2>
 
 <ul>
 
-<li>🎖 Badge exclusif</li>
+<li>🏅 Badge exclusif</li>
 
-<li>💰 Plus de LP gagnés</li>
+<li>⭐ Plus de LP gagnés</li>
 
-<li>🏆 Accès aux tournois avancés</li>
+<li>🔥 Rang affiché sur ton profil</li>
 
-<li>🔥 Rang affiché partout</li>
+<li>🏆 Prestige Cash Arena</li>
 
 </ul>
 
 </div>
 
+
+<div class="how-card">
+
+<h2>
+
+⚡ Comment gagner des LP ?
+
+</h2>
+
+<div class="gain-list">
+
+<div class="gain-item">
+
+🏆 Victoire Weekly Cup
+
+<span>
+
++3 LP
+
+</span>
+
+</div>
+
+<div class="gain-item">
+
+⚡ Victoire Daily Cup
+
+<span>
+
++3 LP
+
+</span>
+
+</div>
+
+<div class="gain-item">
+
+🥇 Top Weekly
+
+<span>
+
+Bonus LP
+
+</span>
+
+</div>
+
+<div class="gain-item">
+
+🥇 Top Daily
+
+<span>
+
+Bonus LP
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="rank-road">
+
+<h2>
+
+Progression des rangs
+
+</h2>
+
+<div class="road">
+
+<div class="road-rank" id="roadBronze">
+
+🥉
+
+<span>Bronze</span>
+
+</div>
+
+<div class="road-rank" id="roadSilver">
+
+🥈
+
+<span>Silver</span>
+
+</div>
+
+<div class="road-rank" id="roadGold">
+
+🥇
+
+<span>Gold</span>
+
+</div>
+
+<div class="road-rank" id="roadPlatinum">
+
+💎
+
+<span>Platinum</span>
+
+</div>
+
+<div class="road-rank" id="roadDiamond">
+
+🔷
+
+<span>Diamond</span>
+
+</div>
+
+<div class="road-rank" id="roadChampion">
+
+👑
+
+<span>Champion</span>
+
+</div>
+
+<div class="road-rank" id="roadLegend">
+
+🔥
+
+<span>Legend</span>
+
+</div>
+
+</div>
+
+</div>
+
+
 <div
-id="legendContainer"
+class="legend-card"
+id="legendCard"
 style="display:none;">
 
 <h2>
 
-🔥 Legend Leaderboard
+🔥 TOP LEGEND
 
 </h2>
 
@@ -146,58 +276,43 @@ style="display:none;">
 
 </div>
 
-</div>
 
 <div
 id="rankUpPopup"
 class="rankup-popup">
 
-<div class="rankup-card">
+<div class="rankup-content">
 
-<h1>
+<h2>
 
 🎉 RANK UP !
 
-</h1>
+</h2>
 
 <div
 id="rankUpIcon"
-class="rankup-icon">
+class="popup-icon">
 
 🥇
 
 </div>
 
-<h2 id="rankUpText">
+<h1 id="rankUpText">
 
 Gold
 
-</h2>
-
-<p>
-
-Félicitations !
-
-</p>
-
-<button
-onclick="closeRankUp()">
-
-Continuer
-
-</button>
+</h1>
 
 </div>
 
 </div>
+
+</div>
+
 
 <script src="firebase.js"></script>
-
 <script src="app.js"></script>
-
 <script src="league.js"></script>
-
-<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 
 </body>
 
