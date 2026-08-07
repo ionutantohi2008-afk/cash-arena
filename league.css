@@ -1,0 +1,483 @@
+/* ===========================
+      CASH ARENA LEAGUE
+=========================== */
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#090b14;
+    color:white;
+}
+
+.league-container{
+
+    max-width:1100px;
+    margin:120px auto 50px;
+
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+
+    padding:20px;
+}
+
+/* CARD */
+
+.league-card{
+
+    background:#14192d;
+
+    border:2px solid #4b5cff;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    padding:40px;
+
+    box-shadow:0 0 35px rgba(90,110,255,.35);
+
+}
+
+/* RANK ICON */
+
+.rank-icon{
+
+    width:140px;
+    height:140px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:#20284d;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:75px;
+
+    border:4px solid #5b6fff;
+
+    animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+box-shadow:0 0 20px #5b6fff;
+
+}
+
+50%{
+
+transform:scale(1.05);
+
+box-shadow:0 0 45px #6d80ff;
+
+}
+
+100%{
+
+transform:scale(1);
+
+box-shadow:0 0 20px #5b6fff;
+
+}
+
+}
+
+#playerRank{
+
+font-size:40px;
+
+margin-top:25px;
+
+}
+
+.lp-text{
+
+font-size:28px;
+
+font-weight:bold;
+
+margin-top:10px;
+
+color:#ffc857;
+
+}
+
+/* BARRE */
+
+.progress-container{
+
+margin-top:30px;
+
+width:100%;
+
+height:22px;
+
+background:#222;
+
+border-radius:50px;
+
+overflow:hidden;
+
+}
+
+.progress-bar{
+
+height:100%;
+
+width:0%;
+
+border-radius:50px;
+
+background:linear-gradient(90deg,#4f6cff,#6c8cff,#7fa7ff);
+
+transition:1s;
+
+}
+
+/* NEXT */
+
+.next-rank{
+
+margin-top:20px;
+
+font-size:22px;
+
+color:#bfc9ff;
+
+}
+
+/* TIMER */
+
+#leaguePromotionTimer{
+
+margin-top:20px;
+
+font-size:18px;
+
+opacity:.8;
+
+}
+
+/* REWARDS */
+
+.reward-card{
+
+background:#14192d;
+
+border-radius:20px;
+
+padding:30px;
+
+border:2px solid #3949ff;
+
+}
+
+.reward-card h2{
+
+margin-top:0;
+
+font-size:30px;
+
+}
+
+.reward-card ul{
+
+padding-left:25px;
+
+}
+
+.reward-card li{
+
+margin:18px 0;
+
+font-size:20px;
+
+}
+
+/* LEGEND */
+
+#legendContainer{
+
+background:#14192d;
+
+border-radius:20px;
+
+padding:30px;
+
+border:2px solid gold;
+
+}
+
+#legendContainer h2{
+
+text-align:center;
+
+margin-bottom:25px;
+
+color:gold;
+
+font-size:35px;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+th{
+
+background:#273469;
+
+padding:18px;
+
+font-size:20px;
+
+}
+
+td{
+
+padding:16px;
+
+text-align:center;
+
+border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+/* RANK UP */
+
+.rankup-popup{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.82);
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:99999;
+
+backdrop-filter:blur(6px);
+
+}
+
+.rankup-popup.show{
+
+display:flex;
+
+animation:fade .4s;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+}
+
+to{
+
+opacity:1;
+
+}
+
+}
+
+.rankup-card{
+
+width:420px;
+
+background:#161d39;
+
+border:3px solid gold;
+
+border-radius:25px;
+
+padding:40px;
+
+text-align:center;
+
+animation:popup .6s;
+
+box-shadow:0 0 60px gold;
+
+}
+
+@keyframes popup{
+
+0%{
+
+transform:scale(.5);
+
+opacity:0;
+
+}
+
+100%{
+
+transform:scale(1);
+
+opacity:1;
+
+}
+
+}
+
+.rankup-icon{
+
+font-size:95px;
+
+margin:20px 0;
+
+animation:rotate 2s infinite;
+
+}
+
+@keyframes rotate{
+
+0%{
+
+transform:rotate(-8deg);
+
+}
+
+50%{
+
+transform:rotate(8deg);
+
+}
+
+100%{
+
+transform:rotate(-8deg);
+
+}
+
+}
+
+.rankup-card h1{
+
+font-size:42px;
+
+margin-bottom:10px;
+
+color:gold;
+
+}
+
+.rankup-card h2{
+
+font-size:36px;
+
+}
+
+.rankup-card button{
+
+margin-top:30px;
+
+padding:15px 35px;
+
+border:none;
+
+border-radius:12px;
+
+background:#586dff;
+
+color:white;
+
+font-size:20px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.rankup-card button:hover{
+
+transform:scale(1.05);
+
+background:#7184ff;
+
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+.league-card{
+
+padding:25px;
+
+}
+
+.rank-icon{
+
+width:100px;
+
+height:100px;
+
+font-size:55px;
+
+}
+
+#playerRank{
+
+font-size:30px;
+
+}
+
+.lp-text{
+
+font-size:22px;
+
+}
+
+.reward-card h2{
+
+font-size:24px;
+
+}
+
+.reward-card li{
+
+font-size:18px;
+
+}
+
+.rankup-card{
+
+width:90%;
+
+}
+
+}

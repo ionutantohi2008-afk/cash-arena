@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>League</title>
 
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<title>Cash Arena • League</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 </head>
 
@@ -20,56 +23,182 @@
 <div class="gaming-glow"></div>
 
 <nav class="navbar">
-  <a href="index.html" class="logo">⚡ Cash Arena</a>
 
-  <div class="nav-links">
-    <a href="index.html">Accueil</a>
-    <a href="dashboard.html">Tournois</a>
-    <a href="league.html" class="active">League</a>
-  </div>
+<a href="index.html" class="logo">
+⚡ Cash Arena
+</a>
 
-  <div id="authSection"></div>
+<div class="nav-links">
+
+<a href="index.html">Accueil</a>
+
+<a href="dashboard.html">Tournois</a>
+
+<a href="league.html" class="active">
+League
+</a>
+
+</div>
+
+<div id="authSection"></div>
+
 </nav>
-
-<script src="app.js"></script>
 
 <div class="league-container">
 
-  <div class="league-rank-card">
-    <h1 id="playerRank">🏆 Rank : Bronze</h1>
+<div class="league-card">
 
-    <p id="playerLP">⭐ 0 LP</p>
+<div id="rankIcon" class="rank-icon">
 
-    <p id="leaguePromotionTimer">
-  Chargement timer league...
+🥉
+
+</div>
+
+<h1 id="playerRank">
+
+Bronze
+
+</h1>
+
+<div id="playerLP" class="lp-text">
+
+0 LP
+
+</div>
+
+<div class="progress-container">
+
+<div
+id="progressBar"
+class="progress-bar">
+
+</div>
+
+</div>
+
+<div id="nextRank" class="next-rank">
+
+100 LP avant Silver
+
+</div>
+
+<div id="leaguePromotionTimer">
+
+Chargement...
+
+</div>
+
+</div>
+
+<div class="reward-card">
+
+<h2>
+
+Récompenses du rang
+
+</h2>
+
+<ul>
+
+<li>🎖 Badge exclusif</li>
+
+<li>💰 Plus de LP gagnés</li>
+
+<li>🏆 Accès aux tournois avancés</li>
+
+<li>🔥 Rang affiché partout</li>
+
+</ul>
+
+</div>
+
+<div
+id="legendContainer"
+style="display:none;">
+
+<h2>
+
+🔥 Legend Leaderboard
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Joueur</th>
+
+<th>LP</th>
+
+</tr>
+
+</thead>
+
+<tbody id="legendTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div
+id="rankUpPopup"
+class="rankup-popup">
+
+<div class="rankup-card">
+
+<h1>
+
+🎉 RANK UP !
+
+</h1>
+
+<div
+id="rankUpIcon"
+class="rankup-icon">
+
+🥇
+
+</div>
+
+<h2 id="rankUpText">
+
+Gold
+
+</h2>
+
+<p>
+
+Félicitations !
+
 </p>
-  </div>
 
-  <div class="league-table-card">
-    <h2>GLOBAL LEAGUE</h2>
+<button
+onclick="closeRankUp()">
 
-    <table>
-      <thead>
-        <tr>
-          <th>Promotion</th>
-          <th>Joueur</th>
-          <th>LP</th>
-        </tr>
-      </thead>
+Continuer
 
-      <tbody id="leagueTable"></tbody>
-    </table>
-  </div>
+</button>
+
+</div>
 
 </div>
 
 <script src="firebase.js"></script>
-<script src="league.js" defer></script>
+
+<script src="app.js"></script>
+
+<script src="league.js"></script>
 
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 
 </body>
-
-<script src="app.js"></script>
 
 </html>
