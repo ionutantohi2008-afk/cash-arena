@@ -774,3 +774,176 @@ body{
     }
 
 }
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.navbar {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+    width: 100%;
+
+    min-height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 45px;
+
+    background:
+        rgba(4,7,18,0.88);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    box-shadow:
+        0 8px 30px
+        rgba(0,0,0,0.25);
+}
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.nav-left {
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.logo {
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 22px;
+
+    font-weight: 1000;
+
+    letter-spacing: 1px;
+
+    transition:
+        color .2s ease,
+        text-shadow .2s ease;
+}
+
+
+.logo:hover {
+
+    color:
+        var(--purple-light);
+
+    text-shadow:
+        0 0 20px
+        rgba(139,61,255,0.65);
+}
+
+
+/* =========================================================
+   NAV LINKS
+   ========================================================= */
+
+.nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+}
+
+
+.nav-links a {
+
+    position: relative;
+
+    color:
+        #9ba4b9;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.8px;
+
+    transition:
+        color .2s ease;
+}
+
+
+.nav-links a:hover {
+
+    color: white;
+}
+
+
+.nav-links a.active {
+
+    color: white;
+}
+
+
+/* ligne sous le lien actif */
+
+.nav-links a.active::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: -10px;
+
+    height: 2px;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--purple),
+            var(--purple-light)
+        );
+
+    box-shadow:
+        0 0 12px
+        rgba(139,61,255,0.8);
+}
+
+
+/* =========================================================
+   AUTH SECTION
+   ========================================================= */
+
+#authSection {
+
+    display: flex;
+
+    align-items: center;
+}
