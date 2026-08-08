@@ -1,130 +1,725 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-  
-  <script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: 'eggoze90yi',
-    });
-</script>
 
-  <meta name="google-adsense-account" content="ca-pub-4971258982235817">
-  <meta charset="UTF-8">
-  <title>Tournois</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4971258982235817"
-     crossorigin="anonymous"></script>
-    <script src="https://pl29182484.profitablecpmratenetwork.com/11/03/29/110329b3efe4f10960756ae03492afbb.js"></script>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="google-adsense-account"
+        content="ca-pub-4971258982235817"
+    >
+
+    <title>Cash Arena — Tournois</title>
+
+    <!-- =====================================================
+         CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="dashboard.css"
+    >
+
+    <!-- =====================================================
+         GOOGLE ADSENSE
+         ===================================================== -->
+
+    <script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4971258982235817"
+        crossorigin="anonymous">
+    </script>
+
+
+    <!-- =====================================================
+         AD NETWORK
+         ===================================================== -->
+
+    <script
+        id="aclib"
+        type="text/javascript"
+        src="//acscdn.com/script/aclib.js">
+    </script>
+
+    <script type="text/javascript">
+
+        aclib.runAutoTag({
+            zoneId: 'eggoze90yi',
+        });
+
+    </script>
 
 </head>
+
+
 <body>
-<div class="gaming-bg"></div>
-<div class="gaming-grid"></div>
-<div class="gaming-glow"></div>
 
-<nav class="navbar">
-  <div class="nav-left">
-    <a href="index.html" class="logo">⚡ Cash Arena</a>
-  </div>
 
-  <div class="nav-links">
-    <a href="index.html">Accueil</a>
-    <a href="dashboard.html">Tournois</a>
-    <a href="league.html">League</a>
-  </div>
+    <!-- =====================================================
+         BACKGROUND
+         ===================================================== -->
 
-  <div id="authSection"></div>
-</nav>
+    <div class="gaming-bg"></div>
 
-<div id="userEmail"></div>
-<div id="balance"></div>
+    <div class="gaming-grid"></div>
 
-<div class="tournament-card">
-  <h2>BRAWL STARS - Weekly CUp</h2>
-  <p class="reward">Rewards : League Points</p>
+    <div class="gaming-glow"></div>
 
-  <p id="timer">Chargement du timer...</p>
-  
-<button id="joinBtn">
-  Join The Tournament
-</button>
-</div>
 
-<div class="tournament-card">
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
 
-  <h2>BRAWL STARS - Daily Cup</h2>
+    <nav class="navbar">
 
-  <p class="reward"> Rewards : League Points</p>
+        <!-- LOGO -->
 
-  <p id="dailyTimer"></p>
+        <div class="nav-left">
 
-  <button id="dailyJoinBtn">
-  Join The Tournament
-  </button>
+            <a
+                href="index.html"
+                class="logo"
+            >
+                ⚡ Cash Arena
+            </a>
 
-</div>
+        </div>
 
-<!-- CLASSEMENT -->
-<div id="classement" style="display:none;">
-  <h2>CLASSEMENT</h2>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Récompense</th>
-        <th>POS</th>
-        <th>Joueur</th>
-        <th>Points</th>
-      </tr>
-    </thead>
+        <!-- NAVIGATION -->
 
-    <tbody id="brawlTable"></tbody>
-  </table>
-</div>
+        <div class="nav-links">
 
-<div id="dailyClassement"
-     class="classement-container"
-     style="display:none;">
+            <a href="index.html">
+                Accueil
+            </a>
 
-  <h2>⚡ DAILY CUP - CLASSEMENT</h2>
+            <a
+                href="dashboard.html"
+                class="active"
+            >
+                Tournois
+            </a>
 
-  <table>
+            <a href="league.html">
+                League
+            </a>
 
-    <thead>
+        </div>
 
-      <tr>
-        <th>Récompense</th>
-        <th>POS</th>
-        <th>Joueur</th>
-        <th>Points</th>
-      </tr>
 
-    </thead>
+        <!-- AUTH -->
 
-    <tbody id="dailyTable"></tbody>
+        <div id="authSection"></div>
 
-  </table>
+    </nav>
 
-</div>
 
-<p id="endTimer" style="display:none;">Chargement fin du tournoi...</p>
-<p id="rewardStatus"></p>
+    <!-- =====================================================
+         USER INFORMATION
+         ===================================================== -->
 
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <section class="user-section">
+
+        <div class="user-box">
+
+            <span class="user-label">
+                CONNECTÉ EN TANT QUE
+            </span>
+
+            <strong id="userEmail">
+                Chargement...
+            </strong>
+
+        </div>
+
+
+        <div class="user-box balance-box">
+
+            <span class="user-label">
+                SOLDE
+            </span>
+
+            <strong id="balance">
+                💰 Solde : 0€
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <section class="dashboard-header">
+
+        <span class="dashboard-eyebrow">
+            CASH ARENA COMPETITIVE
+        </span>
+
+        <h1>
+            TOURNOIS
+        </h1>
+
+        <p>
+            Participe aux compétitions, gagne des points
+            et grimpe dans la League.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         TOURNAMENT GRID
+         ===================================================== -->
+
+    <main class="tournaments-grid">
+
+    <!-- =====================================================
+     WEEKLY CUP
+     ===================================================== -->
+
+<article class="tournament-card weekly-card">
+
+    <div class="card-top">
+
+        <span class="tournament-type">
+            WEEKLY
+        </span>
+
+        <span class="tournament-status">
+            ● COMPÉTITION
+        </span>
+
+    </div>
+
+
+    <!-- LOGO / ICÔNE -->
+
+    <div class="game-logo brawl-logo">
+        ⭐
+    </div>
+
+
+    <div class="card-game">
+        BRAWL STARS
+    </div>
+
+
+    <h2>
+        WEEKLY CUP
+    </h2>
+
+
+    <p class="card-description">
+        Affronte les meilleurs joueurs de Cash Arena
+        et accumule un maximum de points.
+    </p>
+
+
+    <!-- RÉCOMPENSE -->
+
+    <div class="lp-reward-box">
+
+        <div>
+
+            <span>
+                RÉCOMPENSE
+            </span>
+
+            <strong>
+                LEAGUE POINTS
+            </strong>
+
+        </div>
+
+        <small>
+            TOP 10
+        </small>
+
+    </div>
+
+
+    <p class="reward">
+        🏆 Rewards : League Points
+    </p>
+
+
+    <!-- TIMER -->
+
+    <p id="timer">
+        Chargement du timer...
+    </p>
+
+
+    <!-- BOUTON -->
+
+    <button
+        id="joinBtn"
+        type="button"
+    >
+        REJOINDRE LE TOURNOI
+    </button>
+
+
+    <!-- FOOTER -->
+
+    <div class="card-footer">
+
+        <div class="card-footer-item">
+
+            <span>
+                DURÉE
+            </span>
+
+            <strong>
+                7 JOURS
+            </strong>
+
+        </div>
+
+
+        <div class="card-icon">
+            ⚡
+        </div>
+
+
+        <div class="card-footer-item">
+
+            <span>
+                MODE
+            </span>
+
+            <strong>
+                COMPÉTITIF
+            </strong>
+
+        </div>
+
+    </div>
+
+</article>
+
+
+
+<!-- =====================================================
+     DAILY CUP
+     ===================================================== -->
+
+<article class="tournament-card daily-card">
+
+    <div class="card-top">
+
+        <span class="tournament-type">
+            DAILY
+        </span>
+
+        <span class="tournament-status daily-status">
+            ● LIVE DAILY
+        </span>
+
+    </div>
+
+
+    <!-- LOGO / ICÔNE -->
+
+    <div class="game-logo brawl-logo daily-logo">
+        ⚡
+    </div>
+
+
+    <div class="card-game">
+        BRAWL STARS
+    </div>
+
+
+    <h2>
+        DAILY CUP
+    </h2>
+
+
+    <p class="card-description">
+        Un tournoi chaque jour.
+        Joue, gagne des points et améliore ton classement.
+    </p>
+
+
+    <!-- RÉCOMPENSE -->
+
+    <div class="lp-reward-box daily-reward-box">
+
+        <div>
+
+            <span>
+                RÉCOMPENSE
+            </span>
+
+            <strong>
+                LEAGUE POINTS
+            </strong>
+
+        </div>
+
+        <small>
+            TOP 10
+        </small>
+
+    </div>
+
+
+    <p class="reward">
+        ⚡ Rewards : League Points
+    </p>
+
+
+    <!-- TIMER DAILY -->
+
+    <p id="dailyTimer">
+        Chargement du Daily...
+    </p>
+
+
+    <!-- BOUTON DAILY -->
+
+    <button
+        id="dailyJoinBtn"
+        type="button"
+    >
+        REJOINDRE LE TOURNOI
+    </button>
+
+
+    <!-- FOOTER -->
+
+    <div class="card-footer">
+
+        <div class="card-footer-item">
+
+            <span>
+                RESET
+            </span>
+
+            <strong>
+                19H30
+            </strong>
+
+        </div>
+
+
+        <div class="card-icon">
+            🏆
+        </div>
+
+
+        <div class="card-footer-item">
+
+            <span>
+                MODE
+            </span>
+
+            <strong>
+                DAILY
+            </strong>
+
+        </div>
+
+    </div>
+
+</article>
+<!-- =====================================================
+     FIN DES CARTES TOURNOIS
+     ===================================================== -->
+
+</main>
+
+
+
+<!-- =====================================================
+     CLASSEMENT WEEKLY
+     ===================================================== -->
+
+<section
+    id="classement"
+    class="classement-container weekly-ranking"
+    style="display: none;"
+>
+
+    <div class="ranking-header">
+
+        <div>
+
+            <span class="ranking-eyebrow">
+                CASH ARENA
+            </span>
+
+            <h2>
+                🏆 WEEKLY CUP
+            </h2>
+
+            <p>
+                Classement de la compétition
+            </p>
+
+        </div>
+
+
+        <div class="ranking-live">
+
+            <span class="live-dot"></span>
+
+            LIVE
+
+        </div>
+
+    </div>
+
+
+    <!-- FIN DU TOURNOI -->
+
+    <p
+        id="endTimer"
+        class="end-timer"
+        style="display: none;"
+    >
+        Chargement fin du tournoi...
+    </p>
+
+
+    <!-- TABLEAU -->
+
+    <div class="ranking-table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Récompense
+                    </th>
+
+                    <th>
+                        POS
+                    </th>
+
+                    <th>
+                        Joueur
+                    </th>
+
+                    <th>
+                        Points
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="brawlTable">
+
+                <!--
+                    dashboard.js remplit automatiquement
+                    le classement ici.
+                -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- STATUT RÉCOMPENSE -->
+
+    <p
+        id="rewardStatus"
+        class="reward-status"
+    ></p>
+
+</section>
+
+
+
+<!-- =====================================================
+     CLASSEMENT DAILY
+     ===================================================== -->
+
+<section
+    id="dailyClassement"
+    class="classement-container daily-ranking"
+    style="display: none;"
+>
+
+    <div class="ranking-header">
+
+        <div>
+
+            <span class="ranking-eyebrow">
+                CASH ARENA
+            </span>
+
+            <h2>
+                ⚡ DAILY CUP
+            </h2>
+
+            <p>
+                Classement du tournoi quotidien
+            </p>
+
+        </div>
+
+
+        <div class="ranking-live daily-live">
+
+            <span class="live-dot"></span>
+
+            DAILY LIVE
+
+        </div>
+
+    </div>
+
+
+    <!-- INFORMATIONS DAILY -->
+
+    <div class="daily-ranking-info">
+
+        <div class="daily-info-item">
+
+            <span>
+                RESET
+            </span>
+
+            <strong>
+                19H30
+            </strong>
+
+        </div>
+
+
+        <div class="daily-info-item">
+
+            <span>
+                RÉCOMPENSE
+            </span>
+
+            <strong>
+                LP
+            </strong>
+
+        </div>
+
+
+        <div class="daily-info-item">
+
+            <span>
+                TOP
+            </span>
+
+            <strong>
+                10
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLEAU DAILY -->
+
+    <div class="ranking-table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Récompense
+                    </th>
+
+                    <th>
+                        POS
+                    </th>
+
+                    <th>
+                        Joueur
+                    </th>
+
+                    <th>
+                        Points
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="dailyTable">
+
+                <!--
+                    dashboard.js remplit automatiquement
+                    le classement Daily ici.
+                -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+<!-- =====================================================
+     FIREBASE
+     ===================================================== -->
+
+<script
+    src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js">
+</script>
+
+<script
+    src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js">
+</script>
+
+<script
+    src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js">
+</script>
+
+
+<!-- =====================================================
+     FIREBASE CONFIG
+     ===================================================== -->
 
 <script src="firebase.js"></script>
-<script src="dashboard.js" defer></script>
 
-<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 
-</body>
+<!-- =====================================================
+     APPLICATION
+     ===================================================== -->
 
 <script src="app.js"></script>
+
+
+<!-- =====================================================
+     DASHBOARD
+     ===================================================== -->
+
+<script
+    src="dashboard.js"
+    defer>
+</script>
+
+
+</body>
 
 </html>
