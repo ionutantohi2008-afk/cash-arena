@@ -4507,3 +4507,85 @@ img {
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================================
+   RECOMPENSE - CENTREE DANS LA CARD
+   ========================================================= */
+
+.lp-reward-box {
+    width: 100%;
+    min-height: 75px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    box-sizing: border-box;
+
+    margin: 18px auto;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(139, 61, 255, 0.14);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+
+/* Texte "Récompense :" */
+
+.lp-reward-box .reward-label {
+    display: block;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    color: #777d94;
+}
+
+
+/* "League Points" */
+
+.lp-reward-box .reward-value {
+    display: block;
+
+    font-size: 17px;
+    font-weight: 900;
+
+    letter-spacing: .5px;
+
+    color: #ffffff;
+
+    text-transform: none;
+
+    text-shadow:
+        0 0 15px rgba(139,61,255,0.25);
+}
+
+
+/* Daily */
+
+.daily-reward-box {
+
+    border-color:
+        rgba(34,230,109,0.12);
+}
+
+
+.daily-reward-box .reward-value {
+
+    text-shadow:
+        0 0 15px rgba(34,230,109,0.18);
+}
