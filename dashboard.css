@@ -4332,7 +4332,178 @@ img {
     }
 }
 
+/* =========================================================
+   CORRECTION HEADER DASHBOARD
+   ========================================================= */
+
+.dashboard-header {
+    width: min(1100px, calc(100% - 40px));
+    margin: 70px auto 35px;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.dashboard-header .dashboard-eyebrow {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #9b61ff;
+    text-transform: uppercase;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1;
+    font-weight: 1000;
+    letter-spacing: 2px;
+    text-align: center;
+
+    background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #b77aff 50%,
+        #ffffff 100%
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    text-shadow:
+        0 0 30px rgba(139, 61, 255, 0.25);
+}
+
+.dashboard-header p {
+    max-width: 600px;
+    margin: 18px auto 0;
+    color: #8d91a8;
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: center;
+}
+
 
 /* =========================================================
-   END OF CASH ARENA DASHBOARD CSS
+   USER / BALANCE
    ========================================================= */
+
+.user-section {
+    width: min(1100px, calc(100% - 40px));
+    margin: 30px auto 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 15px;
+
+    position: relative;
+    z-index: 10;
+}
+
+.user-box {
+    width: 240px;
+    min-height: 70px;
+
+    padding: 14px 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(139, 61, 255, 0.20);
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20, 16, 38, 0.94),
+            rgba(9, 10, 22, 0.94)
+        );
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+
+    text-align: center;
+}
+
+.user-label {
+    margin-bottom: 5px;
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    color: #777c95;
+}
+
+.user-box strong {
+    max-width: 100%;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-size: 13px;
+    color: #ffffff;
+}
+
+.balance-box strong {
+    color: #9cffbd;
+}
+
+
+/* =========================================================
+   TOURNAMENT GRID
+   ========================================================= */
+
+.tournaments-grid {
+    width: min(1100px, calc(100% - 40px));
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+
+    position: relative;
+    z-index: 5;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .user-section {
+        width: calc(100% - 30px);
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .user-box {
+        width: min(100%, 360px);
+    }
+
+    .dashboard-header {
+        width: calc(100% - 30px);
+        margin-top: 45px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 42px;
+    }
+
+    .tournaments-grid {
+        width: calc(100% - 30px);
+        grid-template-columns: 1fr;
+    }
+}
