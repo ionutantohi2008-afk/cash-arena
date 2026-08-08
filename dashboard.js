@@ -373,16 +373,16 @@ async function loadBrawlPlayers() {
 
       let reward = "0 LP";
 
-      if (index === 0) reward = "30 LP";
-      else if (index === 1) reward = "20 LP";
-      else if (index === 2) reward = "10 LP";
-      else if (index === 3) reward = "8 LP";
-      else if (index === 4) reward = "7 LP";
-      else if (index === 5) reward = "6 LP";
-      else if (index === 6) reward = "5 LP";
-      else if (index === 7) reward = "5 LP";
-      else if (index === 8) reward = "4 LP";
-      else if (index === 9) reward = "4 LP";
+      if (index === 0) reward = "150 LP";
+      else if (index === 1) reward = "125 LP";
+      else if (index === 2) reward = "100 LP";
+      else if (index === 3) reward = "70 LP";
+      else if (index === 4) reward = "60 LP";
+      else if (index === 5) reward = "50 LP";
+      else if (index === 6) reward = "40 LP";
+      else if (index === 7) reward = "30 LP";
+      else if (index === 8) reward = "30 LP";
+      else if (index === 9) reward = "30 LP";
 
       table.innerHTML += `
 
@@ -741,11 +741,11 @@ async function loadDailyPlayers() {
 
     let reward = "";
 
-    if (index === 0) reward = "10 LP";
-    else if (index === 1) reward = "7 LP";
-    else if (index === 2) reward = "5 LP";
-    else if (index <= 4) reward = "3 LP";
-    else if (index <= 9) reward = "1 LP";
+    if (index === 0) reward = "40 LP";
+    else if (index === 1) reward = "30 LP";
+    else if (index === 2) reward = "25 LP";
+    else if (index <= 4) reward = "20 LP";
+    else if (index <= 9) reward = "10 LP";
 
     table.innerHTML += `
 
@@ -818,44 +818,4 @@ function updateDailyButton() {
       joinDailyTournament();
     };
   }
-}
-
-function showRankUp(oldRank, newRank) {
-
-  const popup =
-    document.getElementById(
-      "rankUpPopup"
-    );
-
-  const text =
-    document.getElementById(
-      "rankUpText"
-    );
-
-  if (!popup || !text) return;
-
-  text.innerText =
-    `${oldRank} → ${newRank}`;
-
-  popup.classList.add("show");
-
-  setTimeout(() => {
-
-    popup.classList.remove("show");
-
-  }, 5000);
-}
-
-const oldRank =
-  userData.leagueRank;
-
-const newRank =
-  calculateRank(lp);
-
-if (newRank !== oldRank) {
-
-  showRankUp(
-    oldRank,
-    newRank
-  );
 }
