@@ -1,27 +1,38 @@
 /* =========================================================
-   CASH ARENA - DASHBOARD
-   DESIGN WEEKLY / DAILY CUP
+   CASH ARENA - DASHBOARD.CSS
+   RESET + BACKGROUND + NAVBAR
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
    ========================================================= */
 
 :root {
-    --bg: #050816;
-    --card: #0b1022;
-    --card2: #10162c;
 
-    --purple: #9b4dff;
-    --purple2: #6f24d9;
+    --bg-main: #050816;
+    --bg-secondary: #080d1e;
 
-    --green: #24e56b;
-    --green2: #0db94d;
+    --white: #ffffff;
+    --text: #e9edf7;
+    --muted: #8b94aa;
+
+    /* WEEKLY */
+    --purple: #8b3dff;
+    --purple-light: #b66cff;
+    --purple-dark: #5b16c9;
+
+    /* DAILY */
+    --green: #22e66d;
+    --green-light: #5cff96;
+    --green-dark: #0aa746;
 
     --yellow: #ffd43b;
-    --silver: #d8deea;
-    --bronze: #cd7f32;
 
-    --text: #f8fafc;
-    --muted: #8992aa;
+    --border: rgba(255,255,255,0.08);
 
-    --border: rgba(255,255,255,.08);
+    --shadow:
+        0 20px 60px rgba(0,0,0,0.45);
 }
 
 
@@ -30,374 +41,1278 @@
    ========================================================= */
 
 * {
+    margin: 0;
+    padding: 0;
+
     box-sizing: border-box;
 }
 
+
+html {
+    scroll-behavior: smooth;
+}
+
+
 body {
-    margin: 0;
+
     min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(130,55,255,0.18),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            180deg,
+            #03050d 0%,
+            #070b1b 50%,
+            #03050d 100%
+        );
 
     color: var(--text);
 
     font-family:
-        Inter,
         Arial,
         Helvetica,
         sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 15% 0%,
-            rgba(126,43,255,.20),
-            transparent 32%
-        ),
-
-        radial-gradient(
-            circle at 90% 10%,
-            rgba(20,220,100,.12),
-            transparent 28%
-        ),
-
-        linear-gradient(
-            135deg,
-            #03050d,
-            #070b1b 50%,
-            #03050d
-        );
 
     overflow-x: hidden;
 }
 
 
-/* grille */
+/* =========================================================
+   GAMING BACKGROUND
+   ========================================================= */
 
-body::before {
-    content: "";
+.gaming-bg {
 
     position: fixed;
+
     inset: 0;
+
+    z-index: -5;
+
+    background:
+
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(139,61,255,0.13),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 85% 30%,
+            rgba(34,230,109,0.08),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #03050d,
+            #070b1b,
+            #040711
+        );
+}
+
+
+/* grille */
+
+.gaming-grid {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -4;
 
     pointer-events: none;
 
-    opacity: .16;
+    opacity: 0.13;
 
     background-image:
+
         linear-gradient(
-            rgba(255,255,255,.035) 1px,
+            rgba(255,255,255,0.035) 1px,
             transparent 1px
         ),
+
         linear-gradient(
             90deg,
-            rgba(255,255,255,.035) 1px,
+            rgba(255,255,255,0.035) 1px,
             transparent 1px
         );
 
-    background-size: 42px 42px;
-
-    z-index: -1;
+    background-size:
+        45px 45px;
 }
 
 
-/* =========================================================
-   USER
-   ========================================================= */
+/* glow */
 
-#userEmail,
-#balance {
-    display: block;
+.gaming-glow {
 
-    width: min(1000px, calc(100% - 40px));
+    position: fixed;
 
-    margin: 12px auto;
+    width: 600px;
+    height: 600px;
 
-    padding: 16px 22px;
+    left: 50%;
+    top: 15%;
 
-    border-radius: 15px;
+    transform: translateX(-50%);
+
+    z-index: -3;
+
+    pointer-events: none;
 
     background:
-        rgba(12,17,37,.78);
+        radial-gradient(
+            circle,
+            rgba(139,61,255,0.08),
+            transparent 70%
+        );
 
-    border: 1px solid var(--border);
-
-    color: #dce2ef;
-
-    box-shadow:
-        0 10px 35px rgba(0,0,0,.18);
-}
-
-#balance {
-    color: #cbb1ff;
-
-    border-color:
-        rgba(155,77,255,.25);
+    filter: blur(40px);
 }
 
 
 /* =========================================================
-   TITRE
+   NAVBAR
    ========================================================= */
 
-.dashboard-title,
-.page-title {
-    text-align: center;
+.navbar {
 
-    margin: 55px auto 10px;
+    position: sticky;
 
-    font-size:
-        clamp(38px, 6vw, 68px);
+    top: 0;
+
+    z-index: 100;
+
+    width: 100%;
+
+    min-height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 45px;
+
+    background:
+        rgba(4,7,18,0.88);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    box-shadow:
+        0 8px 30px
+        rgba(0,0,0,0.25);
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.nav-left {
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.logo {
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 22px;
 
     font-weight: 1000;
 
+    letter-spacing: 1px;
+
+    transition:
+        color .2s ease,
+        text-shadow .2s ease;
+}
+
+
+.logo:hover {
+
+    color:
+        var(--purple-light);
+
+    text-shadow:
+        0 0 20px
+        rgba(139,61,255,0.65);
+}
+
+
+/* =========================================================
+   NAV LINKS
+   ========================================================= */
+
+.nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+}
+
+
+.nav-links a {
+
+    position: relative;
+
+    color:
+        #9ba4b9;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
     text-transform: uppercase;
 
-    letter-spacing: 2px;
+    letter-spacing: 0.8px;
+
+    transition:
+        color .2s ease;
+}
+
+
+.nav-links a:hover {
+
+    color: white;
+}
+
+
+.nav-links a.active {
+
+    color: white;
+}
+
+
+/* ligne sous le lien actif */
+
+.nav-links a.active::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: -10px;
+
+    height: 2px;
+
+    border-radius: 10px;
 
     background:
         linear-gradient(
             90deg,
-            #ffffff,
-            #b46aff,
-            #ffffff
+            var(--purple),
+            var(--purple-light)
         );
+
+    box-shadow:
+        0 0 12px
+        rgba(139,61,255,0.8);
+}
+
+
+/* =========================================================
+   AUTH SECTION
+   ========================================================= */
+
+#authSection {
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   DASHBOARD MAIN
+   ========================================================= */
+
+.dashboard {
+
+    width:
+        min(1200px, calc(100% - 40px));
+
+    margin:
+        0 auto;
+
+    padding:
+        35px 0 80px;
+}
+
+
+/* =========================================================
+   RESPONSIVE NAVBAR
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .navbar {
+
+        padding:
+            0 20px;
+    }
+
+
+    .nav-links {
+
+        gap: 18px;
+    }
+
+
+    .nav-links a {
+
+        font-size: 11px;
+    }
+
+
+    .logo {
+
+        font-size: 18px;
+    }
+}
+
+
+@media (max-width: 550px) {
+
+    .navbar {
+
+        min-height: 65px;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        padding:
+            12px 15px;
+    }
+
+
+    .nav-left {
+
+        width: 100%;
+
+        justify-content: center;
+    }
+
+
+    .nav-links {
+
+        gap: 20px;
+    }
+
+
+    .nav-links a.active::after {
+
+        bottom: -6px;
+    }
+
+
+    #authSection {
+
+        display: none;
+    }
+
+
+    .dashboard {
+
+        width:
+            calc(100% - 24px);
+
+        padding-top: 20px;
+    }
+}
+
+/* =========================================================
+   USER PANEL
+   ========================================================= */
+
+.user-panel {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px;
+
+    width: 100%;
+
+    margin:
+        10px auto 55px;
+}
+
+
+/* =========================================================
+   USER BOX
+   ========================================================= */
+
+.user-box {
+
+    min-height: 82px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding:
+        16px 22px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(13,18,39,0.96),
+            rgba(8,12,27,0.96)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,0.22);
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+
+/* petite ligne lumineuse */
+
+.user-box::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 3px;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--purple),
+            var(--purple-light)
+        );
+
+    box-shadow:
+        0 0 15px
+        rgba(139,61,255,0.6);
+}
+
+
+/* =========================================================
+   USER LABEL
+   ========================================================= */
+
+.user-label {
+
+    color:
+        #747e97;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    letter-spacing: 1.8px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 7px;
+}
+
+
+/* =========================================================
+   EMAIL
+   ========================================================= */
+
+#userEmail {
+
+    display: block;
+
+    color:
+        #f3f5fb;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   BALANCE
+   ========================================================= */
+
+.balance-box {
+
+    text-align: right;
+}
+
+
+.balance-box::before {
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--green),
+            var(--green-light)
+        );
+
+    box-shadow:
+        0 0 15px
+        rgba(34,230,109,0.55);
+}
+
+
+#balance {
+
+    display: block;
+
+    color:
+        var(--green-light);
+
+    font-size: 19px;
+
+    font-weight: 1000;
+
+    text-shadow:
+        0 0 18px
+        rgba(34,230,109,0.22);
+}
+
+
+/* =========================================================
+   HERO TITLE
+   ========================================================= */
+
+.hero-title {
+
+    text-align: center;
+
+    margin:
+        0 auto 55px;
+
+    max-width: 850px;
+}
+
+
+/* petit titre */
+
+.hero-small {
+
+    display: inline-block;
+
+    margin-bottom: 14px;
+
+    color:
+        var(--purple-light);
+
+    font-size: 11px;
+
+    font-weight: 1000;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 18px
+        rgba(139,61,255,0.5);
+}
+
+
+/* =========================================================
+   H1
+   ========================================================= */
+
+.hero-title h1 {
+
+    margin: 0;
+
+    font-size:
+        clamp(42px, 7vw, 78px);
+
+    line-height: .95;
+
+    font-weight: 1000;
+
+    letter-spacing:
+        -2px;
+
+    text-transform: uppercase;
+
+    color: white;
+
+    text-shadow:
+        0 12px 40px
+        rgba(0,0,0,0.4);
+}
+
+
+.hero-title h1 span {
+
+    display: block;
+
+    margin-top: 7px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7930e8,
+            #b86cff,
+            #7930e8
+        );
+
+    background-size:
+        200% auto;
 
     -webkit-background-clip: text;
     background-clip: text;
 
     color: transparent;
 
-    text-shadow:
-        0 0 35px
-        rgba(155,77,255,.25);
+    animation:
+        heroGradient 5s linear infinite;
+
+    text-shadow: none;
 }
 
-.dashboard-subtitle,
-.page-subtitle,
-.subtitle {
-    text-align: center;
 
-    color: var(--muted);
+@keyframes heroGradient {
 
-    font-size: 16px;
+    0% {
+        background-position: 0% center;
+    }
 
-    margin-bottom: 40px;
+    100% {
+        background-position: 200% center;
+    }
 }
 
 
 /* =========================================================
-   CONTAINER TOURNOIS
+   HERO DESCRIPTION
    ========================================================= */
 
-.tournaments-container,
-.tournament-container,
-.tournaments,
-.cards-container {
-    width: min(1150px, calc(100% - 40px));
+.hero-title p {
 
-    margin: 35px auto;
+    max-width: 620px;
+
+    margin:
+        20px auto 0;
+
+    color:
+        var(--muted);
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   SEPARATOR
+   ========================================================= */
+
+.hero-title::after {
+
+    content: "";
+
+    display: block;
+
+    width: 90px;
+
+    height: 3px;
+
+    margin:
+        25px auto 0;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--purple-light),
+            transparent
+        );
+
+    box-shadow:
+        0 0 18px
+        rgba(139,61,255,0.55);
+}
+
+
+/* =========================================================
+   RESPONSIVE USER PANEL
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .user-panel {
+
+        grid-template-columns:
+            1fr;
+
+        margin-bottom: 40px;
+    }
+
+
+    .balance-box {
+
+        text-align: left;
+    }
+
+
+    .hero-title {
+
+        margin-bottom: 40px;
+    }
+
+
+    .hero-title h1 {
+
+        font-size:
+            clamp(38px, 13vw, 58px);
+    }
+
+
+    .hero-title p {
+
+        font-size: 13px;
+    }
+}
+
+/* =========================================================
+   TOURNAMENT GRID
+   ========================================================= */
+
+.tournaments-grid {
 
     display: grid;
 
     grid-template-columns:
         repeat(2, minmax(0, 1fr));
 
-    gap: 28px;
+    gap: 24px;
+
+    width: 100%;
+
+    margin-bottom: 45px;
 }
 
 
 /* =========================================================
-   CARTE TOURNOI
+   BASE TOURNAMENT CARD
    ========================================================= */
 
 .tournament-card {
-    position: relative;
 
-    width: 100%;
+    position: relative;
 
     min-height: 570px;
 
-    margin: 0;
-
-    padding: 30px;
+    padding:
+        25px 28px 30px;
 
     overflow: hidden;
 
-    text-align: center;
-
-    border-radius: 26px;
+    border-radius: 24px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(17,21,47,.98),
-            rgba(5,8,21,.99)
+            rgba(15,19,42,0.98),
+            rgba(7,10,25,0.98)
         );
 
     border:
         1px solid
-        rgba(155,77,255,.48);
+        rgba(255,255,255,0.08);
 
     box-shadow:
-        0 0 45px
-        rgba(155,77,255,.12);
+        0 25px 70px
+        rgba(0,0,0,0.42);
 
     transition:
-        transform .25s ease,
-        box-shadow .25s ease;
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
 }
+
+
+/* =========================================================
+   CARD HOVER
+   ========================================================= */
 
 .tournament-card:hover {
-    transform: translateY(-7px);
+
+    transform:
+        translateY(-7px);
 
     box-shadow:
-        0 18px 65px
-        rgba(155,77,255,.24);
+        0 35px 80px
+        rgba(0,0,0,0.55);
 }
 
 
 /* =========================================================
-   WEEKLY CUP
+   CARD GLOW
    ========================================================= */
 
-.tournament-card.weekly,
-.weekly-card {
-    border-color:
-        rgba(155,77,255,.55);
+.tournament-card::before {
 
-    box-shadow:
-        0 0 50px
-        rgba(155,77,255,.16);
-}
-
-.tournament-card.weekly::before,
-.weekly-card::before {
-    content: "WEEKLY CUP";
+    content: "";
 
     position: absolute;
 
-    top: 18px;
-    left: 18px;
+    width: 330px;
+    height: 330px;
 
-    padding: 7px 13px;
+    left: 50%;
+    top: 35%;
 
-    border-radius: 999px;
+    transform:
+        translate(-50%, -50%);
 
-    background:
-        rgba(155,77,255,.14);
+    border-radius: 50%;
 
-    border:
-        1px solid
-        rgba(155,77,255,.35);
+    pointer-events: none;
 
-    color: #c895ff;
+    filter: blur(55px);
 
-    font-size: 11px;
-
-    font-weight: 900;
-
-    letter-spacing: 1.5px;
+    opacity: .14;
 }
 
 
 /* =========================================================
-   DAILY CUP
+   CARD TOP
    ========================================================= */
 
-.tournament-card.daily,
-.daily-card {
-    border-color:
-        rgba(36,229,107,.52);
+.card-top {
 
-    box-shadow:
-        0 0 50px
-        rgba(36,229,107,.12);
-}
+    position: relative;
 
-.tournament-card.daily:hover,
-.daily-card:hover {
-    box-shadow:
-        0 18px 65px
-        rgba(36,229,107,.20);
-}
+    z-index: 2;
 
-.tournament-card.daily::before,
-.daily-card::before {
-    content: "DAILY CUP";
+    display: flex;
 
-    position: absolute;
+    align-items: center;
 
-    top: 18px;
-    left: 18px;
+    justify-content: space-between;
 
-    padding: 7px 13px;
-
-    border-radius: 999px;
-
-    background:
-        rgba(36,229,107,.10);
-
-    border:
-        1px solid
-        rgba(36,229,107,.30);
-
-    color: #50f38a;
-
-    font-size: 11px;
-
-    font-weight: 900;
-
-    letter-spacing: 1.5px;
+    margin-bottom: 22px;
 }
 
 
 /* =========================================================
-   TITRE CARTE
+   TOURNAMENT TYPE
    ========================================================= */
 
-.tournament-card h2 {
-    margin:
-        42px 0 7px;
+.tournament-type {
 
-    font-size:
-        clamp(30px, 4vw, 43px);
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 28px;
+
+    padding:
+        6px 11px;
+
+    border-radius: 7px;
+
+    background:
+        rgba(255,255,255,0.055);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    color:
+        #8992a9;
+
+    font-size: 9px;
 
     font-weight: 1000;
 
-    text-transform: uppercase;
-}
+    letter-spacing:
+        1.4px;
 
-.tournament-card.weekly h2,
-.weekly-card h2 {
-    color: #ad6cff;
-
-    text-shadow:
-        0 0 22px
-        rgba(155,77,255,.45);
-}
-
-.tournament-card.daily h2,
-.daily-card h2 {
-    color: #35ed75;
-
-    text-shadow:
-        0 0 22px
-        rgba(36,229,107,.40);
+    text-transform:
+        uppercase;
 }
 
 
 /* =========================================================
-   BRAWL STARS
+   STATUS DOT
    ========================================================= */
 
-.tournament-card .game-name {
-    color: #d8ddec;
+.status-dot {
 
-    font-size: 13px;
+    font-size: 12px;
 
-    font-weight: 900;
+    line-height: 1;
 
-    letter-spacing: 2px;
+    animation:
+        statusPulse 1.8s ease-in-out infinite;
+}
 
-    text-transform: uppercase;
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+
+        opacity: .45;
+
+        transform:
+            scale(.9);
+    }
+
+    50% {
+
+        opacity: 1;
+
+        transform:
+            scale(1.15);
+    }
+}
+
+
+/* =========================================================
+   WEEKLY STATUS
+   ========================================================= */
+
+.weekly-card .status-dot {
+
+    color:
+        var(--purple-light);
+
+    text-shadow:
+        0 0 15px
+        var(--purple);
+}
+
+
+/* =========================================================
+   DAILY STATUS
+   ========================================================= */
+
+.daily-card .status-dot {
+
+    color:
+        var(--green-light);
+
+    text-shadow:
+        0 0 15px
+        var(--green);
+}
+
+
+/* =========================================================
+   WEEKLY CARD GLOW
+   ========================================================= */
+
+.weekly-card::before {
+
+    background:
+        radial-gradient(
+            circle,
+            var(--purple),
+            transparent 70%
+        );
+}
+
+
+/* =========================================================
+   DAILY CARD GLOW
+   ========================================================= */
+
+.daily-card::before {
+
+    background:
+        radial-gradient(
+            circle,
+            var(--green),
+            transparent 70%
+        );
+}
+
+
+/* =========================================================
+   WEEKLY BORDER
+   ========================================================= */
+
+.weekly-card:hover {
+
+    border-color:
+        rgba(139,61,255,0.45);
+
+    box-shadow:
+        0 30px 80px
+        rgba(78,25,155,0.22);
+}
+
+
+/* =========================================================
+   DAILY BORDER
+   ========================================================= */
+
+.daily-card:hover {
+
+    border-color:
+        rgba(34,230,109,0.4);
+
+    box-shadow:
+        0 30px 80px
+        rgba(10,120,55,0.18);
+}
+
+
+/* =========================================================
+   GAME LOGO
+   ========================================================= */
+
+.game-logo {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 125px;
+
+    height: 125px;
+
+    margin:
+        5px auto 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 62px;
+
+    background:
+        rgba(8,11,28,0.95);
+
+    border:
+        2px solid
+        rgba(255,255,255,0.08);
+
+    box-shadow:
+        inset 0 0 30px
+        rgba(255,255,255,0.025),
+
+        0 15px 45px
+        rgba(0,0,0,0.45);
+
+    transition:
+        transform .3s ease;
+}
+
+
+/* =========================================================
+   LOGO HOVER
+   ========================================================= */
+
+.tournament-card:hover .game-logo {
+
+    transform:
+        scale(1.06)
+        rotate(-3deg);
+}
+
+
+/* =========================================================
+   WEEKLY LOGO
+   ========================================================= */
+
+.weekly-logo {
+
+    border-color:
+        rgba(139,61,255,0.35);
+
+    box-shadow:
+
+        inset 0 0 35px
+        rgba(139,61,255,0.08),
+
+        0 0 35px
+        rgba(139,61,255,0.15),
+
+        0 15px 45px
+        rgba(0,0,0,0.45);
+}
+
+
+/* =========================================================
+   DAILY LOGO
+   ========================================================= */
+
+.daily-logo {
+
+    border-color:
+        rgba(34,230,109,0.35);
+
+    box-shadow:
+
+        inset 0 0 35px
+        rgba(34,230,109,0.07),
+
+        0 0 35px
+        rgba(34,230,109,0.12),
+
+        0 15px 45px
+        rgba(0,0,0,0.45);
+}
+
+
+/* =========================================================
+   GAME NAME
+   ========================================================= */
+
+.card-game {
+
+    position: relative;
+
+    z-index: 2;
+
+    text-align: center;
+
+    color:
+        #7f89a1;
+
+    font-size: 10px;
+
+    font-weight: 1000;
+
+    letter-spacing:
+        3px;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================================================
+   CARD TITLE
+   ========================================================= */
+
+.tournament-card h2 {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin:
+        0;
+
+    text-align: center;
+
+    color:
+        white;
+
+    font-size:
+        clamp(32px, 4vw, 48px);
+
+    line-height: 1;
+
+    font-weight: 1000;
+
+    letter-spacing:
+        -1px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.tournament-card h2 span {
+
+    display: inline;
+
+}
+
+
+/* =========================================================
+   WEEKLY TITLE
+   ========================================================= */
+
+.weekly-card h2 span {
+
+    color:
+        var(--purple-light);
+
+    text-shadow:
+        0 0 25px
+        rgba(139,61,255,0.28);
+}
+
+
+/* =========================================================
+   DAILY TITLE
+   ========================================================= */
+
+.daily-card h2 span {
+
+    color:
+        var(--green-light);
+
+    text-shadow:
+        0 0 25px
+        rgba(34,230,109,0.2);
 }
 
 
@@ -405,53 +1320,141 @@ body::before {
    DESCRIPTION
    ========================================================= */
 
-.tournament-card p {
-    color: #9aa3bb;
+.card-description {
 
-    line-height: 1.6;
+    position: relative;
 
-    font-size: 14px;
+    z-index: 2;
+
+    max-width: 420px;
+
+    min-height: 50px;
+
+    margin:
+        15px auto 20px;
+
+    text-align: center;
+
+    color:
+        #858ea4;
+
+    font-size: 13px;
+
+    line-height:
+        1.55;
 }
 
 
 /* =========================================================
-   REWARD
+   REWARD BOX
    ========================================================= */
 
-.reward,
-.rewards,
-.reward-box {
-    margin: 25px auto;
+.lp-reward-box {
 
-    padding: 20px;
+    position: relative;
 
-    border-radius: 17px;
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    max-width: 390px;
+
+    min-height: 70px;
+
+    margin:
+        0 auto 18px;
+
+    padding:
+        12px 16px;
+
+    border-radius: 14px;
 
     background:
-        rgba(155,77,255,.07);
+        rgba(139,61,255,0.07);
 
     border:
         1px solid
-        rgba(155,77,255,.18);
+        rgba(139,61,255,0.18);
 }
 
-.daily .reward,
-.daily .rewards,
-.daily .reward-box {
-    background:
-        rgba(36,229,107,.06);
 
-    border-color:
-        rgba(36,229,107,.18);
+/* label */
+
+.lp-reward-box span {
+
+    color:
+        #7f89a0;
+
+    font-size: 9px;
+
+    font-weight: 1000;
+
+    letter-spacing:
+        1.3px;
+
+    text-transform:
+        uppercase;
 }
 
-.reward strong,
-.rewards strong {
-    color: var(--yellow);
+
+/* LP */
+
+.lp-reward-box strong {
+
+    color:
+        var(--purple-light);
 
     font-size: 25px;
 
     font-weight: 1000;
+
+    text-shadow:
+        0 0 18px
+        rgba(139,61,255,0.4);
+}
+
+
+/* small */
+
+.lp-reward-box small {
+
+    color:
+        #626c82;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   DAILY REWARD
+   ========================================================= */
+
+.daily-reward {
+
+    background:
+        rgba(34,230,109,0.055);
+
+    border-color:
+        rgba(34,230,109,0.16);
+}
+
+
+.daily-reward strong {
+
+    color:
+        var(--green-light);
+
+    text-shadow:
+        0 0 18px
+        rgba(34,230,109,0.3);
 }
 
 
@@ -459,307 +1462,1593 @@ body::before {
    TIMER
    ========================================================= */
 
-#timer,
-#endTimer,
-#rewardStatus {
-    margin: 14px 0;
+.tournament-card #timer,
+.tournament-card #dailyTimer {
 
-    color: #aeb6ca;
+    position: relative;
 
-    font-size: 13px;
+    z-index: 2;
+
+    width: 100%;
+
+    min-height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin:
+        8px auto 18px;
+
+    padding:
+        10px 14px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,0.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.06);
+
+    color:
+        #8993a9;
+
+    font-size: 11px;
 
     font-weight: 800;
 
     text-align: center;
+
+    letter-spacing:
+        .3px;
 }
 
 
 /* =========================================================
-   BOUTONS
+   WEEKLY TIMER
+   ========================================================= */
+
+.weekly-card #timer {
+
+    color:
+        #b998ff;
+
+    border-color:
+        rgba(139,61,255,0.16);
+
+    background:
+        rgba(139,61,255,0.045);
+}
+
+
+/* =========================================================
+   DAILY TIMER
+   ========================================================= */
+
+.daily-card #dailyTimer {
+
+    color:
+        #70ee9a;
+
+    border-color:
+        rgba(34,230,109,0.15);
+
+    background:
+        rgba(34,230,109,0.04);
+}
+
+
+/* =========================================================
+   JOIN BUTTON
    ========================================================= */
 
 .tournament-card button {
-    width: 85%;
 
-    min-height: 55px;
+    position: relative;
 
-    margin:
-        22px auto 0;
+    z-index: 5;
 
-    padding: 15px 20px;
+    width: 100%;
+
+    min-height: 58px;
 
     border: 0;
 
-    border-radius: 14px;
+    border-radius: 13px;
 
-    color: white;
+    padding:
+        14px 20px;
 
-    font-size: 14px;
+    color:
+        white;
+
+    font-size: 12px;
 
     font-weight: 1000;
 
-    text-transform: uppercase;
+    letter-spacing:
+        1.2px;
+
+    text-transform:
+        uppercase;
 
     cursor: pointer;
 
-    background:
-        linear-gradient(
-            90deg,
-            #7627ed,
-            #a759ff
-        );
-
-    box-shadow:
-        0 10px 30px
-        rgba(155,77,255,.30);
-
     transition:
         transform .2s ease,
+        box-shadow .2s ease,
         filter .2s ease,
-        box-shadow .2s ease;
-}
+        opacity .2s ease;
 
-.tournament-card button:hover {
-    transform: translateY(-3px);
-
-    filter: brightness(1.12);
-
-    box-shadow:
-        0 14px 38px
-        rgba(155,77,255,.45);
-}
-
-
-/* DAILY */
-
-.tournament-card.daily button,
-.daily-card button {
-    color: #04120a;
-
-    background:
-        linear-gradient(
-            90deg,
-            #16cf58,
-            #48ed7e
-        );
-
-    box-shadow:
-        0 10px 30px
-        rgba(36,229,107,.24);
-}
-
-.tournament-card.daily button:hover,
-.daily-card button:hover {
-    box-shadow:
-        0 14px 38px
-        rgba(36,229,107,.38);
+    overflow: hidden;
 }
 
 
 /* =========================================================
-   CLASSEMENT
+   BUTTON LIGHT EFFECT
    ========================================================= */
 
-#classement {
-    width: min(1100px, calc(100% - 40px));
+.tournament-card button::before {
 
-    margin: 60px auto;
+    content: "";
 
-    padding: 30px;
+    position: absolute;
 
-    border-radius: 25px;
+    top: 0;
+    left: -100%;
+
+    width: 60%;
+    height: 100%;
 
     background:
         linear-gradient(
-            145deg,
-            rgba(12,17,37,.97),
-            rgba(4,7,18,.99)
+            90deg,
+            transparent,
+            rgba(255,255,255,0.22),
+            transparent
+        );
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        left .55s ease;
+}
+
+
+.tournament-card button:hover::before {
+
+    left: 140%;
+}
+
+
+/* =========================================================
+   WEEKLY BUTTON
+   ========================================================= */
+
+.weekly-card button,
+#joinBtn {
+
+    background:
+        linear-gradient(
+            135deg,
+            #6e24d8,
+            #9a4cff
+        );
+
+    box-shadow:
+        0 10px 30px
+        rgba(121,48,232,0.28);
+}
+
+
+.weekly-card button:hover,
+#joinBtn:hover {
+
+    transform:
+        translateY(-2px);
+
+    filter:
+        brightness(1.12);
+
+    box-shadow:
+        0 15px 40px
+        rgba(121,48,232,0.45);
+}
+
+
+/* =========================================================
+   DAILY BUTTON
+   ========================================================= */
+
+.daily-card button,
+#dailyJoinBtn {
+
+    background:
+        linear-gradient(
+            135deg,
+            #0a9f45,
+            #27df6b
+        );
+
+    box-shadow:
+        0 10px 30px
+        rgba(20,190,83,0.22);
+}
+
+
+.daily-card button:hover,
+#dailyJoinBtn:hover {
+
+    transform:
+        translateY(-2px);
+
+    filter:
+        brightness(1.08);
+
+    box-shadow:
+        0 15px 40px
+        rgba(20,190,83,0.38);
+}
+
+
+/* =========================================================
+   DISABLED BUTTON
+   ========================================================= */
+
+.tournament-card button:disabled {
+
+    cursor:
+        not-allowed;
+
+    opacity:
+        .55;
+
+    filter:
+        grayscale(.35);
+
+    transform:
+        none;
+
+    box-shadow:
+        none;
+}
+
+
+/* =========================================================
+   BUTTON AFTER JOIN
+   ========================================================= */
+
+.tournament-card button.joined {
+
+    background:
+        linear-gradient(
+            135deg,
+            #252c40,
+            #343c54
         );
 
     border:
         1px solid
-        rgba(36,229,107,.24);
+        rgba(255,255,255,0.08);
 
     box-shadow:
-        0 0 60px
-        rgba(36,229,107,.08);
-
-    text-align: center;
-}
-
-#classement h2 {
-    margin: 0 0 25px;
-
-    font-size:
-        clamp(28px, 4vw, 42px);
-
-    font-weight: 1000;
-
-    text-transform: uppercase;
+        none;
 }
 
 
 /* =========================================================
-   DAILY TABLE
+   REWARD TEXT
    ========================================================= */
 
-#dailyTable {
-    width: 100%;
+.tournament-card .reward {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin:
+        12px 0 15px;
+
+    text-align: center;
+
+    color:
+        #778197;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    letter-spacing:
+        1.5px;
+
+    text-transform:
+        uppercase;
 }
 
-#classement table {
-    width: 100%;
 
-    border-collapse: separate;
+/* =========================================================
+   WEEKLY REWARD
+   ========================================================= */
 
-    border-spacing: 0 8px;
+.weekly-card .reward {
+
+    color:
+        #a87aff;
 }
 
-#classement th {
-    padding: 15px;
 
-    color: #32e96f;
+/* =========================================================
+   DAILY REWARD
+   ========================================================= */
 
-    font-size: 11px;
+.daily-card .reward {
 
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
+    color:
+        #62e991;
 }
 
-#classement td {
-    padding: 17px 14px;
 
-    color: white;
+/* =========================================================
+   CARD FOOTER
+   ========================================================= */
 
-    background:
-        rgba(13,18,39,.92);
+.card-footer {
+
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 17px;
+
+    padding-top: 17px;
 
     border-top:
         1px solid
-        rgba(255,255,255,.04);
+        rgba(255,255,255,0.055);
+}
+
+
+/* =========================================================
+   FOOTER ITEM
+   ========================================================= */
+
+.card-footer-item {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.card-footer-item span {
+
+    color:
+        #626b80;
+
+    font-size: 8px;
+
+    font-weight: 900;
+
+    letter-spacing:
+        1px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.card-footer-item strong {
+
+    color:
+        #dfe3ec;
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   CARD NUMBER / ICON
+   ========================================================= */
+
+.card-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 38px;
+
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,0.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .tournaments-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .tournament-card {
+
+        min-height:
+            520px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .tournament-card {
+
+        padding:
+            20px 18px 22px;
+
+        min-height:
+            500px;
+
+        border-radius:
+            19px;
+    }
+
+
+    .game-logo {
+
+        width: 105px;
+        height: 105px;
+
+        font-size: 52px;
+    }
+
+
+    .tournament-card h2 {
+
+        font-size:
+            34px;
+    }
+
+
+    .tournament-card button {
+
+        min-height:
+            54px;
+
+        font-size:
+            11px;
+    }
+
+
+    .tournament-card #timer,
+    .tournament-card #dailyTimer {
+
+        font-size:
+            10px;
+    }
+}
+
+
+/* =========================================================
+   CLASSEMENT CONTAINER
+   ========================================================= */
+
+#classement,
+#dailyClassement {
+
+    width:
+        min(1100px, calc(100% - 40px));
+
+    margin:
+        35px auto 70px;
+
+    padding:
+        28px;
+
+    border-radius:
+        22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(12,17,37,0.98),
+            rgba(6,9,23,0.98)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,0.42);
+
+    overflow:
+        hidden;
+}
+
+
+/* =========================================================
+   TITLE CLASSEMENT
+   ========================================================= */
+
+#classement h2,
+#dailyClassement h2 {
+
+    margin:
+        0 0 25px;
+
+    padding-bottom:
+        18px;
 
     border-bottom:
         1px solid
-        rgba(255,255,255,.04);
-}
+        rgba(255,255,255,0.06);
 
-#classement td:first-child {
-    border-radius:
-        13px 0 0 13px;
-}
+    color:
+        white;
 
-#classement td:last-child {
-    border-radius:
-        0 13px 13px 0;
-}
+    font-size:
+        clamp(22px, 4vw, 32px);
 
+    font-weight:
+        1000;
 
-/* =========================================================
-   TOP 1
-   ========================================================= */
+    letter-spacing:
+        1px;
 
-#dailyTable tr:nth-child(1) td {
-    background:
-        linear-gradient(
-            90deg,
-            rgba(255,204,50,.16),
-            rgba(255,190,30,.05)
-        );
-
-    border-top-color:
-        rgba(255,204,50,.28);
-
-    border-bottom-color:
-        rgba(255,204,50,.28);
-}
-
-#dailyTable tr:nth-child(1) td:first-child {
-    color: var(--yellow);
-
-    font-size: 21px;
-
-    font-weight: 1000;
-}
-
-
-/* TOP 2 */
-
-#dailyTable tr:nth-child(2) td:first-child {
-    color: var(--silver);
-
-    font-size: 19px;
-
-    font-weight: 1000;
-}
-
-
-/* TOP 3 */
-
-#dailyTable tr:nth-child(3) td:first-child {
-    color: var(--bronze);
-
-    font-size: 18px;
-
-    font-weight: 1000;
+    text-transform:
+        uppercase;
 }
 
 
 /* =========================================================
-   RANK UP
+   WEEKLY TITLE
    ========================================================= */
 
-.rankup-title {
-    margin-top: 35px;
+#classement h2 {
 
-    color: #b66aff;
-
-    font-size: 18px;
-
-    font-weight: 1000;
-
-    letter-spacing: 3px;
-
-    text-transform: uppercase;
+    color:
+        #f4f5fb;
 
     text-shadow:
         0 0 20px
-        rgba(155,77,255,.65);
-
-    animation:
-        rankGlow 2s infinite alternate;
+        rgba(139,61,255,0.18);
 }
 
-.rankup-text {
-    margin-top: 8px;
 
-    font-size: 27px;
+/* =========================================================
+   DAILY TITLE
+   ========================================================= */
 
-    font-weight: 1000;
+#dailyClassement h2 {
 
-    text-transform: uppercase;
+    color:
+        #ffffff;
+
+    text-shadow:
+        0 0 20px
+        rgba(34,230,109,0.15);
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+#classement table,
+#dailyClassement table {
+
+    width:
+        100%;
+
+    border-collapse:
+        separate;
+
+    border-spacing:
+        0 8px;
+
+    table-layout:
+        fixed;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+#classement thead th,
+#dailyClassement thead th {
+
+    padding:
+        12px 14px;
+
+    color:
+        #687289;
+
+    font-size:
+        9px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        1.5px;
+
+    text-transform:
+        uppercase;
+
+    text-align:
+        left;
+
+    border:
+        none;
+}
+
+
+/* alignements */
+
+#classement thead th:nth-child(1),
+#classement thead th:nth-child(2),
+#classement thead th:nth-child(4),
+#dailyClassement thead th:nth-child(1),
+#dailyClassement thead th:nth-child(2),
+#dailyClassement thead th:nth-child(4) {
+
+    text-align:
+        center;
+}
+
+
+/* =========================================================
+   TABLE ROW
+   ========================================================= */
+
+#classement tbody tr,
+#dailyClassement tbody tr {
+
+    background:
+        rgba(255,255,255,0.025);
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+}
+
+
+/* =========================================================
+   ROW HOVER
+   ========================================================= */
+
+#classement tbody tr:hover,
+#dailyClassement tbody tr:hover {
+
+    background:
+        rgba(255,255,255,0.055);
+
+    transform:
+        translateX(4px);
+}
+
+
+/* =========================================================
+   CELLS
+   ========================================================= */
+
+#classement tbody td,
+#dailyClassement tbody td {
+
+    padding:
+        15px 14px;
+
+    color:
+        #dce1ec;
+
+    font-size:
+        13px;
+
+    font-weight:
+        800;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,0.035);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.035);
+}
+
+
+/* première cellule */
+
+#classement tbody td:first-child,
+#dailyClassement tbody td:first-child {
+
+    border-left:
+        1px solid
+        rgba(255,255,255,0.035);
+
+    border-radius:
+        10px 0 0 10px;
+}
+
+
+/* dernière cellule */
+
+#classement tbody td:last-child,
+#dailyClassement tbody td:last-child {
+
+    border-right:
+        1px solid
+        rgba(255,255,255,0.035);
+
+    border-radius:
+        0 10px 10px 0;
+}
+
+
+/* =========================================================
+   REWARD
+   ========================================================= */
+
+.lp-reward {
+
+    text-align:
+        center;
+
+    color:
+        #b36cff !important;
+
+    font-size:
+        12px !important;
+
+    font-weight:
+        1000 !important;
+
+    text-shadow:
+        0 0 12px
+        rgba(139,61,255,0.3);
+}
+
+
+/* =========================================================
+   DAILY REWARD
+   ========================================================= */
+
+#dailyClassement .lp-reward {
+
+    color:
+        #63ed91 !important;
+
+    text-shadow:
+        0 0 12px
+        rgba(34,230,109,0.25);
+}
+
+
+/* =========================================================
+   POSITION
+   ========================================================= */
+
+#classement tbody td:nth-child(2),
+#dailyClassement tbody td:nth-child(2) {
+
+    width:
+        70px;
+
+    text-align:
+        center;
+
+    color:
+        #aeb6c7;
+
+    font-weight:
+        1000;
+}
+
+
+/* =========================================================
+   FIRST PLACE
+   ========================================================= */
+
+#classement tbody tr:first-child,
+#dailyClassement tbody tr:first-child {
 
     background:
         linear-gradient(
             90deg,
-            #9c4cff,
-            #ffffff,
-            #31ed72
+            rgba(139,61,255,0.10),
+            rgba(255,255,255,0.025)
         );
-
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    color: transparent;
 }
 
-@keyframes rankGlow {
+
+#classement tbody tr:first-child td,
+#dailyClassement tbody tr:first-child td {
+
+    border-top-color:
+        rgba(139,61,255,0.22);
+
+    border-bottom-color:
+        rgba(139,61,255,0.22);
+}
+
+
+/* =========================================================
+   TOP PLAYER
+   ========================================================= */
+
+.top-player {
+
+    color:
+        #ffffff !important;
+
+    font-weight:
+        1000 !important;
+}
+
+
+/* =========================================================
+   PLAYER NAME
+   ========================================================= */
+
+#classement tbody td:nth-child(3),
+#dailyClassement tbody td:nth-child(3) {
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =========================================================
+   POINTS
+   ========================================================= */
+
+#classement tbody td:nth-child(4),
+#dailyClassement tbody td:nth-child(4) {
+
+    text-align:
+        center;
+
+    color:
+        #ffffff;
+
+    font-size:
+        14px;
+
+    font-weight:
+        1000;
+}
+
+
+/* =========================================================
+   RANK BADGES
+   ========================================================= */
+
+.rank-badge {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    margin-left:
+        7px;
+
+    padding:
+        4px 7px;
+
+    border-radius:
+        6px;
+
+    font-size:
+        8px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        .3px;
+
+    white-space:
+        nowrap;
+
+    vertical-align:
+        middle;
+}
+
+
+/* Bronze */
+
+.rank-bronze {
+
+    color:
+        #d9965b;
+
+    background:
+        rgba(181,106,48,0.12);
+
+    border:
+        1px solid
+        rgba(181,106,48,0.2);
+}
+
+
+/* Silver */
+
+.rank-silver {
+
+    color:
+        #d9e0eb;
+
+    background:
+        rgba(190,200,215,0.1);
+
+    border:
+        1px solid
+        rgba(190,200,215,0.18);
+}
+
+
+/* Gold */
+
+.rank-gold {
+
+    color:
+        #ffd95a;
+
+    background:
+        rgba(255,210,55,0.1);
+
+    border:
+        1px solid
+        rgba(255,210,55,0.22);
+}
+
+
+/* Platinum */
+
+.rank-platinum {
+
+    color:
+        #67d8ff;
+
+    background:
+        rgba(60,190,235,0.1);
+
+    border:
+        1px solid
+        rgba(60,190,235,0.2);
+}
+
+
+/* Diamond */
+
+.rank-diamond {
+
+    color:
+        #72a9ff;
+
+    background:
+        rgba(70,125,255,0.1);
+
+    border:
+        1px solid
+        rgba(70,125,255,0.2);
+}
+
+
+/* Champion */
+
+.rank-champion {
+
+    color:
+        #c58cff;
+
+    background:
+        rgba(145,65,255,0.12);
+
+    border:
+        1px solid
+        rgba(145,65,255,0.23);
+}
+
+
+/* Legend */
+
+.rank-legend {
+
+    color:
+        #ff735d;
+
+    background:
+        rgba(255,70,50,0.1);
+
+    border:
+        1px solid
+        rgba(255,70,50,0.22);
+}
+
+
+/* =========================================================
+   CONTENT CREATOR BADGE
+   ========================================================= */
+
+.creator-badge {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    margin-left:
+        7px;
+
+    padding:
+        4px 7px;
+
+    border-radius:
+        6px;
+
+    background:
+        rgba(255,255,255,0.06);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.1);
+
+    color:
+        #9fa8bb;
+
+    font-size:
+        7px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        .5px;
+
+    text-transform:
+        uppercase;
+
+    vertical-align:
+        middle;
+}
+
+
+/* =========================================================
+   EMPTY TABLE
+   ========================================================= */
+
+#brawlTable:empty::after,
+#dailyTable:empty::after {
+
+    content:
+        "Aucun joueur pour le moment";
+
+    display:
+        block;
+
+    padding:
+        30px;
+
+    color:
+        #69738a;
+
+    font-size:
+        12px;
+
+    text-align:
+        center;
+}
+
+
+/* =========================================================
+   MOBILE TABLE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    #classement,
+    #dailyClassement {
+
+        width:
+            calc(100% - 20px);
+
+        padding:
+            17px;
+
+        border-radius:
+            17px;
+    }
+
+
+    #classement table,
+    #dailyClassement table {
+
+        font-size:
+            11px;
+    }
+
+
+    #classement thead th,
+    #dailyClassement thead th {
+
+        padding:
+            9px 5px;
+
+        font-size:
+            7px;
+
+        letter-spacing:
+            .7px;
+    }
+
+
+    #classement tbody td,
+    #dailyClassement tbody td {
+
+        padding:
+            12px 5px;
+
+        font-size:
+            10px;
+    }
+
+
+    #classement tbody td:nth-child(2),
+    #dailyClassement tbody td:nth-child(2) {
+
+        width:
+            45px;
+    }
+
+
+    .rank-badge {
+
+        margin-left:
+            3px;
+
+        padding:
+            3px 5px;
+
+        font-size:
+            6px;
+    }
+
+
+    .creator-badge {
+
+        display:
+            none;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 450px) {
+
+    #classement,
+    #dailyClassement {
+
+        overflow-x:
+            auto;
+    }
+
+
+    #classement table,
+    #dailyClassement table {
+
+        min-width:
+            560px;
+    }
+}
+
+/* =========================================================
+   END TIMER
+   ========================================================= */
+
+#endTimer {
+
+    width:
+        min(900px, calc(100% - 40px));
+
+    margin:
+        -30px auto 20px;
+
+    padding:
+        14px 20px;
+
+    box-sizing:
+        border-box;
+
+    border-radius:
+        12px;
+
+    text-align:
+        center;
+
+    color:
+        #aeb6c8;
+
+    background:
+        rgba(255,255,255,0.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    font-size:
+        11px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .7px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,0.18);
+}
+
+
+/* =========================================================
+   END TIMER - ACTIVE
+   ========================================================= */
+
+#endTimer:not([style*="display: none"]) {
+
+    animation:
+        endTimerAppear .35s ease;
+}
+
+
+@keyframes endTimerAppear {
+
     from {
-        opacity: .7;
+
+        opacity:
+            0;
+
+        transform:
+            translateY(8px);
     }
 
     to {
-        opacity: 1;
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   REWARD STATUS
+   ========================================================= */
+
+#rewardStatus {
+
+    width:
+        min(900px, calc(100% - 40px));
+
+    margin:
+        15px auto 45px;
+
+    padding:
+        14px 20px;
+
+    box-sizing:
+        border-box;
+
+    border-radius:
+        12px;
+
+    text-align:
+        center;
+
+    color:
+        #7d879b;
+
+    background:
+        rgba(255,255,255,0.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.055);
+
+    font-size:
+        10px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .6px;
+}
+
+
+/* =========================================================
+   SUCCESS MESSAGE
+   ========================================================= */
+
+#rewardStatus.success {
+
+    color:
+        #68ed94;
+
+    background:
+        rgba(34,230,109,0.055);
+
+    border-color:
+        rgba(34,230,109,0.18);
+
+    box-shadow:
+        0 0 25px
+        rgba(34,230,109,0.08);
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+   ========================================================= */
+
+#rewardStatus.error {
+
+    color:
+        #ff7168;
+
+    background:
+        rgba(255,70,60,0.05);
+
+    border-color:
+        rgba(255,70,60,0.16);
+}
+
+
+/* =========================================================
+   REWARD GIVEN
+   ========================================================= */
+
+.reward-given {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        6px;
+
+    padding:
+        5px 9px;
+
+    border-radius:
+        7px;
+
+    color:
+        #62ed91;
+
+    background:
+        rgba(34,230,109,0.08);
+
+    border:
+        1px solid
+        rgba(34,230,109,0.17);
+
+    font-size:
+        8px;
+
+    font-weight:
+        1000;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* =========================================================
+   REWARD LP HIGHLIGHT
+   ========================================================= */
+
+#classement .lp-reward,
+#dailyClassement .lp-reward {
+
+    position:
+        relative;
+}
+
+
+/* =========================================================
+   TOP 3 SPECIAL EFFECT
+   ========================================================= */
+
+#classement tbody tr:nth-child(1) .lp-reward,
+#dailyClassement tbody tr:nth-child(1) .lp-reward {
+
+    font-size:
+        13px !important;
+
+    text-shadow:
+        0 0 15px
+        rgba(255,210,70,0.35);
+}
+
+
+#classement tbody tr:nth-child(2) .lp-reward,
+#dailyClassement tbody tr:nth-child(2) .lp-reward {
+
+    text-shadow:
+        0 0 12px
+        rgba(220,225,235,0.25);
+}
+
+
+#classement tbody tr:nth-child(3) .lp-reward,
+#dailyClassement tbody tr:nth-child(3) .lp-reward {
+
+    text-shadow:
+        0 0 12px
+        rgba(210,140,75,0.25);
+}
+
+
+/* =========================================================
+   FINISHED TOURNAMENT
+   ========================================================= */
+
+.tournament-finished {
+
+    opacity:
+        .7;
+
+    filter:
+        grayscale(.15);
+}
+
+
+.tournament-finished button {
+
+    cursor:
+        not-allowed;
+
+    background:
+        linear-gradient(
+            135deg,
+            #242a3b,
+            #30384d
+        );
+
+    box-shadow:
+        none;
+}
+
+
+/* =========================================================
+   LOADING STATE
+   ========================================================= */
+
+.loading-state {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        100px;
+
+    color:
+        #707a91;
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+}
+
+
+/* =========================================================
+   SIMPLE LOADING DOTS
+   ========================================================= */
+
+.loading-state::after {
+
+    content:
+        "...";
+
+    display:
+        inline-block;
+
+    width:
+        18px;
+
+    overflow:
+        hidden;
+
+    animation:
+        loadingDots 1.2s steps(4,end) infinite;
+}
+
+
+@keyframes loadingDots {
+
+    0% {
+        width: 0;
+    }
+
+    33% {
+        width: 6px;
+    }
+
+    66% {
+        width: 12px;
+    }
+
+    100% {
+        width: 18px;
     }
 }
 
@@ -768,63 +3057,1282 @@ body::before {
    MOBILE
    ========================================================= */
 
-@media (max-width: 800px) {
+@media (max-width: 700px) {
 
-    .tournaments-container,
-    .tournament-container,
-    .tournaments,
-    .cards-container {
-        grid-template-columns: 1fr;
+    #endTimer,
+    #rewardStatus {
+
+        width:
+            calc(100% - 20px);
+
+        font-size:
+            9px;
+
+        padding:
+            12px 14px;
     }
+}
+
+/* =========================================================
+   TABLETTE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .navbar {
+
+        padding:
+            14px 20px;
+    }
+
+
+    .nav-links {
+
+        gap:
+            16px;
+    }
+
+
+    .nav-links a {
+
+        font-size:
+            11px;
+    }
+
 
     .tournament-card {
-        min-height: 500px;
 
-        padding: 24px;
+        min-height:
+            500px;
     }
 
-    #classement {
-        padding: 18px;
 
-        overflow-x: auto;
+    .game-logo {
+
+        width:
+            110px;
+
+        height:
+            110px;
+
+        font-size:
+            54px;
     }
 
-    #classement table {
-        min-width: 650px;
+
+    .tournament-card h2 {
+
+        font-size:
+            36px;
     }
 }
 
 
 /* =========================================================
-   PETIT MOBILE
+   TABLETTE PETITE
    ========================================================= */
 
-@media (max-width: 480px) {
+@media (max-width: 750px) {
 
-    #userEmail,
-    #balance {
+    .navbar {
+
+        flex-wrap:
+            wrap;
+
+        gap:
+            14px;
+    }
+
+
+    .nav-left {
+
+        flex:
+            1;
+    }
+
+
+    .nav-links {
+
+        order:
+            3;
+
         width:
-            calc(100% - 24px);
+            100%;
+
+        justify-content:
+            center;
+
+        padding-top:
+            5px;
     }
 
-    .tournaments-container,
-    .tournament-container,
-    .tournaments,
-    .cards-container {
+
+    .nav-links a {
+
+        font-size:
+            10px;
+
+        padding:
+            5px 8px;
+    }
+
+
+    #authSection {
+
+        margin-left:
+            auto;
+    }
+
+
+    .user-panel {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .balance-box {
+
+        text-align:
+            left;
+    }
+
+
+    .tournaments-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .tournament-card {
+
         width:
-            calc(100% - 24px);
-    }
+            100%;
 
-    .tournament-card h2 {
-        font-size: 30px;
-    }
-
-    .tournament-card button {
-        width: 100%;
-    }
-
-    #classement {
-        width:
-            calc(100% - 24px);
+        box-sizing:
+            border-box;
     }
 }
+
+
+/* =========================================================
+   TELEPHONE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+
+        overflow-x:
+            hidden;
+    }
+
+
+    /* -----------------------------------------
+       NAVBAR
+       ----------------------------------------- */
+
+    .navbar {
+
+        padding:
+            13px 15px;
+
+        border-radius:
+            0 0 15px 15px;
+    }
+
+
+    .logo {
+
+        font-size:
+            17px;
+    }
+
+
+    .nav-links {
+
+        gap:
+            5px;
+
+        overflow-x:
+            auto;
+
+        justify-content:
+            flex-start;
+
+        scrollbar-width:
+            none;
+    }
+
+
+    .nav-links::-webkit-scrollbar {
+
+        display:
+            none;
+    }
+
+
+    .nav-links a {
+
+        flex-shrink:
+            0;
+
+        padding:
+            7px 10px;
+
+        border-radius:
+            7px;
+
+        font-size:
+            9px;
+    }
+
+
+    /* -----------------------------------------
+       USER
+       ----------------------------------------- */
+
+    .user-panel {
+
+        gap:
+            10px;
+
+        margin-bottom:
+            35px;
+    }
+
+
+    .user-box {
+
+        min-height:
+            68px;
+
+        padding:
+            13px 17px;
+
+        border-radius:
+            13px;
+    }
+
+
+    #userEmail {
+
+        font-size:
+            12px;
+    }
+
+
+    #balance {
+
+        font-size:
+            16px;
+    }
+
+
+    /* -----------------------------------------
+       HERO
+       ----------------------------------------- */
+
+    .hero-title {
+
+        margin-bottom:
+            30px;
+    }
+
+
+    .hero-small {
+
+        font-size:
+            8px;
+
+        letter-spacing:
+            2.5px;
+    }
+
+
+    .hero-title h1 {
+
+        font-size:
+            clamp(34px, 12vw, 50px);
+
+        letter-spacing:
+            -1px;
+    }
+
+
+    .hero-title p {
+
+        font-size:
+            12px;
+
+        line-height:
+            1.5;
+
+        padding:
+            0 10px;
+    }
+
+
+    /* -----------------------------------------
+       TOURNAMENTS
+       ----------------------------------------- */
+
+    .tournaments-grid {
+
+        gap:
+            15px;
+
+        margin-bottom:
+            30px;
+    }
+
+
+    .tournament-card {
+
+        min-height:
+            0;
+
+        padding:
+            18px 16px 20px;
+
+        border-radius:
+            18px;
+    }
+
+
+    .card-top {
+
+        margin-bottom:
+            12px;
+    }
+
+
+    .tournament-type {
+
+        font-size:
+            7px;
+
+        padding:
+            5px 8px;
+    }
+
+
+    .game-logo {
+
+        width:
+            90px;
+
+        height:
+            90px;
+
+        margin:
+            3px auto 12px;
+
+        font-size:
+            45px;
+    }
+
+
+    .card-game {
+
+        font-size:
+            8px;
+
+        letter-spacing:
+            2px;
+    }
+
+
+    .tournament-card h2 {
+
+        font-size:
+            clamp(27px, 9vw, 38px);
+    }
+
+
+    .card-description {
+
+        min-height:
+            auto;
+
+        margin:
+            12px auto 16px;
+
+        font-size:
+            11px;
+    }
+
+
+    .tournament-card .reward {
+
+        margin:
+            9px 0 12px;
+
+        font-size:
+            8px;
+    }
+
+
+    /* -----------------------------------------
+       LP BOX
+       ----------------------------------------- */
+
+    .lp-reward-box {
+
+        min-height:
+            58px;
+
+        margin-bottom:
+            13px;
+
+        padding:
+            9px 12px;
+
+        border-radius:
+            10px;
+    }
+
+
+    .lp-reward-box strong {
+
+        font-size:
+            20px;
+    }
+
+
+    .lp-reward-box span {
+
+        font-size:
+            7px;
+    }
+
+
+    .lp-reward-box small {
+
+        font-size:
+            8px;
+    }
+
+
+    /* -----------------------------------------
+       TIMER
+       ----------------------------------------- */
+
+    .tournament-card #timer,
+    .tournament-card #dailyTimer {
+
+        min-height:
+            36px;
+
+        margin:
+            7px auto 13px;
+
+        padding:
+            8px;
+
+        font-size:
+            9px;
+
+        border-radius:
+            8px;
+    }
+
+
+    /* -----------------------------------------
+       BUTTON
+       ----------------------------------------- */
+
+    .tournament-card button {
+
+        min-height:
+            50px;
+
+        padding:
+            12px;
+
+        border-radius:
+            10px;
+
+        font-size:
+            9px;
+
+        letter-spacing:
+            .8px;
+    }
+
+
+    /* -----------------------------------------
+       FOOTER
+       ----------------------------------------- */
+
+    .card-footer {
+
+        margin-top:
+            12px;
+
+        padding-top:
+            12px;
+    }
+
+
+    .card-footer-item span {
+
+        font-size:
+            7px;
+    }
+
+
+    .card-footer-item strong {
+
+        font-size:
+            10px;
+    }
+
+
+    .card-icon {
+
+        width:
+            32px;
+
+        height:
+            32px;
+
+        font-size:
+            14px;
+    }
+
+
+    /* -----------------------------------------
+       CLASSEMENT
+       ----------------------------------------- */
+
+    #classement,
+    #dailyClassement {
+
+        width:
+            calc(100% - 20px);
+
+        margin:
+            25px auto 45px;
+
+        padding:
+            14px;
+
+        border-radius:
+            15px;
+    }
+
+
+    #classement h2,
+    #dailyClassement h2 {
+
+        margin-bottom:
+            16px;
+
+        padding-bottom:
+            13px;
+
+        font-size:
+            19px;
+    }
+
+
+    /* -----------------------------------------
+       END TIMER
+       ----------------------------------------- */
+
+    #endTimer,
+    #rewardStatus {
+
+        width:
+            calc(100% - 20px);
+
+        margin:
+            12px auto;
+
+        font-size:
+            8px;
+
+        padding:
+            10px 12px;
+    }
+}
+
+
+/* =========================================================
+   TRES PETIT TELEPHONE
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .logo {
+
+        font-size:
+            15px;
+    }
+
+
+    .nav-links a {
+
+        font-size:
+            8px;
+
+        padding:
+            6px 8px;
+    }
+
+
+    .user-box {
+
+        padding:
+            12px 14px;
+    }
+
+
+    #userEmail {
+
+        font-size:
+            11px;
+    }
+
+
+    #balance {
+
+        font-size:
+            14px;
+    }
+
+
+    .game-logo {
+
+        width:
+            78px;
+
+        height:
+            78px;
+
+        font-size:
+            38px;
+    }
+
+
+    .tournament-card h2 {
+
+        font-size:
+            27px;
+    }
+
+
+    .tournament-card button {
+
+        min-height:
+            47px;
+
+        font-size:
+            8px;
+    }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+   ========================================================= */
+
+@media (hover: none) {
+
+    .tournament-card:hover {
+
+        transform:
+            none;
+    }
+
+
+    .tournament-card:hover .game-logo {
+
+        transform:
+            none;
+    }
+
+
+    .tournament-card button:hover {
+
+        transform:
+            none;
+    }
+}
+
+/* =========================================================
+   SMOOTH SCROLL
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+
+    background:
+        rgba(139,61,255,0.35);
+
+    color:
+        #ffffff;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+
+    width:
+        7px;
+
+    height:
+        7px;
+}
+
+
+::-webkit-scrollbar-track {
+
+    background:
+        #060916;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    border-radius:
+        10px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #7130d7,
+            #35136d
+        );
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background:
+        #9148ff;
+}
+
+
+/* =========================================================
+   PAGE FADE IN
+   ========================================================= */
+
+body {
+
+    animation:
+        pageAppear .45s ease;
+}
+
+
+@keyframes pageAppear {
+
+    from {
+
+        opacity:
+            0;
+    }
+
+    to {
+
+        opacity:
+            1;
+    }
+}
+
+
+/* =========================================================
+   TOURNAMENT CARD ENTRY
+   ========================================================= */
+
+.tournament-card {
+
+    animation:
+        cardAppear .55s ease both;
+}
+
+
+.tournament-card:nth-child(1) {
+
+    animation-delay:
+        .08s;
+}
+
+
+.tournament-card:nth-child(2) {
+
+    animation-delay:
+        .16s;
+}
+
+
+@keyframes cardAppear {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(25px);
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   CARD TOP LIGHT
+   ========================================================= */
+
+.tournament-card::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        8%;
+
+    width:
+        84%;
+
+    height:
+        1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.18),
+            transparent
+        );
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   WEEKLY PURPLE ACCENT
+   ========================================================= */
+
+.weekly-card {
+
+    border-top-color:
+        rgba(139,61,255,0.25);
+}
+
+
+/* =========================================================
+   DAILY GREEN ACCENT
+   ========================================================= */
+
+.daily-card {
+
+    border-top-color:
+        rgba(34,230,109,0.22);
+}
+
+
+/* =========================================================
+   PROTECTION FOR EXISTING HTML
+   ========================================================= */
+
+/*
+   Ton HTML actuel utilise directement .tournament-card.
+   Ces règles permettent au design de fonctionner même
+   sans ajouter immédiatement les nouvelles classes.
+*/
+
+.tournament-card {
+
+    box-sizing:
+        border-box;
+}
+
+
+.tournament-card h2,
+.tournament-card p,
+.tournament-card button {
+
+    box-sizing:
+        border-box;
+}
+
+
+/* =========================================================
+   EXISTING REWARD CLASS
+   ========================================================= */
+
+.reward {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+}
+
+
+/* =========================================================
+   EXISTING DAILY CLASS
+   ========================================================= */
+
+#dailyClassement {
+
+    position:
+        relative;
+}
+
+
+/* =========================================================
+   TABLE OVERFLOW PROTECTION
+   ========================================================= */
+
+#classement,
+#dailyClassement {
+
+    overflow-x:
+        auto;
+}
+
+
+#classement table,
+#dailyClassement table {
+
+    min-width:
+        620px;
+}
+
+
+/* =========================================================
+   HIDE EMPTY REWARD STATUS
+   ========================================================= */
+
+#rewardStatus:empty {
+
+    display:
+        none;
+}
+
+
+/* =========================================================
+   HIDE END TIMER WHEN JS HIDES IT
+   ========================================================= */
+
+#endTimer[style*="display:none"],
+#endTimer[style*="display: none"] {
+
+    display:
+        none !important;
+}
+
+
+/* =========================================================
+   DISABLED JOIN BUTTON
+   ========================================================= */
+
+#joinBtn:disabled,
+#dailyJoinBtn:disabled {
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible {
+
+    outline:
+        2px solid
+        #a76cff;
+
+    outline-offset:
+        3px;
+}
+
+
+/* =========================================================
+   BUTTON PRESS
+   ========================================================= */
+
+.tournament-card button:active {
+
+    transform:
+        scale(.98);
+}
+
+
+/* =========================================================
+   TABLE ROW ENTRY
+   ========================================================= */
+
+#brawlTable tr,
+#dailyTable tr {
+
+    animation:
+        rowAppear .25s ease both;
+}
+
+
+#brawlTable tr:nth-child(1),
+#dailyTable tr:nth-child(1) {
+
+    animation-delay:
+        .03s;
+}
+
+
+#brawlTable tr:nth-child(2),
+#dailyTable tr:nth-child(2) {
+
+    animation-delay:
+        .06s;
+}
+
+
+#brawlTable tr:nth-child(3),
+#dailyTable tr:nth-child(3) {
+
+    animation-delay:
+        .09s;
+}
+
+
+@keyframes rowAppear {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateX(-8px);
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateX(0);
+    }
+}
+
+
+/* =========================================================
+   TOP PLAYER GLOW
+   ========================================================= */
+
+.top-player {
+
+    text-shadow:
+        0 0 12px
+        rgba(255,255,255,0.08);
+}
+
+
+/* =========================================================
+   RANK BADGE HOVER
+   ========================================================= */
+
+.rank-badge {
+
+    transition:
+        transform .2s ease,
+        filter .2s ease;
+}
+
+
+.rank-badge:hover {
+
+    transform:
+        translateY(-1px);
+
+    filter:
+        brightness(1.15);
+}
+
+
+/* =========================================================
+   CREATOR BADGE
+   ========================================================= */
+
+.creator-badge {
+
+    transition:
+        background .2s ease,
+        border-color .2s ease;
+}
+
+
+.creator-badge:hover {
+
+    background:
+        rgba(139,61,255,0.1);
+
+    border-color:
+        rgba(139,61,255,0.22);
+}
+
+
+/* =========================================================
+   USER INFO FIX
+   ========================================================= */
+
+#userEmail,
+#balance {
+
+    position:
+        relative;
+
+    z-index:
+        5;
+}
+
+
+/* =========================================================
+   GENERAL IMAGE PROTECTION
+   ========================================================= */
+
+img {
+
+    max-width:
+        100%;
+
+    height:
+        auto;
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        scroll-behavior:
+            auto !important;
+
+        transition-duration:
+            .01ms !important;
+    }
+}
+
+
+/* =========================================================
+   FINAL MOBILE CORRECTION
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    #classement table,
+    #dailyClassement table {
+
+        min-width:
+            560px;
+    }
+
+
+    #classement,
+    #dailyClassement {
+
+        -webkit-overflow-scrolling:
+            touch;
+    }
+
+
+    .tournament-card::before {
+
+        opacity:
+            .08;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL SCREEN
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .tournament-card {
+
+        padding:
+            15px 13px 17px;
+    }
+
+
+    .tournament-card h2 {
+
+        font-size:
+            25px;
+    }
+
+
+    .game-logo {
+
+        width:
+            70px;
+
+        height:
+            70px;
+
+        font-size:
+            34px;
+    }
+
+
+    #classement h2,
+    #dailyClassement h2 {
+
+        font-size:
+            17px;
+    }
+}
+
+
+/* =========================================================
+   END OF CASH ARENA DASHBOARD CSS
+   ========================================================= */
