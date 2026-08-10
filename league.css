@@ -980,3 +980,38 @@ body{
 
     align-items: center;
 }
+
+/* =========================================
+   ICÔNES DE LA BARRE DES RANGS
+========================================= */
+
+.road-rank-icon {
+    width: 75px;
+    height: 75px;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin: 0 auto 10px;
+
+    transition: transform .3s ease;
+}
+
+
+/* Animation au survol */
+
+.road-rank:hover .road-rank-icon {
+    transform: scale(1.12);
+}
+
+
+/* Rang actuellement sélectionné */
+
+.road-rank.active .road-rank-icon {
+    transform: scale(1.12);
+
+    filter:
+        drop-shadow(0 0 8px #ffd54a)
+        drop-shadow(0 0 18px #ffd54a);
+}
