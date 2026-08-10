@@ -4589,3 +4589,27 @@ img {
     text-shadow:
         0 0 15px rgba(34,230,109,0.18);
 }
+
+/* ==========================================
+   BADGE BRONZE - ICONE PERSONNALISEE
+========================================== */
+
+.rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    vertical-align: middle;
+}
+
+.rank-badge img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+.rank-bronze img {
+    width: 36px;
+    height: 36px;
+}

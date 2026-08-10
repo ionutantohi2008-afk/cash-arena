@@ -547,7 +547,12 @@ function getRankBadge(rank) {
   switch(rank) {
 
     case "Bronze":
-      return `<span class="rank-badge rank-bronze">🥉 Bronze</span>`;
+      return `
+        <span class="rank-badge rank-bronze">
+          <img src="bronze.png" alt="Bronze">
+          <span>Bronze</span>
+        </span>
+      `;
 
     case "Silver":
       return `<span class="rank-badge rank-silver">🥈 Silver</span>`;
@@ -568,7 +573,12 @@ function getRankBadge(rank) {
       return `<span class="rank-badge rank-legend">🔥 Legend</span>`;
 
     default:
-      return `<span class="rank-badge rank-bronze">🥉 Bronze</span>`;
+      return `
+        <span class="rank-badge rank-bronze">
+          <img src="bronze.png" alt="Bronze">
+          <span>Bronze</span>
+        </span>
+      `;
   }
 }
 
