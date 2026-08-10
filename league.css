@@ -947,3 +947,14 @@ body{
 
     align-items: center;
 }
+
+/* ==========================================
+   BADGE BRONZE - ICONE PERSONNALISEE
+========================================== */
+
+.rank-icon-img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    vertical-align: middle;
+}

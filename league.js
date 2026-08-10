@@ -6,7 +6,7 @@ const RANKS = [
 
 {
 name:"Bronze",
-icon:"🥉",
+icon:"bronze.png",
 min:0,
 max:100
 },
@@ -77,11 +77,11 @@ const lp=data.leaguePoints||0;
 
 const rank=getRankFromLP(lp);
 
-document.getElementById("playerRank").innerText=
-rank.icon+" "+rank.name;
+document.getElementById("playerRank").innerHTML =
+    getRankIcon(rank) + " " + rank.name;
 
-document.getElementById("rankIcon").innerText=
-rank.icon;
+document.getElementById("rankIcon").innerHTML =
+    getRankIcon(rank);
 
 document.getElementById("playerLP").innerText=
 lp+" LP";
@@ -104,6 +104,23 @@ document.getElementById("legendCard").style.display="none";
 }
 
 });
+
+function getRankIcon(rank) {
+
+    if (rank.name === "Bronze") {
+
+        return `
+            <img
+                src="bronze.png"
+                alt="Bronze"
+                class="rank-icon-img"
+            >
+        `;
+
+    }
+
+    return rank.icon;
+}
 
 function getRankFromLP(lp){
 
@@ -250,8 +267,8 @@ function showRankUp(rank) {
     const text =
         document.getElementById("rankUpText");
 
-    icon.innerText =
-        rank.icon;
+    icon.innerHTML =
+    getRankIcon(rank);
 
     text.innerText =
         rank.name;
@@ -405,10 +422,10 @@ async function refreshLeague(){
     const rank = getRankFromLP(lp);
 
     document.getElementById("playerRank").innerHTML =
-        rank.icon + " " + rank.name;
+    getRankIcon(rank) + " " + rank.name;
 
-    document.getElementById("rankIcon").innerHTML =
-        rank.icon;
+document.getElementById("rankIcon").innerHTML =
+    getRankIcon(rank);
 
     document.getElementById("playerLP").innerHTML =
         lp + " LP";
