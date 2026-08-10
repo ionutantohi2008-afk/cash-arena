@@ -953,8 +953,8 @@ body{
 ========================================== */
 
 .rank-icon-img {
-    width: 45px;
-    height: 45px;
+    width: 90px;
+    height: 90px;
     object-fit: contain;
     vertical-align: middle;
 }

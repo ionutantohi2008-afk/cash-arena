@@ -77,8 +77,8 @@ const lp=data.leaguePoints||0;
 
 const rank=getRankFromLP(lp);
 
-document.getElementById("playerRank").innerHTML =
-    getRankIcon(rank) + " " + rank.name;
+document.getElementById("playerRank").innerText =
+    rank.name;
 
 document.getElementById("rankIcon").innerHTML =
     getRankIcon(rank);
@@ -113,7 +113,7 @@ function getRankIcon(rank) {
             <img
                 src="bronze.png"
                 alt="Bronze"
-                class="rank-icon-img"
+                class="league-bronze-icon"
             >
         `;
 
