@@ -550,7 +550,6 @@ function getRankBadge(rank) {
       return `
         <span class="rank-badge rank-bronze">
           <img src="bronze.png" alt="Bronze">
-          <span>Bronze</span>
         </span>
       `;
 
@@ -576,7 +575,6 @@ function getRankBadge(rank) {
       return `
         <span class="rank-badge rank-bronze">
           <img src="bronze.png" alt="Bronze">
-          <span>Bronze</span>
         </span>
       `;
   }
