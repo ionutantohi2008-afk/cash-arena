@@ -5,10 +5,10 @@ let currentUser = null;
 const RANKS = [
 
 {
-name:"Bronze",
-icon:"bronze.png",
-min:0,
-max:100
+    name:"Bronze",
+    icon:"🥉",
+    min:0,
+    max:100
 },
 
 {
@@ -113,7 +113,7 @@ function getRankIcon(rank) {
             <img
                 src="bronze.png"
                 alt="Bronze"
-                class="league-bronze-icon"
+                class="rank-icon-img"
             >
         `;
 
@@ -267,7 +267,7 @@ function showRankUp(rank) {
     const text =
         document.getElementById("rankUpText");
 
-    icon.innerHTML =
+   icon.innerHTML =
     getRankIcon(rank);
 
     text.innerText =
@@ -421,8 +421,8 @@ async function refreshLeague(){
 
     const rank = getRankFromLP(lp);
 
-    document.getElementById("playerRank").innerHTML =
-    getRankIcon(rank) + " " + rank.name;
+   document.getElementById("playerRank").innerText =
+    rank.name;
 
 document.getElementById("rankIcon").innerHTML =
     getRankIcon(rank);
