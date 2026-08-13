@@ -4598,7 +4598,7 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 10px;
     vertical-align: middle;
 }
 
@@ -4610,7 +4610,7 @@ img {
 }
 
 .rank-bronze img {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
 }
 
