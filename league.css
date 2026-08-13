@@ -1015,3 +1015,9 @@ body{
         drop-shadow(0 0 8px #ffd54a)
         drop-shadow(0 0 18px #ffd54a);
 }
+
+.road-rank img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
