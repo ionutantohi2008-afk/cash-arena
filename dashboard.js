@@ -554,7 +554,11 @@ function getRankBadge(rank) {
       `;
 
     case "Silver":
-      return `<span class="rank-badge rank-silver">🥈 Silver</span>`;
+      return `
+         <span class="rank-badge rank-silver">
+           <img src="silver.png" alt="Silver">
+         </span>
+       `;
 
     case "Gold":
       return `<span class="rank-badge rank-gold">🥇 Gold</span>`;

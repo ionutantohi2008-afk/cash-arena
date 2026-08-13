@@ -4613,3 +4613,27 @@ img {
     width: 36px;
     height: 36px;
 }
+
+/* ==========================================
+   BADGE silver - ICONE PERSONNALISEE
+========================================== */
+
+.rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    vertical-align: middle;
+}
+
+.rank-badge img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+.rank-silver img {
+    width: 36px;
+    height: 36px;
+}
