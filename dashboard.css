@@ -4603,8 +4603,8 @@ img {
 }
 
 .rank-badge img {
-    width: 50px;
-    height: 50px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     display: inline-block;
 }
