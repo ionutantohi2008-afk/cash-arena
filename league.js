@@ -107,19 +107,24 @@ document.getElementById("legendCard").style.display="none";
 
 function getRankIcon(rank) {
 
-    if (
-        rank.name === "Bronze" ||
-        rank.name === "Silver"
-    ) {
-
+    if (rank.name === "Bronze") {
         return `
             <img
-                src="${rank.icon}"
-                alt="${rank.name}"
+                src="bronze.png"
+                alt="Bronze"
                 class="rank-icon-img"
             >
         `;
+    }
 
+    if (rank.name === "Silver") {
+        return `
+            <img
+                src="silver.png"
+                alt="Silver"
+                class="rank-icon-img rank-silver-img"
+            >
+        `;
     }
 
     return rank.icon;
