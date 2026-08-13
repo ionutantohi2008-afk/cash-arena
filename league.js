@@ -6,14 +6,14 @@ const RANKS = [
 
 {
     name:"Bronze",
-    icon:"🥉",
+    icon:"bronze.png",
     min:0,
     max:100
 },
 
 {
 name:"Silver",
-icon:"🥈",
+icon:"silver.png",
 min:100,
 max:250
 },
@@ -107,12 +107,15 @@ document.getElementById("legendCard").style.display="none";
 
 function getRankIcon(rank) {
 
-    if (rank.name === "Bronze") {
+    if (
+        rank.name === "Bronze" ||
+        rank.name === "Silver"
+    ) {
 
         return `
             <img
-                src="bronze.png"
-                alt="Bronze"
+                src="${rank.icon}"
+                alt="${rank.name}"
                 class="rank-icon-img"
             >
         `;
