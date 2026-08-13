@@ -4476,6 +4476,36 @@ img {
     z-index: 5;
 }
 
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .user-section {
+        width: calc(100% - 30px);
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .user-box {
+        width: min(100%, 360px);
+    }
+
+    .dashboard-header {
+        width: calc(100% - 30px);
+        margin-top: 45px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 42px;
+    }
+
+    .tournaments-grid {
+        width: calc(100% - 30px);
+        grid-template-columns: 1fr;
+    }
+}
 
 /* =========================================================
    RECOMPENSE - CENTREE DANS LA CARD
