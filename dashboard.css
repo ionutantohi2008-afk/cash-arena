@@ -4598,13 +4598,13 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     vertical-align: middle;
 }
 
 .rank-badge img {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     display: inline-block;
 }
