@@ -1,10 +1,10 @@
 let isRegistered = false;
 let isDailyRegistered = false;
 
-const TOURNAMENT_ID = "weekly1";
+const TOURNAMENT_ID = "weekly2";
 const TOURNAMENT_HAS_REWARDS = true;
 
-const tournamentStartDate = new Date("2026-08-10T21:00:00");
+const tournamentStartDate = new Date("2026-08-17T21:00:00");
 const tournamentDurationDays = 7;
 
 const tournamentEndDate = new Date(
