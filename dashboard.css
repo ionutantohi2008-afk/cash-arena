@@ -4596,16 +4596,15 @@ img {
 .rank-badge {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 6px;
-    vertical-align: middle;
+    margin-left: 8px;
+    font-weight: 700;
 }
 
 .rank-badge img {
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
     object-fit: contain;
-    display: inline-block;
 }
 
 .rank-bronze img {

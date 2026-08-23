@@ -561,19 +561,39 @@ function getRankBadge(rank) {
        `;
 
     case "Gold":
-      return `<span class="rank-badge rank-gold">🥇 Gold</span>`;
+      return `
+         <span class="rank-badge rank-gold">
+           <img src="gold.png" alt="Gold">
+         </span>
+       `;
 
     case "Platinum":
-      return `<span class="rank-badge rank-platinum">💎 Platinum</span>`;
+      return `
+         <span class="rank-badge rank-platinum">
+           <img src="platinum.png" alt="Platinum">
+         </span>
+       `;
 
     case "Diamond":
-      return `<span class="rank-badge rank-diamond">🔷 Diamond</span>`;
+      return `
+         <span class="rank-badge rank-diamond">
+           <img src="diamond.png" alt="Diamond">
+         </span>
+       `;
 
     case "Champion":
-      return `<span class="rank-badge rank-champion">👑 Champion</span>`;
+      return `
+         <span class="rank-badge rank-champion">
+           <img src="champion.png" alt="Champion">
+         </span>
+       `;
 
     case "Legend":
-      return `<span class="rank-badge rank-legend">🔥 Legend</span>`;
+      return `
+         <span class="rank-badge rank-legend">
+           <img src="legend.png" alt="Legend">
+         </span>
+       `;
 
     default:
       return `

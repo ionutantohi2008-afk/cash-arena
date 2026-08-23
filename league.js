@@ -20,35 +20,35 @@ max:250
 
 {
 name:"Gold",
-icon:"🥇",
+icon:"gold.png",
 min:250,
 max:500
 },
 
 {
 name:"Platinum",
-icon:"💎",
+icon:"platinum.png",
 min:500,
 max:1000
 },
 
 {
 name:"Diamond",
-icon:"🔷",
+icon:"diamond.png",
 min:1000,
 max:2000
 },
 
 {
 name:"Champion",
-icon:"👑",
+icon:"champion.png",
 min:2000,
 max:3500
 },
 
 {
 name:"Legend",
-icon:"🔥",
+icon:"legend.png",
 min:3500,
 max:null
 }
@@ -107,27 +107,13 @@ document.getElementById("legendCard").style.display="none";
 
 function getRankIcon(rank) {
 
-    if (rank.name === "Bronze") {
-        return `
-            <img
-                src="bronze.png"
-                alt="Bronze"
-                class="rank-icon-img"
-            >
-        `;
-    }
-
-    if (rank.name === "Silver") {
-        return `
-            <img
-                src="silver.png"
-                alt="Silver"
-                class="rank-icon-img rank-silver-img"
-            >
-        `;
-    }
-
-    return rank.icon;
+    return `
+        <img
+            src="${rank.icon}"
+            alt="${rank.name}"
+            class="rank-icon-img"
+        >
+    `;
 }
 
 function getRankFromLP(lp){
