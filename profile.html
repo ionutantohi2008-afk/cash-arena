@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-
-  <script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: 'eggoze90yi',
-    });
-  </script>
-
   <meta charset="UTF-8">
-  <title>Profil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Profil - Cash Arena</title>
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Scripts Publicitaires / Analytics -->
+  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+  <script type="text/javascript">
+    aclib.runAutoTag({ zoneId: 'eggoze90yi' });
+  </script>
 </head>
 
 <body>
@@ -20,166 +18,186 @@
 <div class="gaming-grid"></div>
 <div class="gaming-glow"></div>
 
-<nav style="display:flex; justify-content:space-between; padding:15px; background:#111827;">
-  <div>
-    <a href="index.html" style="color:#22c55e; text-decoration:none;">Accueil</a>
+<!-- BARRE DE NAVIGATION OPTIMISÉE -->
+<nav class="main-navbar">
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo">🟢 Cash Arena</a>
   </div>
-
-  <div>
-    <button onclick="goHome()">⬅ Retour</button>
+  <div class="nav-right">
+    <button class="btn-back" onclick="goHome()">⬅ Retour</button>
   </div>
 </nav>
 
-<div class="login-container">
+<!-- CONTAINER PRINCIPAL DU PROFIL -->
+<div class="profile-main-container">
 
-  <div class="login-card">
-
-    <h1>👤 Mon Profil</h1>
+  <!-- CARTE 1 : IDENTITÉ ET COMPTE (Gauche ou Haut) -->
+  <div class="profile-sidebar-card">
+    <div class="avatar-placeholder">👤</div>
+    <h1 class="profile-title">Mon Profil</h1>
     <p class="login-sub">Gère ton compte Cash Arena</p>
+    
+    <div class="account-details">
+      <p id="email" class="info-text"></p>
+      <p id="balance" class="balance-text"></p>
+    </div>
 
-    <p id="email"></p>
-    <p id="balance"></p>
-
-    <div class="profile-history">
-  <h2>🏆 Historique des gains</h2>
-
-  <div id="rewardsList">
-    Chargement...
-  </div>
-
-<div id="pseudoSection">
-
-  <!-- FORMULAIRE -->
-  <div id="pseudoForm">
-    <h3>Choisir mon pseudo</h3>
-
-    <input type="text" id="pseudoInput" placeholder="Ton pseudo">
-    <button onclick="savePseudo()">Enregistrer</button>
-  </div>
-
-  <!-- AFFICHAGE -->
-  <div id="pseudoDisplay" style="display:none;">
-    <p id="pseudoText"></p>
-
-<p id="leagueRank"></p>
-<p id="leaguePoints"></p>
-
-    <button onclick="editPseudo()" style="margin-left:10px;">
-      ✏️
-    </button>
-  </div>
-
-</div>
-
-    <!-- Lier compte -->
-    <div id="linkSection">
-      <h3>Lier Brawl Stars</h3>
-
-      <div class="input-group">
-        <input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
+    <!-- ZONE PSEUDO (Formulaire & Affichage imbriqués proprement) -->
+    <div id="pseudoSection" class="inner-section">
+      <!-- FORMULAIRE DE CHOIX -->
+      <div id="pseudoForm" class="pseudo-box">
+        <h3>Choisir mon pseudo</h3>
+        <div class="input-action-group">
+          <input type="text" id="pseudoInput" placeholder="Ton pseudo">
+          <button class="btn-save" onclick="savePseudo()">Enregistrer</button>
+        </div>
       </div>
 
-      <button onclick="linkBrawl()">Lier mon compte</button>
+      <!-- AFFICHAGE DU PSEUDO ACTIF -->
+      <div id="pseudoDisplay" class="pseudo-box" style="display:none;">
+        <div class="pseudo-header">
+          <span id="pseudoText" class="active-pseudo"></span>
+          <button class="btn-edit" onclick="editPseudo()">✏️</button>
+        </div>
+        <!-- Informations de Ligue unifiées -->
+        <div class="league-info-inline">
+          <p id="leagueRank" class="rank-label"></p>
+          <p id="leaguePoints" class="points-label"></p>
+        </div>
+      </div>
+    </div>
 
+    <!-- ACTIONS DE DÉCONNEXION -->
+    <button class="btn-logout" onclick="logout()">Se déconnecter</button>
+  </div>
+
+  <!-- CARTE 2 : JEU ET HISTORIQUE (Droite ou Bas) -->
+  <div class="profile-content-card">
+    
+    <!-- Lier compte Brawl Stars -->
+    <div id="linkSection" class="game-link-section">
+      <h3>Lier Brawl Stars</h3>
+      <p class="section-desc">Connecte ton tag pour synchroniser tes matchs et multiplicateurs.</p>
+      
+      <div class="input-action-group">
+        <input type="text" id="brawlTag" placeholder="#PLAYER_TAG">
+        <button class="btn-link" onclick="linkBrawl()">Lier</button>
+      </div>
       <p id="brawlResult"></p>
     </div>
 
-    <!-- Affichage compte -->
-    <p id="brawlSaved" style="margin-top:15px;"></p>
+    <!-- Affichage si déjà lié + Actualisation -->
+    <div class="brawl-status-box">
+      <p id="brawlSaved"></p>
+      <button class="btn-refresh" onclick="refreshBrawlStats()">🔄 Actualiser mes stats</button>
+    </div>
 
-    <button onclick="refreshBrawlStats()">🔄 Actualiser mes stats</button>
+    <!-- Historique des gains -->
+    <div class="profile-history-section">
+      <h2>🏆 Historique des gains</h2>
+      <div id="rewardsList" class="rewards-list-container">
+        Chargement des récompenses...
+      </div>
+    </div>
 
-    <button onclick="logout()" style="margin-top:20px; background:#ef4444;">
-      Se déconnecter
-    </button>
+  </div> <!-- Fin de profile-content-card -->
 
+</div> <!-- Fin de profile-main-container -->
+
+<!-- POPUP DE RANK UP (Fermé proprement ✅) -->
+<div id="rankUpPopup" class="rankup-popup">
+  <div class="rankup-content">
+    <div class="rankup-title">✨ RANK UP ✨</div>
+    <div id="rankUpText" class="rankup-text">SILVER → GOLD</div>
   </div>
-
 </div>
 
-<div id="rankUpPopup" class="rankup-popup">
-
-  <div class="rankup-content">
-
-    <div class="rankup-title">
-      ✨ RANK UP ✨
-    </div>
-
-    <div id="rankUpText" class="rankup-text">
-      SILVER → GOLD
-    </div>
-
-  </div>
-
+<!-- SCRIPTS FIREBASE ET CONFIGURATION -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
 <script src="firebase.js"></script>
 
 <script>
+// ======================================================
+// 🔐 SURVEILLANCE DE L'ÉTAT DE CONNEXION (AUTH)
+// ======================================================
 auth.onAuthStateChanged(async user => {
   if (!user) {
     window.location = "index.html";
     return;
   }
 
-  document.getElementById("email").innerText = "📧 " + user.email;
+  // Affichage de l'email sécurisé
+  const emailEl = document.getElementById("email");
+  if (emailEl) emailEl.innerText = "📧 " + user.email;
 
   const doc = await db.collection("users").doc(user.uid).get();
 
   if (doc.exists) {
     const data = doc.data();
 
-if (data.leaguePoints === undefined) {
-  await db.collection("users").doc(user.uid).set({
-    leaguePoints: 0,
-    leagueRank: "Bronze"
-  }, { merge: true });
+    // Initialisation des valeurs par défaut de la Ligue si manquantes
+    if (data.leaguePoints === undefined) {
+      await db.collection("users").doc(user.uid).set({
+        leaguePoints: 0,
+        leagueRank: "Bronze"
+      }, { merge: true });
 
-  data.leaguePoints = 0;
-  data.leagueRank = "Bronze";
-}
-
-    if (data.pseudo) {
-        const creatorBadge = data.isContentCreator ? " <span class='creator-badge'>Content Creator</span>" : "";
-
-document.getElementById("pseudoText").innerHTML =
-  "🎮 Pseudo : " + data.pseudo + creatorBadge;
-
-      document.getElementById("pseudoForm").style.display = "none";
-      document.getElementById("pseudoDisplay").style.display = "block";
-    } else {
-      document.getElementById("pseudoForm").style.display = "block";
-      document.getElementById("pseudoDisplay").style.display = "none";
+      data.leaguePoints = 0;
+      data.leagueRank = "Bronze";
     }
 
-    document.getElementById("balance").innerText =
-      "💰 Solde : " + (data.balance || 0) + "€";
+    // Gestion de l'affichage du Pseudo et du Badge Créateur
+    const pseudoTextEl = document.getElementById("pseudoText");
+    const pseudoFormEl = document.getElementById("pseudoForm");
+    const pseudoDisplayEl = document.getElementById("pseudoDisplay");
 
-      document.getElementById("leagueRank").innerText =
-  "🏆 Rank : " + (data.leagueRank || "Bronze");
+    if (data.pseudo) {
+      if (pseudoTextEl) {
+        const creatorBadge = data.isContentCreator ? " <span class='creator-badge'>Content Creator</span>" : "";
+        pseudoTextEl.innerHTML = "🎮 Pseudo : " + data.pseudo + creatorBadge;
+      }
+      if (pseudoFormEl) pseudoFormEl.style.display = "none";
+      if (pseudoDisplayEl) pseudoDisplayEl.style.display = "block";
+    } else {
+      if (pseudoFormEl) pseudoFormEl.style.display = "block";
+      if (pseudoDisplayEl) pseudoDisplayEl.style.display = "none";
+    }
 
-document.getElementById("leaguePoints").innerText =
-  "⭐ " + (data.leaguePoints || 0) + " LP";
+    // Données financières et ligues
+    const balanceEl = document.getElementById("balance");
+    const rankEl = document.getElementById("leagueRank");
+    const pointsEl = document.getElementById("leaguePoints");
+
+    if (balanceEl) balanceEl.innerText = "💰 Solde : " + (data.balance || 0) + "€";
+    if (rankEl) rankEl.innerText = "🏆 Rank : " + (data.leagueRank || "Bronze");
+    if (pointsEl) pointsEl.innerText = "⭐ " + (data.leaguePoints || 0) + " LP";
+
+    // Statut du compte Brawl Stars lié
+    const brawlSavedEl = document.getElementById("brawlSaved");
+    const linkSectionEl = document.getElementById("linkSection");
 
     if (data.brawlName && data.brawlTag) {
-      document.getElementById("brawlSaved").innerText =
-        `🎮 ${data.brawlName} (${data.brawlTag}) | 🏆 ${data.brawlTrophies || 0}`;
-
-      document.getElementById("linkSection").style.display = "none";
+      if (brawlSavedEl) {
+        brawlSavedEl.innerText = `🎮 ${data.brawlName} (${data.brawlTag}) | 🏆 ${data.brawlTrophies || 0}`;
+      }
+      if (linkSectionEl) linkSectionEl.style.display = "none";
     } else {
-      document.getElementById("brawlSaved").innerText =
-        "Aucun compte Brawl Stars lié.";
+      if (brawlSavedEl) brawlSavedEl.innerText = "Aucun compte Brawl Stars lié.";
+      if (linkSectionEl) linkSectionEl.style.display = "block";
     }
   }
 
+  // Chargement de l'historique financier
   loadRewardsHistory(user);
 });
 
+// ======================================================
+// 🏆 CHARGEMENT DE L'HISTORIQUE DES GAINS
+// ======================================================
 async function loadRewardsHistory(user) {
   const container = document.getElementById("rewardsList");
-
   if (!container) return;
 
   try {
@@ -190,7 +208,7 @@ async function loadRewardsHistory(user) {
       .get();
 
     if (snapshot.empty) {
-      container.innerHTML = `<p>Aucun gain pour le moment.</p>`;
+      container.innerHTML = `<p class="no-data">Aucun gain pour le moment.</p>`;
       return;
     }
 
@@ -198,34 +216,40 @@ async function loadRewardsHistory(user) {
 
     snapshot.forEach(doc => {
       const data = doc.data();
-
       const date = data.createdAt?.toDate
         ? data.createdAt.toDate().toLocaleDateString()
         : "Date inconnue";
 
       container.innerHTML += `
         <div class="reward-history-card">
-          <div>
-            <strong>💰 +${data.amount}€</strong>
-            <p>${data.tournamentId}</p>
+          <div class="reward-info">
+            <strong class="reward-amount">💰 +${data.amount}€</strong>
+            <p class="reward-id">${data.tournamentId}</p>
           </div>
-          <span>${date}</span>
+          <span class="reward-date">${date}</span>
         </div>
       `;
     });
 
   } catch (e) {
     console.error(e);
-    container.innerHTML = `<p>Erreur chargement historique.</p>`;
+    container.innerHTML = `<p class="error-text">Erreur lors du chargement de l'historique.</p>`;
   }
 }
 
-function logout(){
+// ======================================================
+// 🚪 DÉCONNEXION
+// ======================================================
+function logout() {
   auth.signOut().then(() => window.location = "index.html");
 }
 
+// ======================================================
+// 🔗 LIAISON COMPTE BRAWL STARS
+// ======================================================
 async function linkBrawl() {
-  const input = document.getElementById("brawlTag").value.trim();
+  const inputEl = document.getElementById("brawlTag");
+  const input = inputEl ? inputEl.value.trim() : "";
 
   if (!input) {
     alert("Entre ton tag !");
@@ -239,12 +263,14 @@ async function linkBrawl() {
     const data = await res.json();
 
     if (!res.ok || data.error) {
-      alert("Erreur : " + (data.message || "Impossible"));
+      alert("Erreur : " + (data.message || "Impossible de récupérer le compte"));
       return;
     }
 
-    document.getElementById("brawlResult").innerText =
-      `✅ ${data.name} | 🏆 ${data.trophies}`;
+    const brawlResultEl = document.getElementById("brawlResult");
+    if (brawlResultEl) {
+      brawlResultEl.innerText = `✅ ${data.name} | 🏆 ${data.trophies}`;
+    }
 
     const user = auth.currentUser;
 
@@ -254,17 +280,26 @@ async function linkBrawl() {
       brawlTrophies: data.trophies
     });
 
-    document.getElementById("linkSection").style.display = "none";
-    document.getElementById("brawlSaved").innerText =
-      `🎮 ${data.name} (${data.tag}) | 🏆 ${data.trophies}`;
+    const linkSectionEl = document.getElementById("linkSection");
+    const brawlSavedEl = document.getElementById("brawlSaved");
+
+    if (linkSectionEl) linkSectionEl.style.display = "none";
+    if (brawlSavedEl) {
+      brawlSavedEl.innerText = `🎮 ${data.name} (${data.tag}) | 🏆 ${data.trophies}`;
+    }
 
   } catch (e) {
-    alert("Erreur API");
+    console.error(e);
+    alert("Erreur lors de la communication avec l'API.");
   }
 }
 
+// ======================================================
+// 💾 ENREGISTREMENT ET CHANGEMENT DU PSEUDO (TRANSACTION)
+// ======================================================
 async function savePseudo() {
-  const pseudo = document.getElementById("pseudoInput").value.trim();
+  const inputEl = document.getElementById("pseudoInput");
+  const pseudo = inputEl ? inputEl.value.trim() : "";
   const user = auth.currentUser;
 
   if (!user) {
@@ -277,25 +312,25 @@ async function savePseudo() {
     return;
   }
 
-  if (pseudo.length < 3) {
-    alert("Minimum 3 caractères !");
-    return;
-  }
-
-  if (pseudo.length > 16) {
-    alert("Maximum 16 caractères !");
+  if (pseudo.length < 3 || pseudo.length > 16) {
+    alert("Le pseudo doit contenir entre 3 et 16 caractères !");
     return;
   }
 
   const pseudoKey = pseudo.toLowerCase();
-
   const usernameRef = db.collection("usernames").doc(pseudoKey);
   const userRef = db.collection("users").doc(user.uid);
 
   try {
+    let isCreator = false;
+
     await db.runTransaction(async transaction => {
       const usernameDoc = await transaction.get(usernameRef);
       const userDoc = await transaction.get(userRef);
+
+      if (userDoc.exists) {
+        isCreator = userDoc.data().isContentCreator || false;
+      }
 
       const oldPseudoKey = userDoc.exists && userDoc.data().pseudoKey
         ? userDoc.data().pseudoKey
@@ -322,16 +357,22 @@ async function savePseudo() {
       });
     });
 
-    document.getElementById("pseudoText").innerText =
-      "🎮 Pseudo : " + pseudo;
+    const pseudoTextEl = document.getElementById("pseudoText");
+    const pseudoFormEl = document.getElementById("pseudoForm");
+    const pseudoDisplayEl = document.getElementById("pseudoDisplay");
 
-    document.getElementById("pseudoForm").style.display = "none";
-    document.getElementById("pseudoDisplay").style.display = "block";
+    if (pseudoTextEl) {
+      const creatorBadge = isCreator ? " <span class='creator-badge'>Content Creator</span>" : "";
+      pseudoTextEl.innerHTML = "🎮 Pseudo : " + pseudo + creatorBadge;
+    }
 
-    alert("Pseudo enregistré !");
+    if (pseudoFormEl) pseudoFormEl.style.display = "none";
+    if (pseudoDisplayEl) pseudoDisplayEl.style.display = "block";
+
+    alert("Pseudo enregistré avec succès !");
   } catch (e) {
     if (e.message === "PSEUDO_TAKEN") {
-      alert("Ce pseudo est déjà pris !");
+      alert("Ce pseudo est déjà pris par un autre joueur !");
     } else {
       console.error(e);
       alert("Erreur lors de l'enregistrement du pseudo.");
@@ -339,11 +380,20 @@ async function savePseudo() {
   }
 }
 
+// ======================================================
+// ✏️ ÉDITION DU PSEUDO
+// ======================================================
 function editPseudo() {
-  document.getElementById("pseudoForm").style.display = "block";
-  document.getElementById("pseudoDisplay").style.display = "none";
+  const pseudoFormEl = document.getElementById("pseudoForm");
+  const pseudoDisplayEl = document.getElementById("pseudoDisplay");
+
+  if (pseudoFormEl) pseudoFormEl.style.display = "block";
+  if (pseudoDisplayEl) pseudoDisplayEl.style.display = "none";
 }
 
+// ======================================================
+// 🔄 ACTUALISATION DES STATISTIQUES BRAWL STARS
+// ======================================================
 async function refreshBrawlStats() {
   const user = auth.currentUser;
 
@@ -353,6 +403,12 @@ async function refreshBrawlStats() {
   }
 
   const userDoc = await db.collection("users").doc(user.uid).get();
+  
+  if (!userDoc.exists) {
+    alert("Données utilisateur introuvables.");
+    return;
+  }
+  
   const userData = userDoc.data();
 
   if (!userData.brawlTag) {
@@ -365,10 +421,11 @@ async function refreshBrawlStats() {
     const data = await res.json();
 
     if (!res.ok || data.error) {
-      alert("Erreur API Brawl Stars");
+      alert("Erreur lors de la synchronisation avec l'API Brawl Stars.");
       return;
     }
 
+    // Sauvegarde enrichie des données dans Firestore
     await db.collection("users").doc(user.uid).update({
       brawlName: data.name,
       brawlTrophies: data.trophies,
@@ -378,17 +435,27 @@ async function refreshBrawlStats() {
       brawlUpdatedAt: new Date()
     });
 
-    document.getElementById("brawlSaved").innerText =
-      `🎮 ${data.name} (${data.tag}) | 🏆 ${data.trophies}`;
+    const brawlSavedEl = document.getElementById("brawlSaved");
+    if (brawlSavedEl) {
+      brawlSavedEl.innerText = `🎮 ${data.name} (${data.tag}) | 🏆 ${data.trophies}`;
+    }
 
-    alert("Stats mises à jour !");
+    alert("Statistiques Brawl Stars synchronisées avec succès !");
   } catch (e) {
     console.error(e);
-    alert("Erreur serveur");
+    alert("Erreur serveur lors de l'actualisation.");
   }
+}
+
+// ======================================================
+// 🏠 REDIRECTION VERS L'ACCUEIL
+// ======================================================
+function goHome() {
+  window.location.href = "index.html";
 }
 </script>
 
+<!-- Script d'analyses de performance Vercel -->
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 
 </body>
