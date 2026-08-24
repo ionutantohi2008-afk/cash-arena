@@ -783,8 +783,7 @@ let GOLD_CUP_DATA = null;
 // 1️⃣ CHARGEMENT DE LA CONFIGURATION (AVEC URL ABSOLUE SI PRODUIT HÉBERGÉ)
 async function fetchGoldCupConfig() {
     try {
-        // Tente d'abord de lire sur le domaine actuel
-        const response = await fetch("/api/gold-cup");
+        const response = await fetch("https://cash-arena-api.onrender.com/api/gold-cup");
         
         if (!response.ok) {
             throw new Error(`Erreur serveur : Status ${response.status}`);
@@ -882,11 +881,13 @@ async function joinGoldCup() {
             return;
         }
 
-        const response = await fetch("/api/gold-cup/join", {
+        // ✅ URL absolue configurée pour le serveur local
+        const response = await fetch("https://cash-arena-api.onrender.com/api/gold-cup/join", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ uid: uid })
         });
+
 
         const result = await response.json();
 
