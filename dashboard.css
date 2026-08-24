@@ -4612,3 +4612,329 @@ img {
     height: 36px;
 }
 
+/* =====================================================
+   🏆 GOLD CUP
+   ===================================================== */
+
+.gold-cup-card {
+
+    position: relative;
+
+    border: 1px solid rgba(255, 193, 7, 0.45);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 193, 7, 0.12),
+            rgba(15, 15, 25, 0.96) 45%,
+            rgba(255, 140, 0, 0.08)
+        );
+
+    box-shadow:
+        0 0 25px rgba(255, 193, 7, 0.10),
+        inset 0 0 30px rgba(255, 193, 7, 0.03);
+
+    overflow: hidden;
+
+}
+
+
+/* =====================================================
+   LIGNE OR EN HAUT
+   ===================================================== */
+
+.gold-cup-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #ffd700,
+            #ffae00,
+            #ffd700,
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px rgba(255, 215, 0, 0.7);
+
+}
+
+
+/* =====================================================
+   TYPE GOLD CUP
+   ===================================================== */
+
+.gold-type {
+
+    color: #ffd700 !important;
+
+    border-color:
+        rgba(255, 215, 0, 0.45) !important;
+
+    background:
+        rgba(255, 215, 0, 0.08) !important;
+
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.35);
+
+}
+
+
+/* =====================================================
+   STATUT
+   ===================================================== */
+
+.gold-status {
+
+    color: #ffd700 !important;
+
+    border-color:
+        rgba(255, 215, 0, 0.35) !important;
+
+}
+
+
+/* =====================================================
+   LOGO GOLD
+   ===================================================== */
+
+.gold-logo {
+
+    border-color:
+        rgba(255, 215, 0, 0.55) !important;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 215, 0, 0.20),
+            rgba(255, 140, 0, 0.06),
+            transparent 70%
+        ) !important;
+
+    box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.15),
+        inset 0 0 20px rgba(255, 215, 0, 0.05);
+
+}
+
+
+/* =====================================================
+   TITRE
+   ===================================================== */
+
+.gold-cup-card h2 {
+
+    color: #ffd700;
+
+    text-shadow:
+        0 0 15px rgba(255, 215, 0, 0.25);
+
+}
+
+
+/* =====================================================
+   CONDITION GOLD+
+   ===================================================== */
+
+.gold-requirement {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    margin:
+        14px 0;
+
+    padding:
+        11px 15px;
+
+    border-radius: 10px;
+
+    border:
+        1px solid
+        rgba(255, 215, 0, 0.20);
+
+    background:
+        rgba(255, 215, 0, 0.05);
+
+    color: rgba(255, 255, 255, 0.72);
+
+}
+
+
+.gold-requirement strong {
+
+    color: #ffd700;
+
+    font-size: 14px;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* =====================================================
+   RÉCOMPENSE
+   ===================================================== */
+
+.gold-reward-box {
+
+    border-color:
+        rgba(255, 215, 0, 0.35) !important;
+
+    background:
+        rgba(255, 215, 0, 0.06) !important;
+
+}
+
+
+.gold-reward-box .reward-value {
+
+    color: #ffd700 !important;
+
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.25);
+
+}
+
+
+/* =====================================================
+   TIMER
+   ===================================================== */
+
+.gold-cup-timer {
+
+    color: #ffd700 !important;
+
+    font-weight: 700;
+
+    text-align: center;
+
+    letter-spacing: 0.5px;
+
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.20);
+
+}
+
+
+/* =====================================================
+   BOUTON
+   ===================================================== */
+
+#goldCupJoinBtn {
+
+    border:
+        1px solid rgba(255, 215, 0, 0.55);
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffd700,
+            #ffae00
+        );
+
+    color: #111;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 0 18px
+        rgba(255, 193, 7, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+
+}
+
+
+#goldCupJoinBtn:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 0 28px
+        rgba(255, 193, 7, 0.35);
+
+    filter:
+        brightness(1.08);
+
+}
+
+
+#goldCupJoinBtn:disabled {
+
+    opacity: 0.45;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+
+}
+
+
+/* =====================================================
+   FOOTER GOLD
+   ===================================================== */
+
+.gold-cup-card .card-footer {
+
+    border-top-color:
+        rgba(255, 215, 0, 0.12);
+
+}
+
+
+.gold-cup-card .card-footer-item strong {
+
+    color: #ffd700;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .gold-requirement {
+
+        padding:
+            10px 12px;
+
+        font-size: 13px;
+
+    }
+
+    #goldCupJoinBtn {
+
+        width: 100%;
+
+    }
+
+}

@@ -851,3 +851,740 @@ function updateDailyButton() {
     };
   }
 }
+
+// ======================================================
+// 🏆 GOLD CUP
+// ======================================================
+
+// IMPORTANT :
+// Mets ici exactement les mêmes informations
+// que dans ton server.js / server(4).js
+
+const GOLD_CUP = {
+
+    enabled: true,
+
+    // ID DU TOURNOI FIRESTORE
+    id: "cash1",
+
+    // DATE DE DÉBUT
+    // Format : AAAA-MM-JJTHH:MM:SS
+    startDate: "2026-09-01T20:00:00",
+
+    // DURÉE EN JOURS
+    durationDays: 14,
+
+    // RÉCOMPENSES
+    rewards: [
+        0.50, // #1
+        0.30, // #2
+        0.20, // #3
+        0.20, // #4
+        0.20, // #5
+        0.20, // #6
+        0.10, // #7
+        0.10, // #8
+        0.10, // #9
+        0.10  // #10
+    ]
+
+};
+
+
+// ======================================================
+// 📅 RÉCUPÈRE LES DATES
+// ======================================================
+
+function getGoldCupDates() {
+
+    const startDate =
+        new Date(
+            GOLD_CUP.startDate
+        );
+
+    const endDate =
+        new Date(
+            startDate.getTime() +
+            GOLD_CUP.durationDays *
+            24 *
+            60 *
+            60 *
+            1000
+        );
+
+    return {
+
+        startDate,
+
+        endDate
+
+    };
+
+}
+
+
+// ======================================================
+// 🏆 STATUT GOLD CUP
+// ======================================================
+
+function getGoldCupStatus() {
+
+    const now =
+        new Date();
+
+    const dates =
+        getGoldCupDates();
+
+    if (
+        now <
+        dates.startDate
+    ) {
+
+        return "upcoming";
+
+    }
+
+
+    if (
+        now >=
+        dates.endDate
+    ) {
+
+        return "finished";
+
+    }
+
+
+    return "live";
+
+}
+
+
+// ======================================================
+// ⏱️ FORMAT DU TEMPS
+// ======================================================
+
+function formatGoldCupTime(
+    milliseconds
+) {
+
+    if (
+        milliseconds <= 0
+    ) {
+
+        return "00j 00h 00m 00s";
+
+    }
+
+
+    const days =
+        Math.floor(
+            milliseconds /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    const hours =
+        Math.floor(
+            (
+                milliseconds %
+                (1000 * 60 * 60 * 24)
+            ) /
+            (1000 * 60 * 60)
+        );
+
+
+    const minutes =
+        Math.floor(
+            (
+                milliseconds %
+                (1000 * 60 * 60)
+            ) /
+            (1000 * 60)
+        );
+
+
+    const seconds =
+        Math.floor(
+            (
+                milliseconds %
+                (1000 * 60)
+            ) /
+            1000
+        );
+
+
+    return
+        `${days}j ` +
+        `${String(hours).padStart(2, "0")}h ` +
+        `${String(minutes).padStart(2, "0")}m ` +
+        `${String(seconds).padStart(2, "0")}s`;
+
+}
+
+
+// ======================================================
+// ⏱️ TIMER GOLD CUP
+// ======================================================
+
+function updateGoldCupTimer() {
+
+    const timer =
+        document.getElementById(
+            "goldCupTimer"
+        );
+
+
+    const statusElement =
+        document.getElementById(
+            "goldCupStatus"
+        );
+
+
+    const joinButton =
+        document.getElementById(
+            "goldCupJoinBtn"
+        );
+
+
+    if (
+        !timer ||
+        !statusElement ||
+        !joinButton
+    ) {
+
+        return;
+
+    }
+
+
+    // Gold Cup désactivée
+
+    if (
+        !GOLD_CUP.enabled
+    ) {
+
+        timer.innerText =
+            "Tournoi indisponible";
+
+        statusElement.innerText =
+            "● INDISPONIBLE";
+
+        joinButton.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    const now =
+        new Date();
+
+
+    const dates =
+        getGoldCupDates();
+
+
+    const status =
+        getGoldCupStatus();
+
+
+    // ==============================================
+    // PAS ENCORE COMMENCÉE
+    // ==============================================
+
+    if (
+        status === "upcoming"
+    ) {
+
+        const remaining =
+            dates.startDate -
+            now;
+
+
+        timer.innerText =
+            "Début dans : " +
+            formatGoldCupTime(
+                remaining
+            );
+
+
+        statusElement.innerText =
+            "● BIENTÔT";
+
+        joinButton.disabled =
+            false;
+
+        joinButton.innerText =
+            "REJOINDRE LE TOURNOI";
+
+        return;
+
+    }
+
+
+    // ==============================================
+    // LIVE
+    // ==============================================
+
+    if (
+        status === "live"
+    ) {
+
+        const remaining =
+            dates.endDate -
+            now;
+
+
+        timer.innerText =
+            "Fin dans : " +
+            formatGoldCupTime(
+                remaining
+            );
+
+
+        statusElement.innerText =
+            "● LIVE";
+
+        joinButton.disabled =
+            false;
+
+        joinButton.innerText =
+            "REJOINDRE LE TOURNOI";
+
+        return;
+
+    }
+
+
+    // ==============================================
+    // TERMINÉE
+    // ==============================================
+
+    if (
+        status === "finished"
+    ) {
+
+        timer.innerText =
+            "🏁 Tournoi terminé";
+
+        statusElement.innerText =
+            "● TERMINÉ";
+
+        joinButton.disabled =
+            true;
+
+        joinButton.innerText =
+            "TOURNOI TERMINÉ";
+
+    }
+
+}
+
+
+// ======================================================
+// 💰 AFFICHAGE DES RÉCOMPENSES
+// ======================================================
+
+function loadGoldCupRewards() {
+
+    const rewardElement =
+        document.getElementById(
+            "goldCupReward"
+        );
+
+
+    if (!rewardElement) {
+        return;
+    }
+
+
+    const rewards =
+        GOLD_CUP.rewards;
+
+
+    if (
+        !rewards ||
+        rewards.length === 0
+    ) {
+
+        rewardElement.innerText =
+            "Aucune récompense";
+
+        return;
+
+    }
+
+
+    let rewardText =
+        "";
+
+
+    rewards.forEach(
+        (
+            reward,
+            index
+        ) => {
+
+            if (index > 0) {
+
+                rewardText +=
+                    " • ";
+
+            }
+
+
+            rewardText +=
+                `#${index + 1} : ${reward}€`;
+
+        }
+    );
+
+
+    rewardElement.innerText =
+        rewardText;
+
+}
+
+
+// ======================================================
+// 🔒 VÉRIFICATION RANG GOLD OU +
+// ======================================================
+
+function canJoinGoldCup(
+    leaguePoints
+) {
+
+    // Gold commence à 250 LP
+    // selon tes rangs actuels :
+    //
+    // Bronze   0 - 99
+    // Silver   100 - 249
+    // Gold     250+
+
+    return (
+        Number(
+            leaguePoints || 0
+        ) >= 250
+    );
+
+}
+
+
+// ======================================================
+// 👤 VÉRIFICATION UTILISATEUR
+// ======================================================
+
+async function checkGoldCupAccess() {
+
+    if (
+        !auth.currentUser
+    ) {
+
+        alert(
+            "Tu dois être connecté."
+        );
+
+        return false;
+
+    }
+
+
+    const user =
+        auth.currentUser;
+
+
+    const userDoc =
+        await db
+        .collection("users")
+        .doc(user.uid)
+        .get();
+
+
+    if (
+        !userDoc.exists
+    ) {
+
+        alert(
+            "Profil utilisateur introuvable."
+        );
+
+        return false;
+
+    }
+
+
+    const userData =
+        userDoc.data() || {};
+
+
+    const leaguePoints =
+        userData.leaguePoints || 0;
+
+
+    if (
+        !canJoinGoldCup(
+            leaguePoints
+        )
+    ) {
+
+        alert(
+            "🔒 Ce tournoi est réservé aux joueurs Gold et plus.\n\n" +
+            `Tes LP actuels : ${leaguePoints} LP\n` +
+            "Minimum requis : 250 LP"
+        );
+
+        return false;
+
+    }
+
+
+    return {
+
+        user,
+
+        userData,
+
+        leaguePoints
+
+    };
+
+}
+
+
+// ======================================================
+// 🏆 REJOINDRE LA GOLD CUP
+// ======================================================
+
+async function joinGoldCup() {
+
+    try {
+
+        // ==============================================
+        // TOURNOI ACTIF ?
+        // ==============================================
+
+        if (
+            !GOLD_CUP.enabled
+        ) {
+
+            alert(
+                "La Gold Cup est actuellement indisponible."
+            );
+
+            return;
+
+        }
+
+
+        const status =
+            getGoldCupStatus();
+
+
+        // ==============================================
+        // TERMINÉ
+        // ==============================================
+
+        if (
+            status === "finished"
+        ) {
+
+            alert(
+                "🏁 La Gold Cup est terminée."
+            );
+
+            return;
+
+        }
+
+
+        // ==============================================
+        // VÉRIFICATION RANG
+        // ==============================================
+
+        const access =
+            await checkGoldCupAccess();
+
+
+        if (!access) {
+            return;
+        }
+
+
+        const {
+
+            user,
+
+            userData
+
+        } =
+            access;
+
+
+        // ==============================================
+        // RÉFÉRENCE JOUEUR
+        // ==============================================
+
+        const playerRef =
+            db
+            .collection("tournaments")
+            .doc(GOLD_CUP.id)
+            .collection("players")
+            .doc(user.uid);
+
+
+        // ==============================================
+        // DÉJÀ INSCRIT ?
+        // ==============================================
+
+        const playerDoc =
+            await playerRef.get();
+
+
+        if (
+            playerDoc.exists
+        ) {
+
+            alert(
+                "🏆 Tu es déjà inscrit à la Gold Cup."
+            );
+
+            return;
+
+        }
+
+
+        // ==============================================
+        // AJOUT JOUEUR
+        // ==============================================
+
+        await playerRef.set({
+
+            uid:
+                user.uid,
+
+            pseudo:
+                userData.pseudo ||
+                user.displayName ||
+                "Joueur",
+
+            email:
+                user.email || null,
+
+            brawlTag:
+                userData.brawlTag || null,
+
+            brawlName:
+                userData.brawlName || null,
+
+            points:
+                0,
+
+            isBot:
+                false,
+
+            rewardGiven:
+                false,
+
+            joinedAt:
+                firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+
+        });
+
+
+        alert(
+            "🏆 Inscription réussie à la Gold Cup !"
+        );
+
+
+        console.log(
+            "🏆 Joueur inscrit à la Gold Cup :",
+            user.uid
+        );
+
+
+        // ==============================================
+        // CHANGE LE BOUTON
+        // ==============================================
+
+        const button =
+            document.getElementById(
+                "goldCupJoinBtn"
+            );
+
+
+        if (button) {
+
+            button.innerText =
+                "✓ DÉJÀ INSCRIT";
+
+        }
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ Erreur Gold Cup :",
+            error
+        );
+
+
+        alert(
+            "Une erreur est survenue lors de l'inscription."
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// 🖱️ BOUTON GOLD CUP
+// ======================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const goldCupButton =
+            document.getElementById(
+                "goldCupJoinBtn"
+            );
+
+
+        if (
+            goldCupButton
+        ) {
+
+            goldCupButton.addEventListener(
+                "click",
+                joinGoldCup
+            );
+
+        }
+
+
+        // Récompenses
+
+        loadGoldCupRewards();
+
+
+        // Premier timer
+
+        updateGoldCupTimer();
+
+
+        // Actualisation toutes les secondes
+
+        setInterval(
+            updateGoldCupTimer,
+            1000
+        );
+
+    }
+);
