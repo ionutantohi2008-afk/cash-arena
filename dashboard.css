@@ -5120,3 +5120,129 @@ img {
 }
 
 @keyframes flash { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+
+/* Container Principal tout en bas */
+.multiplier-info-container {
+    background: #15171e; /* Fond sombre moderne */
+    border: 1px solid #2d313f;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 40px auto 20px auto;
+    max-width: 1200px;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* En-tête */
+.multiplier-info-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.multiplier-emoji {
+    font-size: 24px;
+}
+
+.multiplier-info-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #f3bbc3; /* Couleur accentuée (or ou violet léger au choix) */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Description */
+.multiplier-info-description {
+    color: #9aa0b1;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 24px 0;
+}
+
+/* Grille des cartes */
+.multiplier-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* Style de chaque carte */
+.multiplier-card {
+    background: #1f222e;
+    border: 1px solid #2d313f;
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.multiplier-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Badge du multiplicateur (x1, x1.5, x2) */
+.card-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.multiplier-card h4 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.multiplier-card p {
+    margin: 0;
+    font-size: 13px;
+    color: #9aa0b1;
+    line-height: 1.4;
+}
+
+/* Couleurs spécifiques selon les paliers */
+.tier-low { border-left: 4px solid #6c757d; }
+.tier-low .card-badge { background: rgba(108, 117, 125, 0.2); color: #adb5bd; }
+
+.tier-mid { border-left: 4px solid #00cfd5; }
+.tier-mid .card-badge { background: rgba(0, 207, 213, 0.2); color: #00cfd5; }
+
+.tier-high { border-left: 4px solid #ffca28; }
+.tier-high h4 { color: #ffca28; }
+.tier-high .card-badge { background: rgba(255, 202, 40, 0.2); color: #ffca28; }
+
+/* Note de bas de page */
+.multiplier-info-footer {
+    border-top: 1px solid #2d313f;
+    padding-top: 14px;
+}
+
+.multiplier-info-footer p {
+    margin: 0;
+    font-size: 12px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Responsive mobile */
+@media (max-width: 600px) {
+    .multiplier-info-container {
+        padding: 16px;
+        margin: 20px 10px;
+    }
+    .card-badge {
+        position: static;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+}
