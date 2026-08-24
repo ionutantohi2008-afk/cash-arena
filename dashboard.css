@@ -5302,104 +5302,114 @@ img {
 }
 
 /* ======================================================
-   🏆 ADAPTATION DESIGN TOURNOI (DAILY & WEEKLY)
+   🏆 ADAPTATION DESIGN TOURNOI (DAILY & WEEKLY) - FORCE ✅
    ====================================================== */
 
 /* Conteneur principal */
 .leaderboard-section-wrapper {
-  background: var(--bg-card-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-lg);
-  padding: 30px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
-  margin: 30px auto;
-  max-width: 1200px;
+  background: var(--bg-card-glass) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 30px !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5) !important;
+  margin: 30px auto !important;
+  max-width: 1200px !important;
+  display: block !important; /* Force l'affichage bloc quand la section passe en display block */
 }
 
 /* Titres */
 .leaderboard-title {
-  font-size: 1.5rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-size: 1.5rem !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  color: var(--text-primary) !important;
 }
 
 .leaderboard-table-scroll {
-  overflow-x: auto;
-  width: 100%;
+  overflow-x: auto !important;
+  width: 100% !important;
 }
 
 .leaderboard-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 8px; /* Effet de lignes aérées */
-  text-align: left;
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 8px !important; /* Force l'espacement vertical entre les lignes */
+  text-align: left !important;
+  background: transparent !important; /* Supprime le fond blanc des vieux tableaux */
 }
 
 .leaderboard-table th {
-  color: var(--text-secondary);
-  font-size: 0.8rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 12px 20px;
+  color: var(--text-secondary) !important;
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  padding: 12px 20px !important;
+  border: none !important;
 }
 
-/* Style des lignes de joueurs */
+/* Style forcé des lignes de joueurs */
 .leaderboard-table tbody tr {
-  background: rgba(11, 13, 22, 0.4);
-  transition: var(--transition-smooth);
+  background: rgba(11, 13, 22, 0.4) !important;
+  transition: var(--transition-smooth) !important;
 }
 
 .leaderboard-table tbody tr:hover {
-  transform: translateY(-2px);
-  background: rgba(34, 197, 94, 0.03);
+  transform: translateY(-2px) !important;
+  background: rgba(34, 197, 94, 0.04) !important;
 }
 
-/* Coins arrondis pour chaque ligne */
+/* Coins arrondis obligatoires pour chaque ligne */
 .leaderboard-table tbody tr td:first-child {
-  border-top-left-radius: var(--radius-md);
-  border-bottom-left-radius: var(--radius-md);
-  border-left: 3px solid rgba(34, 197, 94, 0.3); /* Bordure néon discrète par défaut */
+  border-top-left-radius: var(--radius-md) !important;
+  border-bottom-left-radius: var(--radius-md) !important;
+  border-left: 4px solid rgba(34, 197, 94, 0.4) !important; /* Ligne verte e-sport à gauche */
 }
 
 .leaderboard-table tbody tr td:last-child {
-  border-top-right-radius: var(--radius-md);
-  border-bottom-right-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md) !important;
+  border-bottom-right-radius: var(--radius-md) !important;
 }
 
+/* Effet lumineux vert fluo au survol */
 .leaderboard-table tbody tr:hover td:first-child {
-  border-left-color: var(--neon-green); /* S'allume en vert flash au survol */
+  border-left-color: var(--neon-green) !important;
 }
 
+/* Forcer le style des cellules */
 .leaderboard-table td {
-  padding: 16px 20px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 16px 20px !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-right: none !important;
+  background: transparent !important;
 }
 
 /* Style de la colonne Points (Dernière colonne de ton tableau) */
 .leaderboard-table td:last-child {
-  color: var(--neon-green);
-  font-weight: 900;
-  text-shadow: var(--shadow-neon);
+  color: var(--neon-green) !important;
+  font-weight: 900 !important;
+  text-shadow: var(--shadow-neon) !important;
 }
 
-/* Styles des badges de tournois (Daily / Weekly) */
+/* Badges Daily / Weekly */
 .leaderboard-badge {
-  font-size: 0.75rem;
-  font-weight: 900;
-  padding: 4px 12px;
-  border-radius: 6px;
-  text-transform: uppercase;
+  font-size: 0.75rem !important;
+  font-weight: 900 !important;
+  padding: 4px 12px !important;
+  border-radius: 6px !important;
+  text-transform: uppercase !important;
+  display: inline-block !important;
 }
-.leaderboard-badge.daily { background: rgba(0, 240, 255, 0.1); color: var(--neon-cyan); border: 1px solid rgba(0, 240, 255, 0.2); }
-.leaderboard-badge.weekly { background: rgba(168, 85, 247, 0.1); color: var(--neon-purple); border: 1px solid rgba(168, 85, 247, 0.2); }
+.leaderboard-badge.daily { background: rgba(0, 240, 255, 0.1) !important; color: var(--neon-cyan) !important; border: 1px solid rgba(0, 240, 255, 0.2) !important; }
+.leaderboard-badge.weekly { background: rgba(168, 85, 247, 0.1) !important; color: var(--neon-purple) !important; border: 1px solid rgba(168, 85, 247, 0.2) !important; }
