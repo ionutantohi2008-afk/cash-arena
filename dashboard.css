@@ -4866,26 +4866,146 @@ img {
     }
 }
 
+/* =====================================================
+   🏆 STYLISATION DU CLASSEMENT GOLD CUP
+   ===================================================== */
+
 #goldCupClassement {
-    background: rgba(15, 15, 25, 0.98);
-    border: 1px solid rgba(255, 193, 7, 0.3);
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 0 30px rgba(255, 193, 7, 0.05);
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 25px;
+    background: linear-gradient(145deg, rgba(20, 20, 35, 0.95), rgba(10, 10, 15, 0.98));
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 193, 7, 0.05);
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    color: #fff;
 }
+
+/* En-tête du classement */
+.classement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+    padding-bottom: 15px;
+}
+
+.classement-header h3 {
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    margin: 0;
+}
+
+/* Bouton Retour Premium */
+.btn-back {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: #ffd700;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background: rgba(255, 215, 0, 0.1);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+    transform: translateX(-2px);
+}
+
+/* Conteneur du Tableau */
+.table-container {
+    overflow-x: auto;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#goldCupClassement table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
 #goldCupClassement th {
+    background: rgba(255, 215, 0, 0.06);
     color: #ffd700;
-    border-bottom: 2px solid rgba(255, 193, 7, 0.2);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    padding: 14px 18px;
+    border-bottom: 2px solid rgba(255, 215, 0, 0.2);
 }
+
+#goldCupClassement td {
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+/* Effet de survol sur les lignes */
+#goldCupClassement tbody tr {
+    transition: background 0.15s ease;
+}
+
+#goldCupClassement tbody tr:hover {
+    background: rgba(255, 215, 0, 0.03);
+}
+
+/* Cellule des Récompenses (Gains) */
 .reward-cell {
-    color: #ffd700;
-    font-weight: bold;
+    color: #ffae00;
+    font-weight: 700;
 }
+
+/* Couleurs spéciales pour le Top 3 */
 .top-reward {
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
     color: #fffb00;
+    text-shadow: 0 0 8px rgba(255, 251, 0, 0.4);
 }
-.points-cell {
+
+#goldCupClassement tbody tr:nth-child(1) td {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.08), transparent);
+}
+
+/* Style du Top Joueur (#1) */
+.top-player {
     color: #ffd700;
+    font-weight: 700;
+}
+
+/* Cellule des Points */
+.points-cell {
+    color: #2ecc71;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+/* Badges du tableau */
+.creator-badge {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge-rank {
+    background: rgba(255, 215, 0, 0.15);
+    color: #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
 }
