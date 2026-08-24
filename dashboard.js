@@ -998,10 +998,8 @@ async function loadGoldCupPlayers() {
     if (!table) return;
 
     try {
-        // ID du tournoi récupéré dynamiquement ou repli sur "cash1"
         const tournamentId = GOLD_CUP_DATA ? GOLD_CUP_DATA.id : "cash1";
 
-        // Lecture de la sous-collection des joueurs inscrits
         const snapshot = await db
             .collection("tournaments")
             .doc(tournamentId)
@@ -1009,52 +1007,66 @@ async function loadGoldCupPlayers() {
             .get();
 
         if (snapshot.empty) {
-            table.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #aaa;">Aucun joueur inscrit pour le moment.</td></tr>`;
+            table.innerHTML = `<div class="esport-loading">Aucun participant inscrit pour le moment.</div>`;
             return;
         }
 
         let players = [];
         snapshot.forEach(doc => {
-            players.push({
-                id: doc.id,
-                ...doc.data()
-            });
+            players.push({ id: doc.id, ...doc.data() });
         });
 
-        // Tri des joueurs : du plus grand nombre de points au plus petit
+        // Tri décroissant par points
         players.sort((a, b) => (b.points || 0) - (a.points || 0));
 
         table.innerHTML = "";
 
-        // Récupération de la configuration des cashprizes serveur
         const rewardsConfig = GOLD_CUP_DATA ? GOLD_CUP_DATA.rewards : [0.50, 0.30, 0.20, 0.20, 0.20, 0.20, 0.10, 0.10, 0.10, 0.10];
 
-        // Génération des lignes du tableau
         players.forEach((p, index) => {
             const position = index + 1;
             
-            // Attribution dynamique du gain selon la position dans le classement
+            // Calcul des gains
             let rewardText = "-";
             if (rewardsConfig && rewardsConfig[index] !== undefined && rewardsConfig[index] > 0) {
                 rewardText = `${Number(rewardsConfig[index]).toFixed(2)}€`;
             }
 
+            // Gestion de l'émoji couronne pour le Top 1
+            const crownHtml = position === 1 ? `<span class="crown-winner">👑</span>` : "";
+
+            // Génération de la carte ligne HTML par joueur
             table.innerHTML += `
-                <tr>
-                    <td class="reward-cell ${position <= 3 ? 'top-reward' : ''}">${rewardText}</td>
-                    <td><strong>#${position}</strong></td>
-                    <td class="${position === 1 ? 'top-player' : ''}">
-                        ${p.pseudo || p.brawlName || p.email || "Joueur"}
-                        ${typeof getRankBadge === "function" ? getRankBadge(p.leagueRank || "Gold") : `<span class="badge-rank">${p.leagueRank || "Gold"}</span>`}
-                        ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
-                    </td>
-                    <td class="points-cell"><strong>${p.points || 0}</strong> pts</td>
-                </tr>
+                <div class="esport-row ${position === 1 ? 'rank-1' : ''}">
+                    <!-- COLONNE GAIN -->
+                    <div class="reward-box-row">
+                        <span class="reward-icon-coin"></span>
+                        <span>${rewardText}</span>
+                    </div>
+                    
+                    <!-- COLONNE POSITION -->
+                    <div class="rank-number-box">${position}</div>
+                    
+                    <!-- COLONNE JOUEUR -->
+                    <div class="player-profile-cell">
+                        <div class="player-avatar-mini">👤</div>
+                        <div class="player-meta">
+                            <span class="player-name">${p.pseudo || "Joueur"}</span>
+                            <span class="player-league-tag">🔥 ${p.leagueRank || "Gold"}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- COLONNE POINTS -->
+                    <div class="points-box-row">
+                        <span class="points-value">${p.points || 0}</span>
+                        ${crownHtml}
+                    </div>
+                </div>
             `;
         });
 
     } catch (error) {
-        console.error("❌ Erreur lors du chargement du classement Gold Cup :", error);
-        table.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #e74c3c;">Impossible de charger le classement.</td></tr>`;
+        console.error("❌ Erreur classement :", error);
+        table.innerHTML = `<div class="esport-loading" style="color:#e74c3c;">Erreur lors du chargement des données.</div>`;
     }
 }

@@ -628,32 +628,59 @@
 </section>
 
 <!-- =====================================================
-     🏆 CLASSEMENT GOLD CUP
+     🏆 CLASSEMENT GOLD CUP PREMIUM (STYLE E-SPORT)
      ===================================================== -->
-<div id="goldCupClassement" class="tournament-classement" style="display: none;">
-    <div class="classement-header">
-        <h3>🏆 CLASSEMENT LIVE - CASH CUP</h3>
-        <button type="button" class="btn-back" onclick="showTournaments()">← RETOUR</button>
-    </div>
+<div id="goldCupClassement" class="esport-container" style="display: none;">
     
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>GAIN</th>
-                    <th>RANG</th>
-                    <th>JOUEUR</th>
-                    <th>POINTS</th>
-                </tr>
-            </thead>
-            <tbody id="goldCupTable">
-                <!-- Les joueurs seront injectés ici par le JavaScript -->
-                <tr>
-                    <td colspan="4" style="text-align: center; padding: 20px;">Chargement des participants...</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- HEADER SUPÉRIEUR -->
+    <div class="esport-header">
+        <div class="header-title-zone">
+            <span class="lightning-icon">⚡</span>
+            <h3>CASH CUP - CLASSEMENT</h3>
+        </div>
+        <button type="button" class="btn-back-esport" onclick="showTournaments()">← RETOUR</button>
     </div>
+    <p class="esport-subtitle">Affronte les meilleurs joueurs, accumule les points et décroche le cashprize !</p>
+
+    <!-- EN-TÊTE DU TABLEAU -->
+    <div class="table-esport-header">
+        <div class="col-reward">🎁 RÉCOMPENSE</div>
+        <div class="col-pos">👑 POS.</div>
+        <div class="col-player">👤 JOUEUR</div>
+        <div class="col-points">⭐ POINTS</div>
+    </div>
+
+    <!-- LISTE DES JOUEURS DYNAMIQUE -->
+    <div id="goldCupTable" class="esport-list-container">
+        <!-- Les éléments seront injectés ici par loadGoldCupPlayers() -->
+        <div class="esport-loading">Chargement des participants de la Cash Cup...</div>
+    </div>
+
+    <!-- ZONE INFOS DU BAS -->
+    <div class="esport-footer-banner">
+        <div class="banner-item">
+            <div class="banner-icon icon-purple">🛡️</div>
+            <div class="banner-text">
+                <h4>GAGNE DES POINTS</h4>
+                <p>Chaque combat validé augmente ton score !</p>
+            </div>
+        </div>
+        <div class="banner-item">
+            <div class="banner-icon icon-green">📈</div>
+            <div class="banner-text">
+                <h4>MONTE AU SOMMET</h4>
+                <p>Sois parmi l'élite de la ligue Gold.</p>
+            </div>
+        </div>
+        <div class="banner-item">
+            <div class="banner-icon icon-gold">🏆</div>
+            <div class="banner-text">
+                <h4>CASH PRIZE DIRECT</h4>
+                <p>Le top 10 se partage automatiquement les gains.</p>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- =====================================================
