@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-
-  <script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: 'eggoze90yi',
-    });
-</script>
-
   <meta charset="UTF-8">
-  <title>Inscription</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription - Cash Arena</title>
+  <link rel="stylesheet" href="register.css">
+  
+  <!-- Scripts Publicitaires / Analytics -->
+  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+  <script type="text/javascript">
+    aclib.runAutoTag({ zoneId: 'eggoze90yi' });
+  </script>
 </head>
 
 <body>
@@ -21,27 +18,55 @@
 <div class="gaming-grid"></div>
 <div class="gaming-glow"></div>
 
-<nav style="display:flex; justify-content:space-between; padding:15px; background:#111827;">
-  <div>
-    <a href="index.html" style="color:#22c55e; text-decoration:none;">Accueil</a>
+<!-- BARRE DE NAVIGATION PREMIUM UNIFIÉE -->
+<nav class="main-navbar">
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo">⚡ Cash Arena</a>
   </div>
-
-  <div>
-    <button onclick="goHome()">⬅ Retour</button>
+  <div class="nav-right">
+    <button class="btn-back" onclick="goHome()">⬅ Retour</button>
   </div>
 </nav>
 
+<!-- BOITE D'INSCRIPTION CENTRÉE (Utilise les mêmes classes pour un rendu parfait) -->
 <div class="login-container">
+
   <div class="login-card">
-    <h1>Créer un compte</h1>
+    <h1>📝 Créer un compte</h1>
+    <p class="login-sub">Rejoins l'arène et commence à cumuler des points de tournoi</p>
 
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Mot de passe">
+    <!-- Zone pour afficher les erreurs d'inscription proprement -->
+    <div id="errorMessage" class="error-text" style="display:none; background: rgba(255, 70, 85, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9rem; border: 1px solid var(--neon-red); color: var(--neon-red); text-align: left;"></div>
 
-     <button onclick="register()">S'inscrire</button>
+    <!-- Formulaire structuré de l'esport -->
+    <div class="login-form-group">
+      <div class="input-field-wrapper">
+        <label>Adresse Email</label>
+        <input type="email" id="email" placeholder="exemple@mail.com">
+      </div>
+
+      <div class="input-field-wrapper">
+        <label>Mot de passe</label>
+        <input type="password" id="password" placeholder="••••••••">
+      </div>
+
+      <button class="btn-link" onclick="register()">
+        S'inscrire
+      </button>
+    </div>
+
+    <!-- Liens de bas de page -->
+    <div class="login-footer-links">
+      <p style="color: var(--text-secondary); font-size: 0.85rem;">
+        Tu as déjà un compte ? 
+        <a href="login.html" style="color: var(--neon-green); text-decoration: none; font-weight: 700;">Se connecter</a>
+      </p>
+    </div>
   </div>
+
 </div>
 
+<!-- SCRIPTS FIREBASE ET CONFIGURATION -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
@@ -49,6 +74,14 @@
 <script src="firebase.js"></script>
 <script src="app.js"></script>
 
+<script>
+// Fonction utilitaire de redirection
+function goHome() {
+  window.location.href = "index.html";
+}
+</script>
+
+<!-- Script d'analyses de performance Vercel -->
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 
 </body>
