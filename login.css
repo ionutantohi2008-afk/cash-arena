@@ -1,34 +1,128 @@
 /* ======================================================
-   🔒 LOGIN PREMIUM CARD & INTERFACE DESIGN
+   🎨 VARIABLES PREMIUM & PALETTE CHROMATIQUE GAMING
    ====================================================== */
+:root {
+  --bg-dark-base: #06080d;
+  --bg-card-glass: rgba(15, 19, 32, 0.75);
+  --bg-input: #090b11;
+  --border-glow: rgba(42, 49, 79, 0.8);
+  
+  /* Couleurs signatures Arena */
+  --neon-green: #22c55e;
+  --neon-green-glow: rgba(34, 197, 94, 0.25);
+  --neon-cyan: #00f0ff;
+  --neon-gold: #ffb800;
+  --neon-purple: #a855f7;
+  --neon-red: #ff4655;
 
-/* Aligne et centre la boîte de connexion parfaitement au milieu de l'écran */
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --radius-lg: 20px;
+  --radius-md: 10px;
+  --shadow-neon: 0 0 25px rgba(34, 197, 94, 0.3);
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ======================================================
+   🧱 ARCHITECTURE DE FOND & RESET D'ATMOSPHÈRE
+   ====================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark-base);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Générateurs d'ambiance 3D e-sport */
+.gaming-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 50% 40%, #0f1322 0%, #05070a 100%);
+  z-index: -3;
+}
+
+.gaming-grid {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transform: perspective(500px) rotateX(25deg);
+  transform-origin: top;
+  opacity: 0.6;
+  z-index: -2;
+}
+
+.gaming-glow {
+  position: fixed;
+  top: -20%; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.3) 0%, transparent 70%);
+  filter: blur(100px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ======================================================
+   🧭 NAV BAR HAUT DE GAMME
+   ====================================================== */
+.main-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: rgba(6, 8, 13, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-logo {
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.3));
+}
+
+/* ======================================================
+   🔒 STRUCTURE DE CONNEXION (CENTREUR & CARD)
+   ====================================================== */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 100px); /* Prend toute la hauteur moins la navbar */
+  min-height: calc(100vh - 100px);
   padding: 20px;
 }
 
-/* La carte de connexion principale (Effet Verre Fumé + Néon) */
 .login-card {
-  background: rgba(15, 19, 32, 0.75);
+  background: var(--bg-card-glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   padding: 45px 40px;
   width: 100%;
-  max-width: 450px; /* Taille parfaite pour un formulaire de connexion */
+  max-width: 450px;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 
-              0 0 40px rgba(34, 197, 94, 0.05); /* Légère lueur verte globale */
+              0 0 40px rgba(34, 197, 94, 0.05);
   text-align: center;
-  position: relative;
-  transition: transform 0.3s ease;
 }
 
-/* Titre principal de la connexion */
 .login-card h1 {
   font-size: 2.2rem;
   font-weight: 900;
@@ -40,22 +134,22 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Sous-texte explicatif */
 .login-card .login-sub {
-  color: #94a3b8;
+  color: var(--text-secondary);
   font-size: 0.95rem;
   margin-bottom: 35px;
   line-height: 1.4;
 }
 
-/* Structure du conteneur de formulaire */
 .login-form-group {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Espace régulier entre chaque élément */
+  gap: 20px;
 }
 
-/* Labels des champs d'entrée */
+/* ======================================================
+   🎛️ INPUTS & BOUTONS PREMIUM UNIFIÉS
+   ====================================================== */
 .input-field-wrapper label {
   display: block;
   font-size: 0.8rem;
@@ -67,55 +161,72 @@
   text-align: left;
 }
 
-/* Style des champs Email et Password pour le Login */
-.login-card input[type="email"], 
-.login-card input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"] {
   width: 100%;
-  background: #090b11;
-  border: 1px solid rgba(42, 49, 79, 0.8);
+  background: var(--bg-input);
+  border: 1px solid var(--border-glow);
   border-radius: 10px;
   padding: 14px 18px;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 500;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition-smooth);
 }
 
-/* Effet lumineux lors du clic sur un champ de saisie */
-.login-card input[type="email"]:focus, 
-.login-card input[type="password"]:focus {
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
   outline: none;
-  border-color: #22c55e; /* Devient vert au focus */
+  border-color: var(--neon-green);
   box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
   background: #0d111a;
 }
 
-/* Bouton principal "Se connecter" XXL */
+button {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-glow);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+button:hover {
+  border-color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Variantes spécifiques de boutons (Back / Submit) */
+.btn-back {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+}
+
 .login-card button.btn-link {
   width: 100%;
-  background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+  background: linear-gradient(135deg, var(--neon-green) 0%, #15803d 100%);
   color: #030712;
   border: none;
   padding: 16px;
   border-radius: 10px;
   font-size: 1rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  margin-top: 10px;
+  box-shadow: var(--shadow-neon);
 }
 
-/* Animation du bouton au survol */
 .login-card button.btn-link:hover {
-  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  background: linear-gradient(135deg, #4ade80 0%, var(--neon-green) 100%);
   transform: translateY(-2px);
   box-shadow: 0 0 35px rgba(34, 197, 94, 0.5);
 }
 
-/* Zone des liens en bas (Mot de passe oublié, Créer un compte) */
+/* Footer liens */
 .login-footer-links {
   margin-top: 25px;
   padding-top: 20px;
@@ -127,20 +238,21 @@
   transition: color 0.2s ease;
 }
 
-/* Animation sur le lien "Créer un compte" en vert */
 .login-footer-links a:hover {
   filter: brightness(1.2);
   text-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
 }
 
-/* Responsive pour les petits écrans de téléphone */
+/* 📱 ADAPTATION MOBILE */
 @media (max-width: 480px) {
   .login-card {
     padding: 30px 20px;
     border-radius: 16px;
   }
-  
   .login-card h1 {
     font-size: 1.8rem;
+  }
+  .main-navbar {
+    padding: 15px 20px;
   }
 }
