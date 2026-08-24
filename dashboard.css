@@ -4613,328 +4613,255 @@ img {
 }
 
 /* =====================================================
-   🏆 GOLD CUP
+   🏆 GOLD CUP CARD
    ===================================================== */
-
 .gold-cup-card {
-
     position: relative;
-
     border: 1px solid rgba(255, 193, 7, 0.45);
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255, 193, 7, 0.12),
-            rgba(15, 15, 25, 0.96) 45%,
-            rgba(255, 140, 0, 0.08)
-        );
-
+    background: linear-gradient(
+        145deg,
+        rgba(255, 193, 7, 0.12),
+        rgba(15, 15, 25, 0.96) 45%,
+        rgba(255, 140, 0, 0.08)
+    );
     box-shadow:
         0 0 25px rgba(255, 193, 7, 0.10),
         inset 0 0 30px rgba(255, 193, 7, 0.03);
-
     overflow: hidden;
-
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Effet de survol sur la carte entière */
+.gold-cup-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 0 35px rgba(255, 193, 7, 0.18),
+        inset 0 0 30px rgba(255, 193, 7, 0.03);
+}
 
 /* =====================================================
-   LIGNE OR EN HAUT
+   🌅 LIGNE OR EN HAUT
    ===================================================== */
-
 .gold-cup-card::before {
-
     content: "";
-
     position: absolute;
-
     top: 0;
     left: 0;
-
     width: 100%;
     height: 3px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #ffd700,
-            #ffae00,
-            #ffd700,
-            transparent
-        );
-
-    box-shadow:
-        0 0 12px rgba(255, 215, 0, 0.7);
-
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #ffd700,
+        #ffae00,
+        #ffd700,
+        transparent
+    );
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
 }
 
-
 /* =====================================================
-   TYPE GOLD CUP
+   🏷️ TYPE GOLD CUP
    ===================================================== */
-
 .gold-type {
-
     color: #ffd700 !important;
-
-    border-color:
-        rgba(255, 215, 0, 0.45) !important;
-
-    background:
-        rgba(255, 215, 0, 0.08) !important;
-
-    text-shadow:
-        0 0 10px rgba(255, 215, 0, 0.35);
-
+    border-color: rgba(255, 215, 0, 0.45) !important;
+    background: rgba(255, 215, 0, 0.08) !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.35);
 }
 
-
 /* =====================================================
-   STATUT
+   🟢 CLASSES DYNAMIQUES DE STATUT (Nouveau & Amélioré)
    ===================================================== */
-
 .gold-status {
-
-    color: #ffd700 !important;
-
-    border-color:
-        rgba(255, 215, 0, 0.35) !important;
-
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 215, 0, 0.35) !important;
+    transition: all 0.3s ease;
 }
 
+/* État : En Direct / Live */
+.status-live {
+    color: #2ecc71 !important;
+    border-color: rgba(46, 204, 113, 0.4) !important;
+    background: rgba(46, 204, 113, 0.1) !important;
+    text-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+    animation: statusPulse 1.8s infinite ease-in-out;
+}
+
+/* État : Bientôt disponible / Prochainement */
+.status-upcoming {
+    color: #e67e22 !important;
+    border-color: rgba(230, 126, 34, 0.4) !important;
+    background: rgba(230, 126, 34, 0.1) !important;
+    text-shadow: 0 0 8px rgba(230, 126, 34, 0.4);
+}
+
+/* État : Terminé ou Désactivé */
+.status-finished, .status-disabled {
+    color: #95a5a6 !important;
+    border-color: rgba(149, 165, 166, 0.3) !important;
+    background: rgba(149, 165, 166, 0.08) !important;
+    text-shadow: none;
+}
+
+/* Animation de pulsation pour le statut Live */
+@keyframes statusPulse {
+    0% { opacity: 0.8; box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.2); }
+    50% { opacity: 1; box-shadow: 0 0 10px 2px rgba(46, 204, 113, 0.1); }
+    100% { opacity: 0.8; box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.2); }
+}
 
 /* =====================================================
-   LOGO GOLD
+   🛡️ LOGO GOLD
    ===================================================== */
-
 .gold-logo {
-
-    border-color:
-        rgba(255, 215, 0, 0.55) !important;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255, 215, 0, 0.20),
-            rgba(255, 140, 0, 0.06),
-            transparent 70%
-        ) !important;
-
+    border-color: rgba(255, 215, 0, 0.55) !important;
+    background: radial-gradient(
+        circle,
+        rgba(255, 215, 0, 0.20),
+        rgba(255, 140, 0, 0.06),
+        transparent 70%
+    ) !important;
     box-shadow:
         0 0 25px rgba(255, 215, 0, 0.15),
         inset 0 0 20px rgba(255, 215, 0, 0.05);
-
 }
 
-
 /* =====================================================
-   TITRE
+   📝 TITRE
    ===================================================== */
-
 .gold-cup-card h2 {
-
     color: #ffd700;
-
-    text-shadow:
-        0 0 15px rgba(255, 215, 0, 0.25);
-
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
 }
-
 
 /* =====================================================
-   CONDITION GOLD+
+   🔒 CONDITION RANG MINIMUM
    ===================================================== */
-
 .gold-requirement {
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 15px;
-
     width: 100%;
-
     box-sizing: border-box;
-
-    margin:
-        14px 0;
-
-    padding:
-        11px 15px;
-
+    margin: 14px 0;
+    padding: 11px 15px;
     border-radius: 10px;
-
-    border:
-        1px solid
-        rgba(255, 215, 0, 0.20);
-
-    background:
-        rgba(255, 215, 0, 0.05);
-
+    border: 1px solid rgba(255, 215, 0, 0.20);
+    background: rgba(255, 215, 0, 0.05);
     color: rgba(255, 255, 255, 0.72);
-
 }
-
 
 .gold-requirement strong {
-
     color: #ffd700;
-
     font-size: 14px;
-
     letter-spacing: 1px;
-
 }
-
 
 /* =====================================================
-   RÉCOMPENSE
+   💰 RÉCOMPENSES (Sécurisé pour les textes longs)
    ===================================================== */
-
 .gold-reward-box {
-
-    border-color:
-        rgba(255, 215, 0, 0.35) !important;
-
-    background:
-        rgba(255, 215, 0, 0.06) !important;
-
+    border-color: rgba(255, 215, 0, 0.35) !important;
+    background: rgba(255, 215, 0, 0.06) !important;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    align-items: center;
 }
-
 
 .gold-reward-box .reward-value {
-
     color: #ffd700 !important;
-
-    text-shadow:
-        0 0 10px rgba(255, 215, 0, 0.25);
-
-}
-
-
-/* =====================================================
-   TIMER
-   ===================================================== */
-
-.gold-cup-timer {
-
-    color: #ffd700 !important;
-
-    font-weight: 700;
-
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.25);
+    font-size: 13px;
     text-align: center;
-
-    letter-spacing: 0.5px;
-
-    text-shadow:
-        0 0 10px rgba(255, 215, 0, 0.20);
-
+    word-break: break-word; /* Évite que la liste des cashprizes ne dépasse de la carte */
+    line-height: 1.4;
 }
-
 
 /* =====================================================
-   BOUTON
+   ⏱️ TIMER
    ===================================================== */
+.gold-cup-timer {
+    color: #ffd700 !important;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.20);
+    font-family: monospace; /* Aligne parfaitement les chiffres des secondes qui défilent */
+    font-size: 16px;
+    margin: 12px 0;
+}
 
+/* =====================================================
+   🔘 BOUTON D'INSCRIPTION
+   ===================================================== */
 #goldCupJoinBtn {
-
-    border:
-        1px solid rgba(255, 215, 0, 0.55);
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffd700,
-            #ffae00
-        );
-
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.55);
+    background: linear-gradient(135deg, #ffd700, #ffae00);
     color: #111;
-
     font-weight: 800;
-
-    box-shadow:
-        0 0 18px
-        rgba(255, 193, 7, 0.18);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        filter 0.2s ease;
-
+    cursor: pointer;
+    box-shadow: 0 0 18px rgba(255, 193, 7, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
-
-#goldCupJoinBtn:hover {
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 0 28px
-        rgba(255, 193, 7, 0.35);
-
-    filter:
-        brightness(1.08);
-
+#goldCupJoinBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 0 28px rgba(255, 193, 7, 0.35);
+    filter: brightness(1.08);
 }
 
+#goldCupJoinBtn:active:not(:disabled) {
+    transform: translateY(0);
+}
 
 #goldCupJoinBtn:disabled {
-
-    opacity: 0.45;
-
+    opacity: 0.5;
+    background: #2c2c3e;
+    color: #7f8c8d;
+    border-color: #3f3f54;
     cursor: not-allowed;
-
     transform: none;
-
     box-shadow: none;
-
+    text-shadow: none;
 }
-
 
 /* =====================================================
-   FOOTER GOLD
+   🐾 FOOTER CARD
    ===================================================== */
-
 .gold-cup-card .card-footer {
-
-    border-top-color:
-        rgba(255, 215, 0, 0.12);
-
+    border-top: 1px solid rgba(255, 215, 0, 0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    margin-top: 15px;
 }
-
 
 .gold-cup-card .card-footer-item strong {
-
     color: #ffd700;
-
 }
 
-
 /* =====================================================
-   RESPONSIVE
+   📱 RESPONSIVE
    ===================================================== */
-
 @media (max-width: 700px) {
-
     .gold-requirement {
-
-        padding:
-            10px 12px;
-
+        padding: 10px 12px;
         font-size: 13px;
-
     }
-
-    #goldCupJoinBtn {
-
-        width: 100%;
-
+    .gold-cup-timer {
+        font-size: 14px;
     }
-
 }

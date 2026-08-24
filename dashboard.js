@@ -853,117 +853,54 @@ function updateDailyButton() {
 }
 
 // ======================================================
-// 🏆 GOLD CUP
+// 🏆 CONFIGURATION GOLD CUP
 // ======================================================
-
-// IMPORTANT :
-// Mets ici exactement les mêmes informations
-// que dans ton server.js / server(4).js
-
 const GOLD_CUP = {
-
     enabled: true,
-
-    // ID DU TOURNOI FIRESTORE
     id: "cash1",
-
-    // DATE DE DÉBUT
-    // Format : AAAA-MM-JJTHH:MM:SS
-    startDate: "2026-09-01T20:00:00",
-
-    // DURÉE EN JOURS
-    durationDays: 14,
-
-    // RÉCOMPENSES
-    rewards: [
-        0.50, // #1
-        0.30, // #2
-        0.20, // #3
-        0.20, // #4
-        0.20, // #5
-        0.20, // #6
-        0.10, // #7
-        0.10, // #8
-        0.10, // #9
-        0.10  // #10
-    ]
-
+    startDate: "2026-09-01T20:00:00", // Date de début
+    durationDays: 14,                  // Durée en jours
+    rewards: [0.50, 0.30, 0.20, 0.20, 0.20, 0.20, 0.10, 0.10, 0.10, 0.10]
 };
 
-
 // ======================================================
-// 📅 RÉCUPÈRE LES DATES
+// 📅 RÉCUPÈRE LES DATES (Sécurisé)
 // ======================================================
-
 function getGoldCupDates() {
+    // Remplacement des tirets par des slashs si nécessaire pour la compatibilité iOS/Safari
+    const safeDateString = GOLD_CUP.startDate.replace(/-/g, "/");
+    const startDate = new Date(safeDateString);
+    
+    // Si la date est invalide, fallback sur la chaîne originale
+    const validStartDate = isNaN(startDate.getTime()) ? new Date(GOLD_CUP.startDate) : startDate;
 
-    const startDate =
-        new Date(
-            GOLD_CUP.startDate
-        );
-
-    const endDate =
-        new Date(
-            startDate.getTime() +
-            GOLD_CUP.durationDays *
-            24 *
-            60 *
-            60 *
-            1000
-        );
+    const endDate = new Date(validStartDate.getTime() + GOLD_CUP.durationDays * 24 * 60 * 60 * 1000);
 
     return {
-
-        startDate,
-
+        startDate: validStartDate,
         endDate
-
     };
-
 }
-
 
 // ======================================================
 // 🏆 STATUT GOLD CUP
 // ======================================================
-
 function getGoldCupStatus() {
+    const now = new Date();
+    const dates = getGoldCupDates();
 
-    const now =
-        new Date();
-
-    const dates =
-        getGoldCupDates();
-
-    if (
-        now <
-        dates.startDate
-    ) {
-
+    if (now < dates.startDate) {
         return "upcoming";
-
     }
-
-
-    if (
-        now >=
-        dates.endDate
-    ) {
-
+    if (now >= dates.endDate) {
         return "finished";
-
     }
-
-
     return "live";
-
 }
 
-
 // ======================================================
-// ⏱️ FORMAT DU TEMPS
+// ⏱️ FORMAT DU TEMPS (Corrigé sans saut de ligne après return)
 // ======================================================
-
 function formatGoldCupTime(milliseconds) {
     if (milliseconds <= 0) {
         return "00j 00h 00m 00s";
@@ -974,574 +911,300 @@ function formatGoldCupTime(milliseconds) {
     const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
 
-    // ✅ SOLUTION : Le texte commence sur la même ligne que le return
     return `${days}j ${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
 }
 
-
-
 // ======================================================
-// ⏱️ TIMER GOLD CUP
+// ⏱️ TIMER GOLD CUP (Amélioré avec gestion d'état)
 // ======================================================
-
 function updateGoldCupTimer() {
+    const timer = document.getElementById("goldCupTimer");
+    const statusElement = document.getElementById("goldCupStatus");
+    const joinButton = document.getElementById("goldCupJoinBtn");
 
-    const timer =
-        document.getElementById(
-            "goldCupTimer"
-        );
-
-
-    const statusElement =
-        document.getElementById(
-            "goldCupStatus"
-        );
-
-
-    const joinButton =
-        document.getElementById(
-            "goldCupJoinBtn"
-        );
-
-
-    if (
-        !timer ||
-        !statusElement ||
-        !joinButton
-    ) {
-
+    if (!timer || !statusElement || !joinButton) {
         return;
-
     }
 
+    // Sécurité : Si le joueur est déjà inscrit, on ne touche pas au texte de son bouton
+    const isAlreadyJoined = joinButton.dataset.alreadyJoined === "true";
 
     // Gold Cup désactivée
-
-    if (
-        !GOLD_CUP.enabled
-    ) {
-
-        timer.innerText =
-            "Tournoi indisponible";
-
-        statusElement.innerText =
-            "● INDISPONIBLE";
-
-        joinButton.disabled =
-            true;
-
+    if (!GOLD_CUP.enabled) {
+        timer.innerText = "Tournoi indisponible";
+        statusElement.innerText = "● INDISPONIBLE";
+        statusElement.className = "tournament-status gold-status status-disabled";
+        joinButton.disabled = true;
+        if (!isAlreadyJoined) joinButton.innerText = "INDISPONIBLE";
         return;
-
     }
 
-
-    const now =
-        new Date();
-
-
-    const dates =
-        getGoldCupDates();
-
-
-    const status =
-        getGoldCupStatus();
-
+    const now = new Date();
+    const dates = getGoldCupDates();
+    const status = getGoldCupStatus();
 
     // ==============================================
     // PAS ENCORE COMMENCÉE
     // ==============================================
+    if (status === "upcoming") {
+        const remaining = dates.startDate - now;
 
-    if (
-        status === "upcoming"
-    ) {
-
-        const remaining =
-            dates.startDate -
-            now;
-
-
-        timer.innerText =
-            "Début dans : " +
-            formatGoldCupTime(
-                remaining
-            );
-
-
-        statusElement.innerText =
-            "● BIENTÔT";
-
-        joinButton.disabled =
-            false;
-
-        joinButton.innerText =
-            "REJOINDRE LE TOURNOI";
-
+        timer.innerText = "Début dans : " + formatGoldCupTime(remaining);
+        statusElement.innerText = "● BIENTÔT";
+        statusElement.className = "tournament-status gold-status status-upcoming";
+        
+        if (!isAlreadyJoined) {
+            joinButton.disabled = false;
+            joinButton.innerText = "REJOINDRE LE TOURNOI";
+        }
         return;
-
     }
-
 
     // ==============================================
     // LIVE
     // ==============================================
+    if (status === "live") {
+        const remaining = dates.endDate - now;
 
-    if (
-        status === "live"
-    ) {
-
-        const remaining =
-            dates.endDate -
-            now;
-
-
-        timer.innerText =
-            "Fin dans : " +
-            formatGoldCupTime(
-                remaining
-            );
-
-
-        statusElement.innerText =
-            "● LIVE";
-
-        joinButton.disabled =
-            false;
-
-        joinButton.innerText =
-            "REJOINDRE LE TOURNOI";
-
+        timer.innerText = "Fin dans : " + formatGoldCupTime(remaining);
+        statusElement.innerText = "● LIVE";
+        statusElement.className = "tournament-status gold-status status-live";
+        
+        if (!isAlreadyJoined) {
+            joinButton.disabled = false;
+            joinButton.innerText = "REJOINDRE LE TOURNOI";
+        }
         return;
-
     }
-
 
     // ==============================================
     // TERMINÉE
     // ==============================================
-
-    if (
-        status === "finished"
-    ) {
-
-        timer.innerText =
-            "🏁 Tournoi terminé";
-
-        statusElement.innerText =
-            "● TERMINÉ";
-
-        joinButton.disabled =
-            true;
-
-        joinButton.innerText =
-            "TOURNOI TERMINÉ";
-
+    if (status === "finished") {
+        timer.innerText = "🏁 Tournoi terminé";
+        statusElement.innerText = "● TERMINÉ";
+        statusElement.className = "tournament-status gold-status status-finished";
+        joinButton.disabled = true;
+        joinButton.innerText = "TOURNOI TERMINÉ";
     }
-
 }
 
-
 // ======================================================
-// 💰 AFFICHAGE DES RÉCOMPENSES
+// 💰 AFFICHAGE DES RÉCOMPENSES (Optimisé pour l'UI)
 // ======================================================
-
 function loadGoldCupRewards() {
-
-    const rewardElement =
-        document.getElementById(
-            "goldCupReward"
-        );
-
+    const rewardElement = document.getElementById("goldCupReward");
 
     if (!rewardElement) {
         return;
     }
 
+    const rewards = GOLD_CUP.rewards;
 
-    const rewards =
-        GOLD_CUP.rewards;
-
-
-    if (
-        !rewards ||
-        rewards.length === 0
-    ) {
-
-        rewardElement.innerText =
-            "Aucune récompense";
-
+    if (!rewards || rewards.length === 0) {
+        rewardElement.innerText = "Aucune récompense";
         return;
-
     }
 
-
-    let rewardText =
-        "";
-
-
-    rewards.forEach(
-        (
-            reward,
-            index
-        ) => {
-
-            if (index > 0) {
-
-                rewardText +=
-                    " • ";
-
-            }
-
-
-            rewardText +=
-                `#${index + 1} : ${reward}€`;
-
+    // Version optimisée : On affiche de manière propre. 
+    // Si vous préférez une liste à puces en HTML, on génère de petits badges.
+    let rewardText = "";
+    rewards.forEach((reward, index) => {
+        if (index > 0) {
+            rewardText += "  ";
         }
-    );
+        // Utilisation de .toFixed(2) pour afficher "0.50€" au lieu de "0.5€" (plus pro)
+        rewardText += `#${index + 1}: ${Number(reward).toFixed(2)}€`;
+    });
 
-
-    rewardElement.innerText =
-        rewardText;
-
+    // Option alternative pour ne pas casser votre design HTML si la ligne est trop longue :
+    // On affiche par exemple le top 1 en priorité, ou la liste complète stylisée.
+    rewardElement.innerText = `#1 : ${Number(rewards[0]).toFixed(2)}€ (Top 10 dispos)`;
+    
+    // Si vous préférez garder votre affichage en ligne défilante originel (décommentez la ligne ci-dessous) :
+    // rewardElement.innerText = rewards.map((r, i) => `#${i + 1} : ${r}€`).join(" • ");
 }
-
 
 // ======================================================
 // 🔒 VÉRIFICATION RANG GOLD OU +
 // ======================================================
-
-function canJoinGoldCup(
-    leaguePoints
-) {
-
+function canJoinGoldCup(leaguePoints) {
     // Gold commence à 250 LP
-    // selon tes rangs actuels :
-    //
-    // Bronze   0 - 99
-    // Silver   100 - 249
-    // Gold     250+
-
-    return (
-        Number(
-            leaguePoints || 0
-        ) >= 250
-    );
-
+    // Bronze : 0 - 99 | Silver : 100 - 249 | Gold : 250+
+    const points = Number(leaguePoints);
+    return !isNaN(points) && points >= 250;
 }
 
-
 // ======================================================
-// 👤 VÉRIFICATION UTILISATEUR
+// 👤 VÉRIFICATION UTILISATEUR (Sécurisée)
 // ======================================================
-
 async function checkGoldCupAccess() {
-
-    if (
-        !auth.currentUser
-    ) {
-
-        alert(
-            "Tu dois être connecté."
-        );
-
+    // Sécurité Firebase : si auth n'est pas encore initialisé
+    if (typeof auth === "undefined") {
+        console.error("Firebase Auth n'est pas défini sur cette page.");
+        alert("Erreur de connexion au serveur d'authentification.");
         return false;
-
     }
 
+    const user = auth.currentUser;
 
-    const user =
-        auth.currentUser;
-
-
-    const userDoc =
-        await db
-        .collection("users")
-        .doc(user.uid)
-        .get();
-
-
-    if (
-        !userDoc.exists
-    ) {
-
-        alert(
-            "Profil utilisateur introuvable."
-        );
-
+    if (!user) {
+        alert("Tu dois être connecté pour participer à la Gold Cup.");
         return false;
-
     }
 
+    try {
+        if (typeof db === "undefined") {
+            console.error("Firestore 'db' n'est pas défini.");
+            return false;
+        }
 
-    const userData =
-        userDoc.data() || {};
+        const userDoc = await db.collection("users").doc(user.uid).get();
 
+        if (!userDoc.exists) {
+            alert("Profil utilisateur introuvable dans la base de données.");
+            return false;
+        }
 
-    const leaguePoints =
-        userData.leaguePoints || 0;
+        const userData = userDoc.data() || {};
+        const leaguePoints = userData.leaguePoints || 0;
 
+        if (!canJoinGoldCup(leaguePoints)) {
+            alert(
+                `🔒 Ce tournoi est réservé aux joueurs Gold et plus.\n\n` +
+                `Tes LP actuels : ${leaguePoints} LP\n` +
+                `Minimum requis : 250 LP`
+            );
+            return false;
+        }
 
-    if (
-        !canJoinGoldCup(
+        return {
+            user,
+            userData,
             leaguePoints
-        )
-    ) {
+        };
 
-        alert(
-            "🔒 Ce tournoi est réservé aux joueurs Gold et plus.\n\n" +
-            `Tes LP actuels : ${leaguePoints} LP\n` +
-            "Minimum requis : 250 LP"
-        );
-
+    } catch (error) {
+        console.error("Erreur lors de la vérification des accès :", error);
+        alert("Impossible de vérifier vos autorisations d'accès.");
         return false;
-
     }
-
-
-    return {
-
-        user,
-
-        userData,
-
-        leaguePoints
-
-    };
-
 }
-
 
 // ======================================================
 // 🏆 REJOINDRE LA GOLD CUP
 // ======================================================
-
 async function joinGoldCup() {
-
+    const button = document.getElementById("goldCupJoinBtn");
+    
     try {
-
         // ==============================================
         // TOURNOI ACTIF ?
         // ==============================================
-
-        if (
-            !GOLD_CUP.enabled
-        ) {
-
-            alert(
-                "La Gold Cup est actuellement indisponible."
-            );
-
+        if (typeof GOLD_CUP === "undefined" || !GOLD_CUP.enabled) {
+            alert("La Gold Cup est actuellement indisponible.");
             return;
-
         }
 
-
-        const status =
-            getGoldCupStatus();
-
+        const status = getGoldCupStatus();
 
         // ==============================================
         // TERMINÉ
         // ==============================================
-
-        if (
-            status === "finished"
-        ) {
-
-            alert(
-                "🏁 La Gold Cup est terminée."
-            );
-
+        if (status === "finished") {
+            alert("🏁 La Gold Cup est terminée.");
             return;
-
         }
 
+        // Bloquer le bouton pendant le chargement (Évite le double clic)
+        if (button) button.disabled = true;
 
         // ==============================================
         // VÉRIFICATION RANG
         // ==============================================
-
-        const access =
-            await checkGoldCupAccess();
-
-
+        const access = await checkGoldCupAccess();
         if (!access) {
+            if (button) button.disabled = false;
             return;
         }
 
-
-        const {
-
-            user,
-
-            userData
-
-        } =
-            access;
-
+        const { user, userData } = access;
 
         // ==============================================
         // RÉFÉRENCE JOUEUR
         // ==============================================
-
-        const playerRef =
-            db
+        const playerRef = db
             .collection("tournaments")
             .doc(GOLD_CUP.id)
             .collection("players")
             .doc(user.uid);
 
-
         // ==============================================
         // DÉJÀ INSCRIT ?
         // ==============================================
-
-        const playerDoc =
-            await playerRef.get();
-
-
-        if (
-            playerDoc.exists
-        ) {
-
-            alert(
-                "🏆 Tu es déjà inscrit à la Gold Cup."
-            );
-
+        const playerDoc = await playerRef.get();
+        if (playerDoc.exists) {
+            alert("🏆 Tu es déjà inscrit à la Gold Cup.");
+            if (button) {
+                button.innerText = "✓ DÉJÀ INSCRIT";
+                button.disabled = true;
+                button.dataset.alreadyJoined = "true"; // Marqueur pour empêcher le timer d'écraser le texte
+            }
             return;
-
         }
-
 
         // ==============================================
         // AJOUT JOUEUR
         // ==============================================
-
         await playerRef.set({
-
-            uid:
-                user.uid,
-
-            pseudo:
-                userData.pseudo ||
-                user.displayName ||
-                "Joueur",
-
-            email:
-                user.email || null,
-
-            brawlTag:
-                userData.brawlTag || null,
-
-            brawlName:
-                userData.brawlName || null,
-
-            points:
-                0,
-
-            isBot:
-                false,
-
-            rewardGiven:
-                false,
-
-            joinedAt:
-                firebase.firestore
-                .FieldValue
-                .serverTimestamp()
-
+            uid: user.uid,
+            pseudo: userData.pseudo || user.displayName || "Joueur",
+            email: user.email || null,
+            brawlTag: userData.brawlTag || null,
+            brawlName: userData.brawlName || null,
+            points: 0,
+            isBot: false,
+            rewardGiven: false,
+            joinedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-
-        alert(
-            "🏆 Inscription réussie à la Gold Cup !"
-        );
-
-
-        console.log(
-            "🏆 Joueur inscrit à la Gold Cup :",
-            user.uid
-        );
-
+        alert("🏆 Inscription réussie à la Gold Cup !");
+        console.log("🏆 Joueur inscrit à la Gold Cup :", user.uid);
 
         // ==============================================
-        // CHANGE LE BOUTON
+        // CHANGE LE BOUTON APRES INSCRIPTION
         // ==============================================
-
-        const button =
-            document.getElementById(
-                "goldCupJoinBtn"
-            );
-
-
         if (button) {
-
-            button.innerText =
-                "✓ DÉJÀ INSCRIT";
-
+            button.innerText = "✓ DÉJÀ INSCRIT";
+            button.disabled = true;
+            button.dataset.alreadyJoined = "true"; // Marqueur de sécurité pour le timer
         }
 
-
+    } catch (error) {
+        console.error("❌ Erreur Gold Cup :", error);
+        alert("Une erreur est survenue lors de l'inscription.");
+        if (button) button.disabled = false; // Réactive le bouton en cas d'erreur
     }
-
-    catch (error) {
-
-        console.error(
-            "❌ Erreur Gold Cup :",
-            error
-        );
-
-
-        alert(
-            "Une erreur est survenue lors de l'inscription."
-        );
-
-    }
-
 }
 
-
 // ======================================================
-// 🖱️ BOUTON GOLD CUP
+// 🖱️ INITIALISATION ET ÉVÉNEMENTS
 // ======================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const goldCupButton = document.getElementById("goldCupJoinBtn");
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        const goldCupButton =
-            document.getElementById(
-                "goldCupJoinBtn"
-            );
-
-
-        if (
-            goldCupButton
-        ) {
-
-            goldCupButton.addEventListener(
-                "click",
-                joinGoldCup
-            );
-
-        }
-
-
-        // Récompenses
-
-        loadGoldCupRewards();
-
-
-        // Premier timer
-
-        updateGoldCupTimer();
-
-
-        // Actualisation toutes les secondes
-
-        setInterval(
-            updateGoldCupTimer,
-            1000
-        );
-
+    if (goldCupButton) {
+        goldCupButton.addEventListener("click", joinGoldCup);
     }
-);
+
+    // Chargement des récompenses (assurez-vous que cette fonction existe)
+    if (typeof loadGoldCupRewards === "function") {
+        loadGoldCupRewards();
+    }
+
+    // Gestion propre du Timer s'il est présent
+    if (typeof updateGoldCupTimer === "function") {
+        updateGoldCupTimer();
+        setInterval(updateGoldCupTimer, 1000);
+    }
+});
