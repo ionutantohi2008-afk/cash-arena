@@ -752,9 +752,14 @@ function showTournaments() {
   document.getElementById("classement").style.display = "none";
   document.getElementById("dailyClassement").style.display = "none";
   
+  // ✅ Masque proprement le classement de la Gold Cup au retour
+  const goldClassement = document.getElementById("goldCupClassement");
+  if (goldClassement) goldClassement.style.display = "none";
+  
   const endTimer = document.getElementById("endTimer");
   if (endTimer) endTimer.style.display = "none";
 }
+
 
 function updateDailyButton() {
   const btn = document.getElementById("dailyJoinBtn");
@@ -826,27 +831,57 @@ function renderFrontTimer() {
     const endDate = new Date(GOLD_CUP_DATA.endDate);
     const isAlreadyJoined = joinButton.dataset.alreadyJoined === "true";
 
+    // ==============================================
+    // 📊 GESTION SI LE JOUEUR EST DÉJÀ INSCRIT (Prioritaire)
+    // ==============================================
+    if (isAlreadyJoined) {
+        joinButton.disabled = false; // Reste cliquable pour voir le classement
+        joinButton.innerText = "VOIR LE CLASSEMENT";
+        joinButton.onclick = () => {
+            showGoldCupClassement();
+        };
+    } else {
+        // Enlève l'écouteur personnalisé si le joueur n'est pas inscrit pour laisser l'écouteur d'inscription de base
+        joinButton.onclick = null; 
+    }
+
+    // ==============================================
     // CAS A : PAS ENCORE COMMENCÉ
+    // ==============================================
     if (now < startDate) {
         const remaining = startDate - now;
         timer.innerText = "Début dans : " + formatFrontTime(remaining);
         statusElement.innerText = "● BIENTÔT";
         statusElement.className = "tournament-status gold-status status-upcoming";
-        if (!isAlreadyJoined) joinButton.innerText = "REJOINDRE LE TOURNOI";
+        
+        if (!isAlreadyJoined) {
+            joinButton.disabled = false;
+            joinButton.innerText = "REJOINDRE LE TOURNOI";
+        }
     } 
+    // ==============================================
     // CAS B : LIVE
+    // ==============================================
     else if (now >= startDate && now < endDate) {
         const remaining = endDate - now;
         timer.innerText = "Fin dans : " + formatFrontTime(remaining);
         statusElement.innerText = "● LIVE";
         statusElement.className = "tournament-status gold-status status-live";
-        if (!isAlreadyJoined) joinButton.innerText = "REJOINDRE LE TOURNOI";
+        
+        if (!isAlreadyJoined) {
+            joinButton.disabled = false;
+            joinButton.innerText = "REJOINDRE LE TOURNOI";
+        }
     } 
+    // ==============================================
     // CAS C : TERMINÉ
+    // ==============================================
     else {
         timer.innerText = "🏁 Tournoi terminé";
         statusElement.innerText = "● TERMINÉ";
         statusElement.className = "tournament-status gold-status status-finished";
+        
+        // Même s'il est inscrit, le tournoi est fini donc on bloque le bouton
         joinButton.disabled = true;
         joinButton.innerText = "TOURNOI TERMINÉ";
     }
@@ -930,3 +965,96 @@ function initGoldCupModule() {
     setInterval(renderFrontTimer, 1000);
 }
 
+// ======================================================
+// 📊 CLASSEMENT EN DIRECT DE LA GOLD CUP
+// ======================================================
+
+// 1️⃣ Afficher l'interface du classement Gold Cup
+function showGoldCupClassement() {
+    // Cache toutes les cartes de tournois (utilise votre fonction existante)
+    if (typeof hideAllTournaments === "function") {
+        hideAllTournaments();
+    } else {
+        document.querySelectorAll(".tournament-card").forEach(card => card.style.display = "none");
+    }
+
+    // Affiche le classement Gold Cup et cache les autres
+    const goldClassement = document.getElementById("goldCupClassement");
+    if (goldClassement) goldClassement.style.display = "block";
+    
+    const dailyClassement = document.getElementById("dailyClassement");
+    if (dailyClassement) dailyClassement.style.display = "none";
+    
+    const generalClassement = document.getElementById("classement");
+    if (generalClassement) generalClassement.style.display = "none";
+
+    // Charge les joueurs depuis Firestore
+    loadGoldCupPlayers();
+}
+
+// 2️⃣ Charger et trier les joueurs de la Gold Cup depuis Firestore
+async function loadGoldCupPlayers() {
+    const table = document.getElementById("goldCupTable");
+    if (!table) return;
+
+    try {
+        // ID du tournoi récupéré dynamiquement ou repli sur "cash1"
+        const tournamentId = GOLD_CUP_DATA ? GOLD_CUP_DATA.id : "cash1";
+
+        // Lecture de la sous-collection des joueurs inscrits
+        const snapshot = await db
+            .collection("tournaments")
+            .doc(tournamentId)
+            .collection("players")
+            .get();
+
+        if (snapshot.empty) {
+            table.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #aaa;">Aucun joueur inscrit pour le moment.</td></tr>`;
+            return;
+        }
+
+        let players = [];
+        snapshot.forEach(doc => {
+            players.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+
+        // Tri des joueurs : du plus grand nombre de points au plus petit
+        players.sort((a, b) => (b.points || 0) - (a.points || 0));
+
+        table.innerHTML = "";
+
+        // Récupération de la configuration des cashprizes serveur
+        const rewardsConfig = GOLD_CUP_DATA ? GOLD_CUP_DATA.rewards : [0.50, 0.30, 0.20, 0.20, 0.20, 0.20, 0.10, 0.10, 0.10, 0.10];
+
+        // Génération des lignes du tableau
+        players.forEach((p, index) => {
+            const position = index + 1;
+            
+            // Attribution dynamique du gain selon la position dans le classement
+            let rewardText = "-";
+            if (rewardsConfig && rewardsConfig[index] !== undefined && rewardsConfig[index] > 0) {
+                rewardText = `${Number(rewardsConfig[index]).toFixed(2)}€`;
+            }
+
+            table.innerHTML += `
+                <tr>
+                    <td class="reward-cell ${position <= 3 ? 'top-reward' : ''}">${rewardText}</td>
+                    <td><strong>#${position}</strong></td>
+                    <td class="${position === 1 ? 'top-player' : ''}">
+                        ${p.pseudo || p.brawlName || p.email || "Joueur"}
+                        ${typeof getRankBadge === "function" ? getRankBadge(p.leagueRank || "Gold") : `<span class="badge-rank">${p.leagueRank || "Gold"}</span>`}
+                        ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
+                    </td>
+                    <td class="points-cell"><strong>${p.points || 0}</strong> pts</td>
+                </tr>
+            `;
+        });
+
+    } catch (error) {
+        console.error("❌ Erreur lors du chargement du classement Gold Cup :", error);
+        table.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #e74c3c;">Impossible de charger le classement.</td></tr>`;
+    }
+}

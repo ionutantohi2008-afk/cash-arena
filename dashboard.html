@@ -628,6 +628,35 @@
 </section>
 
 <!-- =====================================================
+     🏆 CLASSEMENT GOLD CUP
+     ===================================================== -->
+<div id="goldCupClassement" class="tournament-classement" style="display: none;">
+    <div class="classement-header">
+        <h3>🏆 CLASSEMENT LIVE - CASH CUP</h3>
+        <button type="button" class="btn-back" onclick="showTournaments()">← RETOUR</button>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>GAIN</th>
+                    <th>RANG</th>
+                    <th>JOUEUR</th>
+                    <th>POINTS</th>
+                </tr>
+            </thead>
+            <tbody id="goldCupTable">
+                <!-- Les joueurs seront injectés ici par le JavaScript -->
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 20px;">Chargement des participants...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- =====================================================
      END TIMER
      ===================================================== -->
 

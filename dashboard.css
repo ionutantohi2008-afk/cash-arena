@@ -4865,3 +4865,27 @@ img {
         font-size: 14px;
     }
 }
+
+#goldCupClassement {
+    background: rgba(15, 15, 25, 0.98);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 30px rgba(255, 193, 7, 0.05);
+}
+#goldCupClassement th {
+    color: #ffd700;
+    border-bottom: 2px solid rgba(255, 193, 7, 0.2);
+}
+.reward-cell {
+    color: #ffd700;
+    font-weight: bold;
+}
+.top-reward {
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    color: #fffb00;
+}
+.points-cell {
+    color: #ffd700;
+}
