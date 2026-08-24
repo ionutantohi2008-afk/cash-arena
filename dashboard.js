@@ -604,46 +604,33 @@ function getRankBadge(rank) {
   }
 }
 
-function getDailyTournamentId() {
+// ======================================================
+// 📅 GESTION DU TOURNOI JOURNALIER (DAILY)
+// ======================================================
 
+function getDailyTournamentId() {
   const now = new Date();
 
   // Heure reset : 19h30
   const resetHour = 19;
   const resetMinute = 30;
 
-  // Si avant 19h30
-  // on utilise le tournoi d'hier
+  // Si avant 19h30, on utilise le tournoi d'hier
   if (
-
     now.getHours() < resetHour ||
-
-    (
-      now.getHours() === resetHour &&
-      now.getMinutes() < resetMinute
-    )
-
+    (now.getHours() === resetHour && now.getMinutes() < resetMinute)
   ) {
-
     now.setDate(now.getDate() - 1);
   }
 
-  const year =
-    now.getFullYear();
-
-  const month =
-    String(now.getMonth() + 1)
-    .padStart(2, "0");
-
-  const day =
-    String(now.getDate())
-    .padStart(2, "0");
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
 
   return `brawl-daily-${year}-${month}-${day}`;
 }
 
 async function joinDailyTournament() {
-
   const user = auth.currentUser;
 
   if (!user) {
@@ -651,8 +638,7 @@ async function joinDailyTournament() {
     return;
   }
 
-  const tournamentId =
-    getDailyTournamentId();
+  const tournamentId = getDailyTournamentId();
 
   const userDoc = await db
     .collection("users")
@@ -669,82 +655,51 @@ async function joinDailyTournament() {
   const doc = await ref.get();
 
   if (doc.exists) {
-
     alert("Déjà inscrit !");
     return;
   }
 
   await ref.set({
-
-  uid: user.uid,
-
-  email: user.email,
-
-  pseudo:
-    userData.pseudo ||
-    user.email,
-
-  isContentCreator:
-    userData.isContentCreator || false,
-
-  leagueRank:
-    userData.leagueRank || "Bronze",
-
-  leaguePoints:
-    userData.leaguePoints || 0,
-
-  brawlTag:
-    userData.brawlTag || null,
-
-  brawlName:
-    userData.brawlName || null,
-
-  points: 0,
-
-  joinedAt: new Date()
-});
+    uid: user.uid,
+    email: user.email,
+    pseudo: userData.pseudo || user.email,
+    isContentCreator: userData.isContentCreator || false,
+    leagueRank: userData.leagueRank || "Bronze",
+    leaguePoints: userData.leaguePoints || 0,
+    brawlTag: userData.brawlTag || null,
+    brawlName: userData.brawlName || null,
+    points: 0,
+    joinedAt: new Date()
+  });
 
   alert("Inscription Daily réussie !");
   isDailyRegistered = true;
 
   updateDailyButton();
-
   showDailyClassement();
 }
 
-db.collection("tournaments")
-  .doc(tournamentId)
+// ✅ CORRECTION : La ligne parasite non définie a été supprimée ici !
 
 function hideAllTournaments() {
-
-  const cards =
-    document.querySelectorAll(".tournament-card");
-
+  const cards = document.querySelectorAll(".tournament-card");
   cards.forEach(card => {
     card.style.display = "none";
   });
 }
 
 function showDailyClassement() {
-
   hideAllTournaments();
 
-  document.getElementById("dailyClassement")
-    .style.display = "block";
-
-  document.getElementById("classement")
-    .style.display = "none";
+  document.getElementById("dailyClassement").style.display = "block";
+  document.getElementById("classement").style.display = "none";
 
   loadDailyPlayers();
 }
 
 async function loadDailyPlayers() {
-
-  const table =
-    document.getElementById("dailyTable");
-
-  const tournamentId =
-    getDailyTournamentId();
+  const table = document.getElementById("dailyTable");
+  const tournamentId = getDailyTournamentId();
 
   const snapshot = await db
     .collection("tournaments")
@@ -755,22 +710,17 @@ async function loadDailyPlayers() {
   let players = [];
 
   snapshot.forEach(doc => {
-
     players.push({
       id: doc.id,
       ...doc.data()
     });
   });
 
-  players.sort(
-    (a, b) =>
-      (b.points || 0) - (a.points || 0)
-  );
+  players.sort((a, b) => (b.points || 0) - (a.points || 0));
 
   table.innerHTML = "";
 
   players.forEach((p, index) => {
-
     let reward = "";
 
     if (index === 0) reward = "40 LP";
@@ -780,73 +730,44 @@ async function loadDailyPlayers() {
     else if (index <= 9) reward = "10 LP";
 
     table.innerHTML += `
-
       <tr>
-
         <td>${reward}</td>
-
         <td>${index + 1}</td>
-
         <td class="${index === 0 ? 'top-player' : ''}">
-
           ${p.pseudo || p.brawlName || p.email}
-
-          ${getRankBadge(p.leagueRank)}
-
-          ${p.isContentCreator
-            ? "<span class='creator-badge'>Content Creator</span>"
-            : ""
-          }
-
+          ${typeof getRankBadge === "function" ? getRankBadge(p.leagueRank) : p.leagueRank}
+          ${p.isContentCreator ? "<span class='creator-badge'>Content Creator</span>" : ""}
         </td>
-
         <td>${p.points || 0}</td>
-
       </tr>
     `;
   });
 }
 
 function showTournaments() {
+  document.querySelectorAll(".tournament-card").forEach(card => {
+    card.style.display = "block";
+  });
 
-  document.querySelectorAll(".tournament-card")
-    .forEach(card => {
-      card.style.display = "block";
-    });
-
-  document.getElementById("classement")
-    .style.display = "none";
-
-  document.getElementById("dailyClassement")
-    .style.display = "none";
-
-  document.getElementById("endTimer")
-    .style.display = "none";
+  document.getElementById("classement").style.display = "none";
+  document.getElementById("dailyClassement").style.display = "none";
+  
+  const endTimer = document.getElementById("endTimer");
+  if (endTimer) endTimer.style.display = "none";
 }
 
 function updateDailyButton() {
-
-  const btn =
-    document.getElementById("dailyJoinBtn");
-
+  const btn = document.getElementById("dailyJoinBtn");
   if (!btn) return;
 
-  if (isDailyRegistered) {
-
+  if (typeof isDailyRegistered !== "undefined" && isDailyRegistered) {
     btn.innerText = "CLASSEMENT";
-
     btn.onclick = () => {
-
       showDailyClassement();
     };
-
   } else {
-
-    btn.innerText =
-      "REJOINDRE LE TOURNOI";
-
+    btn.innerText = "REJOINDRE LE TOURNOI";
     btn.onclick = () => {
-
       joinDailyTournament();
     };
   }
