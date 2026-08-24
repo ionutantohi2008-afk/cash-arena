@@ -563,14 +563,17 @@
 
 
 
+
 <!-- =====================================================
-     🏆 CLASSEMENT WEEKLY
+     CLASSEMENT WEEKLY
      ===================================================== -->
-<section id="classement" class="leaderboard-section-wrapper" style="display: none;">
-    <h2 class="leaderboard-title">🏆 Classement <span class="leaderboard-badge weekly">Weekly</span></h2>
-    
-    <div class="leaderboard-table-scroll">
-        <table class="leaderboard-table">
+<section
+    id="classement"
+    class="classement-container"
+    style="display: none;"
+>
+    <div class="ranking-table-wrapper">
+        <table>
             <thead>
                 <tr>
                     <th>Récompense</th>
@@ -579,20 +582,22 @@
                     <th>Points</th>
                 </tr>
             </thead>
-            <!-- Ton JavaScript viendra injecter les lignes ici automatiquement -->
             <tbody id="brawlTable"></tbody>
         </table>
     </div>
 </section>
 
+
 <!-- =====================================================
-     🏆 CLASSEMENT DAILY
+     CLASSEMENT DAILY
      ===================================================== -->
-<section id="dailyClassement" class="leaderboard-section-wrapper" style="display: none;">
-    <h2 class="leaderboard-title">🏆 Classement <span class="leaderboard-badge daily">Daily</span></h2>
-    
-    <div class="leaderboard-table-scroll">
-        <table class="leaderboard-table">
+<section
+    id="dailyClassement"
+    class="classement-container"
+    style="display: none;"
+>
+    <div class="ranking-table-wrapper">
+        <table>
             <thead>
                 <tr>
                     <th>Récompense</th>
@@ -601,11 +606,11 @@
                     <th>Points</th>
                 </tr>
             </thead>
-            <!-- Ton JavaScript viendra injecter les lignes ici automatiquement -->
             <tbody id="dailyTable"></tbody>
         </table>
     </div>
 </section>
+
 
 
 <!-- =====================================================
