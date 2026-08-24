@@ -774,15 +774,16 @@ function updateDailyButton() {
 }
 
 // ======================================================
-// 🏆 MODULE CLIENT GLOBAL : GOLD CUP
+// 🏆 MODULE CLIENT GLOBAL : GOLD CUP (AVEC FONCTIONS INCLUSES)
 // ======================================================
 
 // Stocke la configuration reçue du serveur backend
 let GOLD_CUP_DATA = null;
 
-// 1️⃣ CHARGEMENT DE LA CONFIGURATION (AVEC URL ABSOLUE SI PRODUIT HÉBERGÉ)
+// 1️⃣ CHARGEMENT DE LA CONFIGURATION (DEPUIS LE BACKEND)
 async function fetchGoldCupConfig() {
     try {
+        // Ajustez le port (ex: 5000) selon votre configuration locale
         const response = await fetch("https://cash-arena-api.onrender.com/api/gold-cup");
         
         if (!response.ok) {
@@ -794,13 +795,10 @@ async function fetchGoldCupConfig() {
         if (data && data.success && data.enabled) {
             GOLD_CUP_DATA = data;
             
-            // Met à jour l'affichage de la récompense
-            const rewardElement = document.getElementById("goldCupReward");
-            if (rewardElement && data.rewards && data.rewards.length > 0) {
-                rewardElement.innerText = `${Number(data.rewards[0]).toFixed(2)}€`;
-            }
+            // ✅ APPEL DE LA FONCTION DES RECOMPENSES
+            loadGoldCupRewards();
             
-            // Force l'affichage immédiat
+            // Force l'affichage immédiat du timer
             renderFrontTimer();
         } else {
             const timerElement = document.getElementById("goldCupTimer");
@@ -815,7 +813,6 @@ async function fetchGoldCupConfig() {
 
 // 2️⃣ MISE À JOUR VISUELLE DU TIMER
 function renderFrontTimer() {
-    // Si l'API n'a pas encore répondu, on ne fait rien pour ne pas écraser l'affichage
     if (!GOLD_CUP_DATA) return;
 
     const timer = document.getElementById("goldCupTimer");
@@ -855,7 +852,19 @@ function renderFrontTimer() {
     }
 }
 
-// 3️⃣ FORMATAGE DU TEMPS
+// 3️⃣ ✅ FONCTION DES RÉCOMPENSES (Ajoutée et corrigée !)
+function loadGoldCupRewards() {
+    const rewardElement = document.getElementById("goldCupReward");
+    if (!rewardElement || !GOLD_CUP_DATA || !GOLD_CUP_DATA.rewards) return;
+
+    // Calcule automatiquement la somme totale de toutes les récompenses
+    const totalRewards = GOLD_CUP_DATA.rewards.reduce((sum, amount) => sum + Number(amount || 0), 0);
+
+    // Écrit proprement "2.00€" dans votre carte HTML
+    rewardElement.innerText = `${totalRewards.toFixed(2)}€`;
+}
+
+// 4️⃣ FORMATAGE DU TEMPS
 function formatFrontTime(milliseconds) {
     if (milliseconds <= 0) return "00j 00h 00m 00s";
     const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
@@ -865,7 +874,7 @@ function formatFrontTime(milliseconds) {
     return `${days}j ${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
 }
 
-// 4️⃣ ACTION D'INSCRIPTION VIA L'API
+// 5️⃣ ACTION D'INSCRIPTION VIA L'API
 async function joinGoldCup() {
     const button = document.getElementById("goldCupJoinBtn");
     if (!GOLD_CUP_DATA) return;
@@ -873,7 +882,6 @@ async function joinGoldCup() {
     try {
         if (button) button.disabled = true;
 
-        // Récupération de l'UID (Ajustez selon votre système d'authentification)
         const uid = firebase.auth().currentUser ? firebase.auth().currentUser.uid : null;
         if (!uid) {
             alert("Tu dois être connecté.");
@@ -881,13 +889,11 @@ async function joinGoldCup() {
             return;
         }
 
-        // ✅ URL absolue configurée pour le serveur local
         const response = await fetch("https://cash-arena-api.onrender.com/api/gold-cup/join", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ uid: uid })
         });
-
 
         const result = await response.json();
 
@@ -908,7 +914,7 @@ async function joinGoldCup() {
     }
 }
 
-// 5️⃣ INITIALISATION SÉCURISÉE AU CHARGEMENT
+// 6️⃣ INITIALISATION AU CHARGEMENT DE LA PAGE
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initGoldCupModule);
 } else {
@@ -923,3 +929,4 @@ function initGoldCupModule() {
     fetchGoldCupConfig();
     setInterval(renderFrontTimer, 1000);
 }
+
