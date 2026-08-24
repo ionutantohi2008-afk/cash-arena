@@ -1,0 +1,146 @@
+/* ======================================================
+   🔒 LOGIN PREMIUM CARD & INTERFACE DESIGN
+   ====================================================== */
+
+/* Aligne et centre la boîte de connexion parfaitement au milieu de l'écran */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 100px); /* Prend toute la hauteur moins la navbar */
+  padding: 20px;
+}
+
+/* La carte de connexion principale (Effet Verre Fumé + Néon) */
+.login-card {
+  background: rgba(15, 19, 32, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 45px 40px;
+  width: 100%;
+  max-width: 450px; /* Taille parfaite pour un formulaire de connexion */
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 
+              0 0 40px rgba(34, 197, 94, 0.05); /* Légère lueur verte globale */
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+/* Titre principal de la connexion */
+.login-card h1 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Sous-texte explicatif */
+.login-card .login-sub {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  margin-bottom: 35px;
+  line-height: 1.4;
+}
+
+/* Structure du conteneur de formulaire */
+.login-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espace régulier entre chaque élément */
+}
+
+/* Labels des champs d'entrée */
+.input-field-wrapper label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #64748b;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+/* Style des champs Email et Password pour le Login */
+.login-card input[type="email"], 
+.login-card input[type="password"] {
+  width: 100%;
+  background: #090b11;
+  border: 1px solid rgba(42, 49, 79, 0.8);
+  border-radius: 10px;
+  padding: 14px 18px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Effet lumineux lors du clic sur un champ de saisie */
+.login-card input[type="email"]:focus, 
+.login-card input[type="password"]:focus {
+  outline: none;
+  border-color: #22c55e; /* Devient vert au focus */
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+  background: #0d111a;
+}
+
+/* Bouton principal "Se connecter" XXL */
+.login-card button.btn-link {
+  width: 100%;
+  background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+  color: #030712;
+  border: none;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin-top: 10px;
+}
+
+/* Animation du bouton au survol */
+.login-card button.btn-link:hover {
+  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 0 35px rgba(34, 197, 94, 0.5);
+}
+
+/* Zone des liens en bas (Mot de passe oublié, Créer un compte) */
+.login-footer-links {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.login-footer-links a {
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+/* Animation sur le lien "Créer un compte" en vert */
+.login-footer-links a:hover {
+  filter: brightness(1.2);
+  text-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+}
+
+/* Responsive pour les petits écrans de téléphone */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 30px 20px;
+    border-radius: 16px;
+  }
+  
+  .login-card h1 {
+    font-size: 1.8rem;
+  }
+}
