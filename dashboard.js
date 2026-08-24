@@ -964,63 +964,20 @@ function getGoldCupStatus() {
 // ⏱️ FORMAT DU TEMPS
 // ======================================================
 
-function formatGoldCupTime(
-    milliseconds
-) {
-
-    if (
-        milliseconds <= 0
-    ) {
-
+function formatGoldCupTime(milliseconds) {
+    if (milliseconds <= 0) {
         return "00j 00h 00m 00s";
-
     }
 
+    const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
 
-    const days =
-        Math.floor(
-            milliseconds /
-            (1000 * 60 * 60 * 24)
-        );
-
-
-    const hours =
-        Math.floor(
-            (
-                milliseconds %
-                (1000 * 60 * 60 * 24)
-            ) /
-            (1000 * 60 * 60)
-        );
-
-
-    const minutes =
-        Math.floor(
-            (
-                milliseconds %
-                (1000 * 60 * 60)
-            ) /
-            (1000 * 60)
-        );
-
-
-    const seconds =
-        Math.floor(
-            (
-                milliseconds %
-                (1000 * 60)
-            ) /
-            1000
-        );
-
-
-    return
-        `${days}j ` +
-        `${String(hours).padStart(2, "0")}h ` +
-        `${String(minutes).padStart(2, "0")}m ` +
-        `${String(seconds).padStart(2, "0")}s`;
-
+    // ✅ SOLUTION : Le texte commence sur la même ligne que le return
+    return `${days}j ${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
 }
+
 
 
 // ======================================================
