@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cash Arena • Équipes</title>
+
+
+    <!-- CSS PRINCIPAL -->
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <!-- CSS ÉQUIPES -->
+    <link
+        rel="stylesheet"
+        href="teams.css"
+    >
+
+
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND
+     ===================================================== -->
+
+<div class="gaming-bg"></div>
+
+<div class="gaming-grid"></div>
+
+<div class="gaming-glow"></div>
+
+
+
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
+<nav class="navbar">
+
+
+    <!-- LOGO -->
+
+    <a
+        href="index.html"
+        class="logo"
+    >
+
+        ⚡ Cash Arena
+
+    </a>
+
+
+
+    <!-- NAVIGATION -->
+
+    <div class="nav-links">
+
+        <a href="index.html">
+            Accueil
+        </a>
+
+
+        <a href="dashboard.html">
+            Tournois
+        </a>
+
+
+        <a href="league.html">
+            League
+        </a>
+
+
+        <a
+            href="teams.html"
+            class="active"
+        >
+            Équipes
+        </a>
+
+    </div>
+
+
+
+    <!-- PROFIL -->
+
+    <div
+        id="authSection"
+        class="auth-section"
+    ></div>
+
+
+</nav>
+
+
+
+<!-- =====================================================
+     PAGE ÉQUIPES
+     ===================================================== -->
+
+<main class="teams-page">
+
+
+    <!-- =================================================
+         HEADER
+         ================================================= -->
+
+    <section class="teams-header">
+
+
+        <div class="teams-title">
+
+
+            <span class="teams-small-title">
+                CASH ARENA
+            </span>
+
+
+            <h1>
+                EQUIPES E-SPORT
+            </h1>
+
+
+            <p>
+                Rejoins, découvre et affronte les meilleures
+                équipes de Cash Arena
+            </p>
+
+
+        </div>
+
+
+
+        <!-- BOUTON CRÉATION -->
+
+        <button
+            id="createTeamButton"
+            class="create-team-button"
+            type="button"
+        >
+
+            <span class="create-team-icon">
+                +
+            </span>
+
+            Créer une équipe
+
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         BARRE DE RECHERCHE
+         ================================================= -->
+
+    <section class="teams-toolbar">
+
+
+        <div class="teams-search">
+
+            <span>
+                🔎
+            </span>
+
+            <input
+                type="text"
+                id="teamSearch"
+                placeholder="Rechercher une équipe..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+
+        <div class="teams-count">
+
+            <span id="teamsCount">
+                0
+            </span>
+
+            équipes
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         LISTE DES ÉQUIPES
+         ================================================= -->
+
+    <section
+        id="teamsContainer"
+        class="teams-grid"
+    >
+
+
+        <!-- CHARGEMENT -->
+
+        <div
+            id="teamsLoading"
+            class="teams-loading"
+        >
+
+            <div class="loading-spinner"></div>
+
+            <span>
+                Chargement des équipes...
+            </span>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         AUCUNE ÉQUIPE
+         ================================================= -->
+
+    <div
+        id="noTeams"
+        class="no-teams"
+        style="display:none;"
+    >
+
+        <div class="no-teams-icon">
+            🏆
+        </div>
+
+
+        <h2>
+            Aucune équipe trouvée
+        </h2>
+
+
+        <p>
+            Sois le premier à créer une équipe sur Cash Arena.
+        </p>
+
+
+    </div>
+
+
+
+</main>
+
+
+
+<!-- =====================================================
+     MODAL CRÉATION D'ÉQUIPE
+     ================================================= -->
+
+<div
+    id="createTeamModal"
+    class="team-modal"
+>
+
+
+    <div class="team-modal-overlay"></div>
+
+
+
+    <div class="team-modal-box">
+
+
+        <!-- HEADER -->
+
+        <div class="team-modal-header">
+
+
+            <div>
+
+                <span class="modal-kicker">
+                    CASH ARENA
+                </span>
+
+
+                <h2>
+                    Demande de création d'équipe
+                </h2>
+
+
+                <p>
+                    Présente ton équipe pour rejoindre
+                    l'écosystème E-Sport Cash Arena.
+                </p>
+
+            </div>
+
+
+            <button
+                id="closeTeamModal"
+                class="modal-close"
+                type="button"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+
+        </div>
+
+
+
+        <!-- FORMULAIRE -->
+
+        <form
+            id="createTeamForm"
+            class="create-team-form"
+        >
+
+
+            <!-- NOM -->
+
+            <div class="form-group">
+
+                <label for="teamName">
+
+                    Nom de l'équipe
+
+                </label>
+
+
+                <input
+                    id="teamName"
+                    name="teamName"
+                    type="text"
+                    maxlength="30"
+                    placeholder="Ex : Nova Esports"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- NOMBRE DE MEMBRES -->
+
+            <div class="form-group">
+
+                <label for="teamMemberCount">
+
+                    Nombre de membres
+
+                </label>
+
+
+                <input
+                    id="teamMemberCount"
+                    name="teamMemberCount"
+                    type="number"
+                    min="1"
+                    max="50"
+                    placeholder="Ex : 5"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- MEMBRES -->
+
+            <div class="form-group">
+
+                <label for="teamMembers">
+
+                    Membres de l'équipe
+
+                </label>
+
+
+                <textarea
+                    id="teamMembers"
+                    name="teamMembers"
+                    rows="4"
+                    placeholder="Entre les pseudos Cash Arena, un par ligne"
+                    required
+                ></textarea>
+
+
+                <small>
+                    Le fondateur doit également être indiqué.
+                </small>
+
+            </div>
+
+
+
+            <!-- DISCORD -->
+
+            <div class="form-group">
+
+                <label for="teamDiscord">
+
+                    Lien Discord de l'équipe
+
+                </label>
+
+
+                <input
+                    id="teamDiscord"
+                    name="teamDiscord"
+                    type="url"
+                    placeholder="https://discord.gg/..."
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="teamDescription">
+
+                    Description de l'équipe
+
+                </label>
+
+
+                <textarea
+                    id="teamDescription"
+                    name="teamDescription"
+                    rows="5"
+                    maxlength="500"
+                    placeholder="Présente ton équipe, ses objectifs, son style..."
+                    required
+                ></textarea>
+
+
+                <div class="character-counter">
+
+                    <span id="descriptionCounter">
+                        0
+                    </span>
+
+                    / 500
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 AVERTISSEMENT
+                 ================================================= -->
+
+            <div class="team-warning">
+
+
+                <div class="warning-icon">
+                    ⚠️
+                </div>
+
+
+                <div class="warning-content">
+
+
+                    <strong>
+                        ATTENTION
+                    </strong>
+
+
+                    <p>
+
+                        Merci d'ouvrir un ticket sur le Discord
+                        Cash Arena et d'indiquer l'ID de votre
+                        demande de création d'équipe.
+
+                    </p>
+
+
+                    <p>
+
+                        Vous devrez également envoyer :
+
+                    </p>
+
+
+                    <ul>
+
+                        <li>
+                            Le logo de l'équipe
+                        </li>
+
+                        <li>
+                            La bannière de l'équipe
+                        </li>
+
+                    </ul>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ERREUR -->
+
+            <div
+                id="teamFormError"
+                class="team-form-message error"
+                style="display:none;"
+            ></div>
+
+
+
+            <!-- BOUTON -->
+
+            <button
+                id="submitTeamRequest"
+                class="submit-team-request"
+                type="submit"
+            >
+
+                <span>
+                    Faire la demande
+                </span>
+
+                <span class="button-arrow">
+                    →
+                </span>
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- =================================================
+             SUCCÈS
+             ================================================= -->
+
+        <div
+            id="teamRequestSuccess"
+            class="team-request-success"
+            style="display:none;"
+        >
+
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <h2>
+                Demande envoyée
+            </h2>
+
+
+            <p>
+                Ta demande de création d'équipe a bien été
+                enregistrée.
+            </p>
+
+
+            <div class="request-id-box">
+
+
+                <span>
+                    ID DE LA DEMANDE
+                </span>
+
+
+                <strong id="createdRequestId">
+                    CA-000000
+                </strong>
+
+
+            </div>
+
+
+            <p class="success-discord-text">
+
+                Ouvre maintenant un ticket sur le Discord
+                Cash Arena et indique cet ID.
+
+            </p>
+
+
+            <button
+                id="closeSuccessButton"
+                class="close-success-button"
+                type="button"
+            >
+
+                Fermer
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FIREBASE
+     ===================================================== -->
+
+<script src="firebase.js"></script>
+
+<script src="app.js"></script>
+
+<script src="teams.js"></script>
+
+
+</body>
+
+</html>
