@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Cash Arena • Admin Teams</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+<link
+    rel="stylesheet"
+    href="admin-teams.css"
+>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+```
+
+</head>
+
+<body>
+
+```
+<div class="gaming-bg"></div>
+<div class="gaming-grid"></div>
+<div class="gaming-glow"></div>
+
+
+<!-- =========================================
+     NAVBAR
+========================================== -->
+
+<nav class="navbar">
+
+    <a
+        href="index.html"
+        class="logo"
+    >
+        ⚡ Cash Arena
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="index.html">
+            Accueil
+        </a>
+
+        <a href="dashboard.html">
+            Tournois
+        </a>
+
+        <a href="league.html">
+            League
+        </a>
+
+        <a href="teams.html">
+            Équipes
+        </a>
+
+    </div>
+
+
+    <div id="authSection"></div>
+
+</nav>
+
+
+
+<!-- =========================================
+     PAGE ADMIN
+========================================== -->
+
+<main class="admin-teams-page">
+
+
+    <header class="admin-header">
+
+        <div>
+
+            <span class="admin-kicker">
+                CASH ARENA • ADMINISTRATION
+            </span>
+
+            <h1>
+                DEMANDES D'ÉQUIPES
+            </h1>
+
+            <p>
+                Gère les demandes de création
+                d'équipes e-sport.
+            </p>
+
+        </div>
+
+
+        <button
+            id="refreshRequests"
+            class="refresh-button"
+            type="button"
+        >
+            ↻ ACTUALISER
+        </button>
+
+    </header>
+
+
+
+    <!-- =========================================
+         STATISTIQUES
+    ========================================== -->
+
+    <section class="admin-stats">
+
+
+        <div class="stat-card">
+
+            <span>
+                EN ATTENTE
+            </span>
+
+            <strong id="pendingCount">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card approved">
+
+            <span>
+                ACCEPTÉES
+            </span>
+
+            <strong id="approvedCount">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card rejected">
+
+            <span>
+                REFUSÉES
+            </span>
+
+            <strong id="rejectedCount">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                TOTAL
+            </span>
+
+            <strong id="totalCount">
+                0
+            </strong>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================================
+         FILTRES
+    ========================================== -->
+
+    <div class="admin-toolbar">
+
+        <div class="admin-tabs">
+
+            <button
+                class="admin-tab active"
+                data-filter="pending"
+                type="button"
+            >
+                EN ATTENTE
+            </button>
+
+            <button
+                class="admin-tab"
+                data-filter="approved"
+                type="button"
+            >
+                ACCEPTÉES
+            </button>
+
+            <button
+                class="admin-tab"
+                data-filter="rejected"
+                type="button"
+            >
+                REFUSÉES
+            </button>
+
+            <button
+                class="admin-tab"
+                data-filter="all"
+                type="button"
+            >
+                TOUTES
+            </button>
+
+        </div>
+
+
+        <input
+            id="adminSearch"
+            class="admin-search"
+            type="text"
+            placeholder="Rechercher une équipe..."
+        >
+
+    </div>
+
+
+
+    <!-- =========================================
+         DEMANDES
+    ========================================== -->
+
+    <section
+        id="requestsGrid"
+        class="requests-grid"
+    >
+
+        <div class="admin-loading">
+
+            <div class="admin-spinner"></div>
+
+            <span>
+                Chargement des demandes...
+            </span>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =========================================
+     MODAL REFUS
+========================================== -->
+
+<div
+    id="rejectModal"
+    class="admin-modal"
+>
+
+    <div
+        id="rejectOverlay"
+        class="admin-modal-overlay"
+    ></div>
+
+
+    <div class="admin-modal-box">
+
+        <button
+            id="closeRejectModal"
+            class="modal-close"
+            type="button"
+        >
+            ×
+        </button>
+
+
+        <span class="modal-kicker">
+            MODÉRATION
+        </span>
+
+        <h2>
+            Refuser la demande
+        </h2>
+
+        <p>
+            Indique la raison du refus.
+        </p>
+
+
+        <textarea
+            id="rejectReason"
+            placeholder="Raison du refus..."
+            maxlength="500"
+        ></textarea>
+
+
+        <div class="modal-actions">
+
+            <button
+                id="cancelReject"
+                class="cancel-button"
+                type="button"
+            >
+                ANNULER
+            </button>
+
+            <button
+                id="confirmReject"
+                class="danger-button"
+                type="button"
+            >
+                REFUSER
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     SCRIPTS
+========================================== -->
+
+<script src="firebase.js"></script>
+
+<script src="app.js"></script>
+
+<script src="admin-teams.js"></script>
+```
+
+</body>
+
+</html>
