@@ -366,8 +366,12 @@ function renderTeams(teams) {
 
     }
 
+    if (team.isSystem) return; 
 
-    teams.forEach(team => {
+      teams.forEach(team => {
+
+        // 🛑 FILET DE SÉCURITÉ : Si c'est le document système caché, on l'ignore et on passe au suivant
+        if (team.isSystem) return; 
 
         grid.insertAdjacentHTML(
             "beforeend",
