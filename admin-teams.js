@@ -58,11 +58,10 @@ adminAuth.onAuthStateChanged(async function(user) {
 });
 
 // ======================================================
-// CHARGER LES DEMANDES
+// CHARGER LES DEMANDES (CORRIGÉ ✅)
 // ======================================================
 
 async function loadTeamRequests() {
-
     const container = document.getElementById("teamRequests");
 
     if (!container) {
@@ -70,11 +69,10 @@ async function loadTeamRequests() {
         return;
     }
 
-    container.innerHTML = "";
-
+    // On laisse le spinner de chargement tourner pendant la requête, on ne vide qu'après s'il y a des données
     try {
-
-        const snapshot = await adminDb
+        // 🌟 CORRECTION ICI : On utilise "db" (la base client) au lieu de "adminDb"
+        const snapshot = await db
             .collection("teamRequests")
             .orderBy("createdAt", "desc")
             .get();
@@ -82,45 +80,34 @@ async function loadTeamRequests() {
         requests = [];
 
         snapshot.forEach(function(doc) {
-
             requests.push({
                 id: doc.id,
                 ...doc.data()
             });
-
         });
 
-        console.log(
-            "Demandes d'équipes trouvées :",
-            requests.length
-        );
+        console.log("Demandes d'équipes trouvées :", requests.length);
+
+        // On vide le conteneur JUSTE AVANT d'afficher le résultat (évite le flash blanc ou le blocage)
+        container.innerHTML = "";
 
         if (requests.length === 0) {
-
             showEmptyMessage(container);
-
             return;
         }
 
         requests.forEach(function(request) {
-
-            createRequestCard(
-                container,
-                request
-            );
-
+            createRequestCard(container, request);
         });
 
     } catch (error) {
-
-        console.error(
-            "Erreur chargement demandes :",
-            error
-        );
-
+        console.error("Erreur chargement demandes :", error);
+        
+        // On vide pour afficher le message d'erreur propre
+        container.innerHTML = "";
         showErrorMessage(
             container,
-            "Impossible de charger les demandes."
+            "Impossible de charger les demandes. Vérifie tes permissions Admin."
         );
     }
 }
