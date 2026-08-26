@@ -150,10 +150,10 @@ function createRequestCard(container, request) {
     if (status === "pending") {
         actionsHTML = `
             <div class="card-actions">
-                <button class="btn-admin btn-approve" onclick="approveTeam('${request.id}')">
+                <button class="btn-admin btn-approve" onclick="acceptTeamRequest('${request.id}')">
                     <span class="btn-icon">✓</span> Accepter la team
                 </button>
-                <button class="btn-admin btn-reject" onclick="rejectTeam('${request.id}')">
+                <button class="btn-admin btn-reject" onclick="rejectTeamRequest('${request.id}')">
                     <span class="btn-icon">×</span> Refuser
                 </button>
             </div>
@@ -272,231 +272,129 @@ function createMembersList(members) {
 }
 
 // ======================================================
-// ACCEPTER
+// ACCEPTER (CORRIGÉ & SÉCURISÉ ✅)
 // ======================================================
-
 async function acceptTeamRequest(requestId) {
+    if (!requestId) return;
 
-    if (!requestId) {
-        return;
-    }
-
-    const confirmed = confirm(
-        "Voulez-vous vraiment accepter cette demande d'équipe ?"
-    );
-
-    if (!confirmed) {
-        return;
-    }
+    const confirmed = confirm("Voulez-vous vraiment accepter cette demande d'équipe ?");
+    if (!confirmed) return;
 
     try {
-
-        const requestRef = adminDb
-            .collection("teamRequests")
-            .doc(requestId);
-
+        // 🌟 CORRECTION : Utilisation de "db" au lieu de "adminDb"
+        const requestRef = db.collection("teamRequests").doc(requestId);
         const requestDoc = await requestRef.get();
 
         if (!requestDoc.exists) {
-
-            alert(
-                "Cette demande n'existe plus."
-            );
-
+            alert("Cette demande n'existe plus.");
             return;
         }
 
         const request = requestDoc.data();
 
-        if (request.status === "accepted") {
-
-            alert(
-                "Cette demande est déjà acceptée."
-            );
-
+        // 🌟 HARMONISATION : "approved" au lieu de "accepted" pour correspondre au CSS
+        if (request.status === "approved") {
+            alert("Cette demande est déjà acceptée.");
             return;
         }
 
-        const teamRef = adminDb
-            .collection("teams")
-            .doc();
-
+        const teamRef = db.collection("teams").doc();
         const teamData = {
-
             name: request.teamName || "Nouvelle équipe",
-
-            creatorUid:
-                request.creatorUid || null,
-
-            creatorPseudo:
-                request.creatorPseudo || "Inconnu",
-
-            memberCount:
-                request.memberCount || 0,
-
-            members:
-                Array.isArray(request.members)
-                ? request.members
-                : [],
-
-            discord:
-                request.discord || "",
-
-            description:
-                request.description || "",
-
-            logo:
-                request.logo || "",
-
-            banner:
-                request.banner || "",
-
-            rank:
-                0,
-
-            tournaments:
-                0,
-
-            victories:
-                0,
-
-            earnings:
-                0,
-
-            createdAt:
-                firebase.firestore.FieldValue.serverTimestamp(),
-
-            updatedAt:
-                firebase.firestore.FieldValue.serverTimestamp()
+            creatorUid: request.creatorUid || null,
+            creatorPseudo: request.creatorPseudo || "Inconnu",
+            memberCount: request.memberCount || 0,
+            members: Array.isArray(request.members) ? request.members : [],
+            discord: request.discord || "",
+            description: request.description || "",
+            logo: request.logo || "",
+            banner: request.banner || "",
+            rank: 0,
+            tournaments: 0,
+            victories: 0,
+            earnings: 0,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         };
 
-        const batch = adminDb.batch();
-
-        batch.set(
-            teamRef,
-            teamData
-        );
-
-        batch.update(
-            requestRef,
-            {
-
-                status: "accepted",
-
-                teamId:
-                    teamRef.id,
-
-                processedAt:
-                    firebase.firestore.FieldValue.serverTimestamp(),
-
-                processedBy:
-                    currentUser.uid
-
-            }
-        );
+        const batch = db.batch();
+        batch.set(teamRef, teamData);
+        batch.update(requestRef, {
+            status: "approved", // 🌟 Statut mis en "approved"
+            teamId: teamRef.id,
+            processedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            processedBy: currentUser ? currentUser.uid : "system"
+        });
 
         await batch.commit();
 
-        alert(
-            "✅ Équipe créée avec succès !"
-        );
-
-        loadTeamRequests();
+        // 🎬 ANIMATION : Disparition immédiate et fluide de la carte à l'écran
+        const card = document.getElementById(`card-${requestId}`);
+        if (card) {
+            card.style.transition = "all 0.5s ease";
+            card.style.opacity = "0";
+            card.style.transform = "scale(0.9) translateY(-30px)";
+            setTimeout(() => card.remove(), 500);
+        }
 
     } catch (error) {
-
-        console.error(
-            "Erreur acceptation équipe :",
-            error
-        );
-
-        alert(
-            "❌ Impossible d'accepter la demande."
-        );
+        console.error("Erreur acceptation équipe :", error);
+        alert("❌ Impossible d'accepter la demande. Vérifie tes permissions.");
     }
 }
 
 // ======================================================
-// REFUSER
+// REFUSER (CORRIGÉ & SÉCURISÉ ✅)
 // ======================================================
-
 async function rejectTeamRequest(requestId) {
+    if (!requestId) return;
 
-    if (!requestId) {
-        return;
-    }
-
-    const reason = prompt(
-        "Pourquoi refuses-tu cette demande ?"
-    );
-
-    if (reason === null) {
-        return;
-    }
+    const reason = prompt("Pourquoi refuses-tu cette demande ?");
+    if (reason === null) return;
 
     try {
-
-        const requestRef = adminDb
-            .collection("teamRequests")
-            .doc(requestId);
-
-        const requestDoc =
-            await requestRef.get();
+        // 🌟 CORRECTION : Utilisation de "db" au lieu de "adminDb"
+        const requestRef = db.collection("teamRequests").doc(requestId);
+        const requestDoc = await requestRef.get();
 
         if (!requestDoc.exists) {
-
-            alert(
-                "Cette demande n'existe plus."
-            );
-
+            alert("Cette demande n'existe plus.");
             return;
         }
 
-        const request =
-            requestDoc.data();
+        const request = requestDoc.data();
 
         if (request.status === "rejected") {
-
-            alert(
-                "Cette demande est déjà refusée."
-            );
-
+            alert("Cette demande est déjà refusée.");
             return;
         }
 
         await requestRef.update({
-
             status: "rejected",
-
-            rejectionReason:
-                reason || "Aucune raison indiquée.",
-
-            processedAt:
-                firebase.firestore.FieldValue.serverTimestamp(),
-
-            processedBy:
-                currentUser.uid
-
+            rejectionReason: reason || "Aucune raison indiquée.",
+            processedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            processedBy: currentUser ? currentUser.uid : "system"
         });
 
-        alert(
-            "❌ Demande refusée."
-        );
-
-        loadTeamRequests();
+        // 🎬 ANIMATION : Disparition immédiate et fluide de la carte à l'écran
+        const card = document.getElementById(`card-${requestId}`);
+        if (card) {
+            card.style.transition = "all 0.5s ease";
+            card.style.opacity = "0";
+            card.style.transform = "scale(0.9) translateY(-30px)";
+            setTimeout(() => card.remove(), 500);
+        }
 
     } catch (error) {
-
-        console.error(
-            "Erreur refus équipe :",
-            error
-        );
-
-        alert(
-            "❌ Impossible de refuser la demande."
-        );
+        console.error("Erreur refus équipe :", error);
+        alert("❌ Impossible de refuser la demande.");
     }
 }
+
+// 🌟 SÉCURITÉ MODULES : Permet aux boutons HTML du site de trouver tes fonctions à coup sûr
+window.acceptTeamRequest = acceptTeamRequest;
+window.rejectTeamRequest = rejectTeamRequest;
+
 
 // ======================================================
 // STATUT
