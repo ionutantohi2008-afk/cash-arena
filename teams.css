@@ -2151,3 +2151,97 @@
     }
 
 }
+
+/* =========================================================
+   POP-UP DE CONFIRMATION DE SUCCÈS
+   ========================================================= */
+.success-popup-box {
+    text-align: center;
+    padding: 50px 40px;
+    background: linear-gradient(145deg, #111522, #080a10);
+    border-radius: 20px;
+    border: 1px solid rgba(80, 220, 130, 0.25);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 50px rgba(80, 220, 130, 0.05);
+}
+
+.success-popup-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 25px;
+    border: 1px solid rgba(80, 220, 130, 0.3);
+    border-radius: 50%;
+    background: rgba(80, 220, 130, 0.08);
+    color: #65e89a;
+    font-size: 36px;
+    box-shadow: 0 0 30px rgba(80, 220, 130, 0.1);
+}
+
+.success-popup-box h2 {
+    margin: 0 0 12px;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.success-popup-box p {
+    margin: 0 auto 30px;
+    max-width: 420px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.success-popup-id {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: min(280px, 100%);
+    margin: 0 auto 35px;
+    padding: 16px;
+    border: 1px solid rgba(255, 193, 7, 0.25);
+    border-radius: 12px;
+    background: rgba(255, 193, 7, 0.04);
+}
+
+.success-popup-id span {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.success-popup-id strong {
+    color: #ffd000;
+    font-size: 24px;
+    letter-spacing: 2px;
+}
+
+/* =========================================================
+   CORRECTIONS D'ALIGNEMENT (X ET TEXTE BOUTON)
+   ========================================================= */
+
+/* 1. Centrage parfait du "X" pour fermer la modal */
+.close-modal-btn {
+    display: flex !important;
+    align-items: center; /* Centre verticalement */
+    justify-content: center; /* Centre horizontalement */
+    width: 36px; /* Ajustez selon la taille de votre bouton */
+    height: 36px;
+    padding: 0 !important; /* Supprime les décalages internes */
+    line-height: 1 !important; /* Évite que le texte soit poussé vers le bas */
+}
+
+/* 2. Centrage parfait du texte "FAIRE LA DEMANDE →" dans le bouton */
+.submit-team-btn {
+    display: flex !important;
+    align-items: center; /* Centre verticalement */
+    justify-content: center; /* Centre horizontalement */
+    gap: 8px; /* Espace propre entre le texte et la flèche */
+    text-align: center !important;
+    width: 100%; /* S'assure que le bouton prend toute sa place */
+}

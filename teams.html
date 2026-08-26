@@ -330,6 +330,7 @@
 
 
         <!-- FORMULAIRE -->
+    <div id="teamRequestFormContainer">
 
         <form
             id="createTeamForm"
@@ -565,70 +566,35 @@
              SUCCÈS
              ================================================= -->
 
-        <div
-            id="teamRequestSuccess"
-            class="team-request-success"
-            style="display:none;"
-        >
-
-
-            <div class="success-icon">
-                ✓
-            </div>
-
-
-            <h2>
-                Demande envoyée
-            </h2>
-
-
-            <p>
-                Ta demande de création d'équipe a bien été
-                enregistrée.
-            </p>
-
-
-            <div class="request-id-box">
-
-
-                <span>
-                    ID DE LA DEMANDE
-                </span>
-
-
-                <strong id="requestId">
-                    CA-000000
-                </strong>
-
-
-            </div>
-
-
-            <p class="success-discord-text">
-
-                Ouvre maintenant un ticket sur le Discord
-                Cash Arena et indique cet ID.
-
-            </p>
-
-
-            <button
-                id="closeSuccessButton"
-                class="close-success-button"
-                type="button"
-            >
-
-                Fermer
-
-            </button>
-
-
+        <div id="teamRequestSuccess" style="display: none;">
+    <div class="success-popup-box">
+        
+        <div class="success-popup-icon">✓</div>
+        
+        <h2>Demande envoyée !</h2>
+        
+        <p>
+            Ta demande de création d'équipe a bien été enregistrée par Cash Arena.
+        </p>
+        
+        <div class="success-popup-id">
+            <span>ID DE LA DEMANDE</span>
+            <strong id="requestId">CA-000000</strong>
         </div>
+        
+        <p style="color: rgba(255,255,255,0.4); font-size: 13px; margin-bottom: 25px;">
+            Ouvre maintenant un ticket sur le Discord Cash Arena et indique cet ID.
+        </p>
+        
+        <button id="closeSuccessButton" class="close-success-button" type="button">
+            Fermer
+        </button>
+        
+    </div>
+</div>
 
 
     </div>
-
-</div>
 
 
 

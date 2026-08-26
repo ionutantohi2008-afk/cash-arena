@@ -1109,51 +1109,25 @@ function generateRequestId() {
 // ✅ SUCCES
 // ======================================================
 
-function showRequestSuccess(
-    requestId
-) {
+function showRequestSuccess(requestId) {
+    const formContainer = document.getElementById("teamRequestFormContainer");
+    const successContainer = document.getElementById("teamRequestSuccess");
+    const requestIdElement = document.getElementById("requestId");
 
-    const formContainer =
-        document.getElementById(
-            "teamRequestFormContainer"
-        );
-
-
-    const success =
-        document.getElementById(
-            "teamRequestSuccess"
-        );
-
-
-    const requestIdElement =
-        document.getElementById(
-            "requestId"
-        );
-
-
-    if (formContainer) {
-
-        formContainer.style.display =
-            "none";
-
-    }
-
-
-    if (success) {
-
-        success.style.display =
-            "block";
-
-    }
-
-
+    // 1. On injecte l'ID généré par la base de données
     if (requestIdElement) {
-
-        requestIdElement.innerText =
-            requestId;
-
+        requestIdElement.innerText = requestId;
     }
 
+    // 2. On fait disparaître le formulaire
+    if (formContainer) {
+        formContainer.style.display = "none";
+    }
+
+    // 3. On fait apparaître la boîte pop-up de succès
+    if (successContainer) {
+        successContainer.style.display = "block";
+    }
 }
 
 
