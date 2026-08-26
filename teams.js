@@ -1114,22 +1114,21 @@ function showRequestSuccess(requestId) {
     const successContainer = document.getElementById("teamRequestSuccess");
     const requestIdElement = document.getElementById("requestId");
 
-    // 1. On injecte l'ID généré par la base de données
+    // 1. On injecte l'ID
     if (requestIdElement) {
         requestIdElement.innerText = requestId;
     }
 
-    // 2. On fait disparaître le formulaire
+    // 2. On cache tout le formulaire
     if (formContainer) {
         formContainer.style.display = "none";
     }
 
-    // 3. On fait apparaître la boîte pop-up de succès
+    // 3. On affiche le pop-up de succès
     if (successContainer) {
         successContainer.style.display = "block";
     }
 }
-
 
 // ======================================================
 // ❌ ERREUR FORMULAIRE

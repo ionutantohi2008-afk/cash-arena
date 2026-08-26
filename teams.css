@@ -2222,26 +2222,42 @@
 }
 
 /* =========================================================
-   CORRECTIONS D'ALIGNEMENT (X ET TEXTE BOUTON)
+   FORÇAGE ABSOLU DU CENTRAGE (X, ENVOYER, FERMER POP-UP)
    ========================================================= */
 
-/* 1. Centrage parfait du "X" pour fermer la modal */
+/* 1. Centrage du "X" en haut à droite */
 .close-modal-btn {
     display: flex !important;
-    align-items: center; /* Centre verticalement */
-    justify-content: center; /* Centre horizontalement */
-    width: 36px; /* Ajustez selon la taille de votre bouton */
-    height: 36px;
-    padding: 0 !important; /* Supprime les décalages internes */
-    line-height: 1 !important; /* Évite que le texte soit poussé vers le bas */
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    line-height: 0 !important;
+    text-align: center !important;
 }
 
-/* 2. Centrage parfait du texte "FAIRE LA DEMANDE →" dans le bouton */
+/* 2. Centrage du texte "FAIRE LA DEMANDE →" */
 .submit-team-btn {
     display: flex !important;
-    align-items: center; /* Centre verticalement */
-    justify-content: center; /* Centre horizontalement */
-    gap: 8px; /* Espace propre entre le texte et la flèche */
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
     text-align: center !important;
-    width: 100%; /* S'assure que le bouton prend toute sa place */
+    gap: 8px !important;
 }
+
+.submit-team-btn span {
+    display: inline-block !important;
+    text-align: center !important;
+}
+
+/* 3. Centrage du texte "Fermer" dans le bouton du POP-UP de succès */
+.close-success-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    margin: 0 auto !important; /* Centre le bouton lui-même dans le pop-up */
+    width: min(200px, 100%) !important; /* Donne une taille propre au bouton */
+    padding: 12px 24px !important;
+}
+
