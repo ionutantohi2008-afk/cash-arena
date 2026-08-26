@@ -2222,49 +2222,74 @@
 }
 
 /* =========================================================
-   RETOUR AU JAUNE ET CENTRAGE PARFAIT (FORÇAGE ABSOLU)
+   VERROUILLAGE DU BOUTON JAUNE (ÉCRASE LES STYLES D'INDEX)
    ========================================================= */
 
-/* 1. Force le bouton "Faire la demande" à être JAUNE et large */
-#submitTeamRequestBtn.create-team-submit-btn.submit-team-btn {
-    background-color: #ffd000 !important; /* Force la couleur jaune */
-    color: #000000 !important; /* Texte en noir pour le contraste */
+#submitTeamRequestBtn {
+    background-color: #ffd000 !important; /* Force le jaune d'or */
+    background: #ffd000 !important; /* Sécurité pour certains navigateurs */
+    color: #000000 !important; /* Écriture en noir pour le contraste */
+    
+    /* Reprise de la taille d'origine */
     display: flex !important;
-    flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 10px !important;
-    width: 100% !important; /* Reprend toute la largeur du formulaire */
-    padding: 14px 28px !important; /* Taille généreuse */
+    width: 100% !important; 
+    padding: 14px 28px !important;
+    
+    /* Style Cash Arena */
     font-weight: 800 !important;
+    font-family: inherit !important;
+    text-transform: uppercase !important;
     border: none !important;
     border-radius: 8px !important;
     cursor: pointer !important;
     box-shadow: 0 4px 15px rgba(255, 208, 0, 0.2) !important;
+    transition: background-color 0.2s ease, transform 0.1s ease !important;
 }
 
-/* Effet au survol du bouton jaune */
-#submitTeamRequestBtn.create-team-submit-btn.submit-team-btn:hover {
+/* Effet au survol */
+#submitTeamRequestBtn:hover {
     background-color: #ffe042 !important;
+    background: #ffe042 !important;
     box-shadow: 0 6px 20px rgba(255, 208, 0, 0.3) !important;
 }
 
-/* S'assurer que la flèche reste bien alignée à côté du texte */
-#submitTeamRequestBtn.create-team-submit-btn.submit-team-btn span {
-    display: inline-block !important;
-    vertical-align: middle !important;
-    line-height: 1 !important;
+/* Effet au clic */
+#submitTeamRequestBtn:active {
+    transform: scale(0.98) !important;
 }
 
-/* 2. Centrage mathématique absolu du bouton "X" de fermeture */
+/* =========================================================
+   BLOCAGE DU BOUTON X (ÉCRASE LES STYLES INTERNES D'INDEX)
+   ========================================================= */
+
+/* Ciblage par classe et s'assure du reset complet */
 .close-modal-btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
+    /* Géométrie forcée */
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    
+    /* Supprime tous les paddings/marges cachés d'index */
     padding: 0 !important;
     margin: 0 !important;
-    line-height: 0 !important; /* Annule le décalage vers le bas du caractère × */
-    font-size: 24px !important; /* Ajustez la taille du X si besoin */
+    
+    /* Centrage mécanique absolu */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    /* Correction du texte */
+    font-size: 28px !important;
+    line-height: 1 !important; /* Force la hauteur de ligne à être égale à la taille du texte */
+    text-align: center !important;
+    vertical-align: middle !important;
+    
+    /* Reset des styles de bouton par défaut */
+    border: none !important;
+    background: transparent !important; 
+    cursor: pointer !important;
 }
-
