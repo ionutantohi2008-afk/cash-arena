@@ -2222,42 +2222,49 @@
 }
 
 /* =========================================================
-   FORÇAGE ABSOLU DU CENTRAGE (X, ENVOYER, FERMER POP-UP)
+   RETOUR AU JAUNE ET CENTRAGE PARFAIT (FORÇAGE ABSOLU)
    ========================================================= */
 
-/* 1. Centrage du "X" en haut à droite */
-.close-modal-btn {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    line-height: 0 !important;
-    text-align: center !important;
-}
-
-/* 2. Centrage du texte "FAIRE LA DEMANDE →" */
-.submit-team-btn {
+/* 1. Force le bouton "Faire la demande" à être JAUNE et large */
+#submitTeamRequestBtn.create-team-submit-btn.submit-team-btn {
+    background-color: #ffd000 !important; /* Force la couleur jaune */
+    color: #000000 !important; /* Texte en noir pour le contraste */
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    text-align: center !important;
-    gap: 8px !important;
+    gap: 10px !important;
+    width: 100% !important; /* Reprend toute la largeur du formulaire */
+    padding: 14px 28px !important; /* Taille généreuse */
+    font-weight: 800 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 15px rgba(255, 208, 0, 0.2) !important;
 }
 
-.submit-team-btn span {
+/* Effet au survol du bouton jaune */
+#submitTeamRequestBtn.create-team-submit-btn.submit-team-btn:hover {
+    background-color: #ffe042 !important;
+    box-shadow: 0 6px 20px rgba(255, 208, 0, 0.3) !important;
+}
+
+/* S'assurer que la flèche reste bien alignée à côté du texte */
+#submitTeamRequestBtn.create-team-submit-btn.submit-team-btn span {
     display: inline-block !important;
-    text-align: center !important;
+    vertical-align: middle !important;
+    line-height: 1 !important;
 }
 
-/* 3. Centrage du texte "Fermer" dans le bouton du POP-UP de succès */
-.close-success-button {
-    display: flex !important;
+/* 2. Centrage mathématique absolu du bouton "X" de fermeture */
+.close-modal-btn {
+    display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
-    margin: 0 auto !important; /* Centre le bouton lui-même dans le pop-up */
-    width: min(200px, 100%) !important; /* Donne une taille propre au bouton */
-    padding: 12px 24px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 0 !important; /* Annule le décalage vers le bas du caractère × */
+    font-size: 24px !important; /* Ajustez la taille du X si besoin */
 }
 
