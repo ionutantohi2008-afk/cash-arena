@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head> 
+    <meta charset="UTF-8"> 
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cash Arena • Équipe</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="team.css">
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+</head>
+
+<body>
+
+<div class="gaming-bg"></div>
+<div class="gaming-grid"></div>
+<div class="gaming-glow"></div>
+
+<nav class="navbar">
+
+    <a href="index.html" class="logo">
+        ⚡ Cash Arena
+    </a>
+
+    <div class="nav-links">
+
+        <a href="index.html">
+            Accueil
+        </a>
+
+        <a href="dashboard.html">
+            Tournois
+        </a>
+
+        <a href="league.html">
+            League
+        </a>
+
+        <a href="teams.html">
+            Équipes
+        </a>
+
+    </div>
+
+    <div id="authSection"></div>
+
+</nav>
+
+<main class="team-page">
+
+    <a href="teams.html" class="team-back">
+        ← Retour aux équipes
+    </a>
+
+    <section class="team-hero">
+
+        <div class="team-banner" id="teamBanner">
+            <div class="team-banner-overlay"></div>
+        </div>
+
+        <div class="team-logo-container">
+
+            <img
+                id="teamLogo"
+                class="team-logo"
+                src=""
+                alt="Logo de l'équipe"
+            >
+
+        </div>
+
+        <div class="team-identity">
+
+            <h1 id="teamName">
+                Chargement...
+            </h1>
+
+            <p id="teamDescription">
+                Chargement de l'équipe...
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="team-stats">
+
+        <div class="team-stat-card">
+
+            <span class="team-stat-icon">
+                👥
+            </span>
+
+            <div>
+
+                <span class="team-stat-label">
+                    Membres
+                </span>
+
+                <strong id="teamMembersCount">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="team-stat-card">
+
+            <span class="team-stat-icon">
+                🏆
+            </span>
+
+            <div>
+
+                <span class="team-stat-label">
+                    Tournois participés
+                </span>
+
+                <strong id="teamTournaments">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="team-stat-card">
+
+            <span class="team-stat-icon">
+                ⚔️
+            </span>
+
+            <div>
+
+                <span class="team-stat-label">
+                    Victoires
+                </span>
+
+                <strong id="teamVictories">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="team-stat-card">
+
+            <span class="team-stat-icon">
+                💰
+            </span>
+
+            <div>
+
+                <span class="team-stat-label">
+                    Gains de l'équipe
+                </span>
+
+                <strong id="teamEarnings">
+                    0 €
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="team-ranking-card">
+
+        <div class="section-title">
+
+            <div>
+
+                <span class="section-small-title">
+                    CLASSEMENT
+                </span>
+
+                <h2>
+                    Rang de l'équipe
+                </h2>
+
+            </div>
+
+            <div class="team-ranking-value">
+
+                <span id="teamRank">
+                    -
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="team-members-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-small-title">
+                    L'ÉQUIPE
+                </span>
+
+                <h2>
+                    Membres présents
+                </h2>
+
+            </div>
+
+            <span
+                class="members-counter"
+                id="membersCounter"
+            >
+                0 membres
+            </span>
+
+        </div>
+
+        <div
+            class="team-members-grid"
+            id="teamMembers"
+        >
+
+            <div class="team-loading">
+
+                <div class="loading-spinner"></div>
+
+                <span>
+                    Chargement des membres...
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section
+        class="team-discord-card"
+        id="teamDiscordCard"
+    >
+
+        <div class="discord-icon">
+            💬
+        </div>
+
+        <div class="discord-content">
+
+            <span>
+                COMMUNAUTÉ
+            </span>
+
+            <h2>
+                Rejoins le Discord de l'équipe
+            </h2>
+
+            <p>
+                Discute avec les membres et suis l'actualité de l'équipe.
+            </p>
+
+        </div>
+
+        <a
+            id="teamDiscord"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="discord-button"
+        >
+            REJOINDRE
+        </a>
+
+    </section>
+
+    <section class="team-info-card">
+
+        <div class="section-small-title">
+            À PROPOS
+        </div>
+
+        <h2>
+            Présentation de l'équipe
+        </h2>
+
+        <p id="teamFullDescription">
+            Chargement...
+        </p>
+
+    </section>
+
+</main>
+
+<div
+    id="teamLoader"
+    class="team-loader"
+>
+
+    <div class="loading-spinner"></div>
+
+    <p>
+        Chargement de l'équipe...
+    </p>
+
+</div>
+
+<div
+    id="teamError"
+    class="team-error"
+    style="display: none;"
+>
+
+    <div class="team-error-box">
+
+        <div class="error-icon">
+            ⚠️
+        </div>
+
+        <h2>
+            Équipe introuvable
+        </h2>
+
+        <p>
+            Cette équipe n'existe pas ou n'est plus disponible.
+        </p>
+
+        <a
+            href="teams.html"
+            class="error-button"
+        >
+            RETOUR AUX ÉQUIPES
+        </a>
+
+    </div>
+
+</div>
+
+<script src="firebase.js"></script>
+<script src="app.js"></script>
+<script src="team.js"></script>
+
+</body>
+</html>

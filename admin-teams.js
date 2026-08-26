@@ -15,8 +15,12 @@ const adminDb = firebase.firestore();
 const adminAuth = firebase.auth();
 
 // ======================================================
-// AUTHENTIFICATION
+// AUTHENTIFICATION + PROTECTION ADMIN
 // ======================================================
+
+const ADMIN_UIDS = [
+    "TON_UID_ADMIN_ICI"
+];
 
 adminAuth.onAuthStateChanged(async function(user) {
 
@@ -25,9 +29,30 @@ adminAuth.onAuthStateChanged(async function(user) {
         return;
     }
 
+    // Vérification de l'UID
+    if (!ADMIN_UIDS.includes(user.uid)) {
+
+        console.warn(
+            "⛔ Accès admin-teams refusé :",
+            user.uid
+        );
+
+        alert(
+            "⛔ Accès interdit. Cette page est réservée aux administrateurs."
+        );
+
+        window.location.href = "index.html";
+
+        return;
+    }
+
+    // Utilisateur autorisé
     currentUser = user;
 
-    console.log("Admin connecté :", user.email);
+    console.log(
+        "✅ Administrateur autorisé :",
+        user.uid
+    );
 
     loadTeamRequests();
 });
