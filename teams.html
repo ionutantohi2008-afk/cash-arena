@@ -329,244 +329,77 @@
 
 
 
-        <!-- FORMULAIRE -->
-    <div id="teamRequestFormContainer">
+<!-- =================================================
+     ZONE FORMULAIRE + POP-UP DE SUCCÈS
+     ================================================= -->
 
-        <form
-            id="createTeamForm"
-            class="create-team-form"
-        >
+<!-- CONTENEUR DU FORMULAIRE (S'effacera au succès) -->
+<div id="teamRequestFormContainer">
 
+    <form id="createTeamForm" class="create-team-form">
 
-            <!-- NOM -->
+        <!-- NOM -->
+        <div class="form-group">
+            <label for="teamNameInput">Nom de l'équipe</label>
+            <input id="teamNameInput" name="teamName" type="text" maxlength="30" placeholder="Ex : Nova Esports" required>
+        </div>
 
-            <div class="form-group">
+        <!-- NOMBRE DE MEMBRES -->
+        <div class="form-group">
+            <label for="teamMembersInput">Nombre de membres</label>
+            <input id="teamMembersInput" name="teamMemberCount" type="number" min="1" max="50" placeholder="Ex : 5" required>
+        </div>
 
-                <label for="teamName">
+        <!-- MEMBRES -->
+        <div class="form-group">
+            <label for="teamMembersArea">Membres de l'équipe</label>
+            <textarea id="teamMembersArea" name="teamMembers" rows="4" placeholder="Entre les pseudos Cash Arena, un par ligne" required></textarea>
+            <small>Le fondateur doit également être indiqué.</small>
+        </div>
 
-                    Nom de l'équipe
+        <!-- DISCORD -->
+        <div class="form-group">
+            <label for="teamDiscordInput">Lien Discord de l'équipe</label>
+            <input id="teamDiscordInput" name="teamDiscord" type="url" placeholder="https://discord.gg..." required>
+        </div>
 
-                </label>
-
-
-                <input
-                    id="teamName"
-                    name="teamName"
-                    type="text"
-                    maxlength="30"
-                    placeholder="Ex : Nova Esports"
-                    required
-                >
-
+        <!-- DESCRIPTION -->
+        <div class="form-group">
+            <label for="teamDescInput">Description de l'équipe</label>
+            <textarea id="teamDescInput" name="teamDescription" rows="5" maxlength="500" placeholder="Présente ton équipe, ses objectifs, son style..." required></textarea>
+            <div class="character-counter">
+                <span id="descriptionCounter">0</span> / 500
             </div>
+        </div>
 
-
-
-            <!-- NOMBRE DE MEMBRES -->
-
-            <div class="form-group">
-
-                <label for="teamMemberCount">
-
-                    Nombre de membres
-
-                </label>
-
-
-                <input
-                    id="teamMemberCount"
-                    name="teamMemberCount"
-                    type="number"
-                    min="1"
-                    max="50"
-                    placeholder="Ex : 5"
-                    required
-                >
-
+        <!-- AVERTISSEMENT -->
+        <div class="team-warning">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-content">
+                <strong>ATTENTION</strong>
+                <p>Merci d'ouvrir un ticket sur le Discord Cash Arena et d'indiquer l'ID de votre demande de création d'équipe.</p>
+                <p>Vous devrez également envoyer :</p>
+                <ul>
+                    <li>Le logo de l'équipe</li>
+                    <li>La bannière de l'équipe</li>
+                </ul>
             </div>
+        </div>
 
+        <!-- ERREUR -->
+        <div id="teamFormError" class="team-form-message error" style="display:none;"></div>
 
+        <!-- BOUTON -->
+        <button id="submitTeamRequestBtn" class="create-team-submit-btn submit-team-btn" type="submit">
+            <span>Faire la demande</span>
+            <span class="button-arrow">→</span>
+        </button>
 
-            <!-- MEMBRES -->
+    </form>
+</div>
 
-            <div class="form-group">
-
-                <label for="teamMembers">
-
-                    Membres de l'équipe
-
-                </label>
-
-
-                <textarea
-                    id="teamMembers"
-                    name="teamMembers"
-                    rows="4"
-                    placeholder="Entre les pseudos Cash Arena, un par ligne"
-                    required
-                ></textarea>
-
-
-                <small>
-                    Le fondateur doit également être indiqué.
-                </small>
-
-            </div>
-
-
-
-            <!-- DISCORD -->
-
-            <div class="form-group">
-
-                <label for="teamDiscord">
-
-                    Lien Discord de l'équipe
-
-                </label>
-
-
-                <input
-                    id="teamDiscord"
-                    name="teamDiscord"
-                    type="url"
-                    placeholder="https://discord.gg/..."
-                    required
-                >
-
-            </div>
-
-
-
-            <!-- DESCRIPTION -->
-
-            <div class="form-group">
-
-                <label for="teamDescription">
-
-                    Description de l'équipe
-
-                </label>
-
-
-                <textarea
-                    id="teamDescription"
-                    name="teamDescription"
-                    rows="5"
-                    maxlength="500"
-                    placeholder="Présente ton équipe, ses objectifs, son style..."
-                    required
-                ></textarea>
-
-
-                <div class="character-counter">
-
-                    <span id="descriptionCounter">
-                        0
-                    </span>
-
-                    / 500
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =================================================
-                 AVERTISSEMENT
-                 ================================================= -->
-
-            <div class="team-warning">
-
-
-                <div class="warning-icon">
-                    ⚠️
-                </div>
-
-
-                <div class="warning-content">
-
-
-                    <strong>
-                        ATTENTION
-                    </strong>
-
-
-                    <p>
-
-                        Merci d'ouvrir un ticket sur le Discord
-                        Cash Arena et d'indiquer l'ID de votre
-                        demande de création d'équipe.
-
-                    </p>
-
-
-                    <p>
-
-                        Vous devrez également envoyer :
-
-                    </p>
-
-
-                    <ul>
-
-                        <li>
-                            Le logo de l'équipe
-                        </li>
-
-                        <li>
-                            La bannière de l'équipe
-                        </li>
-
-                    </ul>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- ERREUR -->
-
-            <div
-                id="teamFormError"
-                class="team-form-message error"
-                style="display:none;"
-            ></div>
-
-
-
-            <!-- BOUTON -->
-
-            <button
-                id="submitTeamRequestBtn"
-                class="create-team-submit-btn submit-team-btn"
-                type="submit"
-            >
-
-                <span>
-                    Faire la demande
-                </span>
-
-                <span class="button-arrow">
-                    →
-                </span>
-
-            </button>
-
-
-        </form>
-
-
-
-        <!-- =================================================
-             SUCCÈS
-             ================================================= -->
-
-        <div id="teamRequestSuccess" style="display: none;">
+<!-- POP-UP DE SUCCÈS (Masqué au début, surgit à la place du formulaire) -->
+<div id="teamRequestSuccess" style="display: none;">
     <div class="success-popup-box">
         
         <div class="success-popup-icon">✓</div>
@@ -582,19 +415,16 @@
             <strong id="requestId">CA-000000</strong>
         </div>
         
-        <p style="color: rgba(255,255,255,0.4); font-size: 13px; margin-bottom: 25px;">
+        <p style="color: rgba(255, 255, 255, 0.4); font-size: 13px; margin-bottom: 25px;">
             Ouvre maintenant un ticket sur le Discord Cash Arena et indique cet ID.
         </p>
         
-        <button id="closeSuccessButton" class="close-success-button" type="button">
+        <button id="closeSuccessButton" class="close-success-button" type="button" onclick="closeCreateTeamModal()">
             Fermer
         </button>
         
     </div>
 </div>
-
-
-    </div>
 
 
 
