@@ -1755,3 +1755,282 @@ RESPONSIVE
 }
 
 }
+
+/* =========================================================
+   DESIGN CARD ADMIN TEAM - CASH ARENA PREMIUM
+   ========================================================= */
+
+.admin-request-card {
+    background: linear-gradient(145deg, #111526, #0b0d19) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 16px !important;
+    padding: 28px !important;
+    max-width: 700px !important;
+    margin: 20px auto !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+/* 1. Card Header */
+.card-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding-bottom: 18px !important;
+    margin-bottom: 20px !important;
+}
+
+.team-title {
+    font-size: 24px !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+    letter-spacing: -0.5px !important;
+    margin: 0 0 6px 0 !important;
+}
+
+.badge-id {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+    letter-spacing: 1px !important;
+}
+
+.badge-id span {
+    color: #ffd000 !important; /* ID en Jaune Cash Arena */
+}
+
+.status-badge.pending {
+    background: rgba(255, 193, 7, 0.08) !important;
+    border: 1px solid rgba(255, 193, 7, 0.2) !important;
+    color: #ffd000 !important;
+    padding: 6px 14px !important;
+    border-radius: 20px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* 2. Grid des informations (Style Bento Tile) */
+.card-info-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+}
+
+.info-tile {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    border-radius: 10px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+
+.info-tile.full-width {
+    grid-column: span 2 !important;
+}
+
+.tile-label {
+    font-size: 11px !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+}
+
+.tile-value {
+    font-size: 14px !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.tile-value.user-unknown {
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-style: italic !important;
+}
+
+.tile-link {
+    font-size: 14px !important;
+    color: #5865F2 !important; /* Couleur Discord officielle */
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    word-break: break-all !important;
+}
+
+.tile-link:hover {
+    text-decoration: underline !important;
+}
+
+/* 3. Sections Textes (Description / Membres) */
+.card-text-sections {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    margin-bottom: 26px !important;
+}
+
+.text-section h4 {
+    font-size: 12px !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+    text-transform: uppercase !important;
+    font-weight: 800 !important;
+    margin: 0 0 8px 0 !important;
+    letter-spacing: 0.5px !important;
+}
+
+.text-box-content {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    padding: 14px !important;
+    border-radius: 10px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+.text-box-content p {
+    margin: 0 !important;
+}
+
+/* Tags pour les listes de membres */
+.members-tags-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+}
+
+.member-tag {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+/* 4. Boutons d'Action (Ultra clean) */
+.card-actions {
+    display: flex !important;
+    gap: 12px !important;
+}
+
+.btn-admin {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 14px !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Bouton Accepter : Fond sombre, bordure verte lumineuse */
+.btn-approve {
+    background: rgba(46, 213, 115, 0.06) !important;
+    border: 1px solid rgba(46, 213, 115, 0.25) !important;
+    color: #2ed573 !important;
+}
+
+.btn-approve:hover {
+    background: #2ed573 !important;
+    color: #000000 !important;
+    box-shadow: 0 0 20px rgba(46, 213, 115, 0.25) !important;
+}
+
+/* Bouton Refuser : Rouge discret */
+.btn-reject {
+    background: rgba(255, 71, 87, 0.04) !important;
+    border: 1px solid rgba(255, 71, 87, 0.2) !important;
+    color: #ff4757 !important;
+    max-width: 150px !important; /* Plus compact pour laisser la priorité à l'acceptation */
+}
+
+.btn-reject:hover {
+    background: #ff4757 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 20px rgba(255, 71, 87, 0.24) !important;
+}
+
+.btn-icon {
+    font-size: 16px !important;
+    line-height: 1 !important;
+}
+
+.requests-grid {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+}
+
+.team-requests-list-container {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important; /* Aligne automatiquement les cartes sur plusieurs colonnes si l'écran est large */
+    gap: 24px !important; /* Espace propre entre chaque carte */
+    width: 100% !important;
+}
+
+/* Style de l'indicateur de chargement au centre */
+.admin-loading {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 60px !important;
+    gap: 16px !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-weight: 600 !important;
+}
+
+/* =========================================================
+   STYLES COMPLÉMENTAIRES POUR L'HISTORIQUE (ACCEPTE / REFUSE)
+   ========================================================= */
+
+/* Carte Acceptée : Bordure subtile verte */
+.admin-request-card.history-card.approved {
+    border: 1px solid rgba(46, 213, 115, 0.15) !important;
+    background: linear-gradient(145deg, #0b1612, #070d0a) !important; /* Teinte sombre légèrement verte */
+}
+
+/* Badge Statut "Validée" */
+.status-badge.approved {
+    background: rgba(46, 213, 115, 0.1) !important;
+    border: 1px solid rgba(46, 213, 115, 0.3) !important;
+    color: #2ed573 !important;
+    padding: 6px 14px !important;
+    border-radius: 20px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+}
+
+/* Carte Refusée : Bordure subtile rouge */
+.admin-request-card.history-card.rejected {
+    border: 1px solid rgba(255, 71, 87, 0.15) !important;
+    background: linear-gradient(145deg, #160b0f, #0d0709) !important; /* Teinte sombre légèrement rouge */
+}
+
+/* Badge Statut "Refusée" */
+.status-badge.rejected {
+    background: rgba(255, 71, 87, 0.1) !important;
+    border: 1px solid rgba(255, 71, 87, 0.3) !important;
+    color: #ff4757 !important;
+    padding: 6px 14px !important;
+    border-radius: 20px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+}

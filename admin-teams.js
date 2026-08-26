@@ -117,100 +117,128 @@ async function loadTeamRequests() {
 // ======================================================
 
 function createRequestCard(container, request) {
-
     const card = document.createElement("div");
+    
+    // 1. DÉTECTION DU STATUT POUR LES COULEURS
+    const status = request.status || "pending"; // pending, approved, ou rejected
+    
+    // On applique les classes CSS de base + les classes d'historique si besoin
+    if (status === "approved") {
+        card.className = "admin-request-card history-card approved";
+    } else if (status === "rejected") {
+        card.className = "admin-request-card history-card rejected";
+    } else {
+        card.className = "admin-request-card"; // Version "En attente" normale
+    }
+    
+    card.id = `card-${request.id}`;
 
-    card.className = "team-request-card";
+    // Sécurités pour les textes
+    const creatorName = request.creatorPseudo || request.pseudo || "Inconnu";
+    const creatorClass = creatorName === "Inconnu" ? "tile-value user-unknown" : "tile-value";
+    const membersNeeded = request.memberCount || 0;
+    const membersText = membersNeeded > 1 ? `${membersNeeded} joueurs` : `${membersNeeded} joueur`;
+    const discordUrl = request.discord || "#";
 
-    const status = request.status || "pending";
+    // 2. ADAPTATION DU BADGE DE STATUT VISUEL
+    let statusBadgeHTML = '<div class="status-badge pending">En attente</div>';
+    if (status === "approved") statusBadgeHTML = '<div class="status-badge approved">Validée</div>';
+    if (status === "rejected") statusBadgeHTML = '<div class="status-badge rejected">Refusée</div>';
 
+    // 3. ADAPTATION DES BOUTONS (On ne les met QUE si la demande est en attente)
+    let actionsHTML = "";
+    if (status === "pending") {
+        actionsHTML = `
+            <div class="card-actions">
+                <button class="btn-admin btn-approve" onclick="approveTeam('${request.id}')">
+                    <span class="btn-icon">✓</span> Accepter la team
+                </button>
+                <button class="btn-admin btn-reject" onclick="rejectTeam('${request.id}')">
+                    <span class="btn-icon">×</span> Refuser
+                </button>
+            </div>
+        `;
+    }
+
+    // 4. INJECTION DU CODE DANS LA CARTE
     card.innerHTML = `
-        <div class="team-request-header">
-
-            <div>
-                <h2>
-                    ${escapeHTML(request.teamName || "Équipe sans nom")}
-                </h2>
-
-                <span class="request-id">
-                    ID : ${escapeHTML(request.id)}
-                </span>
+        <div class="card-header">
+            <div class="header-main">
+                <h3 class="team-title">${escapeHtml(request.teamName || "Sans nom")}</h3>
+                <span class="badge-id">ID: <span>${request.id}</span></span>
             </div>
-
-            <span class="request-status ${status}">
-                ${getStatusText(status)}
-            </span>
-
+            ${statusBadgeHTML}
         </div>
 
-        <div class="team-request-content">
-
-            <p>
-                <strong>Créateur :</strong>
-                ${escapeHTML(request.creatorPseudo || "Inconnu")}
-            </p>
-
-            <p>
-                <strong>Nombre de membres :</strong>
-                ${request.memberCount || 0}
-            </p>
-
-            <p>
-                <strong>Discord :</strong>
-                ${escapeHTML(request.discord || "Non renseigné")}
-            </p>
-
-            <p>
-                <strong>Description :</strong>
-            </p>
-
-            <div class="request-description">
-                ${escapeHTML(request.description || "Aucune description.")}
+        <div class="card-info-grid">
+            <div class="info-tile">
+                <span class="tile-label">Créateur</span>
+                <strong class="${creatorClass}">${escapeHtml(creatorName)}</strong>
             </div>
-
-            <p>
-                <strong>Membres :</strong>
-            </p>
-
-            <div class="request-members">
-                ${createMembersList(request.members)}
+            <div class="info-tile">
+                <span class="tile-label">Membres requis</span>
+                <strong class="tile-value">${membersText}</strong>
             </div>
-
+            <div class="info-tile full-width">
+                <span class="tile-label">Lien Discord</span>
+                <a href="${discordUrl}" target="_blank" class="tile-link">${escapeHtml(discordUrl)}</a>
+            </div>
         </div>
 
-        <div class="team-request-actions">
-
-            ${
-                status === "pending"
-                ?
-                `
-                <button
-                    class="accept-team-btn"
-                    onclick="acceptTeamRequest('${request.id}')"
-                >
-                    ✓ ACCEPTER
-                </button>
-
-                <button
-                    class="reject-team-btn"
-                    onclick="rejectTeamRequest('${request.id}')"
-                >
-                    ✕ REFUSER
-                </button>
-                `
-                :
-                `
-                <span class="request-processed">
-                    Demande déjà traitée
-                </span>
-                `
-            }
-
+        <div class="card-text-sections">
+            <div class="text-section">
+                <h4>Description du projet</h4>
+                <div class="text-box-content">
+                    <p>${escapeHtml(request.description || "Aucune description.")}</p>
+                </div>
+            </div>
+            <div class="text-section">
+                <h4>Membres indiqués</h4>
+                <div class="members-tags-container">
+                    ${generateMembersTags(request.members)}
+                </div>
+            </div>
         </div>
+
+        ${actionsHTML} <!-- S'affichera uniquement si la demande est "pending" -->
     `;
 
     container.appendChild(card);
 }
+
+// 🛠️ PETITES FONCTIONS OUTILS UTILES (À mettre au bout de ton fichier JS)
+
+// Pour afficher proprement chaque membre sous forme de petit badge individuel
+function generateMembersTags(membersData) {
+    if (!membersData) return '<span class="member-tag">Aucun membre indiqué</span>';
+    
+    // Si c'est déjà un tableau de membres
+    if (Array.isArray(membersData)) {
+        return membersData.map(m => `<span class="member-tag">${escapeHtml(m)}</span>`).join('');
+    }
+    
+    // Si c'est du texte brut tapé à la ligne dans le textarea, on le découpe ligne par ligne
+    if (typeof membersData === "string") {
+        return membersData.split('\n')
+            .filter(m => m.trim() !== "")
+            .map(m => `<span class="member-tag">${escapeHtml(m.trim())}</span>`)
+            .join('');
+    }
+    
+    return '<span class="member-tag">Aucun membre indiqué</span>';
+}
+
+// Sécurité anti-hack pour éviter que quelqu'un injecte du code HTML malveillant dans les inputs
+function escapeHtml(str) {
+    if (!str) return "";
+    return str.toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 
 // ======================================================
 // LISTE DES MEMBRES
