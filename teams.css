@@ -2296,3 +2296,14 @@
        ou un padding en bas pour le faire remonter artificiellement. */
     padding-bottom: 5px !important; /* Augmentez ce chiffre (ex: 6px ou 7px) si le X doit remonter encore plus */
 }
+
+/* Style de la grille des équipes côté public */
+.teams-grid-container {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important; /* Aligne automatiquement les équipes */
+    gap: 20px !important; /* Espace propre entre chaque carte d'équipe */
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+}
