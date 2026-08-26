@@ -252,22 +252,13 @@ async function loadTeams() {
     `;
 
 
-    try {
+   try {
+    const snapshot = await db
+        .collection(TEAMS_COLLECTION)
+        // 🌟 Ligne retirée pour charger TOUTES les équipes officielles de la collection
+        .get();
 
-        const snapshot =
-            await db
-                .collection(
-                    TEAMS_COLLECTION
-                )
-                .where(
-                    "status",
-                    "==",
-                    "approved"
-                )
-                .get();
-
-
-        allTeams = [];
+    allTeams = [];
 
 
         snapshot.forEach(doc => {
