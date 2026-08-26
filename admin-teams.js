@@ -134,8 +134,13 @@ function createRequestCard(container, request) {
     card.id = `card-${request.id}`;
 
     // Sécurités pour les textes
-    const creatorName = request.creatorPseudo || request.pseudo || "Inconnu";
-    const creatorClass = creatorName === "Inconnu" ? "tile-value user-unknown" : "tile-value";
+    // 🌟 CORRECTION : On va chercher le champ exact "userId" enregistré dans Firestore
+    const creatorId = request.userId || request.creatorUid || "Inconnu";
+    const creatorClass = creatorId === "Inconnu" ? "tile-value user-unknown" : "tile-value font-mono";
+
+    // On remplace le texte d'affichage pour montrer l'ID ou un extrait propre
+    const displayCreator = request.userEmail || (creatorId !== "Inconnu" ? `ID: ${creatorId.substring(0, 6)}...` : "Inconnu");
+
     const membersNeeded = request.memberCount || 0;
     const membersText = membersNeeded > 1 ? `${membersNeeded} joueurs` : `${membersNeeded} joueur`;
     const discordUrl = request.discord || "#";
@@ -173,7 +178,7 @@ function createRequestCard(container, request) {
         <div class="card-info-grid">
             <div class="info-tile">
                 <span class="tile-label">Créateur</span>
-                <strong class="${creatorClass}">${escapeHtml(creatorName)}</strong>
+                <strong class="${creatorClass}">${escapeHtml(creatorId)}</strong>
             </div>
             <div class="info-tile">
                 <span class="tile-label">Membres requis</span>
@@ -301,8 +306,8 @@ async function acceptTeamRequest(requestId) {
         const teamRef = db.collection("teams").doc();
         const teamData = {
             name: request.teamName || "Nouvelle équipe",
-            creatorUid: request.creatorUid || null,
-            creatorPseudo: request.creatorPseudo || "Inconnu",
+            creatorUid: request.userId || request.creatorUid || null,
+            creatorPseudo: request.creatorPseudo || request.pseudo || "Fondateur",
             memberCount: request.memberCount || 0,
             members: Array.isArray(request.members) ? request.members : [],
             discord: request.discord || "",
