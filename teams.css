@@ -2262,34 +2262,37 @@
 }
 
 /* =========================================================
-   BLOCAGE DU BOUTON X (ÉCRASE LES STYLES INTERNES D'INDEX)
+   ALIGNEMENT CHIRURGICAL DU BOUTON X
    ========================================================= */
 
-/* Ciblage par classe et s'assure du reset complet */
 .close-modal-btn {
-    /* Géométrie forcée */
+    /* Dimensions strictes du carré */
     width: 36px !important;
     height: 36px !important;
     min-width: 36px !important;
     min-height: 36px !important;
     
-    /* Supprime tous les paddings/marges cachés d'index */
+    /* Nettoyage complet des styles d'index */
     padding: 0 !important;
     margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer !important;
     
-    /* Centrage mécanique absolu */
+    /* Centrage de base */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     
-    /* Correction du texte */
-    font-size: 28px !important;
-    line-height: 1 !important; /* Force la hauteur de ligne à être égale à la taille du texte */
-    text-align: center !important;
-    vertical-align: middle !important;
+    /* 🌟 LA CORRECTION CHIRURGICALE : 
+       On change la police pour éviter les décalages de votre police personnalisée */
+    font-family: 'Arial', 'Helvetica', sans-serif !important;
+    font-size: 24px !important;
+    font-weight: bold !important;
+    line-height: 1 !important;
     
-    /* Reset des styles de bouton par défaut */
-    border: none !important;
-    background: transparent !important; 
-    cursor: pointer !important;
+    /* 🌟 TRICHE DE POSITIONNEMENT :
+       Si le X est trop bas, on ajoute une marge interne négative en haut, 
+       ou un padding en bas pour le faire remonter artificiellement. */
+    padding-bottom: 5px !important; /* Augmentez ce chiffre (ex: 6px ou 7px) si le X doit remonter encore plus */
 }
