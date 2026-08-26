@@ -19,7 +19,7 @@ const adminAuth = firebase.auth();
 // ======================================================
 
 const ADMIN_UIDS = [
-    "TON_UID_ADMIN_ICI"
+    "Xx4L7nCjMthFE2fQjC6Yi2vgzp02"
 ];
 
 adminAuth.onAuthStateChanged(async function(user) {
