@@ -1008,172 +1008,61 @@ async function submitTeamRequest(event) {
     }
 
 
-    try {
+        try {
+        const requestId = generateRequestId();
 
-        // --------------------------------------------------
-        // GENERER ID DEMANDE
-        // --------------------------------------------------
-
-        const requestId =
-            generateRequestId();
-
-
-        // --------------------------------------------------
         // VERIFIER DEMANDES EXISTANTES
-        // --------------------------------------------------
-
-        const existing =
-            await db
-                .collection(
-                    TEAM_REQUESTS_COLLECTION
-                )
-                .where(
-                    "userId",
-                    "==",
-                    currentUser.uid
-                )
-                .where(
-                    "status",
-                    "==",
-                    "pending"
-                )
-                .limit(1)
-                .get();
-
+        const existing = await db.collection(TEAM_REQUESTS_COLLECTION)
+            .where("userId", "==", currentUser.uid)
+            .where("status", "==", "pending")
+            .limit(1)
+            .get();
 
         if (!existing.empty) {
-
-            showFormError(
-                "Tu as déjà une demande de création d'équipe en attente."
-            );
-
+            showFormError("Tu as déjà une demande de création d'équipe en attente.");
             if (submitButton) {
-
-                submitButton.disabled =
-                    false;
-
-                submitButton.innerHTML =
-                    `
-                    <span>
-                        FAIRE LA DEMANDE
-                    </span>
-
-                    <span class="button-arrow">
-                        →
-                    </span>
-                    `;
-
+                submitButton.disabled = false;
+                submitButton.innerHTML = `<span>FAIRE LA DEMANDE</span><span class="button-arrow">→</span>`;
             }
-
             return;
-
         }
 
-
-        // --------------------------------------------------
         // CREER LA DEMANDE
-        // --------------------------------------------------
+        await db.collection(TEAM_REQUESTS_COLLECTION).doc(requestId).set({
+            requestId: requestId,
+            userId: currentUser.uid,
+            userEmail: currentUser.email || null,
+            teamName: name,
+            memberCount: memberCount,
+            members: members,
+            discord: discord,
+            description: description,
+            status: "pending",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            reviewedAt: null,
+            reviewedBy: null,
+            reviewReason: null
+        });
 
-        await db
-            .collection(
-                TEAM_REQUESTS_COLLECTION
-            )
-            .doc(requestId)
-            .set({
+        console.log("✅ Demande équipe créée :", requestId);
 
-                requestId:
-
-                    requestId,
-
-                userId:
-
-                    currentUser.uid,
-
-                userEmail:
-
-                    currentUser.email ||
-                    null,
-
-                teamName:
-
-                    name,
-
-                memberCount:
-
-                    memberCount,
-
-                members:
-
-                    members,
-
-                discord:
-
-                    discord,
-
-                description:
-
-                    description,
-
-                status:
-
-                    "pending",
-
-                createdAt:
-
-                    firebase.firestore
-                        .FieldValue
-                        .serverTimestamp(),
-
-                reviewedAt:
-
-                    null,
-
-                reviewedBy:
-
-                    null,
-
-                reviewReason:
-
-                    null
-
-            });
-
-
-        console.log(
-            "✅ Demande équipe créée :",
-            requestId
-        );
-
-
-        showRequestSuccess(
-            requestId
-        );
-
+        // 🌟 CORRECTION ICI : On affiche le succès d'abord
+        showRequestSuccess(requestId);
+        
+        // Et on quitte proprement la fonction sans passer par le comportement par défaut du finally
+        return; 
 
     } catch (error) {
-
-        console.error(
-            "❌ Erreur création demande équipe :",
-            error
-        );
-
-
-        showFormError(
-            "Impossible d'envoyer la demande. Réessaie."
-        );
-
-
-    } finally {
-
+        console.error("❌ Erreur création demande équipe :", error);
+        showFormError("Impossible d'envoyer la demande. Réessaie.");
+        
+        // 🌟 CORRECTION ICI : On ne réactive le bouton QUE s'il y a eu une erreur
         if (submitButton) {
-
-            submitButton.disabled =
-                false;
-
+            submitButton.disabled = false;
+            submitButton.innerHTML = `<span>FAIRE LA DEMANDE</span><span class="button-arrow">→</span>`;
         }
-
     }
-
+    // ❌ Supprimez complètement le bloc "finally" qui était ici et qui forçait la réactivation du bouton en permanence
 }
 
 
