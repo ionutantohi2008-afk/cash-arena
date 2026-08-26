@@ -330,7 +330,7 @@
 
 
 <!-- =================================================
-     ZONE FORMULAIRE + POP-UP DE SUCCÈS
+     ZONE FORMULAIRE + POP-UP DE SUCCÈS (COMPATIBILITÉ MAXIMALE)
      ================================================= -->
 
 <!-- CONTENEUR DU FORMULAIRE (S'effacera au succès) -->
@@ -341,32 +341,32 @@
         <!-- NOM -->
         <div class="form-group">
             <label for="teamNameInput">Nom de l'équipe</label>
-            <input id="teamNameInput" name="teamName" type="text" maxlength="30" placeholder="Ex : Nova Esports" required>
+            <input id="teamNameInput" data-id="teamName" name="teamName" type="text" maxlength="30" placeholder="Ex : Nova Esports" required>
         </div>
 
         <!-- NOMBRE DE MEMBRES -->
         <div class="form-group">
             <label for="teamMembersInput">Nombre de membres</label>
-            <input id="teamMembersInput" name="teamMemberCount" type="number" min="1" max="50" placeholder="Ex : 5" required>
+            <input id="teamMembersInput" data-id="teamMemberCount" name="teamMemberCount" type="number" min="1" max="50" placeholder="Ex : 5" required>
         </div>
 
         <!-- MEMBRES -->
         <div class="form-group">
             <label for="teamMembersArea">Membres de l'équipe</label>
-            <textarea id="teamMembersArea" name="teamMembers" rows="4" placeholder="Entre les pseudos Cash Arena, un par ligne" required></textarea>
+            <textarea id="teamMembersArea" data-id="teamMembers" name="teamMembers" rows="4" placeholder="Entre les pseudos Cash Arena, un par ligne" required></textarea>
             <small>Le fondateur doit également être indiqué.</small>
         </div>
 
         <!-- DISCORD -->
         <div class="form-group">
             <label for="teamDiscordInput">Lien Discord de l'équipe</label>
-            <input id="teamDiscordInput" name="teamDiscord" type="url" placeholder="https://discord.gg..." required>
+            <input id="teamDiscordInput" data-id="teamDiscord" name="teamDiscord" type="url" placeholder="https://discord.gg..." required>
         </div>
 
         <!-- DESCRIPTION -->
         <div class="form-group">
             <label for="teamDescInput">Description de l'équipe</label>
-            <textarea id="teamDescInput" name="teamDescription" rows="5" maxlength="500" placeholder="Présente ton équipe, ses objectifs, son style..." required></textarea>
+            <textarea id="teamDescInput" data-id="teamDescription" name="teamDescription" rows="5" maxlength="500" placeholder="Présente ton équipe, ses objectifs, son style..." required></textarea>
             <div class="character-counter">
                 <span id="descriptionCounter">0</span> / 500
             </div>
@@ -398,7 +398,7 @@
     </form>
 </div>
 
-<!-- POP-UP DE SUCCÈS (Masqué au début, surgit à la place du formulaire) -->
+<!-- POP-UP DE SUCCÈS -->
 <div id="teamRequestSuccess" style="display: none;">
     <div class="success-popup-box">
         
@@ -406,9 +406,7 @@
         
         <h2>Demande envoyée !</h2>
         
-        <p>
-            Ta demande de création d'équipe a bien été enregistrée par Cash Arena.
-        </p>
+        <p>Ta demande de création d'équipe a bien été enregistrée par Cash Arena.</p>
         
         <div class="success-popup-id">
             <span>ID DE LA DEMANDE</span>
@@ -425,6 +423,7 @@
         
     </div>
 </div>
+
 
 
 
