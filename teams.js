@@ -325,52 +325,27 @@ async function loadTeams() {
 // ======================================================
 
 function renderTeams(teams) {
-
-    const grid =
-        document.getElementById(
-            "teamsGrid"
-        );
-
+    const grid = document.getElementById("teamsGrid");
     if (!grid) return;
-
 
     grid.innerHTML = "";
 
-
     if (!teams.length) {
-
         grid.innerHTML = `
-
             <div class="no-teams">
-
-                <div class="no-teams-icon">
-                    🏆
-                </div>
-
-                <h2>
-                    Aucune équipe
-                </h2>
-
-                <p>
-                    Sois le premier à créer une équipe
-                    sur Cash Arena.
-                </p>
-
+                <div class="no-teams-icon">🏆</div>
+                <h2>Aucune équipe</h2>
+                <p>Sois le premier à créer une équipe sur Cash Arena.</p>
             </div>
-
         `;
-
         updateTeamCount(0);
-
         return;
-
     }
 
-    if (team.isSystem) return; 
+    // 🌟 LA BOUCLE COMMENCE ICI
+    teams.forEach(team => {
 
-      teams.forEach(team => {
-
-        // 🛑 FILET DE SÉCURITÉ : Si c'est le document système caché, on l'ignore et on passe au suivant
+        // 🛑 PLACEMENT CORRECT : Le filtre est bien INSÈRE ICI à l'intérieur de la boucle
         if (team.isSystem) return; 
 
         grid.insertAdjacentHTML(
@@ -380,34 +355,15 @@ function renderTeams(teams) {
 
     });
 
-
-    updateTeamCount(
-        teams.length
-    );
-
+    updateTeamCount(teams.length);
 
     // Ajouter événements
-
-    document
-        .querySelectorAll(
-            ".team-view-button"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const teamId =
-                        button.dataset.teamId;
-
-                    viewTeam(teamId);
-
-                }
-            );
-
+    document.querySelectorAll(".team-view-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const teamId = button.dataset.teamId;
+            viewTeam(teamId);
         });
-
+    });
 }
 
 
