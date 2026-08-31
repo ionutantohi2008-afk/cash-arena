@@ -2294,7 +2294,7 @@
     /* 🌟 TRICHE DE POSITIONNEMENT :
        Si le X est trop bas, on ajoute une marge interne négative en haut, 
        ou un padding en bas pour le faire remonter artificiellement. */
-    padding-bottom: 5px !important; /* Augmentez ce chiffre (ex: 6px ou 7px) si le X doit remonter encore plus */
+    padding-bottom: 7px !important; /* Augmentez ce chiffre (ex: 6px ou 7px) si le X doit remonter encore plus */
 }
 
 /* Style de la grille des équipes côté public */
