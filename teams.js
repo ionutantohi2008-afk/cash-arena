@@ -342,22 +342,24 @@ function renderTeams(teams) {
         return;
     }
 
+    let displayedTeamsCount = 0; // Compteur local pour les vraies équipes affichées
+
     // 🌟 LA BOUCLE COMMENCE ICI
     teams.forEach(team => {
-
-        // 🛑 PLACEMENT CORRECT : Le filtre est bien INSÈRE ICI à l'intérieur de la boucle
         if (team.isSystem) return; 
 
         grid.insertAdjacentHTML(
             "beforeend",
             createTeamCard(team)
         );
-
+        
+        displayedTeamsCount++; // On incrémente pour chaque équipe réellement affichée
     });
 
-    updateTeamCount(teams.length);
+    // On envoie le vrai nombre d'équipes visibles au compteur
+    updateTeamCount(displayedTeamsCount);
 
-    // Ajouter événements
+    // Ajouter les événements "VOIR L'ÉQUIPE"
     document.querySelectorAll(".team-view-button").forEach(button => {
         button.addEventListener("click", () => {
             const teamId = button.dataset.teamId;
@@ -365,7 +367,6 @@ function renderTeams(teams) {
         });
     });
 }
-
 
 // ======================================================
 // 🃏 CARTE EQUIPE

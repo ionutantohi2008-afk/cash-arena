@@ -1,10 +1,10 @@
 let isRegistered = false;
 let isDailyRegistered = false;
 
-const TOURNAMENT_ID = "weekly3";
+const TOURNAMENT_ID = "weekly4";
 const TOURNAMENT_HAS_REWARDS = true;
 
-const tournamentStartDate = new Date("2026-08-24T21:15:00");
+const tournamentStartDate = new Date("2026-08-31T21:10:00");
 const tournamentDurationDays = 7;
 
 const tournamentEndDate = new Date(
@@ -383,6 +383,8 @@ async function loadBrawlPlayers() {
       else if (index === 7) reward = "150 LP";
       else if (index === 8) reward = "150 LP";
       else if (index === 9) reward = "150 LP";
+      else if (index <= 14) reward = "100 LP";
+      else if (index <= 19) reward = "50 LP";
 
       table.innerHTML += `
 
@@ -723,11 +725,12 @@ async function loadDailyPlayers() {
   players.forEach((p, index) => {
     let reward = "";
 
-    if (index === 0) reward = "40 LP";
-    else if (index === 1) reward = "30 LP";
-    else if (index === 2) reward = "25 LP";
-    else if (index <= 4) reward = "20 LP";
-    else if (index <= 9) reward = "10 LP";
+    if (index === 0) reward = "150 LP";
+    else if (index === 1) reward = "120 LP";
+    else if (index === 2) reward = "100 LP";
+    else if (index <= 4) reward = "80 LP";
+    else if (index <= 9) reward = "50 LP";
+    else if (index <= 14) reward = "30 LP";
 
     table.innerHTML += `
       <tr>
