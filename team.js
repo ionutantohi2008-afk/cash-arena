@@ -83,9 +83,6 @@ function displayTeam(team) {
     const teamName =
         document.getElementById("teamName");
 
-    const teamDescription =
-        document.getElementById("teamDescription");
-
     const teamFullDescription =
         document.getElementById("teamFullDescription");
 
@@ -129,15 +126,6 @@ function displayTeam(team) {
     // ==================================================
     // DESCRIPTION
     // ==================================================
-
-    if (teamDescription) {
-
-        teamDescription.innerText =
-            team.description ||
-            "Aucune description.";
-
-    }
-
 
     if (teamFullDescription) {
 
