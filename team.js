@@ -408,7 +408,6 @@ async function loadTeamMembers() {
         `;
 
     }
-
 }
 
 
@@ -645,6 +644,24 @@ async function addMemberCard(
 
 
     // ==================================================
+    // 🌟 BOUTON EXCLURE (PROPRIÉTAIRE UNIQUEMENT)
+    // ==================================================
+    let kickButtonHTML = "";
+
+    // On vérifie si l'utilisateur en ligne est le créateur/propriétaire de la team
+    if (currentUser && founderUid && currentUser.uid === founderUid) {
+        // Le propriétaire ne doit pas pouvoir s'exclure lui-même
+        if (uid !== founderUid) {
+            kickButtonHTML = `
+                <button class="kick-member-btn" data-member-value="${escapeHTML(String(member))}" data-member-pseudo="${escapeHTML(pseudo)}">
+                    Exclure
+                </button>
+            `;
+        }
+    }
+
+
+    // ==================================================
     // CONTENU DE LA CARTE
     // ==================================================
 
@@ -671,8 +688,10 @@ async function addMemberCard(
 
         </div>
 
-
-        ${badgeHTML}
+        <div class="member-badge-wrapper" style="display: flex; align-items: center; gap: 15px; margin-left: auto;">
+            ${badgeHTML}
+            ${kickButtonHTML}
+        </div>
 
     `;
 

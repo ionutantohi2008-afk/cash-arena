@@ -947,3 +947,24 @@ body {
     }
 
 }
+
+.kick-member-btn {
+    background-color: #ff4646 !important; /* Rouge Cash Arena */
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 6px 12px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    transition: background 0.2s ease;
+}
+
+.kick-member-btn:hover {
+    background-color: #ff6565 !important; /* Rouge plus clair au survol */
+}
+
+.kick-member-btn:active {
+    transform: scale(0.96);
+}
