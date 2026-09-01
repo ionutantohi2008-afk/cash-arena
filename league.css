@@ -116,26 +116,19 @@ body{
 
 
 /* =========================================
-   IMAGE DU BADGE
+   IMAGE DU BADGE (CORRIGÉ POUR MOBILE)
 ========================================= */
-
 #rankIcon img.rank-icon-img {
-    width: 170px !important;
-    height: 170px !important;
-
+    width: 85% !important;
+    height: 85% !important;
     max-width: 170px !important;
     max-height: 170px !important;
-
     min-width: 0 !important;
     min-height: 0 !important;
-
     object-fit: contain !important;
-
     display: block;
-
     flex-shrink: 0;
 }
-
 
 /* =========================================
    ANIMATION
@@ -733,51 +726,41 @@ body{
 @media(max-width:900px){
 
     .league-card{
-
         padding:30px;
-
     }
 
+    /* Le cercle jaune devient plus petit */
     .rank-icon{
-
         width:140px;
-
         height:140px;
-
         font-size:70px;
+    }
 
+    /* ✅ AJOUTEZ CE BLOC ICI POUR ASSURER QUE L'IMAGE COUPE PAS */
+    #rankIcon img.rank-icon-img {
+        max-width: 115px !important;
+        max-height: 115px !important;
     }
 
     #playerRank{
-
         font-size:34px;
-
     }
 
     #playerLP{
-
         font-size:26px;
-
     }
 
     .gain-list{
-
         grid-template-columns:1fr;
-
     }
 
     .road{
-
         justify-content:center;
-
     }
 
     .road-rank{
-
         min-width:90px;
-
     }
-
 }
 
 @media(max-width:600px){
