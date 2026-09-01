@@ -2023,133 +2023,102 @@
 
 
 /* =========================================================
-   RESPONSIVE MOBILE
+   RESPONSIVE MOBILE (VERSION FUSIONNÉE & CORRIGÉE)
    ========================================================= */
 
 @media (max-width: 600px) {
 
     .teams-page {
-
-        width:
-            calc(
-                100% - 28px
-            );
-
+        width: calc(100% - 28px);
         padding-top: 35px;
-
     }
-
 
     .teams-title h1 {
-
         font-size: 38px;
-
     }
-
 
     .teams-toolbar {
-
-        align-items:
-            stretch;
-
-        flex-direction:
-            column;
-
+        align-items: stretch;
+        flex-direction: column;
+        gap: 15px; /* Évite que la recherche colle au bouton */
     }
-
 
     .teams-search {
-
         width: 100%;
-
     }
 
+    /* 🟢 CORRECTIF GRILLE : Force 1 colonne pour laisser respirer les éléments */
+    .teams-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
 
+    /* 🟢 CORRECTIF CARTE : Utilisation du flex pour un comportement fluide */
     .team-card {
-
-        min-height:
-            350px;
-
+        min-height: auto !important; /* Débloque les 350px fixes pour s'adapter */
+        display: flex;
+        flex-direction: column;
     }
-
 
     .team-banner {
-
-        height:
-            160px;
-
+        height: 140px; /* Légèrement réduit pour un meilleur ratio mobile */
+        position: relative;
     }
 
-
+    /* 🟢 CORRECTIF LOGO : Coordonnées idéales pour éviter l'écrasement */
     .team-logo-wrapper {
-
         left: 20px;
-
-        width: 78px;
-
-        height: 78px;
-
-        bottom: -34px;
-
+        width: 75px;
+        height: 75px;
+        bottom: -25px; /* Remonte légèrement sans agresser le texte du dessous */
     }
 
-
+    /* 🟢 CORRECTIF CONTENU : Réalignement du padding du haut */
     .team-card-content {
-
-        padding:
-            48px 20px 20px;
-
+        padding: 35px 20px 20px; /* Passe de 48px à 35px pour compenser le logo */
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
     }
-
 
     .team-card-title {
-
-        align-items:
-            flex-start;
-
-        flex-direction:
-            column;
-
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px; /* Espace propre entre le Titre et le badge de Rang */
     }
-
 
     .team-card-title h2 {
-
         font-size: 20px;
-
     }
 
+    /* 🟢 CORRECTIF COMPTEURS : Empêche les icônes de se rentrer dedans */
+    .team-meta {
+        gap: 8px !important;
+    }
 
+    .team-meta-item {
+        font-size: 11px !important;
+        padding: 5px 8px !important;
+    }
+
+    /* =========================================================
+       🔒 DESIGN DU MODAL ET DES FORMULAIRES (CONSERVÉ À 100%)
+       ========================================================= */
     .team-modal {
-
-        padding:
-            12px;
-
+        padding: 12px;
     }
-
 
     .team-modal-header {
-
-        padding:
-            22px 20px 18px;
-
+        padding: 22px 20px 18px;
     }
-
 
     .team-modal-header h2 {
-
         font-size: 20px;
-
     }
-
 
     .create-team-form {
-
-        padding:
-            20px;
-
+        padding: 20px;
     }
-
 }
 
 /* =========================================================

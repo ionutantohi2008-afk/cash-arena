@@ -848,64 +848,82 @@ body {
 
 }
 
+/* ======================================================
+   📱 RESPONSIVE MAJEUR : CORRECTIF BANNIÈRE & LOGO MOBILE
+   ====================================================== */
 @media (max-width: 700px) {
 
     .navbar {
         height: auto;
         min-height: 70px;
-
         padding: 15px 20px;
-
         flex-wrap: wrap;
         gap: 15px;
     }
 
     .nav-links {
         order: 3;
-
         width: 100%;
-
         justify-content: center;
-
         gap: 18px;
     }
 
     .team-page {
         width: min(100% - 24px, 1250px);
-
         margin-top: 25px;
     }
 
+    /* 1. On donne une vraie hauteur fixe à la bannière pour éviter qu'elle s'effondre */
     .team-hero {
-        min-height: 430px;
+        min-height: auto !important;
+        display: flex;
+        flex-direction: column;
+        background: #0b0e16;
+        padding-bottom: 25px; /* Espace pour le contenu du bas */
     }
 
+    .team-banner {
+        position: relative !important;
+        height: 160px !important; /* Hauteur de la bannière sur mobile */
+        width: 100%;
+    }
+
+    /* 2. REPOSITIONNEMENT DU LOGO : Libéré de la position absolue */
     .team-logo-container {
-        left: 50%;
-        bottom: 125px;
-
-        width: 115px;
-        height: 115px;
-
-        transform: translateX(-50%);
+        position: relative !important;
+        left: auto !important;
+        bottom: auto !important;
+        top: -50px; /* Fait remonter le logo à cheval sur la bannière comme sur PC */
+        margin: 0 auto -35px auto !important; /* Centre horizontalement */
+        width: 110px !important;
+        height: 110px !important;
+        transform: none !important;
+        z-index: 5 !important;
     }
 
+    /* 3. REPOSITIONNEMENT DES TEXTES (IDENTITY) */
     .team-identity {
-        left: 20px;
-        right: 20px;
-        bottom: 25px;
-
-        text-align: center;
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        padding: 0 20px !important;
+        text-align: center !important;
+        z-index: 4 !important;
     }
 
     .team-identity h1 {
-        font-size: 32px;
+        font-size: 28px !important;
+        margin-top: 10px !important;
     }
 
     .team-identity p {
-        margin: auto;
+        margin: 5px auto 0 auto !important;
+        font-size: 14px !important;
+        color: #c3c8d2 !important;
     }
 
+    /* Restructuration des grilles secondaires */
     .team-stats {
         grid-template-columns: 1fr;
     }
@@ -916,26 +934,24 @@ body {
 
     .team-discord-card {
         flex-direction: column;
-
         text-align: center;
     }
 
     .discord-button {
         width: 100%;
     }
-
 }
 
 @media (max-width: 450px) {
-
     .section-title,
     .section-heading {
         align-items: flex-start;
         flex-direction: column;
+        gap: 10px !important;
     }
 
     .team-ranking-value {
-        width: 100%;
+        width: 100% !important;
     }
 
     .team-stat-card {
@@ -945,8 +961,8 @@ body {
     .team-error-box {
         padding: 30px 20px;
     }
-
 }
+
 
 .kick-member-btn {
     background-color: #ff4646 !important; /* Rouge Cash Arena */
