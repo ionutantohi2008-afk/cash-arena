@@ -140,43 +140,20 @@ function displayTeam(team) {
     // LOGO
     // ==================================================
 
-    if (teamLogo) {
-
-        if (team.logo) {
-
-            teamLogo.src =
-                team.logo;
-
-            teamLogo.style.display =
-                "block";
-
-        } else {
-
-            teamLogo.style.display =
-                "none";
-
-        }
-
-    }
+   if (teamLogo) {
+    // Si l'équipe a un logo, on le met, sinon on génère une icône e-sport par défaut en ligne
+    teamLogo.src = team.logo || "https://dicebear.com" + encodeURIComponent(team.name || "team");
+    teamLogo.style.display = "block";
+}
 
 
     // ==================================================
     // BANNIÈRE
     // ==================================================
 
-    if (teamBanner) {
-
-        if (team.banner) {
-
-            teamBanner.style.backgroundImage =
-                "url('" +
-                team.banner +
-                "')";
-
-        }
-
-    }
-
+   if (teamBanner) {
+    const bannerUrl = team.banner || "https://unsplash.com";
+    teamBanner.style.backgroundImage = "url('" + bannerUrl + "')";
 
     // ==================================================
     // DISCORD

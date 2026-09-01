@@ -372,173 +372,61 @@ function renderTeams(teams) {
 // 🃏 CARTE EQUIPE
 // ======================================================
 
+// ======================================================
+// 🃏 CARTE EQUIPE (VERSION CORRIGÉE IMAGES BRISÉES)
+// ======================================================
 function createTeamCard(team) {
 
-    const banner =
-        team.banner ||
-        "assets/team-default-banner.jpg";
+    // 🌟 CORRECTIF CHEMIN LIEN : Utilisation d'images de secours en ligne fiables à 100%
+    const banner = team.banner || "https://unsplash.com"; 
+    const logo = team.logo || "https://dicebear.com" + encodeURIComponent(team.name || "default");
 
+    const name = escapeHTML(team.name || "Équipe sans nom");
+    const description = escapeHTML(team.description || "Aucune description.");
 
-    const logo =
-        team.logo ||
-        "assets/team-default-logo.png";
+    const members = Array.isArray(team.members)
+        ? team.members.length
+        : Number(team.memberCount || 0);
 
-
-    const name =
-        escapeHTML(
-            team.name ||
-            "Équipe sans nom"
-        );
-
-
-    const description =
-        escapeHTML(
-            team.description ||
-            "Aucune description."
-        );
-
-
-    const members =
-        Array.isArray(team.members)
-            ? team.members.length
-            : Number(
-                team.memberCount || 0
-            );
-
-
-    const ranking =
-        Number(
-            team.ranking || 0
-        );
-
-
-    let rankingText =
-        ranking > 0
-            ? "#" + ranking
-            : "N/A";
-
+    const ranking = Number(team.ranking || 0);
+    let rankingText = ranking > 0 ? "#" + ranking : "N/A";
 
     return `
-
-        <article
-            class="team-card"
-            data-team-id="${team.id}"
-        >
-
+        <article class="team-card" data-team-id="${team.id}">
             <div class="team-banner">
-
                 <img
                     src="${escapeAttribute(banner)}"
                     alt="Bannière ${name}"
                     loading="lazy"
-                    onerror="
-                        this.src='assets/team-default-banner.jpg'
-                    "
+                    onerror="this.src='https://unsplash.com'"
                 >
-
                 <div class="team-logo-wrapper">
-
                     <img
                         src="${escapeAttribute(logo)}"
                         alt="Logo ${name}"
                         loading="lazy"
-                        onerror="
-                            this.src='assets/team-default-logo.png'
-                        "
+                        onerror="this.src='https://dicebear.comfallback'"
                     >
-
                 </div>
-
             </div>
-
-
             <div class="team-card-content">
-
                 <div class="team-card-title">
-
-                    <h2>
-                        ${name}
-                    </h2>
-
-                    <div class="team-rank">
-
-                        🏆
-
-                        ${rankingText}
-
-                    </div>
-
+                    <h2>${name}</h2>
+                    <div class="team-rank">🏆 ${rankingText}</div>
                 </div>
-
-
-                <p class="team-description">
-
-                    ${description}
-
-                </p>
-
-
+                <p class="team-description">${description}</p>
                 <div class="team-meta">
-
-                    <div class="team-meta-item">
-
-                        👥
-
-                        <strong>
-                            ${members}
-                        </strong>
-
-                        membres
-
-                    </div>
-
-
-                    <div class="team-meta-item">
-
-                        🎮
-
-                        <strong>
-                            ${team.tournamentsPlayed || 0}
-                        </strong>
-
-                        tournois
-
-                    </div>
-
-
-                    <div class="team-meta-item">
-
-                        🏆
-
-                        <strong>
-                            ${team.wins || 0}
-                        </strong>
-
-                        victoires
-
-                    </div>
-
+                    <div class="team-meta-item">👥 <strong>${members}</strong> membres</div>
+                    <div class="team-meta-item">🎮 <strong>${team.tournamentsPlayed || 0}</strong> tournois</div>
+                    <div class="team-meta-item">🏆 <strong>${team.wins || 0}</strong> victoires</div>
                 </div>
-
-
-                <button
-                    class="team-view-button"
-                    data-team-id="${team.id}"
-                    type="button"
-                >
-
+                <button class="team-view-button" data-team-id="${team.id}" type="button">
                     VOIR L'ÉQUIPE
-
                 </button>
-
             </div>
-
         </article>
-
     `;
-
 }
-
 
 // ======================================================
 // 🔎 RECHERCHE
