@@ -5375,3 +5375,42 @@ img {
         max-width: 80px;
     }
 }
+
+/* =====================================================
+   📱 CORRECTIF DES DESCRIPTIONS DE BANNIÈRE (GOLD CUP)
+   ===================================================== */
+@media (max-width: 768px) {
+    /* On passe les 3 blocs de l'horizontale à la verticale */
+    .esport-footer-banner {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+        padding: 15px !important;
+    }
+
+    /* On aligne les éléments pour un rendu plus aéré */
+    .banner-item {
+        background: rgba(255, 255, 255, 0.02);
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(142, 68, 173, 0.1);
+    }
+}
+
+@media (max-width: 480px) {
+    .banner-text h4 {
+        font-size: 13px !important;
+    }
+
+    /* Le texte peut enfin s'étaler sur plusieurs lignes sans déborder */
+    .banner-text p {
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        white-space: normal !important; /* Force le texte à aller à la ligne */
+    }
+
+    .banner-icon {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 18px !important;
+    }
+}
