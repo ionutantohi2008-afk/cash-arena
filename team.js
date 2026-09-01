@@ -144,7 +144,7 @@ function displayTeam(team) {
     // Si l'équipe a un logo, on le met, sinon on génère une icône e-sport par défaut en ligne
     teamLogo.src = team.logo || "https://dicebear.com" + encodeURIComponent(team.name || "team");
     teamLogo.style.display = "block";
-}
+    }
 
 
     // ==================================================
@@ -154,7 +154,7 @@ function displayTeam(team) {
    if (teamBanner) {
     const bannerUrl = team.banner || "https://unsplash.com";
     teamBanner.style.backgroundImage = "url('" + bannerUrl + "')";
-
+   }
     // ==================================================
     // DISCORD
     // ==================================================
@@ -808,42 +808,13 @@ function showTeamError() {
 // ======================================================
 
 function escapeHTML(value) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
+    if (value === null || value === undefined) {
         return "";
-
     }
-
-
     return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
