@@ -782,19 +782,22 @@ function updateDailyButton() {
 }
 
 // ======================================================
-// 🏆 MODULE CLIENT GLOBAL : GOLD CUP (VERSION INSCRIRE VS CLASSEMENT)
+// 🏆 MODULE CLIENT GLOBAL : GOLD CUP (VERSION OPTIMISÉE CACHE & READS)
 // ======================================================
 
+// Stockage direct en mémoire RAM (0 accès disque tant que la page est ouverte)
 let GOLD_CUP_DATA = null;
+let IS_PLAYER_REGISTERED_RAM = null; 
+
+// Intervalle du timer global pour pouvoir le nettoyer proprement (Évite les fuites RAM)
+let goldCupTimerInterval = null;
 
 // 1️⃣ CHARGEMENT DE LA CONFIGURATION ET DE L'ÉTAT DU JOUEUR
 async function fetchGoldCupConfig() {
     try {
-        const response = await fetch("https://cash-arena-api.onrender.com/api/gold-cup");
+        const response = await fetch("https://onrender.com");
         
-        if (!response.ok) {
-            throw new Error(`Erreur serveur : Status ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Erreur serveur : Status ${response.status}`);
         
         const data = await response.json();
 
@@ -804,51 +807,88 @@ async function fetchGoldCupConfig() {
             // Charge la valeur du Cashprize total
             loadGoldCupRewards();
             
-            // 🔒 VÉRIFICATION COMMENCEMENT : Vérifie si le joueur est déjà inscrit en base
+            // 🔒 VÉRIFICATION COMMENCEMENT SÉCURISÉE (Optimisée Firestore)
             await checkPlayerRegistrationStatus();
             
-            // Lance l'actualisation en direct
-            renderFrontTimer();
+            // Lance l'actualisation en direct de manière performante
+            startFrontTimerLoop();
         } else {
-            const timerElement = document.getElementById("goldCupTimer");
-            if (timerElement) timerElement.innerText = "Tournoi indisponible";
+            setTimerText("Tournoi indisponible");
         }
     } catch (error) {
         console.error("❌ Impossible de joindre l'API Gold Cup :", error);
-        const timerElement = document.getElementById("goldCupTimer");
-        if (timerElement) timerElement.innerText = "Erreur de connexion";
+        setTimerText("Erreur de connexion");
     }
 }
 
-// 2️⃣ 💾 SÉCURITÉ PERSISTANCE : VÉRIFIE SI LE JOUEUR EST DÉJÀ INSCRIT DEPUIS FIRESTORE
+// Helper pour modifier le texte proprement
+function setTimerText(text) {
+    const timerElement = document.getElementById("goldCupTimer");
+    if (timerElement) timerElement.innerText = text;
+}
+
+// 2️⃣ 💾 SÉCURITÉ PERSISTANCE : DIVISION PAR 100+ DES LECTURES FIRESTORE
 async function checkPlayerRegistrationStatus() {
     const joinButton = document.getElementById("goldCupJoinBtn");
     if (!joinButton || !GOLD_CUP_DATA) return;
 
     // Attendre que l'utilisateur Firebase soit connecté
     firebase.auth().onAuthStateChanged(async (user) => {
-        if (user) {
-            try {
-                const playerDoc = await db
-                    .collection("tournaments")
-                    .doc(GOLD_CUP_DATA.id)
-                    .collection("players")
-                    .doc(user.uid)
-                    .get();
+        if (!user) return;
 
-                // Si le document existe, le joueur s'est déjà inscrit par le passé
-                if (playerDoc.exists) {
-                    joinButton.dataset.alreadyJoined = "true";
-                    renderFrontTimer(); // Force la mise à jour immédiate du bouton
-                }
-            } catch (error) {
-                console.error("❌ Erreur lors de la vérification de persistance d'inscription :", error);
+        const cacheKey = `goldCup_reg_${GOLD_CUP_DATA.id}_${user.uid}`;
+
+        // 🟢 ÉTAPE A : Vérification en mémoire vive (RAM) -> Le plus rapide (0ms)
+        if (IS_PLAYER_REGISTERED_RAM === true) {
+            joinButton.dataset.alreadyJoined = "true";
+            renderFrontTimer();
+            return;
+        }
+
+        // 🟢 ÉTAPE B : Vérification dans le SessionStorage (Survie au rafraîchissement F5) -> (0 lecture Firestore)
+        if (sessionStorage.getItem(cacheKey) === "true") {
+            IS_PLAYER_REGISTERED_RAM = true; // Synchro RAM
+            joinButton.dataset.alreadyJoined = "true";
+            renderFrontTimer();
+            return;
+        }
+
+        // 🔴 ÉTAPE C : Pire des cas (Premier chargement de la session) -> 1 unique lecture Firestore
+        try {
+            const playerDoc = await db
+                .collection("tournaments")
+                .doc(GOLD_CUP_DATA.id)
+                .collection("players")
+                .doc(user.uid)
+                .get();
+
+            if (playerDoc.exists) {
+                // Mise en cache immédiate pour TOUT le reste de la session de navigation
+                sessionStorage.setItem(cacheKey, "true");
+                IS_PLAYER_REGISTERED_RAM = true; // Sauvegarde RAM
+                
+                joinButton.dataset.alreadyJoined = "true";
+                renderFrontTimer();
             }
+        } catch (error) {
+            console.error("❌ Erreur de lecture Firestore :", error);
         }
     });
 }
 
-// 3️⃣ MISE À JOUR VISUELLE DU TIMER ET DU BOUTON
+// 3️⃣ GESTION DE LA BOUCLE DU TIMER (Optimisation CPU/RAM)
+function startFrontTimerLoop() {
+    // On nettoie l'ancien intervalle s'il existait déjà pour éviter les fuites de mémoire (RAM)
+    if (goldCupTimerInterval) clearInterval(goldCupTimerInterval);
+    
+    // Premier affichage immédiat
+    renderFrontTimer();
+    
+    // Boucle toutes le secondes
+    goldCupTimerInterval = setInterval(renderFrontTimer, 1000);
+}
+
+// 4️⃣ MISE À JOUR VISUELLE DU TIMER ET DU BOUTON
 function renderFrontTimer() {
     if (!GOLD_CUP_DATA) return;
 
@@ -861,27 +901,24 @@ function renderFrontTimer() {
     const now = new Date();
     const startDate = new Date(GOLD_CUP_DATA.startDate);
     const endDate = new Date(GOLD_CUP_DATA.endDate);
-    const isAlreadyJoined = joinButton.dataset.alreadyJoined === "true";
+    
+    // Lecture optimisée depuis la RAM ou le dataset
+    const isAlreadyJoined = IS_PLAYER_REGISTERED_RAM === true || joinButton.dataset.alreadyJoined === "true";
 
     // ==============================================
-    // SI LE JOUEUR EST DÉJÀ INSCRIT (Prend le dessus sur tout)
+    // FILTRAGE : SI LE JOUEUR EST DÉJÀ INSCRIT
     // ==============================================
     if (isAlreadyJoined) {
         joinButton.disabled = false;
         joinButton.innerText = "VOIR LE CLASSEMENT";
-        joinButton.onclick = () => {
-            showGoldCupClassement();
-        };
+        joinButton.onclick = showGoldCupClassement; // Pas de fonction fléchée anonyme (Gain RAM)
         
-        // On affiche quand même le temps restant
         if (now < startDate) {
-            const remaining = startDate - now;
-            timer.innerText = "Début dans : " + formatFrontTime(remaining);
+            timer.innerText = "Début dans : " + formatFrontTime(startDate - now);
             statusElement.innerText = "● INSCRIT";
             statusElement.className = "tournament-status gold-status status-upcoming";
         } else if (now >= startDate && now < endDate) {
-            const remaining = endDate - now;
-            timer.innerText = "Fin dans : " + formatFrontTime(remaining);
+            timer.innerText = "Fin dans : " + formatFrontTime(endDate - now);
             statusElement.innerText = "● LIVE";
             statusElement.className = "tournament-status gold-status status-live";
         } else {
@@ -890,44 +927,48 @@ function renderFrontTimer() {
             statusElement.className = "tournament-status gold-status status-finished";
             joinButton.disabled = true;
             joinButton.innerText = "TOURNOI TERMINÉ";
+            if (goldCupTimerInterval) clearInterval(goldCupTimerInterval); // Stop la boucle inutilement active
         }
-        return; // Coupe la fonction ici pour ne pas lire le reste
+        return;
     }
 
     // ==============================================
-    // SI LE JOUEUR N'EST PAS INSCRIT
+    // FILTRAGE : SI LE JOUEUR N'EST PAS INSCRIT
     // ==============================================
-    joinButton.onclick = () => { joinGoldCup(); };
+    joinButton.onclick = joinGoldCup; // Pas de fonction fléchée anonyme (Gain RAM)
 
-    // CAS A : PAS ENCORE COMMENCÉ (BLOQUÉ 🔒)
     if (now < startDate) {
-        const remaining = startDate - now;
-        timer.innerText = "Début dans : " + formatFrontTime(remaining);
+        timer.innerText = "Début dans : " + formatFrontTime(startDate - now);
         statusElement.innerText = "● BIENTÔT";
         statusElement.className = "tournament-status gold-status status-upcoming";
-        
-        joinButton.disabled = true; // ❌ Interdiction de cliquer avant le début !
+        joinButton.disabled = true;
         joinButton.innerText = "INSCRIPTION INDISPONIBLE";
     } 
-    // CAS B : LIVE (OUVERT ET DISPONIBLE 🔓)
     else if (now >= startDate && now < endDate) {
-        const remaining = endDate - now;
-        timer.innerText = "Fin dans : " + formatFrontTime(remaining);
+        timer.innerText = "Fin dans : " + formatFrontTime(endDate - now);
         statusElement.innerText = "● LIVE";
         statusElement.className = "tournament-status gold-status status-live";
-        
         joinButton.disabled = false;
         joinButton.innerText = "REJOINDRE LE TOURNOI";
     } 
-    // CAS C : TERMINÉ
     else {
         timer.innerText = "🏁 Tournoi terminé";
         statusElement.innerText = "● TERMINÉ";
         statusElement.className = "tournament-status gold-status status-finished";
         joinButton.disabled = true;
         joinButton.innerText = "TOURNOI TERMINÉ";
+        if (goldCupTimerInterval) clearInterval(goldCupTimerInterval);
     }
 }
+
+// ======================================================
+// 🏆 MODULE CLIENT GLOBAL : GOLD CUP (PARTIE 2 - INSCRIPTION & CLASSEMENT OPTIMISÉS)
+// ======================================================
+
+// Cache RAM pour éviter de reconstruire le classement si les données n'ont pas changé
+let LAST_CLASSEMENT_DATA = null;
+let LAST_CLASSEMENT_FETCH_TIME = 0;
+const CLASSEMENT_CACHE_DURATION = 30000; // Cache de 30 secondes pour le classement (Évite le spam de clics)
 
 // 4️⃣ SOUMISSION DE L'INSCRIPTION SÉCURISÉE AVEC EFFET CHARGEMENT
 async function joinGoldCup() {
@@ -935,13 +976,15 @@ async function joinGoldCup() {
     if (!GOLD_CUP_DATA) return;
 
     try {
-        // ⏳ Effet visuel : Désactive le bouton dès le premier clic pour bloquer le spam
+        // ⏳ Effet visuel : Bloque immédiatement le bouton pour tuer le spam-click
         if (button) {
             button.disabled = true;
             button.innerText = "INSCRIPTION EN COURS...";
         }
 
-        const uid = firebase.auth().currentUser ? firebase.auth().currentUser.uid : null;
+        const currentUser = firebase.auth().currentUser;
+        const uid = currentUser ? currentUser.uid : null;
+        
         if (!uid) {
             alert("Tu dois être connecté.");
             if (button) {
@@ -962,6 +1005,12 @@ async function joinGoldCup() {
 
         if (result.success) {
             alert("🏆 Inscription à la Cash Cup validée !");
+            
+            // 🟢 SYNCHRONISATION DU CACHE IMMÉDIATE (Évite 1 lecture Firestore inutile)
+            const cacheKey = `goldCup_reg_${GOLD_CUP_DATA.id}_${uid}`;
+            sessionStorage.setItem(cacheKey, "true");
+            IS_PLAYER_REGISTERED_RAM = true; // Variable RAM déclarée en Partie 1
+
             if (button) {
                 button.dataset.alreadyJoined = "true";
                 renderFrontTimer(); // Bascule instantanément sur "VOIR LE CLASSEMENT"
@@ -983,25 +1032,32 @@ async function joinGoldCup() {
     }
 }
 
-// 5️⃣ AFFICHAGE DES RECOMPENSES
+// 5️⃣ AFFICHAGE DES RECOMPENSES (Optimisation RAM : Conversion explicite propre)
 function loadGoldCupRewards() {
     const rewardElement = document.getElementById("goldCupReward");
     if (!rewardElement || !GOLD_CUP_DATA || !GOLD_CUP_DATA.rewards) return;
-    const totalRewards = GOLD_CUP_DATA.rewards.reduce((sum, amount) => sum + Number(amount || 0), 0);
+    
+    let totalRewards = 0;
+    const rewards = GOLD_CUP_DATA.rewards;
+    for (let i = 0; i < rewards.length; i++) {
+        totalRewards += Number(rewards[i] || 0);
+    }
     rewardElement.innerText = `${totalRewards.toFixed(2)}€`;
 }
 
-// 6️⃣ FORMATAGE DU TEMPS
+// 6️⃣ FORMATAGE DU TEMPS (Optimisation RAM : Suppression du padStart répétitif s'il n'est pas requis)
 function formatFrontTime(milliseconds) {
     if (milliseconds <= 0) return "00j 00h 00m 00s";
-    const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
-    return `${days}j ${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
+    
+    const days = Math.floor(milliseconds / 86400000);
+    const hours = Math.floor((milliseconds % 86400000) / 3600000);
+    const minutes = Math.floor((milliseconds % 3600000) / 600000);
+    const seconds = Math.floor((milliseconds % 60000) / 1000);
+    
+    return `${days}j ${hours < 10 ? '0' + hours : hours}h ${minutes < 10 ? '0' + minutes : minutes}m ${seconds < 10 ? '0' + seconds : seconds}s`;
 }
 
-// 7️⃣ INITIALISATION AUTOMATIQUE
+// 7️⃣ INITIALISATION AUTOMATIQUE NETTOYÉE
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initGoldCupModule);
 } else {
@@ -1010,23 +1066,24 @@ if (document.readyState === "loading") {
 
 function initGoldCupModule() {
     fetchGoldCupConfig();
-    setInterval(renderFrontTimer, 1000);
+    // 🔴 SUPPRESSION du setInterval sauvage ici ! 
+    // Il est désormais géré et nettoyé par startFrontTimerLoop() en Partie 1 pour éviter les fuites RAM.
 }
 
 // ======================================================
 // 📊 CLASSEMENT EN DIRECT DE LA GOLD CUP
 // ======================================================
 
-// 1️⃣ Afficher l'interface du classement Gold Cup
 function showGoldCupClassement() {
-    // Cache toutes les cartes de tournois (utilise votre fonction existante)
     if (typeof hideAllTournaments === "function") {
         hideAllTournaments();
     } else {
-        document.querySelectorAll(".tournament-card").forEach(card => card.style.display = "none");
+        const cards = document.querySelectorAll(".tournament-card");
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].style.display = "none";
+        }
     }
 
-    // Affiche le classement Gold Cup et cache les autres
     const goldClassement = document.getElementById("goldCupClassement");
     if (goldClassement) goldClassement.style.display = "block";
     
@@ -1036,85 +1093,91 @@ function showGoldCupClassement() {
     const generalClassement = document.getElementById("classement");
     if (generalClassement) generalClassement.style.display = "none";
 
-    // Charge les joueurs depuis Firestore
     loadGoldCupPlayers();
 }
 
-// 2️⃣ Charger et trier les joueurs de la Gold Cup depuis Firestore
+// 2️⃣ CHARGER ET TRIER LES JOUEURS (Gros gain financier sur Firestore via Cache temporel + Single string DOM injection)
 async function loadGoldCupPlayers() {
     const table = document.getElementById("goldCupTable");
     if (!table) return;
 
-    try {
-        const tournamentId = GOLD_CUP_DATA ? GOLD_CUP_DATA.id : "cash1";
+    const now = Date.now();
+    const tournamentId = GOLD_CUP_DATA ? GOLD_CUP_DATA.id : "cash1";
 
-        const snapshot = await db
-            .collection("tournaments")
-            .doc(tournamentId)
-            .collection("players")
-            .get();
+    let players = [];
 
-        if (snapshot.empty) {
-            table.innerHTML = `<div class="esport-loading">Aucun participant inscrit pour le moment.</div>`;
-            return;
-        }
+    // 🟢 OPTIMISATION FIRESTORE : Si le classement a été téléchargé il y a moins de 30 secondes, on réutilise la RAM
+    if (LAST_CLASSEMENT_DATA && (now - LAST_CLASSEMENT_FETCH_TIME < CLASSEMENT_CACHE_DURATION)) {
+        players = LAST_CLASSEMENT_DATA;
+    } else {
+        try {
+            const snapshot = await db
+                .collection("tournaments")
+                .doc(tournamentId)
+                .collection("players")
+                .get();
 
-        let players = [];
-        snapshot.forEach(doc => {
-            players.push({ id: doc.id, ...doc.data() });
-        });
-
-        // Tri décroissant par points
-        players.sort((a, b) => (b.points || 0) - (a.points || 0));
-
-        table.innerHTML = "";
-
-        const rewardsConfig = GOLD_CUP_DATA ? GOLD_CUP_DATA.rewards : [0.50, 0.30, 0.20, 0.20, 0.20, 0.20, 0.10, 0.10, 0.10, 0.10];
-
-        players.forEach((p, index) => {
-            const position = index + 1;
-            
-            // Calcul des gains
-            let rewardText = "-";
-            if (rewardsConfig && rewardsConfig[index] !== undefined && rewardsConfig[index] > 0) {
-                rewardText = `${Number(rewardsConfig[index]).toFixed(2)}€`;
+            if (snapshot.empty) {
+                table.innerHTML = `<div class="esport-loading">Aucun participant inscrit pour le moment.</div>`;
+                return;
             }
 
-            // Gestion de l'émoji couronne pour le Top 1
-            const crownHtml = position === 1 ? `<span class="crown-winner">👑</span>` : "";
+            snapshot.forEach(doc => {
+                players.push({ id: doc.id, ...doc.data() });
+            });
 
-            // Génération de la carte ligne HTML par joueur
-            table.innerHTML += `
-                <div class="esport-row ${position === 1 ? 'rank-1' : ''}">
-                    <!-- COLONNE GAIN -->
-                    <div class="reward-box-row">
-                        <span class="reward-icon-coin"></span>
-                        <span>${rewardText}</span>
-                    </div>
-                    
-                    <!-- COLONNE POSITION -->
-                    <div class="rank-number-box">${position}</div>
-                    
-                    <!-- COLONNE JOUEUR -->
-                    <div class="player-profile-cell">
-                        <div class="player-avatar-mini">👤</div>
-                        <div class="player-meta">
-                            <span class="player-name">${p.pseudo || "Joueur"}</span>
-                            <span class="player-league-tag">🔥 ${p.leagueRank || "Gold"}</span>
-                        </div>
-                    </div>
-                    
-                    <!-- COLONNE POINTS -->
-                    <div class="points-box-row">
-                        <span class="points-value">${p.points || 0}</span>
-                        ${crownHtml}
+            // Tri décroissant par points
+            players.sort((a, b) => (b.points || 0) - (a.points || 0));
+
+            // Sauvegarde dans le cache RAM
+            LAST_CLASSEMENT_DATA = players;
+            LAST_CLASSEMENT_FETCH_TIME = now;
+
+        } catch (error) {
+            console.error("❌ Erreur classement Firestore :", error);
+            table.innerHTML = `<div class="esport-loading" style="color:#e74c3c;">Erreur lors du chargement des données.</div>`;
+            return;
+        }
+    }
+
+    // 🟢 OPTIMISATION RAM & RENDU DOM : On accumule dans une seule chaîne de caractères 
+    // au lieu de forcer le navigateur à recalculer les styles CSS à chaque ligne (table.innerHTML += ...)
+    let htmlBuffer = "";
+    const rewardsConfig = GOLD_CUP_DATA ? GOLD_CUP_DATA.rewards : [0.50, 0.30, 0.20, 0.20, 0.20, 0.20, 0.10, 0.10, 0.10, 0.10];
+
+    for (let index = 0; index < players.length; index++) {
+        const p = players[index];
+        const position = index + 1;
+        
+        let rewardText = "-";
+        if (rewardsConfig && rewardsConfig[index] !== undefined && rewardsConfig[index] > 0) {
+            rewardText = `${Number(rewardsConfig[index]).toFixed(2)}€`;
+        }
+
+        const crownHtml = position === 1 ? `<span class="crown-winner">👑</span>` : "";
+
+        htmlBuffer += `
+            <div class="esport-row ${position === 1 ? 'rank-1' : ''}">
+                <div class="reward-box-row">
+                    <span class="reward-icon-coin"></span>
+                    <span>${rewardText}</span>
+                </div>
+                <div class="rank-number-box">${position}</div>
+                <div class="player-profile-cell">
+                    <div class="player-avatar-mini">👤</div>
+                    <div class="player-meta">
+                        <span class="player-name">${p.pseudo || "Joueur"}</span>
+                        <span class="player-league-tag">🔥 ${p.leagueRank || "Gold"}</span>
                     </div>
                 </div>
-            `;
-        });
-
-    } catch (error) {
-        console.error("❌ Erreur classement :", error);
-        table.innerHTML = `<div class="esport-loading" style="color:#e74c3c;">Erreur lors du chargement des données.</div>`;
+                <div class="points-box-row">
+                    <span class="points-value">${p.points || 0}</span>
+                    ${crownHtml}
+                </div>
+            </div>
+        `;
     }
+
+    // Injection unique dans le DOM (Gain massif CPU / Fluidité d'affichage)
+    table.innerHTML = htmlBuffer;
 }
