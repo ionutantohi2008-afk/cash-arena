@@ -1,26 +1,18 @@
-name: Déploiement Hebdomadaire
+name: Déploiement Planifié Cash Arena
 
-# 1. QUAND : Planification tous les lundis à 21h00 (Heure de Paris)
 on:
   schedule:
-    - cron: '0 21 * * 1'
-      timezone: Europe/Paris  # Gère automatiquement l'heure d'hiver et d'été !
-
-  # Permet aussi de lancer le déploiement manuellement si besoin depuis le site GitHub
-  workflow_dispatch:
+    # Les Crons sur GitHub utilisent le fuseau horaire UTC.
+    # En France (Europe/Paris) : 
+    # - En hiver (UTC+1), 21h00 correspond à 20h00 UTC.
+    # - En été (UTC+2), 21h00 correspond à 19h00 UTC.
+    # Ici configuré pour 20h00 UTC (0 20 * * 1 -> Minute 0, Heure 20, Tous les jours, Tous les mois, Jour 1 = Lundi)
+    - cron: '0 20 * * 1'
 
 jobs:
-  deploy:
-    name: Déploiement des fichiers
+  trigger-vercel:
     runs-on: ubuntu-latest
-
     steps:
-      # Étape 1 : Récupérer les fichiers du dépôt GitHub
-      - name: Récupérer le code
-        uses: actions/checkout@v4
-
-      # Étape 2 : Mettre ici les commandes spécifiques à VOTRE outil de déploiement
-      - name: Exécuter le script de déploiement
+      - name: Déclencher le build Vercel
         run: |
-          echo "Le déploiement automatique est lancé !"
-          # Exemple si vous utilisez npm : npm run build && npm run deploy
+          curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
