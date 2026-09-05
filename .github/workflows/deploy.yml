@@ -1,0 +1,26 @@
+name: Déploiement Hebdomadaire
+
+# 1. QUAND : Planification tous les lundis à 21h00 (Heure de Paris)
+on:
+  schedule:
+    - cron: '0 21 * * 1'
+      timezone: Europe/Paris  # Gère automatiquement l'heure d'hiver et d'été !
+
+  # Permet aussi de lancer le déploiement manuellement si besoin depuis le site GitHub
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Déploiement des fichiers
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Récupérer les fichiers du dépôt GitHub
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      # Étape 2 : Mettre ici les commandes spécifiques à VOTRE outil de déploiement
+      - name: Exécuter le script de déploiement
+        run: |
+          echo "Le déploiement automatique est lancé !"
+          # Exemple si vous utilisez npm : npm run build && npm run deploy
