@@ -795,7 +795,7 @@ let goldCupTimerInterval = null;
 // 1️⃣ CHARGEMENT DE LA CONFIGURATION ET DE L'ÉTAT DU JOUEUR
 async function fetchGoldCupConfig() {
     try {
-        const response = await fetch("https://cash-arena-api.onrender.com/gold-cup/config");
+        const response = await fetch("https://cash-arena-api.onrender.com/api/gold-cup");
         
         if (!response.ok) throw new Error(`Erreur serveur : Status ${response.status}`);
         
@@ -1102,7 +1102,7 @@ async function loadGoldCupPlayers() {
     if (!table) return;
 
     const now = Date.now();
-    const tournamentId = GOLD_CUP_DATA ? GOLD_CUP_DATA.id : "cash1";
+    const tournamentId = GOLD_CUP_DATA ? GOLD_CUP_DATA.id : "cash2";
 
     let players = [];
 
