@@ -795,7 +795,7 @@ let goldCupTimerInterval = null;
 // 1️⃣ CHARGEMENT DE LA CONFIGURATION ET DE L'ÉTAT DU JOUEUR
 async function fetchGoldCupConfig() {
     try {
-        const response = await fetch("https://onrender.com");
+        const response = await fetch("https://cash-arena-api.onrender.com/gold-cup/config");
         
         if (!response.ok) throw new Error(`Erreur serveur : Status ${response.status}`);
         
