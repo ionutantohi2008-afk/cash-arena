@@ -4,80 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cash Arena • Teams Dashboard</title>
-    <!-- On force la version 5 pour briser l'ancien cache du navigateur -->
-    <link rel="stylesheet" href="team-dashboard.css">
+    <!-- On force la version 6 pour briser le cache du navigateur -->
+    <link rel="stylesheet" href="team-dashboard.css?v=6">
 </head>
 <body>
 
+    <!-- 🌟 NAVBAR INTÉGRÉE PROPREMENT (REPRISE DE VOTRE CODE) -->
     <nav class="navbar">
-
-<a href="index.html" class="logo">
-⚡ Cash Arena
-</a>
-
-<div class="nav-links">
-<a href="index.html">Accueil</a>
-<a href="dashboard.html">Tournois</a>
-<a href="league.html" class="active">League</a>
-<a href="teams.html">Équipes</a>
-</div>
-
-<div id="authSection"></div>
-
-</nav>
-
-    <div class="dashboard-container">
-        <div class="header-section">
-            <h1>Teams Dashboard</h1>
-            <div class="season-title">Saison 1</div>
+        <a href="index.html" class="logo">⚡ Cash Arena</a>
+        <div class="nav-links">
+            <a href="index.html">ACCUEIL</a>
+            <a href="tournois.html">TOURNOIS</a>
+            <a href="league.html">LEAGUE</a>
+            <a href="teams.html" class="active">ÉQUIPES</a>
         </div>
+    </nav>
 
-        <div class="timer-section-box">
-            <div class="timer-title">Prochaine saison</div>
-            <div class="timer-hexagon-container">
-                <div class="timer-segment">
-                    <span class="timer-number" id="t-days">00</span>
-                    <span class="timer-sublabel">Jours</span>
-                </div>
-                <div class="timer-segment">
-                    <span class="timer-number" id="t-hours">00</span>
-                    <span class="timer-sublabel">Heures</span>
-                </div>
-                <div class="timer-segment">
-                    <span class="timer-number" id="t-mins">00</span>
-                    <span class="timer-sublabel">Minutes</span>
-                </div>
-                <div class="timer-segment">
-                    <span class="timer-number" id="t-secs">00</span>
-                    <span class="timer-sublabel">Secondes</span>
+    <!-- 🌟 NOUVEAU CONTENEUR GÉNÉRAL POUR ISOLER LE DASHBOARD DU FLEX DE LA NAVBAR -->
+    <div class="main-dashboard-content">
+        <div class="dashboard-container">
+            <div class="header-section">
+                <h1>Teams Dashboard</h1>
+                <div class="season-title">Saison 1</div>
+            </div>
+
+            <div class="timer-section-box">
+                <div class="timer-title">Prochaine saison</div>
+                <div class="timer-hexagon-container">
+                    <div class="timer-segment">
+                        <span class="timer-number" id="t-days">00</span>
+                        <span class="timer-sublabel">Jours</span>
+                    </div>
+                    <div class="timer-segment">
+                        <span class="timer-number" id="t-hours">00</span>
+                        <span class="timer-sublabel">Heures</span>
+                    </div>
+                    <div class="timer-segment">
+                        <span class="timer-number" id="t-mins">00</span>
+                        <span class="timer-sublabel">Minutes</span>
+                    </div>
+                    <div class="timer-segment">
+                        <span class="timer-number" id="t-secs">00</span>
+                        <span class="timer-sublabel">Secondes</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="leaderboard-table-wrapper">
-            <table class="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th style="width: 90px; text-align: center;">Rang</th>
-                        <th>Équipe</th>
-                        <th style="width: 180px;">Membres</th>
-                        <th style="width: 180px;">Score Cumulé</th>
-                        <th style="width: 180px;">Récompense</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboardBody">
-                    <tr>
-                        <td colspan="5" style="text-align:center; color:rgba(255,255,255,0.4); padding: 25px;">
-                            Connexion au serveur Cash Arena...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="leaderboard-table-wrapper">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 90px; text-align: center;">Rang</th>
+                            <th>Équipe</th>
+                            <th style="width: 180px;">Membres</th>
+                            <th style="width: 180px;">Score Cumulé</th>
+                            <th style="width: 180px;">Récompense</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <tr>
+                            <td colspan="5" style="text-align:center; color:rgba(255,255,255,0.4); padding: 25px;">
+                                Connexion au serveur Cash Arena...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <script>
-        // Mettre à jour l'instant de fin de saison (Format: AAAA-MM-JJTHH:mm:ss)
         const TARGET_DATE = new Date("2026-10-30T20:00:00").getTime();
 
         function updateTimer() {

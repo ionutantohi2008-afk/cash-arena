@@ -12,30 +12,77 @@ body {
     min-height: 100vh;
     font-family: 'Arial Black', 'Impact', sans-serif;
     color: #ffffff;
-    /* 🌟 Chargement de l'illustration et des lueurs de l'image */
+    /* Chargement de l'illustration */
     background: 
-        linear-gradient(180deg, rgba(2, 4, 10, 0.4) 0%, rgba(2, 4, 10, 0.88) 100%),
+        linear-gradient(180deg, rgba(2, 4, 10, 0.5) 0%, rgba(2, 4, 10, 0.92) 100%),
         url('background.png') no-repeat center center fixed;
     background-size: cover;
     overflow-x: hidden;
     padding-bottom: 60px;
+    /* 🌟 MODIFICATION : On passe en colonne pour empiler la Navbar puis le Dashboard */
     display: flex;
-    justify-content: center;
+    flex-direction: column;
 }
 
-/* Fond de secours si l'image locale n'est pas chargée */
-@supports not (background-image: url('background.png')) {
-    body {
-        background: 
-            radial-gradient(circle at 50% 15%, rgba(0, 188, 255, 0.15), transparent 50%),
-            radial-gradient(circle at 50% 85%, rgba(121, 40, 202, 0.08), transparent 60%),
-            #030611;
-    }
+/* 🌟 STYLE DE VOTRE NAVBAR ADAPTÉ POUR LE DASHBOARD */
+.navbar {
+    width: 100%;
+    height: 75px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(5, 7, 13, 0.88);
+    border-bottom: 1px solid rgba(255, 193, 7, 0.15);
+    backdrop-filter: blur(15px);
+    z-index: 10;
+}
+
+.logo {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: #a9afbd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.25s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #ffc107;
+}
+
+#authSection {
+
+    display: flex;
+
+    align-items: center;
+}
+
+/* 🌟 NOUVEAU BLOC DE CENTRAGE DU DASHBOARD */
+.main-dashboard-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
 }
 
 .dashboard-container {
     width: min(1000px, calc(100% - 40px));
-    margin-top: 50px;
+    margin-top: 40px;
     text-align: center;
 }
 
@@ -285,135 +332,4 @@ body {
         padding: 8px 20px;
         gap: 15px;
     }
-}
-
-/* =========================================================
-   NAVBAR
-   ========================================================= */
-
-.navbar {
-
-    position: sticky;
-
-    top: 0;
-
-    z-index: 100;
-
-    width: 100%;
-
-    min-height: 72px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding:
-        0 45px;
-
-    background:
-        rgba(4,7,18,0.88);
-
-    backdrop-filter:
-        blur(18px);
-
-    -webkit-backdrop-filter:
-        blur(18px);
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,0.07);
-
-    box-shadow:
-        0 8px 30px
-        rgba(0,0,0,0.25);
-}
-
-/* =========================================================
-   LOGO
-   ========================================================= */
-
-.nav-left {
-
-    display: flex;
-
-    align-items: center;
-}
-
-
-.logo {
-
-    color: white;
-
-    text-decoration: none;
-
-    font-size: 22px;
-
-    font-weight: 1000;
-
-    letter-spacing: 1px;
-
-    transition:
-        color .2s ease,
-        text-shadow .2s ease;
-}
-
-
-.logo:hover {
-
-    color:
-        var(--purple-light);
-
-    text-shadow:
-        0 0 20px
-        rgba(139,61,255,0.65);
-}
-
-
-/* =========================================================
-   NAV LINKS
-   ========================================================= */
-
-.nav-links {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 35px;
-}
-
-
-.nav-links a {
-
-    position: relative;
-
-    color:
-        #9ba4b9;
-
-    text-decoration: none;
-
-    font-size: 13px;
-
-    font-weight: 800;
-
-    text-transform: uppercase;
-
-    letter-spacing: 0.8px;
-
-    transition:
-        color .2s ease;
-}
-
-
-/* =========================================================
-   AUTH SECTION
-   ========================================================= */
-
-#authSection {
-
-    display: flex;
-
-    align-items: center;
 }
