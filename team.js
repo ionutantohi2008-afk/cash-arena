@@ -18,20 +18,29 @@ auth.onAuthStateChanged(async (user) => {
 // CHARGEMENT DE L'ÉQUIPE
 // ======================================================
 async function loadTeam() {
+
     const loader = document.getElementById("teamLoader");
 
     if (!teamId) {
+
         showTeamError();
         return;
+
     }
 
     try {
-        const teamRef = db.collection("teams").doc(teamId);
+
+        const teamRef = db
+            .collection("teams")
+            .doc(teamId);
+
         const teamDoc = await teamRef.get();
 
         if (!teamDoc.exists) {
+
             showTeamError();
             return;
+
         }
 
         currentTeam = {
@@ -39,17 +48,37 @@ async function loadTeam() {
             ...teamDoc.data()
         };
 
-        displayTeam(currentTeam);
-        await loadTeamMembers();
+        // Appel de l'affichage
+        if (typeof displayTeam === "function") {
+            displayTeam(currentTeam);
+        }
+
+        // Appel sécurisé global des membres
+        if (typeof window.loadTeamMembers === "function") {
+            await window.loadTeamMembers();
+        } else if (typeof loadTeamMembers === "function") {
+            await loadTeamMembers();
+        } else {
+            console.warn("⚠️ loadTeamMembers n'est pas encore déclarée globalement.");
+        }
 
         if (loader) {
+
             loader.classList.add("hidden");
+
         }
 
     } catch (error) {
-        console.error("Erreur chargement équipe :", error);
+
+        console.error(
+            "Erreur chargement équipe :",
+            error
+        );
+
         showTeamError();
+
     }
+
 }
 
 // ======================================================
@@ -339,3 +368,103 @@ function escapeHTML(value) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
+
+// ======================================================
+// 🌟 DÉCLARATION GLOBALE STRICTE (A METTRE TOUT EN BAS)
+// ======================================================
+
+window.displayTeam = function(team) {
+    const teamName = document.getElementById("teamName");
+    const teamFullDescription = document.getElementById("teamFullDescription");
+    const teamLogo = document.getElementById("teamLogo");
+    const teamBanner = document.getElementById("teamBanner");
+    const teamDiscord = document.getElementById("teamDiscord");
+    const teamMembersCount = document.getElementById("teamMembersCount");
+    const teamTournaments = document.getElementById("teamTournaments");
+    const teamVictories = document.getElementById("teamVictories");
+    const teamEarnings = document.getElementById("teamEarnings");
+    const teamRank = document.getElementById("teamRank");
+
+    if (teamName) teamName.innerText = team.name || "Équipe sans nom";
+    if (teamFullDescription) teamFullDescription.innerText = team.description || "Aucune description.";
+    
+    if (teamLogo) {
+        teamLogo.src = team.logo || "https://dicebear.com" + encodeURIComponent(team.name || "team");
+        teamLogo.style.display = "block";
+    }
+
+    if (teamBanner) {
+        const bannerUrl = team.banner || "https://unsplash.com";
+        teamBanner.style.backgroundImage = "url('" + bannerUrl + "')";
+    }
+
+    if (teamDiscord) {
+        if (team.discord) {
+            teamDiscord.href = team.discord;
+        } else {
+            const discordCard = document.getElementById("teamDiscordCard");
+            if (discordCard) discordCard.style.display = "none";
+        }
+    }
+
+    if (teamMembersCount) {
+        teamMembersCount.innerText = team.memberCount || team.membersCount || (Array.isArray(team.members) ? team.members.length : 0);
+    }
+
+    if (teamTournaments) teamTournaments.innerText = team.tournamentsPlayed || team.tournaments || 0;
+    if (teamVictories) teamVictories.innerText = team.victories || team.wins || 0;
+
+    if (teamEarnings) {
+        const earnings = Number(team.earnings || team.totalEarnings || team.winnings || 0);
+        teamEarnings.innerText = earnings.toFixed(2) + " €";
+    }
+
+    if (teamRank) {
+        if (team.currentSeasonRank) {
+            teamRank.innerHTML = `
+                <div style="display:flex; flex-direction:column; gap:4px; align-items: center; justify-content: center;">
+                    <span style="color:#ffd000; font-weight:950;">#${team.currentSeasonRank} (Saison 1)</span>
+                    <small style="font-size:10px; opacity:0.5;">Global: #${team.rank || '-'}</small>
+                </div>
+            `;
+        } else if (team.rank) {
+            teamRank.innerText = "#" + team.rank;
+        } else {
+            teamRank.innerText = "-";
+        }
+    }
+};
+
+window.loadTeamMembers = async function() {
+    const container = document.getElementById("teamMembers");
+    const counter = document.getElementById("membersCounter");
+
+    if (!container) return;
+
+    try {
+        const members = currentTeam.members || [];
+        container.innerHTML = "";
+
+        if (!Array.isArray(members) || members.length === 0) {
+            container.innerHTML = `<div class="team-loading"><span>Aucun membre dans cette équipe.</span></div>`;
+            if (counter) counter.innerText = "0 membres";
+            return;
+        }
+
+        if (counter) {
+            counter.innerText = members.length + (members.length > 1 ? " membres" : " membre");
+        }
+
+        for (const member of members) {
+            await addMemberCard(container, member);
+        }
+
+        if (typeof initKickEventListeners === "function") {
+            initKickEventListeners();
+        }
+
+    } catch (error) {
+        console.error("Erreur chargement membres :", error);
+        container.innerHTML = `<div class="team-loading"><span>Impossible de charger les membres.</span></div>`;
+    }
+};
