@@ -1,27 +1,26 @@
 /* =========================================================
-   CASH ARENA — TEAMS DASHBOARD BRANDING
+   CASH ARENA — TEAMS DASHBOARD BRANDING (VERSION ÉLITE)
    ========================================================= */
 
 * {
     box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 body {
     margin: 0;
     min-height: 100vh;
-    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-family: 'Arial Black', 'Helvetica', sans-serif;
     color: #ffffff;
-    background: #05070d; /* Force le fond noir Cash Arena */
+    background: #03050a;
     overflow-x: hidden;
 }
 
 /* =========================================================
-   BACKGROUND GAMING PREMIUM
+   BACKGROUND GAMING ANIME
    ========================================================= */
 
-.gaming-bg,
-.gaming-grid,
-.gaming-glow {
+.gaming-bg, .gaming-grid, .gaming-glow {
     position: fixed;
     inset: 0;
     pointer-events: none;
@@ -30,109 +29,184 @@ body {
 .gaming-bg {
     z-index: -3;
     background:
-        radial-gradient(circle at 50% 0%, rgba(0, 110, 255, 0.15), transparent 45%),
-        radial-gradient(circle at 10% 80%, rgba(255, 193, 7, 0.08), transparent 35%),
-        #05070d;
+        radial-gradient(circle at 50% -20%, rgba(0, 110, 255, 0.25), transparent 50%),
+        radial-gradient(circle at 10% 80%, rgba(255, 193, 7, 0.05), transparent 40%),
+        #03050a;
 }
 
 .gaming-grid {
     z-index: -2;
-    opacity: 0.12;
+    opacity: 0.08;
     background-image:
-        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
 }
 
 .gaming-glow {
     z-index: -1;
-    background:
-        radial-gradient(circle at 50% 20%, rgba(0, 110, 255, 0.05), transparent 30%);
+    background: radial-gradient(circle at 50% 15%, rgba(0, 210, 255, 0.03), transparent 25%);
 }
-
-/* =========================================================
-   LAYOUT CONTAINER
-   ========================================================= */
 
 .dashboard-container {
     width: min(1200px, calc(100% - 40px));
-    margin: 60px auto 80px;
+    margin: 50px auto 80px;
     text-align: center;
 }
 
 /* =========================================================
-   TITRES & BADGES
+   TITRES & EN-TÊTE FUTURISTE
    ========================================================= */
 
 .header-section h1 {
-    font-size: clamp(34px, 5vw, 56px);
+    font-size: clamp(38px, 6vw, 68px);
     font-weight: 950;
     text-transform: uppercase;
-    letter-spacing: -1.5px;
+    letter-spacing: -2px;
     margin: 0;
-    color: #ffffff;
-    text-shadow: 0 0 40px rgba(0, 110, 255, 0.2);
+    background: linear-gradient(180deg, #ffffff 40%, #a0aec0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(0, 110, 255, 0.2));
 }
 
 .season-badge {
     display: inline-block;
-    margin-top: 12px;
-    padding: 6px 20px;
+    margin-top: 15px;
+    padding: 6px 24px;
     background: linear-gradient(90deg, #006eff, #00d2ff);
     color: #ffffff;
     font-weight: 900;
-    border-radius: 20px;
-    font-size: 13px;
+    border-radius: 8px;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 0 20px rgba(0, 110, 255, 0.3);
+    letter-spacing: 2px;
+    box-shadow: 0 0 25px rgba(0, 110, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* =========================================================
-   COMPTE À REBOURS (TIMER)
+   COMPTE À REBOURS CYBERPUNK
    ========================================================= */
 
 .timer-box {
-    margin: 30px auto;
-    padding: 18px 35px;
-    background: rgba(10, 12, 22, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px;
+    margin: 35px auto 50px;
+    padding: 15px 40px;
+    background: rgba(6, 9, 16, 0.8);
+    border: 1px solid rgba(0, 110, 255, 0.2);
+    border-radius: 12px;
     display: inline-flex;
     flex-direction: column;
-    gap: 6px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    gap: 4px;
+    backdrop-filter: blur(20px);
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.6),
+        inset 0 0 15px rgba(0, 110, 255, 0.1);
 }
 
 .timer-label {
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 9px;
+    color: #00d2ff;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 800;
+    letter-spacing: 3px;
+    font-weight: 900;
 }
 
 .timer-countdown {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 950;
-    color: #ffd000; /* Jaune d'or pour le temps */
+    color: #ffffff;
     letter-spacing: 1px;
-    text-shadow: 0 0 15px rgba(255, 208, 0, 0.2);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
 /* =========================================================
-   TABLEAU DE CLASSEMENT EXPERT
+   🏆 NOUVEAU : PODIUM VISUEL EN 3D CORPS
+   ========================================================= */
+
+.podium-visual {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 20px;
+    margin: 40px auto 60px;
+    max-width: 800px;
+    height: 260px;
+}
+
+.podium-card {
+    background: linear-gradient(185deg, rgba(13, 18, 30, 0.85), rgba(7, 10, 17, 0.95));
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    width: 30%;
+}
+
+.podium-card .team-name {
+    font-size: 16px;
+    font-weight: 900;
+    color: #fff;
+    margin-top: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.podium-card .team-pts {
+    font-size: 13px;
+    font-weight: 900;
+    margin-top: 5px;
+}
+
+/* Hauteurs différentes pour l'effet marche du podium */
+.p-1 { 
+    height: 240px; 
+    order: 2; 
+    border: 1px solid rgba(255, 208, 0, 0.3);
+    box-shadow: 0 0 40px rgba(255, 208, 0, 0.08), 0 25px 50px rgba(0,0,0,0.5);
+}
+.p-2 { height: 200px; order: 1; border: 1px solid rgba(226, 232, 240, 0.2); }
+.p-3 { height: 180px; order: 3; border: 1px solid rgba(205, 127, 50, 0.2); }
+
+/* Couronnes / Médailles géantes sur le podium */
+.podium-badge {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 950;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.p-1 .podium-badge { background: #ffd000; color: #000; font-size: 24px; width: 56px; height: 56px; }
+.p-2 .podium-badge { background: #cbd5e1; color: #000; }
+.p-3 .podium-badge { background: #b45309; color: #fff; }
+
+.p-1 .team-pts { color: #ffd000; }
+.p-2 .team-pts { color: #cbd5e1; }
+.p-3 .team-pts { color: #b45309; }
+
+/* =========================================================
+   TABLEAU DE CLASSEMENT LOOK ESPORT
    ========================================================= */
 
 .leaderboard-table-wrapper {
-    background: rgba(10, 12, 20, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 24px;
+    background: rgba(8, 11, 19, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
     overflow: hidden;
-    margin-top: 40px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(15px);
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
 }
 
 .leaderboard-table {
@@ -142,115 +216,95 @@ body {
 }
 
 .leaderboard-table th {
-    background: rgba(255, 255, 255, 0.02);
-    padding: 22px 28px;
+    background: rgba(255, 255, 255, 0.01);
+    padding: 22px 30px;
     font-size: 11px;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.3);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    letter-spacing: 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .leaderboard-table td {
-    padding: 20px 28px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    font-size: 14px;
+    padding: 20px 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.01);
+    font-size: 15px;
     font-weight: 800;
-    color: #c3c8d2;
+    color: #cbd5e1;
 }
 
-/* Hover effect sur les lignes */
+/* Animations au survol des lignes */
 .leaderboard-table tbody tr {
-    transition: background 0.2s ease;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.1);
 }
 
-.leaderboard-table tbody tr:hover td {
-    background: rgba(255, 255, 255, 0.015);
+.leaderboard-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02) !important;
+    transform: scale(1.005) translateX(4px);
 }
 
-/* =========================================================
-   DESIGN DU PODIUM (TOP 3 EXCLUSIF)
-   ========================================================= */
-
-.row-podium-1 td {
-    background: linear-gradient(90deg, rgba(255, 208, 0, 0.05), transparent 50%);
-}
-.row-podium-2 td {
-    background: linear-gradient(90deg, rgba(226, 232, 240, 0.03), transparent 50%);
-}
-.row-podium-3 td {
-    background: linear-gradient(90deg, rgba(205, 127, 50, 0.03), transparent 50%);
-}
-
-/* Pastilles Numériques */
+/* Éléments de rang standard (Hors Podium) */
 .rank-tag {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    font-weight: 950;
-    font-size: 12px;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.06);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 13px;
+    color: #64748b;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.rank-1 {
-    background: #ffd000 !important;
-    color: #000000 !important;
-    box-shadow: 0 0 20px rgba(255, 208, 0, 0.4);
-}
+/* Stylisation des lignes du top dans le tableau */
+.row-podium-1 td { color: #ffffff; font-weight: 900; }
+.row-podium-1 .rank-tag { background: rgba(255, 208, 0, 0.1); border-color: rgba(255, 208, 0, 0.3); color: #ffd000; }
 
-.rank-2 {
-    background: #e2e8f0 !important;
-    color: #000000 !important;
-    box-shadow: 0 0 15px rgba(226, 232, 240, 0.25);
-}
+.row-podium-2 .rank-tag { background: rgba(203, 213, 225, 0.1); border-color: rgba(203, 213, 225, 0.3); color: #cbd5e1; }
+.row-podium-3 .rank-tag { background: rgba(180, 83, 9, 0.1); border-color: rgba(180, 83, 9, 0.3); color: #f97316; }
 
-.rank-3 {
-    background: #cd7f32 !important;
-    color: #000000 !important;
-    box-shadow: 0 0 15px rgba(205, 127, 50, 0.25);
-}
-
-/* =========================================================
-   BADGES DE RÉCOMPENSE ARGENT (CASH)
-   ========================================================= */
-
+/* Cash Rewards Badges */
 .reward-badge {
     display: inline-flex;
     align-items: center;
     padding: 6px 14px;
-    background: rgba(101, 232, 154, 0.06);
-    border: 1px solid rgba(101, 232, 154, 0.2);
-    color: #65e89a;
-    border-radius: 8px;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border-radius: 6px;
     font-size: 12px;
     font-weight: 900;
-    letter-spacing: 0.5px;
-    box-shadow: 0 0 15px rgba(101, 232, 154, 0.05);
 }
 
 /* =========================================================
-   RESPONSIVE MOBILE
+   RESPONSIVE SMARTPHONE
    ========================================================= */
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
+    .podium-visual {
+        gap: 10px;
+        height: 220px;
+        margin-bottom: 30px;
+    }
+    .podium-card { padding: 12px; }
+    .p-1 { height: 200px; }
+    .p-2 { height: 170px; }
+    .p-3 { height: 150px; }
+    .podium-badge { width: 40px; height: 40px; font-size: 16px; }
+    .p-1 .podium-badge { width: 46px; height: 46px; font-size: 20px; }
+    .podium-card .team-name { font-size: 13px; }
+
     .leaderboard-table th:nth-child(3),
     .leaderboard-table td:nth-child(3) {
-        display: none; /* Masque la colonne membre sur petit écran */
+        display: none;
     }
-    
-    .leaderboard-table th, 
-    .leaderboard-table td {
-        padding: 14px 18px;
+    .leaderboard-table th, .leaderboard-table td {
+        padding: 16px 16px;
         font-size: 13px;
-    }
-    
-    .dashboard-container {
-        margin-top: 40px;
     }
 }
 
