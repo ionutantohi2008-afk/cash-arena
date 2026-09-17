@@ -1,242 +1,238 @@
 /* =========================================================
-   CASH ARENA — TEAMS DASHBOARD BRANDING (EDITION SUPREME)
+   CASH ARENA — TEAMS DASHBOARD STYLE DE L'IMAGE
    ========================================================= */
 
 * {
     box-sizing: border-box;
-    font-family: 'Arial Black', 'Impact', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
     min-height: 100vh;
+    font-family: 'Arial Black', 'Impact', sans-serif;
     color: #ffffff;
-    background: #02040a;
+    /* 🌟 Chargement de l'illustration et des lueurs de l'image */
+    background: 
+        linear-gradient(180deg, rgba(2, 4, 10, 0.4) 0%, rgba(2, 4, 10, 0.88) 100%),
+        url('background.png') no-repeat center center fixed;
+    background-size: cover;
     overflow-x: hidden;
     padding-bottom: 60px;
+    display: flex;
+    justify-content: center;
 }
 
-/* =========================================================
-   BACKGROUND GAMING OFFICIEL (LOOK IMAGE BRAWL STARS)
-   ========================================================= */
-
-.gaming-bg {
-    position: fixed;
-    inset: 0;
-    z-index: -3;
-    /* On charge l'image officielle Brawl Stars et on applique un dégradé sombre pour faire ressortir le tableau */
-    background: 
-        linear-gradient(180deg, rgba(5, 8, 20, 0.4) 0%, rgba(5, 8, 20, 0.85) 100%),
-        url('https://unsplash.com') no-repeat center center;
-    background-size: cover;
-}
-
-/* Version optimisée si vous préférez l'illustration exacte de la saison de l'image */
-@support (background-blend-mode: overlay) {
-    .gaming-bg {
-        background-image: 
-            radial-gradient(circle at 50% 30%, rgba(0, 240, 255, 0.2), #050814 90%),
-            url('https://alphacoders.com'); /* Lien HD direct de l'illustration Brawl Stars */
-        background-size: cover;
-        background-position: center 20%;
+/* Fond de secours si l'image locale n'est pas chargée */
+@supports not (background-image: url('background.png')) {
+    body {
+        background: 
+            radial-gradient(circle at 50% 15%, rgba(0, 188, 255, 0.15), transparent 50%),
+            radial-gradient(circle at 50% 85%, rgba(121, 40, 202, 0.08), transparent 60%),
+            #030611;
     }
 }
 
 .dashboard-container {
-    width: min(1050px, calc(100% - 40px));
-    margin: 40px auto 0;
+    width: min(1000px, calc(100% - 40px));
+    margin-top: 50px;
     text-align: center;
 }
 
 /* =========================================================
-   EN-TÊTE DU DASHBOARD
+   Header (Look exact de l'image)
    ========================================================= */
 
+.header-section {
+    margin-bottom: 25px;
+}
+
 .header-section h1 {
-    font-size: clamp(38px, 6vw, 64px);
+    font-size: clamp(36px, 5vw, 56px);
     font-weight: 950;
     text-transform: uppercase;
-    letter-spacing: -2px;
-    line-height: 0.95;
-    margin: 0;
+    letter-spacing: -1.5px;
+    line-height: 1;
     color: #ffffff;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
 }
 
 .season-title {
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 900;
-    color: #00ffaa;
+    color: #00ffaa; /* Vert fluo pour SAISON 1 comme sur l'image */
     text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-top: 5px;
+    letter-spacing: 4px;
+    margin-top: 8px;
 }
 
 /* =========================================================
-   BOÎTE DU TIMER EN HEXAGONE (LOOK IMAGE)
+   Boîte de Compte à rebours Horizon Néon (Look exact de l'image)
    ========================================================= */
 
 .timer-section-box {
-    margin: 30px auto;
+    margin: 20px auto 40px auto;
     display: inline-block;
-    text-align: center;
 }
 
 .timer-title {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 900;
-    color: #00e5ff;
+    color: #00e5ff; /* Cyan comme sur l'image */
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .timer-hexagon-container {
-    background: linear-gradient(180deg, #07162c 0%, #030a16 100%);
-    border: 2px solid #00bcff;
-    box-shadow: 0 0 20px rgba(0, 188, 255, 0.25), inset 0 0 15px rgba(0, 188, 255, 0.1);
+    background: linear-gradient(180deg, #051425 0%, #020812 100%);
+    border: 2px solid #00aaff; /* Bordure fine bleue cyan */
+    box-shadow: 
+        0 0 20px rgba(0, 170, 255, 0.3), 
+        inset 0 0 15px rgba(0, 170, 255, 0.15);
     border-radius: 14px;
-    padding: 10px 40px;
+    padding: 10px 45px;
     display: flex;
     align-items: center;
-    gap: 25px;
+    justify-content: center;
+    gap: 30px;
 }
 
 .timer-segment {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 55px;
 }
 
 .timer-number {
     font-size: 26px;
     font-weight: 950;
-    color: #00ff9d; /* Vert fluo brillant */
+    color: #00ff9d; /* Vert fluo brillant des chiffres */
     text-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
     line-height: 1;
 }
 
 .timer-sublabel {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 900;
     color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 5px;
+    margin-top: 6px;
 }
 
 /* =========================================================
-   TABLEAU LOOK TECH-HUD BRAWL STARS
+   Tableau Look Tech-HUD avec contours bleutés (Look exact de l'image)
    ========================================================= */
 
 .leaderboard-table-wrapper {
-    background: linear-gradient(180deg, #050d1a 0%, #02060e 100%);
-    border: 3px solid #0a2444;
-    border-radius: 20px;
-    overflow: hidden;
+    background: linear-gradient(180deg, rgba(4, 11, 24, 0.85) 0%, rgba(2, 6, 14, 0.95) 100%);
+    border: 2px solid #0d284a; /* Contour bleu foncé tech de l'image */
+    border-radius: 16px;
+    padding: 15px;
     box-shadow: 
-        0 30px 70px rgba(0, 0, 0, 0.6),
-        0 0 40px rgba(0, 110, 255, 0.15);
-    padding: 5px;
+        0 30px 60px rgba(0, 0, 0, 0.6),
+        0 0 30px rgba(0, 110, 255, 0.1);
 }
 
 .leaderboard-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 8px; /* Crée l'espace entre les lignes */
+    border-spacing: 0 10px; /* Espace pour l'effet de blocs séparés */
     text-align: left;
 }
 
 .leaderboard-table th {
-    padding: 18px 25px;
+    padding: 10px 20px;
     font-size: 11px;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
     letter-spacing: 1.5px;
+    border: none;
 }
 
-/* Lignes du tableau stylisées en conteneurs individuels */
 .leaderboard-table tbody tr {
-    background: #091526;
-    border: 1px solid #132a4a;
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.02);
+    background: #071222;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+    background: #0b1c36;
+    transform: scale(1.005);
 }
 
 .leaderboard-table td {
-    padding: 15px 25px;
-    font-size: 15px;
+    padding: 16px 20px;
+    font-size: 14px;
     font-weight: 800;
     color: #ffffff;
-    border-top: 1px solid #132a4a;
-    border-bottom: 1px solid #132a4a;
+    border-top: 1px solid #112644;
+    border-bottom: 1px solid #112644;
 }
 
+/* Arrondis des lignes blocs */
 .leaderboard-table td:first-child {
-    border-left: 1px solid #132a4a;
+    border-left: 1px solid #112644;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+    text-align: center;
+    width: 80px;
 }
 
 .leaderboard-table td:last-child {
-    border-right: 1px solid #132a4a;
+    border-right: 1px solid #112644;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 
-/* Animation au survol */
-.leaderboard-table tbody tr:hover {
-    background: #0d213d;
-}
-
-/* =========================================================
-   BADGES DE RANGS LOGO IMAGE
-   ========================================================= */
-
+/* Pastilles rondes pour les numéros de rang (Look exact de l'image) */
 .rank-badge-box {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     font-weight: 950;
-    font-size: 15px;
+    font-size: 14px;
     color: #ffffff;
-    background: #172a45;
-    border: 2px solid #2d4b75;
+    background: #14243b;
+    border: 2px solid #253f63;
 }
 
-/* Top 3 Premium de l'image */
-.row-podium-1 { background: linear-gradient(90deg, #181912 0%, #091526 100%) !important; }
+/* 🥇 Équipe Rang 1 */
+.row-podium-1 { background: linear-gradient(90deg, #161811 0%, #071222 100%) !important; }
 .row-podium-1 td { border-color: #ffd000 !important; }
 .row-podium-1 .rank-badge-box {
     background: #ffd000;
     color: #000000;
     border-color: #ffffff;
-    box-shadow: 0 0 15px rgba(255, 208, 0, 0.4);
+    box-shadow: 0 0 12px rgba(255, 208, 0, 0.4);
 }
 
-.row-podium-2 { background: linear-gradient(90deg, #131a26 0%, #091526 100%) !important; }
-.row-podium-2 td { border-color: #00bcff !important; }
+/* 🥈 Équipe Rang 2 */
+.row-podium-2 { background: linear-gradient(90deg, #0d1724 0%, #071222 100%) !important; }
+.row-podium-2 td { border-color: #00bfff !important; }
 .row-podium-2 .rank-badge-box {
-    background: #00bcff;
+    background: #00bfff;
     color: #000000;
     border-color: #ffffff;
-    box-shadow: 0 0 15px rgba(0, 188, 255, 0.4);
+    box-shadow: 0 0 12px rgba(0, 191, 255, 0.4);
 }
 
-.row-podium-3 { background: linear-gradient(90deg, #191410 0%, #091526 100%) !important; }
-.row-podium-3 td { border-color: #ff7700 !important; }
+/* 🥉 Équipe Rang 3 */
+.row-podium-3 { background: linear-gradient(90deg, #1b130e 0%, #071222 100%) !important; }
+.row-podium-3 td { border-color: #ff6a00 !important; }
 .row-podium-3 .rank-badge-box {
-    background: #ff7700;
+    background: #ff6a00;
     color: #ffffff;
     border-color: #ffffff;
-    box-shadow: 0 0 15px rgba(255, 119, 0, 0.4);
+    box-shadow: 0 0 12px rgba(255, 106, 0, 0.4);
 }
 
-/* Colonnes Spécifiques */
 .team-name-text {
     font-weight: 900;
     text-transform: uppercase;
@@ -248,37 +244,35 @@ body {
     font-weight: 950;
 }
 
-/* Badges de Gains Verts/Orange de l'image */
+/* Badges de Gains */
 .reward-display-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 13px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
     font-weight: 950;
 }
 
 .row-podium-1 .reward-display-badge {
-    background: rgba(0, 255, 120, 0.15);
+    background: rgba(0, 255, 120, 0.12);
     border: 1px solid #00ff78;
     color: #00ff78;
 }
 
 .row-podium-2 .reward-display-badge,
 .row-podium-3 .reward-display-badge {
-    background: rgba(255, 165, 0, 0.15);
+    background: rgba(255, 165, 0, 0.12);
     border: 1px solid #ffa500;
     color: #ffa500;
 }
 
 .reward-none {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.25);
     font-weight: 700;
 }
 
-/* Mobile responsive */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     .leaderboard-table th:nth-child(3),
     .leaderboard-table td:nth-child(3) {
         display: none;
