@@ -248,29 +248,32 @@ function displayTeam(team) {
     }
 
 
-    // ==================================================
+ // ==================================================
     // CLASSEMENT
     // ==================================================
 
     if (teamRank) {
 
-        if (team.rank) {
+        if (team.currentSeasonRank) {
 
-            teamRank.innerText =
-                "#" +
-                team.rank;
+            teamRank.innerHTML = `
+                <div style="display:flex; flex-direction:column; gap:4px;">
+                    <span style="color:#ffd000; font-weight:950;">#${team.currentSeasonRank} (Saison 1)</span>
+                    <small style="font-size:10px; opacity:0.5;">Global: #${team.rank || '-'}</small>
+                </div>
+            `;
+
+        } else if (team.rank) {
+
+            teamRank.innerText = "#" + team.rank;
 
         } else {
 
-            teamRank.innerText =
-                "-";
+            teamRank.innerText = "-";
 
         }
 
     }
-
-}
-
 
 // ======================================================
 // CHARGEMENT DES MEMBRES
@@ -373,6 +376,8 @@ async function loadTeamMembers() {
         `;
 
     }
+}
+
 }
 
 
