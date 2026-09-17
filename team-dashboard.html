@@ -69,40 +69,46 @@
 
         // Script d'affichage des données
         async function fetchLeaderboard() {
-            try {
-                // Remplace par l'URL de ton API de production si nécessaire
-                const response = await fetch("/api/teams/leaderboard");
-                const resData = await response.json();
-                if(!resData.success) return;
+    try {
+        // 🚀 Lien Render unique et officiel de Cash Arena
+        const BACKEND_URL = "https://onrender.com";
 
-                const tbody = document.getElementById("leaderboardBody");
-                tbody.innerHTML = "";
-
-                resData.leaderboard.forEach(team => {
-                    let podiumClass = "";
-                    let rankDisplay = `<span class="rank-tag">${team.rank}</span>`;
-                    let rewardBadge = team.reward !== "-" ? `<span class="reward-badge">💰 ${team.reward}</span>` : "-";
-
-                    if(team.rank === 1) { podiumClass = "row-podium-1"; rankDisplay = `<span class="rank-tag rank-1">1</span>`; }
-                    else if(team.rank === 2) { podiumClass = "row-podium-2"; rankDisplay = `<span class="rank-tag rank-2">2</span>`; }
-                    else if(team.rank === 3) { podiumClass = "row-podium-3"; rankDisplay = `<span class="rank-tag rank-3">3</span>`; }
-
-                    const row = `
-                        <tr class="${podiumClass}">
-                            <td>${rankDisplay}</td>
-                            <td><strong style="color:#ffffff;">${team.name}</strong></td>
-                            <td>👥 ${team.membersCount} membres</td>
-                            <td style="color:#ffd000; font-weight:900;">${team.points} pts</td>
-                            <td>${rewardBadge}</td>
-                        </tr>
-                    `;
-                    tbody.insertAdjacentHTML("beforeend", row);
-                });
-            } catch(err) {
-                console.error("Erreur affichage classement :", err);
-            }
+        const response = await fetch(`${BACKEND_URL}/api/teams/leaderboard`);
+        
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP : statut ${response.status}`);
         }
-        document.addEventListener("DOMContentLoaded", fetchLeaderboard);
+
+        const resData = await response.json();
+        if(!resData.success) return;
+
+        const tbody = document.getElementById("leaderboardBody");
+        tbody.innerHTML = "";
+
+        resData.leaderboard.forEach(team => {
+            let podiumClass = "";
+            let rankDisplay = `<span class="rank-tag">${team.rank}</span>`;
+            let rewardBadge = team.reward !== "-" ? `<span class="reward-badge">💰 ${team.reward}</span>` : "-";
+
+            if(team.rank === 1) { podiumClass = "row-podium-1"; rankDisplay = `<span class="rank-tag rank-1">1</span>`; }
+            else if(team.rank === 2) { podiumClass = "row-podium-2"; rankDisplay = `<span class="rank-tag rank-2">2</span>`; }
+            else if(team.rank === 3) { podiumClass = "row-podium-3"; rankDisplay = `<span class="rank-tag rank-3">3</span>`; }
+
+            const row = `
+                <tr class="${podiumClass}">
+                    <td>${rankDisplay}</td>
+                    <td><strong style="color:#ffffff;">${team.name}</strong></td>
+                    <td>👥 ${team.membersCount} membres</td>
+                    <td style="color:#ffd000; font-weight:900;">${team.points} pts</td>
+                    <td>${rewardBadge}</td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML("beforeend", row);
+        });
+    } catch(err) {
+        console.error("Erreur affichage classement :", err);
+    }
+}
     </script>
 </body>
 </html>
