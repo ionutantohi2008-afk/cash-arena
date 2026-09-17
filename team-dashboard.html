@@ -8,137 +8,133 @@
 </head>
 <body>
     <div class="gaming-bg"></div>
-    <div class="gaming-grid"></div>
-    <div class="gaming-glow"></div>
 
     <div class="dashboard-container">
         <div class="header-section">
             <h1>Teams Dashboard</h1>
-            <div class="season-badge">Saison 1</div>
+            <div class="season-title">Saison 1</div>
         </div>
 
-        <div class="timer-box">
-            <span class="timer-label">Prochaine saison</span>
-            <div class="timer-countdown" id="seasonTimer">Chargement...</div>
+        <!-- Section du compteur technologique -->
+        <div class="timer-section-box">
+            <div class="timer-title">Prochaine saison</div>
+            <div class="timer-hexagon-container">
+                <div class="timer-segment">
+                    <span class="timer-number" id="t-days">00</span>
+                    <span class="timer-sublabel">Jours</span>
+                </div>
+                <div class="timer-segment">
+                    <span class="timer-number" id="t-hours">00</span>
+                    <span class="timer-sublabel">Heures</span>
+                </div>
+                <div class="timer-segment">
+                    <span class="timer-number" id="t-mins">00</span>
+                    <span class="timer-sublabel">Minutes</span>
+                </div>
+                <div class="timer-segment">
+                    <span class="timer-number" id="t-secs">00</span>
+                    <span class="timer-sublabel">Secondes</span>
+                </div>
+            </div>
         </div>
 
-        <!-- 🏆 PODIUM GRAPHIQUE EN 3D SÉCURISÉ -->
-        <div class="podium-visual" id="podiumVisualContainer" style="display: none;">
-            <!-- Rempli en JS par le Top 3 -->
-        </div>
-
-        <!-- TABLEAU DE TOUTES LES ÉQUIPES -->
+        <!-- Tableau des Équipes -->
         <div class="leaderboard-table-wrapper">
             <table class="leaderboard-table">
                 <thead>
                     <tr>
-                        <th style="width: 80px;">Rang</th>
+                        <th style="width: 100px;">Rang</th>
                         <th>Équipe</th>
-                        <th style="width: 160px;">Membres</th>
-                        <th style="width: 160px;">Score Cumulé</th>
-                        <th style="width: 160px;">Récompense</th>
+                        <th style="width: 180px;">Membres</th>
+                        <th style="width: 180px;">Score Cumulé</th>
+                        <th style="width: 180px;">Récompense</th>
                     </tr>
                 </thead>
                 <tbody id="leaderboardBody">
-                    <!-- Rempli en JS -->
+                    <!-- Données injectées en JS -->
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // Configuration de la fin de saison (Format: AAAA-MM-JJTHH:mm:ss)
+        // Mettre à jour l'instant de fin de saison (Format: AAAA-MM-JJTHH:mm:ss)
         const TARGET_DATE = new Date("2026-10-30T20:00:00").getTime();
 
         function updateTimer() {
             const now = new Date().getTime();
             const diff = TARGET_DATE - now;
+            
             if(diff <= 0) {
-                document.getElementById("seasonTimer").innerText = "SAISON TERMINÉE !";
+                document.getElementById("t-days").innerText = "00";
+                document.getElementById("t-hours").innerText = "00";
+                document.getElementById("t-mins").innerText = "00";
+                document.getElementById("t-secs").innerText = "00";
                 return;
             }
+            
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById("seasonTimer").innerText = `${days}j ${hours}h ${minutes}m ${seconds}s`;
+            
+            document.getElementById("t-days").innerText = String(days).padStart(2, '0');
+            document.getElementById("t-hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("t-mins").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("t-secs").innerText = String(seconds).padStart(2, '0');
         }
+        
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // Chargement du classement complet
+        // Récupération des données depuis Render
         async function fetchLeaderboard() {
             const tbody = document.getElementById("leaderboardBody");
-            const podiumContainer = document.getElementById("podiumVisualContainer");
             if (!tbody) return;
 
             try {
-                const BACKEND_URL = "https://cash-arena-api.onrender.com";
+                const BACKEND_URL = "https://onrender.com";
                 const response = await fetch(`${BACKEND_URL}/api/teams/leaderboard`);
                 
                 if (!response.ok) {
-                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff4646;">⚠️ Erreur Serveur</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff4646;">⚠️ Erreur de liaison serveur</td></tr>`;
                     return;
                 }
 
                 const resData = await response.json();
-                if(!resData.success || !resData.leaderboard || resData.leaderboard.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#64748b;">👥 Aucune équipe dans cette saison.</td></tr>`;
-                    return;
-                }
+                if(!resData.success || !resData.leaderboard) return;
 
                 tbody.innerHTML = "";
-                podiumContainer.innerHTML = "";
-                let top3 = {1: null, 2: null, 3: null};
 
                 resData.leaderboard.forEach(team => {
-                    // Collecte pour le podium graphique
-                    if (team.rank <= 3) {
-                        top3[team.rank] = team;
-                    }
-
                     let podiumClass = "";
-                    if(team.rank === 1) podiumClass = "row-podium-1";
-                    else if(team.rank === 2) podiumClass = "row-podium-2";
-                    else if(team.rank === 3) podiumClass = "row-podium-3";
+                    let rewardDisplay = `<span class="reward-none">—</span>`;
 
-                    let rewardBadge = team.reward !== "-" ? `<span class="reward-badge">💰 ${team.reward}</span>` : "-";
+                    if(team.rank === 1) {
+                        podiumClass = "row-podium-1";
+                        rewardDisplay = `<span class="reward-display-badge">💵 ${team.reward}</span>`;
+                    } else if(team.rank === 2) {
+                        podiumClass = "row-podium-2";
+                        rewardDisplay = `<span class="reward-display-badge">🎁 ${team.reward}</span>`;
+                    } else if(team.rank === 3) {
+                        podiumClass = "row-podium-3";
+                        rewardDisplay = `<span class="reward-display-badge">🎁 ${team.reward}</span>`;
+                    }
 
                     const row = `
                         <tr class="${podiumClass}">
-                            <td><span class="rank-tag">${team.rank}</span></td>
-                            <td><strong style="color:#ffffff;">${team.name}</strong></td>
+                            <td><div class="rank-badge-box">${team.rank}</div></td>
+                            <td><span class="team-name-text">${team.name}</span></td>
                             <td>👥 ${team.membersCount} membres</td>
-                            <td style="color:#ffd000; font-weight:900;">${team.points} pts</td>
-                            <td>${rewardBadge}</td>
+                            <td><span class="score-text">⭐ ${team.points.toLocaleString()}</span></td>
+                            <td>${rewardDisplay}</td>
                         </tr>
                     `;
                     tbody.insertAdjacentHTML("beforeend", row);
                 });
-
-                // Génération visuelle des boîtes 3D du Podium s'il y a des équipes
-                if (top3[1]) {
-                    podiumContainer.style.display = "flex";
-                    
-                    // Box 1er
-                    let p1Html = `<div class="podium-card p-1"><div class="podium-badge">👑</div><div class="team-name">${top3[1].name}</div><div class="team-pts">${top3[1].points} pts</div></div>`;
-                    podiumContainer.insertAdjacentHTML("beforeend", p1Html);
-
-                    // Box 2e (si présent)
-                    if (top3[2]) {
-                        let p2Html = `<div class="podium-card p-2"><div class="podium-badge">2</div><div class="team-name">${top3[2].name}</div><div class="team-pts">${top3[2].points} pts</div></div>`;
-                        podiumContainer.insertAdjacentHTML("beforeend", p2Html);
-                    }
-                    // Box 3e (si présent)
-                    if (top3[3]) {
-                        let p3Html = `<div class="podium-card p-3"><div class="podium-badge">3</div><div class="team-name">${top3[3].name}</div><div class="team-pts">${top3[3].points} pts</div></div>`;
-                        podiumContainer.insertAdjacentHTML("beforeend", p3Html);
-                    }
-                }
-
             } catch(err) {
                 console.error("Erreur :", err);
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff4646;">❌ Échec de la connexion</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff4646;">❌ Serveur injoignable</td></tr>`;
             }
         }
         document.addEventListener("DOMContentLoaded", fetchLeaderboard);
