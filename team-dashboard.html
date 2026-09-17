@@ -92,10 +92,8 @@
         // Script d'affichage des données
         async function fetchLeaderboard() {
     try {
-        // 🚀 Lien Render unique et officiel de Cash Arena
-        const BACKEND_URL = "https://onrender.com";
 
-        const response = await fetch(`${BACKEND_URL}/api/teams/leaderboard`);
+        const response = await fetch(`https://cash-arena-api.onrender.com/api/teams/leaderboard`);
         
         if (!response.ok) {
             throw new Error(`Erreur HTTP : statut ${response.status}`);
