@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <!-- Script de gestion du minuteur -->
+        <!-- Script de gestion du minuteur et récupération du classement -->
     <script>
         // Règle ici la date de fin de la saison (Format: AAAA-MM-JJTHH:mm:ss)
         const TARGET_DATE = new Date("2026-10-30T20:00:00").getTime();
@@ -89,47 +89,72 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // Script d'affichage des données
+        // Script d'affichage des données ultra-sécurisé
         async function fetchLeaderboard() {
-    try {
+            const tbody = document.getElementById("leaderboardBody");
+            if (!tbody) {
+                console.error("Erreur critique : L'élément HTML 'leaderboardBody' est introuvable dans la page !");
+                return;
+            }
 
-        const response = await fetch(`https://cash-arena-api.onrender.com/api/teams/leaderboard`);
-        
-        if (!response.ok) {
-            throw new Error(`Erreur HTTP : statut ${response.status}`);
+            try {
+                const BACKEND_URL = "https://onrender.com";
+                console.log("📡 Envoi de la requête à :", `${BACKEND_URL}/api/teams/leaderboard`);
+                
+                const response = await fetch(`${BACKEND_URL}/api/teams/leaderboard`);
+                
+                if (!response.ok) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff4646;">⚠️ Erreur Serveur (Statut ${response.status})</td></tr>`;
+                    throw new Error(`Erreur HTTP : statut ${response.status}`);
+                }
+
+                const resData = await response.json();
+                console.log("📥 Données reçues du serveur :", resData);
+
+                if(!resData.success || !resData.leaderboard) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff4646;">⚠️ Le serveur n'a renvoyé aucune équipe valide.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = "";
+
+                if (resData.leaderboard.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#aeb5c4;">👥 Aucune équipe enregistrée pour le moment.</td></tr>`;
+                    return;
+                }
+
+                resData.leaderboard.forEach(team => {
+                    let podiumClass = "";
+                    let rankDisplay = `<span class="rank-tag">${team.rank}</span>`;
+                    let rewardBadge = team.reward !== "-" ? `<span class="reward-badge">💰 ${team.reward}</span>` : "-";
+
+                    if(team.rank === 1) { podiumClass = "row-podium-1"; rankDisplay = `<span class="rank-tag rank-1">1</span>`; }
+                    else if(team.rank === 2) { podiumClass = "row-podium-2"; rankDisplay = `<span class="rank-tag rank-2">2</span>`; }
+                    else if(team.rank === 3) { podiumClass = "row-podium-3"; rankDisplay = `<span class="rank-tag rank-3">3</span>`; }
+
+                    const row = `
+                        <tr class="${podiumClass}">
+                            <td>${rankDisplay}</td>
+                            <td><strong style="color:#ffffff;">${team.name || 'Équipe sans nom'}</strong></td>
+                            <td>👥 ${team.membersCount || 0} membres</td>
+                            <td style="color:#ffd000; font-weight:900;">${team.points || 0} pts</td>
+                            <td>${rewardBadge}</td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML("beforeend", row);
+                });
+                
+                console.log("✅ Injection HTML réussie pour toutes les équipes !");
+
+            } catch(err) {
+                console.error("Erreur affichage classement :", err);
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff4646;">❌ Impossible de charger les données : ${err.message}</td></tr>`;
+            }
         }
-
-        const resData = await response.json();
-        if(!resData.success) return;
-
-        const tbody = document.getElementById("leaderboardBody");
-        tbody.innerHTML = "";
-
-        resData.leaderboard.forEach(team => {
-            let podiumClass = "";
-            let rankDisplay = `<span class="rank-tag">${team.rank}</span>`;
-            let rewardBadge = team.reward !== "-" ? `<span class="reward-badge">💰 ${team.reward}</span>` : "-";
-
-            if(team.rank === 1) { podiumClass = "row-podium-1"; rankDisplay = `<span class="rank-tag rank-1">1</span>`; }
-            else if(team.rank === 2) { podiumClass = "row-podium-2"; rankDisplay = `<span class="rank-tag rank-2">2</span>`; }
-            else if(team.rank === 3) { podiumClass = "row-podium-3"; rankDisplay = `<span class="rank-tag rank-3">3</span>`; }
-
-            const row = `
-                <tr class="${podiumClass}">
-                    <td>${rankDisplay}</td>
-                    <td><strong style="color:#ffffff;">${team.name}</strong></td>
-                    <td>👥 ${team.membersCount} membres</td>
-                    <td style="color:#ffd000; font-weight:900;">${team.points} pts</td>
-                    <td>${rewardBadge}</td>
-                </tr>
-            `;
-            tbody.insertAdjacentHTML("beforeend", row);
-        });
-    } catch(err) {
-        console.error("Erreur affichage classement :", err);
-    }
-}
+        
+        document.addEventListener("DOMContentLoaded", fetchLeaderboard);
     </script>
+
 </body>
 </html>
 
