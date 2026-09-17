@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cash Arena • Teams Dashboard</title>
-    <link rel="stylesheet" href="team-dashboard.css?v=2">
+    <link rel="stylesheet" href="team-dashboard.css?v=3">
+    <style>
+        /* 🌟 LE CORRECTIF DE FORCE POUR L'ARRIÈRE-PLAN DE L'IMAGE */
+        body {
+            background: 
+                linear-gradient(180deg, rgba(2, 4, 10, 0.45) 0%, rgba(2, 4, 10, 0.9) 100%),
+                url('https://alphacoders.com') no-repeat center center !important;
+            background-size: cover !important;
+            background-attachment: fixed !important;
+            background-color: #02040a !important;
+        }
+        
+        /* On désactive l'ancien bloc pour éviter les conflits */
+        .gaming-bg {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
+    
     <div class="gaming-bg"></div>
 
     <div class="dashboard-container">
