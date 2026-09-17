@@ -12,19 +12,21 @@ body {
     min-height: 100vh;
     font-family: 'Arial Black', 'Impact', sans-serif;
     color: #ffffff;
-    /* Chargement de l'illustration */
+    /* Chargement de l'illustration en arrière-plan */
     background: 
         linear-gradient(180deg, rgba(2, 4, 10, 0.5) 0%, rgba(2, 4, 10, 0.92) 100%),
         url('background.png') no-repeat center center fixed;
     background-size: cover;
     overflow-x: hidden;
     padding-bottom: 60px;
-    /* 🌟 MODIFICATION : On passe en colonne pour empiler la Navbar puis le Dashboard */
-    display: flex;
-    flex-direction: column;
+    
+    /* 🌟 FIX INDISPENSABLE : Alignement vertical pour empiler la navbar puis le tableau */
+    display: block; 
 }
 
-/* 🌟 STYLE DE VOTRE NAVBAR ADAPTÉ POUR LE DASHBOARD */
+/* =========================================================
+   STYLE DE LA NAVBAR CAS-ARENA HAUT DE GAMME
+   ========================================================= */
 .navbar {
     width: 100%;
     height: 75px;
@@ -35,7 +37,8 @@ body {
     background: rgba(5, 7, 13, 0.88);
     border-bottom: 1px solid rgba(255, 193, 7, 0.15);
     backdrop-filter: blur(15px);
-    z-index: 10;
+    position: relative;
+    z-index: 100;
 }
 
 .logo {
@@ -72,24 +75,25 @@ body {
     align-items: center;
 }
 
-/* 🌟 NOUVEAU BLOC DE CENTRAGE DU DASHBOARD */
+/* =========================================================
+   CONTENEUR CENTRAL DU CLASSEMENT
+   ========================================================= */
 .main-dashboard-content {
     width: 100%;
     display: flex;
-    justify-content: center;
-    flex-grow: 1;
+    justify-content: center; /* Centre horizontalement sur l'axe X */
+    padding: 40px 0;
 }
 
 .dashboard-container {
     width: min(1000px, calc(100% - 40px));
-    margin-top: 40px;
-    text-align: center;
+    text-align: center; /* Centre tous les titres, compteurs et tableaux */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Force tous les blocs internes à se caler au milieu exact */
 }
 
-/* =========================================================
-   Header (Look exact de l'image)
-   ========================================================= */
-
+/* Header */
 .header-section {
     margin-bottom: 25px;
 }
@@ -108,16 +112,13 @@ body {
     display: inline-block;
     font-size: 14px;
     font-weight: 900;
-    color: #00ffaa; /* Vert fluo pour SAISON 1 comme sur l'image */
+    color: #00ffaa;
     text-transform: uppercase;
     letter-spacing: 4px;
     margin-top: 8px;
 }
 
-/* =========================================================
-   Boîte de Compte à rebours Horizon Néon (Look exact de l'image)
-   ========================================================= */
-
+/* Compteur de temps */
 .timer-section-box {
     margin: 20px auto 40px auto;
     display: inline-block;
@@ -126,7 +127,7 @@ body {
 .timer-title {
     font-size: 10px;
     font-weight: 900;
-    color: #00e5ff; /* Cyan comme sur l'image */
+    color: #00e5ff;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 12px;
@@ -134,7 +135,7 @@ body {
 
 .timer-hexagon-container {
     background: linear-gradient(180deg, #051425 0%, #020812 100%);
-    border: 2px solid #00aaff; /* Bordure fine bleue cyan */
+    border: 2px solid #00aaff;
     box-shadow: 
         0 0 20px rgba(0, 170, 255, 0.3), 
         inset 0 0 15px rgba(0, 170, 255, 0.15);
@@ -156,7 +157,7 @@ body {
 .timer-number {
     font-size: 26px;
     font-weight: 950;
-    color: #00ff9d; /* Vert fluo brillant des chiffres */
+    color: #00ff9d;
     text-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
     line-height: 1;
 }
@@ -170,13 +171,11 @@ body {
     margin-top: 6px;
 }
 
-/* =========================================================
-   Tableau Look Tech-HUD avec contours bleutés (Look exact de l'image)
-   ========================================================= */
-
+/* Tableau */
 .leaderboard-table-wrapper {
+    width: 100%; /* Occupe toute la largeur disponible du container centré */
     background: linear-gradient(180deg, rgba(4, 11, 24, 0.85) 0%, rgba(2, 6, 14, 0.95) 100%);
-    border: 2px solid #0d284a; /* Contour bleu foncé tech de l'image */
+    border: 2px solid #0d284a;
     border-radius: 16px;
     padding: 15px;
     box-shadow: 
@@ -187,7 +186,7 @@ body {
 .leaderboard-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 10px; /* Espace pour l'effet de blocs séparés */
+    border-spacing: 0 10px;
     text-align: left;
 }
 
@@ -198,17 +197,10 @@ body {
     color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    border: none;
 }
 
 .leaderboard-table tbody tr {
     background: #071222;
-    transition: transform 0.15s ease, background 0.15s ease;
-}
-
-.leaderboard-table tbody tr:hover {
-    background: #0b1c36;
-    transform: scale(1.005);
 }
 
 .leaderboard-table td {
@@ -220,7 +212,6 @@ body {
     border-bottom: 1px solid #112644;
 }
 
-/* Arrondis des lignes blocs */
 .leaderboard-table td:first-child {
     border-left: 1px solid #112644;
     border-top-left-radius: 10px;
@@ -235,7 +226,6 @@ body {
     border-bottom-right-radius: 10px;
 }
 
-/* Pastilles rondes pour les numéros de rang (Look exact de l'image) */
 .rank-badge-box {
     display: inline-flex;
     align-items: center;
@@ -250,48 +240,22 @@ body {
     border: 2px solid #253f63;
 }
 
-/* 🥇 Équipe Rang 1 */
+/* Top 3 */
 .row-podium-1 { background: linear-gradient(90deg, #161811 0%, #071222 100%) !important; }
 .row-podium-1 td { border-color: #ffd000 !important; }
-.row-podium-1 .rank-badge-box {
-    background: #ffd000;
-    color: #000000;
-    border-color: #ffffff;
-    box-shadow: 0 0 12px rgba(255, 208, 0, 0.4);
-}
+.row-podium-1 .rank-badge-box { background: #ffd000; color: #000; border-color: #fff; }
 
-/* 🥈 Équipe Rang 2 */
 .row-podium-2 { background: linear-gradient(90deg, #0d1724 0%, #071222 100%) !important; }
 .row-podium-2 td { border-color: #00bfff !important; }
-.row-podium-2 .rank-badge-box {
-    background: #00bfff;
-    color: #000000;
-    border-color: #ffffff;
-    box-shadow: 0 0 12px rgba(0, 191, 255, 0.4);
-}
+.row-podium-2 .rank-badge-box { background: #00bfff; color: #000; border-color: #fff; }
 
-/* 🥉 Équipe Rang 3 */
 .row-podium-3 { background: linear-gradient(90deg, #1b130e 0%, #071222 100%) !important; }
 .row-podium-3 td { border-color: #ff6a00 !important; }
-.row-podium-3 .rank-badge-box {
-    background: #ff6a00;
-    color: #ffffff;
-    border-color: #ffffff;
-    box-shadow: 0 0 12px rgba(255, 106, 0, 0.4);
-}
+.row-podium-3 .rank-badge-box { background: #ff6a00; color: #fff; border-color: #fff; }
 
-.team-name-text {
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+.team-name-text { font-weight: 900; text-transform: uppercase; }
+.score-text { color: #ffd000; font-weight: 950; }
 
-.score-text {
-    color: #ffd000;
-    font-weight: 950;
-}
-
-/* Badges de Gains */
 .reward-display-badge {
     display: inline-flex;
     align-items: center;
@@ -300,36 +264,13 @@ body {
     font-size: 12px;
     font-weight: 950;
 }
-
-.row-podium-1 .reward-display-badge {
-    background: rgba(0, 255, 120, 0.12);
-    border: 1px solid #00ff78;
-    color: #00ff78;
-}
-
+.row-podium-1 .reward-display-badge { background: rgba(0, 255, 120, 0.12); border: 1px solid #00ff78; color: #00ff78; }
 .row-podium-2 .reward-display-badge,
-.row-podium-3 .reward-display-badge {
-    background: rgba(255, 165, 0, 0.12);
-    border: 1px solid #ffa500;
-    color: #ffa500;
-}
-
-.reward-none {
-    color: rgba(255, 255, 255, 0.25);
-    font-weight: 700;
-}
+.row-podium-3 .reward-display-badge { background: rgba(255, 165, 0, 0.12); border: 1px solid #ffa500; color: #ffa500; }
+.reward-none { color: rgba(255, 255, 255, 0.25); }
 
 @media (max-width: 650px) {
-    .leaderboard-table th:nth-child(3),
-    .leaderboard-table td:nth-child(3) {
-        display: none;
-    }
-    .leaderboard-table th, .leaderboard-table td {
-        padding: 12px 14px;
-        font-size: 13px;
-    }
-    .timer-hexagon-container {
-        padding: 8px 20px;
-        gap: 15px;
-    }
+    .leaderboard-table th:nth-child(3), .leaderboard-table td:nth-child(3) { display: none; }
+    .timer-hexagon-container { padding: 8px 20px; gap: 15px; }
 }
+

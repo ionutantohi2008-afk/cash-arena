@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cash Arena • Teams Dashboard</title>
-    <!-- On force la version 6 pour briser le cache du navigateur -->
+    <!-- On force la version 6 pour détruire l'ancien cache résiduel -->
     <link rel="stylesheet" href="team-dashboard.css?v=6">
 </head>
 <body>
 
-    <!-- 🌟 NAVBAR INTÉGRÉE PROPREMENT (REPRISE DE VOTRE CODE) -->
+    <!-- NAVBAR OFFICIELLE CASH ARENA -->
     <nav class="navbar">
         <a href="index.html" class="logo">⚡ Cash Arena</a>
         <div class="nav-links">
@@ -18,9 +18,12 @@
             <a href="league.html">LEAGUE</a>
             <a href="teams.html" class="active">ÉQUIPES</a>
         </div>
+
+        <div id="authSection"></div>
+        
     </nav>
 
-    <!-- 🌟 NOUVEAU CONTENEUR GÉNÉRAL POUR ISOLER LE DASHBOARD DU FLEX DE LA NAVBAR -->
+    <!-- ZONE DE CENTRAGE DU CLASSEMENT -->
     <div class="main-dashboard-content">
         <div class="dashboard-container">
             <div class="header-section">
@@ -28,6 +31,7 @@
                 <div class="season-title">Saison 1</div>
             </div>
 
+            <!-- Compteur -->
             <div class="timer-section-box">
                 <div class="timer-title">Prochaine saison</div>
                 <div class="timer-hexagon-container">
@@ -50,6 +54,7 @@
                 </div>
             </div>
 
+            <!-- Tableau complet -->
             <div class="leaderboard-table-wrapper">
                 <table class="leaderboard-table">
                     <thead>
@@ -153,7 +158,7 @@
                 });
             } catch(err) {
                 console.error("Erreur :", err);
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff4646; padding: 20px;">❌ Serveur injoignable (En attente de réveil...)</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff4646; padding: 20px;">❌ Serveur injoignable</td></tr>`;
             }
         }
         document.addEventListener("DOMContentLoaded", fetchLeaderboard);
