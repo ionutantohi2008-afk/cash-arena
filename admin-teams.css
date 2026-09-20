@@ -2034,3 +2034,703 @@ RESPONSIVE
     font-weight: 800 !important;
     text-transform: uppercase !important;
 }
+
+/* =========================================================
+   CORRECTION CARTES DES DEMANDES
+   Compatible avec admin-teams.js
+   ========================================================= */
+
+/* CONTENEUR DES CARTES */
+
+#teamRequests {
+    display: grid !important;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(380px, 1fr)
+    ) !important;
+    gap: 24px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+
+/* =========================================================
+   CARTE
+   ========================================================= */
+
+.team-request-card {
+    position: relative !important;
+
+    width: 100% !important;
+    box-sizing: border-box !important;
+
+    overflow: hidden !important;
+
+    border: 1px solid
+        rgba(255, 255, 255, 0.08) !important;
+
+    border-radius: 18px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20, 25, 40, 0.98),
+            rgba(8, 10, 18, 0.98)
+        ) !important;
+
+    box-shadow:
+        0 20px 55px
+        rgba(0, 0, 0, 0.35) !important;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease !important;
+}
+
+
+.team-request-card:hover {
+    transform: translateY(-4px) !important;
+
+    border-color:
+        rgba(255, 208, 0, 0.25) !important;
+
+    box-shadow:
+        0 25px 70px
+        rgba(0, 0, 0, 0.45) !important;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.team-request-card .request-card-header {
+    display: flex !important;
+
+    align-items: flex-start !important;
+
+    justify-content: space-between !important;
+
+    gap: 15px !important;
+
+    padding: 22px !important;
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.06) !important;
+}
+
+
+/* =========================================================
+   TITRE
+   ========================================================= */
+
+.team-request-card .request-title-section {
+    min-width: 0 !important;
+}
+
+
+.team-request-card .request-title-section h3 {
+    margin: 0 0 9px 0 !important;
+
+    color: #ffffff !important;
+
+    font-size: 22px !important;
+
+    font-weight: 900 !important;
+
+    line-height: 1.2 !important;
+
+    word-break: break-word !important;
+}
+
+
+/* =========================================================
+   STATUT
+   ========================================================= */
+
+.team-request-card .request-status {
+    display: inline-flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    padding: 6px 12px !important;
+
+    border-radius: 20px !important;
+
+    font-size: 9px !important;
+
+    font-weight: 900 !important;
+
+    letter-spacing: 0.8px !important;
+
+    text-transform: uppercase !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* EN ATTENTE */
+
+.team-request-card .request-status.pending {
+    background:
+        rgba(255, 193, 7, 0.10) !important;
+
+    border:
+        1px solid
+        rgba(255, 193, 7, 0.25) !important;
+
+    color: #ffd000 !important;
+}
+
+
+/* VALIDÉE */
+
+.team-request-card .request-status.approved {
+    background:
+        rgba(46, 213, 115, 0.10) !important;
+
+    border:
+        1px solid
+        rgba(46, 213, 115, 0.30) !important;
+
+    color: #2ed573 !important;
+}
+
+
+/* REFUSÉE */
+
+.team-request-card .request-status.rejected {
+    background:
+        rgba(255, 71, 87, 0.10) !important;
+
+    border:
+        1px solid
+        rgba(255, 71, 87, 0.30) !important;
+
+    color: #ff4757 !important;
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+.team-request-card .request-date {
+    flex-shrink: 0 !important;
+
+    color:
+        rgba(255, 255, 255, 0.30) !important;
+
+    font-size: 9px !important;
+
+    font-weight: 700 !important;
+
+    text-align: right !important;
+
+    line-height: 1.5 !important;
+}
+
+
+/* =========================================================
+   CORPS
+   ========================================================= */
+
+.team-request-card .request-card-body {
+    padding: 0 !important;
+}
+
+
+/* =========================================================
+   INFORMATIONS
+   ========================================================= */
+
+.team-request-card .request-info {
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    gap: 0 !important;
+
+    padding: 18px 22px !important;
+}
+
+
+.team-request-card .request-info-row {
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: space-between !important;
+
+    gap: 15px !important;
+
+    padding: 10px 0 !important;
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.035) !important;
+}
+
+
+.team-request-card .request-info-row:last-child {
+    border-bottom: none !important;
+}
+
+
+.team-request-card .request-info-label {
+    flex-shrink: 0 !important;
+
+    color:
+        rgba(255, 255, 255, 0.30) !important;
+
+    font-size: 8px !important;
+
+    font-weight: 900 !important;
+
+    letter-spacing: 1.5px !important;
+
+    text-transform: uppercase !important;
+}
+
+
+.team-request-card .request-info-value {
+    max-width: 70% !important;
+
+    overflow: hidden !important;
+
+    color:
+        rgba(255, 255, 255, 0.82) !important;
+
+    font-size: 11px !important;
+
+    font-weight: 700 !important;
+
+    text-align: right !important;
+
+    text-overflow: ellipsis !important;
+
+    white-space: nowrap !important;
+}
+
+
+.team-request-card .request-uid {
+    font-family: monospace !important;
+
+    color:
+        rgba(255, 255, 255, 0.45) !important;
+
+    font-size: 9px !important;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.team-request-card .request-description {
+    padding:
+        16px 22px !important;
+
+    margin: 0 !important;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.05) !important;
+}
+
+
+.team-request-card .request-description p {
+    margin: 8px 0 0 !important;
+
+    color:
+        rgba(255, 255, 255, 0.62) !important;
+
+    font-size: 12px !important;
+
+    line-height: 1.6 !important;
+
+    word-break: break-word !important;
+}
+
+
+/* =========================================================
+   MEMBRES
+   ========================================================= */
+
+.team-request-card .request-members {
+    padding:
+        16px 22px 20px !important;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.05) !important;
+}
+
+
+.team-request-card .members-list {
+    display: flex !important;
+
+    flex-wrap: wrap !important;
+
+    gap: 7px !important;
+
+    margin-top: 10px !important;
+}
+
+
+.team-request-card .team-member {
+    display: inline-flex !important;
+
+    align-items: center !important;
+
+    padding:
+        7px 10px !important;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.07) !important;
+
+    border-radius: 8px !important;
+
+    background:
+        rgba(255, 255, 255, 0.035) !important;
+
+    color:
+        rgba(255, 255, 255, 0.72) !important;
+
+    font-size: 10px !important;
+
+    font-weight: 700 !important;
+}
+
+
+.team-request-card .team-member-empty {
+    color:
+        rgba(255, 255, 255, 0.25) !important;
+
+    font-size: 10px !important;
+}
+
+
+/* =========================================================
+   RAISON DU REFUS
+   ========================================================= */
+
+.team-request-card .request-rejection {
+    margin:
+        0 22px 18px !important;
+
+    padding: 13px !important;
+
+    border:
+        1px solid
+        rgba(255, 71, 87, 0.20) !important;
+
+    border-radius: 10px !important;
+
+    background:
+        rgba(255, 71, 87, 0.055) !important;
+}
+
+
+.team-request-card .request-rejection strong {
+    display: block !important;
+
+    margin-bottom: 7px !important;
+
+    color: #ff4757 !important;
+
+    font-size: 9px !important;
+
+    font-weight: 900 !important;
+
+    letter-spacing: 1.5px !important;
+
+    text-transform: uppercase !important;
+}
+
+
+.team-request-card .request-rejection p {
+    margin: 0 !important;
+
+    color:
+        rgba(255, 255, 255, 0.60) !important;
+
+    font-size: 11px !important;
+
+    line-height: 1.5 !important;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.team-request-card .request-actions {
+    display: grid !important;
+
+    grid-template-columns: 1fr 1fr !important;
+
+    gap: 10px !important;
+
+    padding:
+        18px 22px 22px !important;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.05) !important;
+}
+
+
+/* BOUTONS */
+
+.team-request-card .admin-action-btn {
+    height: 46px !important;
+
+    border-radius: 10px !important;
+
+    font-size: 10px !important;
+
+    font-weight: 900 !important;
+
+    cursor: pointer !important;
+
+    transition:
+        all 0.2s ease !important;
+}
+
+
+/* VALIDER */
+
+.team-request-card .approve-btn {
+    border:
+        1px solid
+        rgba(46, 213, 115, 0.30) !important;
+
+    background:
+        rgba(46, 213, 115, 0.07) !important;
+
+    color: #2ed573 !important;
+}
+
+
+.team-request-card .approve-btn:hover {
+    background: #2ed573 !important;
+
+    color: #000000 !important;
+
+    box-shadow:
+        0 0 20px
+        rgba(46, 213, 115, 0.25) !important;
+}
+
+
+/* REFUSER */
+
+.team-request-card .reject-btn {
+    border:
+        1px solid
+        rgba(255, 71, 87, 0.25) !important;
+
+    background:
+        rgba(255, 71, 87, 0.05) !important;
+
+    color: #ff4757 !important;
+}
+
+
+.team-request-card .reject-btn:hover {
+    background: #ff4757 !important;
+
+    color: #ffffff !important;
+
+    box-shadow:
+        0 0 20px
+        rgba(255, 71, 87, 0.22) !important;
+}
+
+
+/* =========================================================
+   MESSAGE VALIDÉE
+   ========================================================= */
+
+.team-request-card .request-approved-message {
+    grid-column: 1 / -1 !important;
+
+    padding: 13px !important;
+
+    border:
+        1px solid
+        rgba(46, 213, 115, 0.18) !important;
+
+    border-radius: 9px !important;
+
+    background:
+        rgba(46, 213, 115, 0.05) !important;
+
+    color: #2ed573 !important;
+
+    text-align: center !important;
+
+    font-size: 10px !important;
+
+    font-weight: 900 !important;
+
+    text-transform: uppercase !important;
+
+    letter-spacing: 1px !important;
+}
+
+
+/* =========================================================
+   MESSAGE REFUSÉE
+   ========================================================= */
+
+.team-request-card .request-rejected-message {
+    grid-column: 1 / -1 !important;
+
+    padding: 13px !important;
+
+    border:
+        1px solid
+        rgba(255, 71, 87, 0.18) !important;
+
+    border-radius: 9px !important;
+
+    background:
+        rgba(255, 71, 87, 0.05) !important;
+
+    color: #ff4757 !important;
+
+    text-align: center !important;
+
+    font-size: 10px !important;
+
+    font-weight: 900 !important;
+
+    text-transform: uppercase !important;
+
+    letter-spacing: 1px !important;
+}
+
+
+/* =========================================================
+   CARTE VALIDÉE
+   ========================================================= */
+
+.team-request-card:has(.request-status.approved) {
+    border-color:
+        rgba(46, 213, 115, 0.18) !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 27, 19, 0.98),
+            rgba(7, 13, 10, 0.98)
+        ) !important;
+}
+
+
+/* =========================================================
+   CARTE REFUSÉE
+   ========================================================= */
+
+.team-request-card:has(.request-status.rejected) {
+    border-color:
+        rgba(255, 71, 87, 0.18) !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(27, 10, 14, 0.98),
+            rgba(13, 7, 9, 0.98)
+        ) !important;
+}
+
+
+/* =========================================================
+   ÉTAT VIDE
+   ========================================================= */
+
+.admin-empty {
+    grid-column: 1 / -1 !important;
+
+    padding: 80px 20px !important;
+
+    text-align: center !important;
+}
+
+
+.admin-empty-icon {
+    margin-bottom: 15px !important;
+
+    font-size: 50px !important;
+}
+
+
+.admin-empty h3 {
+    margin:
+        0 0 8px !important;
+
+    color: #ffffff !important;
+
+    font-size: 18px !important;
+}
+
+
+.admin-empty p {
+    margin: 0 !important;
+
+    color:
+        rgba(255, 255, 255, 0.35) !important;
+
+    font-size: 12px !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    #teamRequests {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    #teamRequests {
+        grid-template-columns: 1fr !important;
+
+        gap: 15px !important;
+    }
+
+
+    .team-request-card .request-card-header {
+        flex-direction: column !important;
+    }
+
+
+    .team-request-card .request-date {
+        text-align: left !important;
+    }
+
+
+    .team-request-card .request-info-value {
+        max-width: 60% !important;
+    }
+
+
+    .team-request-card .request-actions {
+        grid-template-columns: 1fr !important;
+    }
+
+}
