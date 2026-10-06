@@ -432,13 +432,15 @@ async function verifyFortnite() {
   const user = auth.currentUser;
 
   if (!user) {
-    alert("Connecte-toi !");
+    if (resultEl) {
+      resultEl.innerText = "❌ Tu dois être connecté.";
+    }
     return;
   }
 
   if (!name) {
     if (resultEl) {
-      resultEl.innerText = "❌ Entre ton nom Epic Games.";
+      resultEl.innerText = "❌ Entre ton nom Fortnite.";
     }
     return;
   }
@@ -457,22 +459,31 @@ async function verifyFortnite() {
     }
 
     if (resultEl) {
-      resultEl.innerText = "🔎 Vérification du compte Fortnite...";
+      resultEl.innerText = "🔐 Authentification...";
     }
 
-    // 🔐 Récupération du token Firebase
+    // Récupère le vrai token Firebase de l'utilisateur connecté
     const token = await user.getIdToken(true);
+
+    console.log("✅ Utilisateur Firebase :", user.uid);
+    console.log("✅ Token Firebase récupéré :", !!token);
+
+    if (!token) {
+      throw new Error("TOKEN_FIREBASE_MANQUANT");
+    }
+
+    if (resultEl) {
+      resultEl.innerText = "🔎 Vérification du compte Fortnite...";
+    }
 
     const response = await fetch(
       "https://cash-arena-api.onrender.com/api/fortnite/verify",
       {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Authorization": "Bearer " + token
         },
-
         body: JSON.stringify({
           name: name
         })
@@ -480,6 +491,8 @@ async function verifyFortnite() {
     );
 
     const data = await response.json();
+
+    console.log("📡 Réponse Fortnite :", response.status, data);
 
     if (!response.ok || !data.success) {
       if (resultEl) {
@@ -491,18 +504,10 @@ async function verifyFortnite() {
       return;
     }
 
-    console.log("✅ Fortnite vérifié :", data);
-
     if (resultEl) {
       resultEl.innerText =
         `✅ Compte vérifié : ${data.account.name}`;
     }
-
-    // Le serveur enregistre déjà le compte dans :
-    // users/{uid}/games/fortnite
-    //
-    // On ne réécrit donc PAS les données Fortnite
-    // côté client.
 
     const linkSectionEl =
       document.getElementById("fortniteLinkSection");
@@ -529,18 +534,28 @@ async function verifyFortnite() {
     alert("Compte Fortnite vérifié et lié avec succès !");
 
   } catch (error) {
+
     console.error("❌ Erreur vérification Fortnite :", error);
 
-    if (resultEl) {
-      resultEl.innerText =
-        "❌ Impossible de contacter le serveur.";
+    if (error.message === "TOKEN_FIREBASE_MANQUANT") {
+      if (resultEl) {
+        resultEl.innerText =
+          "❌ Impossible de récupérer ton authentification Firebase.";
+      }
+    } else {
+      if (resultEl) {
+        resultEl.innerText =
+          "❌ Impossible de contacter le serveur.";
+      }
     }
 
   } finally {
+
     if (buttonEl) {
       buttonEl.disabled = false;
       buttonEl.innerText = "Vérifier";
     }
+
   }
 }
 
