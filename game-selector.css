@@ -1,0 +1,284 @@
+/* =========================================================
+   CASH ARENA — GAME SELECTOR
+   ========================================================= */
+
+.game-selector {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    z-index: 1000;
+}
+
+
+/* =========================================================
+   BOUTON
+   ========================================================= */
+
+.game-selector-button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    height: 42px;
+
+    padding: 0 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+
+    background: rgba(10, 15, 28, 0.92);
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.game-selector-button:hover {
+    background: rgba(20, 28, 48, 0.98);
+    border-color: rgba(34, 197, 94, 0.45);
+}
+
+
+.game-selector-button.open {
+    border-color: #22c55e;
+}
+
+
+/* =========================================================
+   ICÔNE
+   ========================================================= */
+
+.game-selector-icon {
+    font-size: 17px;
+    line-height: 1;
+}
+
+
+.game-selector-name {
+    white-space: nowrap;
+}
+
+
+.game-selector-arrow {
+    margin-left: 3px;
+
+    font-size: 9px;
+
+    transition: transform 0.2s ease;
+}
+
+
+.game-selector-button.open .game-selector-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+.game-selector-menu {
+    position: absolute;
+
+    top: calc(100% + 9px);
+    right: 0;
+
+    width: 270px;
+
+    padding: 7px;
+
+    background: rgba(8, 12, 24, 0.98);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.55),
+        0 0 30px rgba(34, 197, 94, 0.06);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-8px);
+
+    transition:
+        opacity 0.18s ease,
+        visibility 0.18s ease,
+        transform 0.18s ease;
+}
+
+
+.game-selector-menu.open {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   OPTION
+   ========================================================= */
+
+.game-option {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px;
+
+    border: 0;
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+}
+
+
+.game-option:hover {
+    background: rgba(255, 255, 255, 0.06);
+
+    transform: translateX(2px);
+}
+
+
+.game-option.selected {
+    background: rgba(34, 197, 94, 0.09);
+}
+
+
+/* =========================================================
+   ICÔNE OPTION
+   ========================================================= */
+
+.game-option-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   TEXTE
+   ========================================================= */
+
+.game-option-text {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+
+    flex: 1;
+}
+
+
+.game-option-text strong {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+
+.game-option-text small {
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CHECK
+   ========================================================= */
+
+.game-option-check {
+    color: #22c55e;
+
+    font-size: 16px;
+    font-weight: 900;
+
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .game-selector {
+        margin-left: 10px;
+    }
+
+    .game-selector-button {
+        padding: 0 11px;
+    }
+
+    .game-selector-name {
+        display: none;
+    }
+
+    .game-selector-menu {
+        right: 0;
+        width: 250px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .game-selector {
+        margin-left: 5px;
+    }
+
+    .game-selector-button {
+        width: 42px;
+
+        justify-content: center;
+
+        padding: 0;
+    }
+
+    .game-selector-arrow {
+        display: none;
+    }
+
+}

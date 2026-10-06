@@ -1,109 +1,343 @@
 console.log("League chargé");
 
+// ======================================================
+// 🎮 JEU SÉLECTIONNÉ
+// ======================================================
+
+const CURRENT_GAME =
+    typeof getSelectedGame === "function"
+        ? getSelectedGame()
+        : (
+            localStorage.getItem(
+                "cashArenaSelectedGame"
+            ) || "brawlstars"
+        );
+
+const IS_FORTNITE =
+    CURRENT_GAME === "fortnite";
+
+const IS_BRAWL_STARS =
+    CURRENT_GAME === "brawlstars";
+
+
+// ======================================================
+// 👤 UTILISATEUR
+// ======================================================
+
 let currentUser = null;
+
+
+// ======================================================
+// 🎮 CONFIGURATION DES JEUX
+// ======================================================
+
+const GAME_CONFIG = {
+
+    brawlstars: {
+        name: "BRAWL STARS",
+        emoji: "⭐"
+    },
+
+    fortnite: {
+        name: "FORTNITE",
+        emoji: "🎯"
+    }
+
+};
+
+
+// ======================================================
+// 🏆 RANGS
+// ======================================================
 
 const RANKS = [
 
-{
-    name:"Bronze",
-    icon:"bronze.png",
-    min:0,
-    max:100
-},
+    {
+        name: "Bronze",
+        icon: "bronze.png",
+        min: 0,
+        max: 100
+    },
 
-{
-name:"Silver",
-icon:"silver.png",
-min:100,
-max:250
-},
+    {
+        name: "Silver",
+        icon: "silver.png",
+        min: 100,
+        max: 250
+    },
 
-{
-name:"Gold",
-icon:"gold.png",
-min:250,
-max:500
-},
+    {
+        name: "Gold",
+        icon: "gold.png",
+        min: 250,
+        max: 500
+    },
 
-{
-name:"Platinum",
-icon:"platinum.png",
-min:500,
-max:1000
-},
+    {
+        name: "Platinum",
+        icon: "platinum.png",
+        min: 500,
+        max: 1000
+    },
 
-{
-name:"Diamond",
-icon:"diamond.png",
-min:1000,
-max:2000
-},
+    {
+        name: "Diamond",
+        icon: "diamond.png",
+        min: 1000,
+        max: 2000
+    },
 
-{
-name:"Champion",
-icon:"champion.png",
-min:2000,
-max:3500
-},
+    {
+        name: "Champion",
+        icon: "champion.png",
+        min: 2000,
+        max: 3500
+    },
 
-{
-name:"Legend",
-icon:"legend.png",
-min:3500,
-max:null
-}
+    {
+        name: "Legend",
+        icon: "legend.png",
+        min: 3500,
+        max: null
+    }
 
 ];
 
-auth.onAuthStateChanged(async user=>{
 
-if(!user){
+// ======================================================
+// 🔧 RÉFÉRENCE PROFIL DU JEU
+// ======================================================
 
-window.location="index.html";
-return;
+function getGameProfileRef(uid) {
 
-}
-
-currentUser=user;
-
-const doc=await db
-.collection("users")
-.doc(user.uid)
-.get();
-
-const data=doc.data()||{};
-
-const lp=data.leaguePoints||0;
-
-const rank=getRankFromLP(lp);
-
-document.getElementById("playerRank").innerText =
-    rank.name;
-
-document.getElementById("rankIcon").innerHTML =
-    getRankIcon(rank);
-
-document.getElementById("playerLP").innerText=
-lp+" LP";
-
-updateProgress(lp);
-
-highlightRoad(rank.name);
-
-if(rank.name==="Legend"){
-
-document.getElementById("legendCard").style.display="block";
-
-loadLegend();
-
-}
-else{
-
-document.getElementById("legendCard").style.display="none";
+    return db
+        .collection("users")
+        .doc(uid)
+        .collection("games")
+        .doc(CURRENT_GAME);
 
 }
 
-});
+
+// ======================================================
+// 📥 CHARGER LES DONNÉES DE LEAGUE
+// ======================================================
+
+async function getCurrentGameLeagueData() {
+
+    if (!currentUser) {
+
+        return {
+            leaguePoints: 0,
+            leagueRank: "Bronze"
+        };
+
+    }
+
+
+    // --------------------------------------------------
+    // ⭐ BRAWL STARS
+    // --------------------------------------------------
+
+    if (IS_BRAWL_STARS) {
+
+        const doc =
+            await db
+                .collection("users")
+                .doc(currentUser.uid)
+                .get();
+
+
+        const data =
+            doc.data() || {};
+
+
+        return {
+
+            leaguePoints:
+                Number(
+                    data.leaguePoints || 0
+                ),
+
+            leagueRank:
+                data.leagueRank ||
+                "Bronze"
+
+        };
+
+    }
+
+
+    // --------------------------------------------------
+    // 🎯 FORTNITE
+    // --------------------------------------------------
+
+    if (IS_FORTNITE) {
+
+        const gameRef =
+            getGameProfileRef(
+                currentUser.uid
+            );
+
+
+        const doc =
+            await gameRef.get();
+
+
+        if (!doc.exists) {
+
+            await gameRef.set({
+
+                game:
+                    "fortnite",
+
+                leaguePoints:
+                    0,
+
+                leagueRank:
+                    "Bronze",
+
+                createdAt:
+                    new Date()
+
+            }, {
+                merge: true
+            });
+
+
+            return {
+
+                leaguePoints: 0,
+
+                leagueRank:
+                    "Bronze"
+
+            };
+
+        }
+
+
+        const data =
+            doc.data() || {};
+
+
+        return {
+
+            leaguePoints:
+                Number(
+                    data.leaguePoints || 0
+                ),
+
+            leagueRank:
+                data.leagueRank ||
+                "Bronze"
+
+        };
+
+    }
+
+
+    return {
+
+        leaguePoints: 0,
+
+        leagueRank: "Bronze"
+
+    };
+
+}
+
+
+// ======================================================
+// 🎮 AFFICHER LE JEU
+// ======================================================
+
+function updateLeagueGameDisplay() {
+
+    const config =
+        GAME_CONFIG[
+            CURRENT_GAME
+        ] ||
+        GAME_CONFIG.brawlstars;
+
+
+    // --------------------------------------------------
+    // Titre navigateur
+    // --------------------------------------------------
+
+    document.title =
+        `Cash Arena • ${config.name} League`;
+
+
+    // --------------------------------------------------
+    // Ajouter un indicateur de jeu
+    // sans modifier les IDs existants.
+    // --------------------------------------------------
+
+    let gameBadge =
+        document.getElementById(
+            "leagueGameBadge"
+        );
+
+
+    if (!gameBadge) {
+
+        gameBadge =
+            document.createElement(
+                "div"
+            );
+
+        gameBadge.id =
+            "leagueGameBadge";
+
+
+        gameBadge.style.marginBottom =
+            "15px";
+
+
+        gameBadge.style.textAlign =
+            "center";
+
+
+        gameBadge.style.fontWeight =
+            "700";
+
+
+        gameBadge.style.fontSize =
+            "18px";
+
+
+        gameBadge.style.opacity =
+            "0.95";
+
+
+        const leagueCard =
+            document.querySelector(
+                ".league-card"
+            );
+
+
+        if (leagueCard) {
+
+            leagueCard.insertBefore(
+                gameBadge,
+                leagueCard.firstChild
+            );
+
+        }
+
+    }
+
+
+    gameBadge.innerText =
+        `${config.emoji} ${config.name} LEAGUE`;
+
+}
+
+
+// ======================================================
+// 🖼️ ICÔNE DU RANG
+// ======================================================
 
 function getRankIcon(rank) {
 
@@ -114,369 +348,905 @@ function getRankIcon(rank) {
             class="rank-icon-img"
         >
     `;
-}
-
-function getRankFromLP(lp){
-
-for(const rank of RANKS){
-
-if(rank.max===null){
-
-return rank;
 
 }
 
-if(lp>=rank.min && lp<rank.max){
 
-return rank;
+// ======================================================
+// 🏆 TROUVER LE RANG
+// ======================================================
 
-}
+function getRankFromLP(lp) {
 
-}
+    for (
+        const rank of RANKS
+    ) {
 
-return RANKS[0];
+        if (
+            rank.max === null
+        ) {
 
-}
+            return rank;
 
-function updateProgress(lp){
+        }
 
-const rank=getRankFromLP(lp);
 
-const fill=
-document.getElementById("progressFill");
+        if (
+            lp >= rank.min &&
+            lp < rank.max
+        ) {
 
-const text=
-document.getElementById("progressText");
+            return rank;
 
-const nextText=
-document.getElementById("nextRank");
+        }
 
-if(rank.max===null){
+    }
 
-fill.style.width="100%";
 
-text.innerText=
-lp+" LP";
-
-nextText.innerHTML=
-"🔥 Tu as atteint le rang maximum !";
-
-return;
+    return RANKS[0];
 
 }
 
-const current=
-lp-rank.min;
 
-const total=
-rank.max-rank.min;
+// ======================================================
+// 📊 AFFICHER LE CLASSEMENT
+// ======================================================
 
-const percent=
-(current/total)*100;
+async function updateLeagueDisplay() {
 
-fill.style.width=
-percent+"%";
+    if (!currentUser) {
 
-text.innerHTML=
-lp+" / "+rank.max+" LP";
+        return;
 
-const nextRank=
-RANKS[
-RANKS.indexOf(rank)+1
-];
+    }
 
-nextText.innerHTML=
-"Encore <b>"+(rank.max-lp)+" LP</b> avant <b>"+nextRank.name+"</b>";
+
+    try {
+
+        const data =
+            await getCurrentGameLeagueData();
+
+
+        const lp =
+            Number(
+                data.leaguePoints || 0
+            );
+
+
+        const rank =
+            getRankFromLP(lp);
+
+
+        const playerRank =
+            document.getElementById(
+                "playerRank"
+            );
+
+
+        const rankIcon =
+            document.getElementById(
+                "rankIcon"
+            );
+
+
+        const playerLP =
+            document.getElementById(
+                "playerLP"
+            );
+
+
+        if (playerRank) {
+
+            playerRank.innerText =
+                rank.name;
+
+        }
+
+
+        if (rankIcon) {
+
+            rankIcon.innerHTML =
+                getRankIcon(rank);
+
+        }
+
+
+        if (playerLP) {
+
+            playerLP.innerText =
+                lp + " LP";
+
+        }
+
+
+        updateProgress(lp);
+
+        highlightRoad(
+            rank.name
+        );
+
+
+        const legendCard =
+            document.getElementById(
+                "legendCard"
+            );
+
+
+        if (
+            rank.name === "Legend"
+        ) {
+
+            if (legendCard) {
+
+                legendCard.style.display =
+                    "block";
+
+            }
+
+
+            await loadLegend();
+
+        } else {
+
+            if (legendCard) {
+
+                legendCard.style.display =
+                    "none";
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "❌ Erreur League :",
+            error
+        );
+
+    }
 
 }
 
-function highlightRoad(rankName){
 
-document
-.querySelectorAll(".road-rank")
-.forEach(rank=>{
+// ======================================================
+// 🔐 AUTHENTIFICATION
+// ======================================================
 
-rank.classList.remove("active");
+auth.onAuthStateChanged(
+    async user => {
 
-});
+        if (!user) {
 
-const id=
-"road"+rankName;
+            window.location =
+                "index.html";
 
-const card=
-document.getElementById(id);
+            return;
 
-if(card){
+        }
 
-card.classList.add("active");
+
+        currentUser =
+            user;
+
+
+        updateLeagueGameDisplay();
+
+
+        await updateLeagueDisplay();
+
+
+        previousRank =
+            (
+                await getCurrentGameLeagueData()
+            ).leagueRank ||
+            "Bronze";
+
+    }
+);
+
+
+// ======================================================
+// 📈 PROGRESSION
+// ======================================================
+
+function updateProgress(lp) {
+
+    const rank =
+        getRankFromLP(lp);
+
+
+    const fill =
+        document.getElementById(
+            "progressFill"
+        );
+
+
+    const text =
+        document.getElementById(
+            "progressText"
+        );
+
+
+    const nextText =
+        document.getElementById(
+            "nextRank"
+        );
+
+
+    if (!fill || !text || !nextText) {
+
+        return;
+
+    }
+
+
+    if (
+        rank.max === null
+    ) {
+
+        fill.style.width =
+            "100%";
+
+
+        text.innerText =
+            lp + " LP";
+
+
+        nextText.innerHTML =
+            "🔥 Tu as atteint le rang maximum !";
+
+
+        return;
+
+    }
+
+
+    const current =
+        lp -
+        rank.min;
+
+
+    const total =
+        rank.max -
+        rank.min;
+
+
+    const percent =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                (
+                    current /
+                    total
+                ) * 100
+            )
+        );
+
+
+    fill.style.width =
+        percent + "%";
+
+
+    text.innerHTML =
+        lp +
+        " / " +
+        rank.max +
+        " LP";
+
+
+    const nextRank =
+        RANKS[
+            RANKS.indexOf(rank) +
+            1
+        ];
+
+
+    if (nextRank) {
+
+        nextText.innerHTML =
+            "Encore <b>" +
+            (
+                rank.max -
+                lp
+            ) +
+            " LP</b> avant <b>" +
+            nextRank.name +
+            "</b>";
+
+    }
 
 }
 
+
+// ======================================================
+// 🛣️ ROAD DES RANGS
+// ======================================================
+
+function highlightRoad(
+    rankName
+) {
+
+    document
+        .querySelectorAll(
+            ".road-rank"
+        )
+        .forEach(
+            rank => {
+
+                rank.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    const id =
+        "road" +
+        rankName;
+
+
+    const card =
+        document.getElementById(
+            id
+        );
+
+
+    if (card) {
+
+        card.classList.add(
+            "active"
+        );
+
+    }
+
 }
 
-// ======================================
-// RANK UP
-// ======================================
+
+// ======================================================
+// 🎉 RANK UP
+// ======================================================
 
 let previousRank = null;
 
+
 async function checkRankUp() {
 
-    if (!currentUser) return;
+    if (!currentUser) {
 
-    const doc = await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .get();
-
-    const data = doc.data() || {};
-
-    const lp = data.leaguePoints || 0;
-
-    const rank = getRankFromLP(lp);
-
-    if (previousRank === null) {
-        previousRank = rank.name;
         return;
+
     }
 
-    if (previousRank !== rank.name) {
 
-        showRankUp(rank);
+    try {
 
-        previousRank = rank.name;
+        const data =
+            await getCurrentGameLeagueData();
+
+
+        const lp =
+            Number(
+                data.leaguePoints || 0
+            );
+
+
+        const rank =
+            getRankFromLP(lp);
+
+
+        if (
+            previousRank === null
+        ) {
+
+            previousRank =
+                rank.name;
+
+            return;
+
+        }
+
+
+        if (
+            previousRank !==
+            rank.name
+        ) {
+
+            showRankUp(
+                rank
+            );
+
+
+            previousRank =
+                rank.name;
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "❌ Erreur Rank Up :",
+            error
+        );
 
     }
 
 }
 
-function showRankUp(rank) {
+
+// ======================================================
+// 🎉 POPUP RANK UP
+// ======================================================
+
+function showRankUp(
+    rank
+) {
 
     const popup =
-        document.getElementById("rankUpPopup");
+        document.getElementById(
+            "rankUpPopup"
+        );
+
 
     const icon =
-        document.getElementById("rankUpIcon");
+        document.getElementById(
+            "rankUpIcon"
+        );
+
 
     const text =
-        document.getElementById("rankUpText");
+        document.getElementById(
+            "rankUpText"
+        );
 
-   icon.innerHTML =
-    getRankIcon(rank);
+
+    if (!popup || !icon || !text) {
+
+        return;
+
+    }
+
+
+    icon.innerHTML =
+        getRankIcon(rank);
+
 
     text.innerText =
         rank.name;
 
-    popup.classList.add("show");
 
-    setTimeout(() => {
+    popup.classList.add(
+        "show"
+    );
 
-        popup.classList.remove("show");
 
-    }, 5000);
+    setTimeout(
+        () => {
+
+            popup.classList.remove(
+                "show"
+            );
+
+        },
+        5000
+    );
 
 }
 
-// Vérifie toutes les 3 secondes
-setInterval(checkRankUp,3000);
 
-// ======================================
-// LEADERBOARD LEGEND
-// ======================================
+// ======================================================
+// 🏆 TOP LEGEND
+// ======================================================
 
 async function loadLegend() {
 
     const table =
-        document.getElementById("legendTable");
+        document.getElementById(
+            "legendTable"
+        );
 
-    if (!table) return;
 
-    const snapshot =
-        await db
-        .collection("users")
-        .where("leagueRank","==","Legend")
-        .get();
-
-    let players = [];
-
-    snapshot.forEach(doc => {
-
-        players.push({
-
-            id: doc.id,
-
-            ...doc.data()
-
-        });
-
-    });
-
-    players.sort((a,b)=>
-
-        (b.leaguePoints || 0) -
-
-        (a.leaguePoints || 0)
-
-    );
-
-    table.innerHTML = "";
-
-    if(players.length===0){
-
-        table.innerHTML=`
-
-        <tr>
-
-            <td colspan="3">
-
-                Aucun joueur Legend.
-
-            </td>
-
-        </tr>
-
-        `;
+    if (!table) {
 
         return;
 
     }
 
-    players.forEach((player,index)=>{
 
-        let medal="";
+    try {
 
-        if(index===0) medal="🥇";
-        else if(index===1) medal="🥈";
-        else if(index===2) medal="🥉";
-        else medal="#"+(index+1);
+        let players = [];
 
-        table.innerHTML+=`
 
-        <tr>
+        // ------------------------------------------------
+        // ⭐ BRAWL STARS
+        // ------------------------------------------------
 
-            <td>
+        if (IS_BRAWL_STARS) {
 
-                ${medal}
+            const snapshot =
+                await db
+                    .collection("users")
+                    .where(
+                        "leagueRank",
+                        "==",
+                        "Legend"
+                    )
+                    .get();
 
-            </td>
 
-            <td>
+            snapshot.forEach(
+                doc => {
 
-                ${player.pseudo || player.email}
+                    const data =
+                        doc.data() || {};
 
-            </td>
 
-            <td>
+                    players.push({
 
-                ⭐ ${player.leaguePoints || 0}
+                        id:
+                            doc.id,
 
-            </td>
+                        pseudo:
+                            data.pseudo ||
+                            data.email ||
+                            "Joueur",
 
-        </tr>
+                        leaguePoints:
+                            Number(
+                                data.leaguePoints ||
+                                0
+                            )
+
+                    });
+
+                }
+            );
+
+        }
+
+
+        // ------------------------------------------------
+        // 🎯 FORTNITE
+        // ------------------------------------------------
+
+        if (IS_FORTNITE) {
+
+            const snapshot =
+                await db
+                    .collectionGroup(
+                        "games"
+                    )
+                    .where(
+                        "game",
+                        "==",
+                        "fortnite"
+                    )
+                    .where(
+                        "leagueRank",
+                        "==",
+                        "Legend"
+                    )
+                    .get();
+
+
+            snapshot.forEach(
+                doc => {
+
+                    const data =
+                        doc.data() || {};
+
+
+                    players.push({
+
+                        id:
+                            doc.id,
+
+                        pseudo:
+                            data.pseudo ||
+                            data.fortniteName ||
+                            "Joueur",
+
+                        leaguePoints:
+                            Number(
+                                data.leaguePoints ||
+                                0
+                            )
+
+                    });
+
+                }
+            );
+
+        }
+
+
+        players.sort(
+            (a, b) =>
+                (
+                    b.leaguePoints ||
+                    0
+                ) -
+                (
+                    a.leaguePoints ||
+                    0
+                )
+        );
+
+
+        table.innerHTML =
+            "";
+
+
+        if (
+            players.length === 0
+        ) {
+
+            table.innerHTML = `
+
+                <tr>
+
+                    <td colspan="3">
+
+                        Aucun joueur Legend.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            return;
+
+        }
+
+
+        players.forEach(
+            (
+                player,
+                index
+            ) => {
+
+                let medal =
+                    "";
+
+
+                if (
+                    index === 0
+                ) {
+
+                    medal =
+                        "🥇";
+
+                } else if (
+                    index === 1
+                ) {
+
+                    medal =
+                        "🥈";
+
+                } else if (
+                    index === 2
+                ) {
+
+                    medal =
+                        "🥉";
+
+                } else {
+
+                    medal =
+                        "#" +
+                        (
+                            index +
+                            1
+                        );
+
+                }
+
+
+                table.innerHTML += `
+
+                    <tr>
+
+                        <td>
+                            ${medal}
+                        </td>
+
+                        <td>
+                            ${player.pseudo}
+                        </td>
+
+                        <td>
+                            ⭐ ${player.leaguePoints}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "❌ Erreur Top Legend :",
+            error
+        );
+
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td colspan="3">
+
+                    Impossible de charger le classement.
+
+                </td>
+
+            </tr>
 
         `;
 
-    });
-
-}
-
-// Actualise automatiquement toutes les 10 secondes
-setInterval(()=>{
-
-    const legendCard=document.getElementById("legendCard");
-
-    if(
-        legendCard &&
-        legendCard.style.display!=="none"
-    ){
-
-        loadLegend();
-
-    }
-
-},10000);
-
-// ======================================
-// RAFRAICHISSEMENT AUTOMATIQUE
-// ======================================
-
-async function refreshLeague(){
-
-    if(!currentUser) return;
-
-    const doc = await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .get();
-
-    const data = doc.data() || {};
-
-    const lp = data.leaguePoints || 0;
-
-    const rank = getRankFromLP(lp);
-
-   document.getElementById("playerRank").innerText =
-    rank.name;
-
-document.getElementById("rankIcon").innerHTML =
-    getRankIcon(rank);
-
-    document.getElementById("playerLP").innerHTML =
-        lp + " LP";
-
-    updateProgress(lp);
-
-    highlightRoad(rank.name);
-
-    if(rank.name==="Legend"){
-
-        document.getElementById("legendCard").style.display="block";
-
-        loadLegend();
-
-    }else{
-
-        document.getElementById("legendCard").style.display="none";
-
     }
 
 }
 
-// Mise à jour toutes les 5 secondes
-setInterval(refreshLeague,5000);
 
-// ======================================
-// ANIMATION BARRE DE PROGRESSION
-// ======================================
+// ======================================================
+// 🔄 RAFRAÎCHISSEMENT
+// ======================================================
 
-function animateProgress(percent){
+async function refreshLeague() {
+
+    if (!currentUser) {
+
+        return;
+
+    }
+
+
+    await updateLeagueDisplay();
+
+}
+
+
+// ======================================================
+// ⏱️ RAFRAÎCHISSEMENT AUTOMATIQUE
+// ======================================================
+
+setInterval(
+    refreshLeague,
+    5000
+);
+
+
+// ======================================================
+// 🔄 VÉRIFICATION RANK UP
+// ======================================================
+
+setInterval(
+    checkRankUp,
+    3000
+);
+
+
+// ======================================================
+// 🏆 ACTUALISATION TOP LEGEND
+// ======================================================
+
+setInterval(
+    () => {
+
+        const legendCard =
+            document.getElementById(
+                "legendCard"
+            );
+
+
+        if (
+            legendCard &&
+            legendCard.style.display !==
+                "none"
+        ) {
+
+            loadLegend();
+
+        }
+
+    },
+    10000
+);
+
+
+// ======================================================
+// 📊 ANIMATION PROGRESSION
+// ======================================================
+
+function animateProgress(
+    percent
+) {
 
     const fill =
-        document.getElementById("progressFill");
+        document.getElementById(
+            "progressFill"
+        );
 
-    if(!fill) return;
 
-    fill.style.width="0%";
+    if (!fill) {
 
-    setTimeout(()=>{
+        return;
 
-        fill.style.width =
-            percent+"%";
+    }
 
-    },150);
+
+    fill.style.width =
+        "0%";
+
+
+    setTimeout(
+        () => {
+
+            fill.style.width =
+                percent +
+                "%";
+
+        },
+        150
+    );
 
 }
 
-// ======================================
-// CHARGEMENT INITIAL
-// ======================================
 
-window.onload=()=>{
+// ======================================================
+// 🎮 CHANGEMENT DE JEU
+// ======================================================
 
-    refreshLeague();
+window.addEventListener(
+    "storage",
+    event => {
 
-};
+        if (
+            event.key !==
+            "cashArenaSelectedGame"
+        ) {
 
-// ======================================
-// FIN DU FICHIER
-// ======================================
+            return;
+
+        }
+
+
+        const newGame =
+            event.newValue ||
+            "brawlstars";
+
+
+        if (
+            newGame !==
+            CURRENT_GAME
+        ) {
+
+            window.location.reload();
+
+        }
+
+    }
+);
+
+
+// ======================================================
+// 🚀 CHARGEMENT INITIAL
+// ======================================================
+
+window.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        updateLeagueGameDisplay();
+
+    }
+);

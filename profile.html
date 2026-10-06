@@ -86,11 +86,55 @@
       <p id="brawlResult"></p>
     </div>
 
+
     <!-- Affichage si déjà lié + Actualisation -->
     <div class="brawl-status-box">
       <p id="brawlSaved"></p>
       <button class="btn-refresh" onclick="refreshBrawlStats()">🔄 Actualiser mes stats</button>
     </div>
+
+    <!-- ======================================================
+     🎯 LIAISON COMPTE FORTNITE
+     ====================================================== -->
+<div id="fortniteLinkSection" class="game-link-section">
+
+  <h3>🎯 Lier Fortnite</h3>
+
+  <p class="section-desc">
+    Entre ton nom Epic Games pour vérifier et connecter ton compte Fortnite.
+  </p>
+
+  <div class="input-action-group">
+    <input
+      type="text"
+      id="fortniteName"
+      placeholder="Nom Epic Games"
+      autocomplete="off"
+    >
+
+    <button
+      class="btn-link"
+      onclick="verifyFortnite()"
+      id="fortniteVerifyBtn"
+    >
+      Vérifier
+    </button>
+  </div>
+
+  <p id="fortniteResult"></p>
+
+</div>
+
+<!-- ======================================================
+     🎯 COMPTE FORTNITE DÉJÀ LIÉ
+     ====================================================== -->
+<div
+  id="fortniteStatusBox"
+  class="brawl-status-box"
+  style="display:none;"
+>
+  <p id="fortniteSaved"></p>
+</div>
 
     <!-- Historique des gains -->
     <div class="profile-history-section">
@@ -188,6 +232,50 @@ auth.onAuthStateChanged(async user => {
       if (linkSectionEl) linkSectionEl.style.display = "block";
     }
   }
+
+  // ======================================================
+// 🎯 STATUT DU COMPTE FORTNITE LIÉ
+// ======================================================
+
+const fortniteLinkSectionEl =
+  document.getElementById("fortniteLinkSection");
+
+const fortniteStatusBoxEl =
+  document.getElementById("fortniteStatusBox");
+
+const fortniteSavedEl =
+  document.getElementById("fortniteSaved");
+
+if (
+  data.fortniteName &&
+  data.fortniteAccountId &&
+  data.fortniteVerified
+) {
+
+  if (fortniteLinkSectionEl) {
+    fortniteLinkSectionEl.style.display = "none";
+  }
+
+  if (fortniteStatusBoxEl) {
+    fortniteStatusBoxEl.style.display = "block";
+  }
+
+  if (fortniteSavedEl) {
+    fortniteSavedEl.innerText =
+      `🎯 ${data.fortniteName} • Compte Fortnite vérifié`;
+  }
+
+} else {
+
+  if (fortniteLinkSectionEl) {
+    fortniteLinkSectionEl.style.display = "block";
+  }
+
+  if (fortniteStatusBoxEl) {
+    fortniteStatusBoxEl.style.display = "none";
+  }
+
+}
 
   // Chargement de l'historique financier
   loadRewardsHistory(user);
@@ -291,6 +379,187 @@ async function linkBrawl() {
   } catch (e) {
     console.error(e);
     alert("Erreur lors de la communication avec l'API.");
+  }
+}
+
+// ======================================================
+// 🎯 VÉRIFICATION COMPTE FORTNITE
+// ======================================================
+
+async function verifyFortnite() {
+
+  const inputEl =
+    document.getElementById("fortniteName");
+
+  const resultEl =
+    document.getElementById("fortniteResult");
+
+  const buttonEl =
+    document.getElementById("fortniteVerifyBtn");
+
+  const name =
+    inputEl ? inputEl.value.trim() : "";
+
+  const user =
+    auth.currentUser;
+
+  if (!user) {
+    alert("Connecte-toi !");
+    return;
+  }
+
+  if (!name) {
+
+    if (resultEl) {
+      resultEl.innerText =
+        "❌ Entre ton nom Epic Games.";
+    }
+
+    return;
+  }
+
+  if (name.length < 2) {
+
+    if (resultEl) {
+      resultEl.innerText =
+        "❌ Nom Fortnite invalide.";
+    }
+
+    return;
+  }
+
+  try {
+
+    if (buttonEl) {
+      buttonEl.disabled = true;
+      buttonEl.innerText = "Vérification...";
+    }
+
+    if (resultEl) {
+      resultEl.innerText =
+        "🔎 Vérification du compte Fortnite...";
+    }
+
+    const response = await fetch(
+      "https://cash-arena-api.onrender.com/api/fortnite/verify",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          name: name
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || data.error) {
+
+      if (resultEl) {
+        resultEl.innerText =
+          "❌ " +
+          (
+            data.message ||
+            "Compte Fortnite introuvable."
+          );
+      }
+
+      return;
+    }
+
+    // ==============================================
+    // COMPTE FORTNITE VALIDÉ
+    // ==============================================
+
+    await db
+      .collection("users")
+      .doc(user.uid)
+      .set(
+        {
+          fortniteName:
+            data.name || name,
+
+          fortniteAccountId:
+            data.accountId || null,
+
+          fortniteVerified:
+            true,
+
+          fortniteVerifiedAt:
+            firebase.firestore.FieldValue.serverTimestamp(),
+
+          fortniteGame:
+            "fortnite"
+        },
+        {
+          merge: true
+        }
+      );
+
+    // ==============================================
+    // AFFICHAGE
+    // ==============================================
+
+    if (resultEl) {
+      resultEl.innerText =
+        `✅ Compte vérifié : ${data.name || name}`;
+    }
+
+    const linkSectionEl =
+      document.getElementById(
+        "fortniteLinkSection"
+      );
+
+    const statusBoxEl =
+      document.getElementById(
+        "fortniteStatusBox"
+      );
+
+    const savedEl =
+      document.getElementById(
+        "fortniteSaved"
+      );
+
+    if (linkSectionEl) {
+      linkSectionEl.style.display = "none";
+    }
+
+    if (statusBoxEl) {
+      statusBoxEl.style.display = "block";
+    }
+
+    if (savedEl) {
+      savedEl.innerText =
+        `🎯 ${data.name || name} • Compte Fortnite vérifié`;
+    }
+
+    alert(
+      "Compte Fortnite vérifié et lié avec succès !"
+    );
+
+  } catch (error) {
+
+    console.error(
+      "❌ Erreur vérification Fortnite :",
+      error
+    );
+
+    if (resultEl) {
+      resultEl.innerText =
+        "❌ Impossible de contacter le serveur.";
+    }
+
+  } finally {
+
+    if (buttonEl) {
+      buttonEl.disabled = false;
+      buttonEl.innerText = "Vérifier";
+    }
+
   }
 }
 
