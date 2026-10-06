@@ -172,112 +172,149 @@ auth.onAuthStateChanged(async user => {
     return;
   }
 
-  // Affichage de l'email sécurisé
   const emailEl = document.getElementById("email");
-  if (emailEl) emailEl.innerText = "📧 " + user.email;
 
-  const doc = await db.collection("users").doc(user.uid).get();
+  if (emailEl) {
+    emailEl.innerText = "📧 " + user.email;
+  }
 
-  if (doc.exists) {
-    const data = doc.data();
+  const doc = await db
+    .collection("users")
+    .doc(user.uid)
+    .get();
 
-    // Initialisation des valeurs par défaut de la Ligue si manquantes
-    if (data.leaguePoints === undefined) {
-      await db.collection("users").doc(user.uid).set({
-        leaguePoints: 0,
-        leagueRank: "Bronze"
-      }, { merge: true });
+  if (!doc.exists) {
+    return;
+  }
 
-      data.leaguePoints = 0;
-      data.leagueRank = "Bronze";
+  // IMPORTANT :
+  // data doit être déclaré ici pour être utilisé
+  // dans toute cette partie du profil.
+  const data = doc.data();
+
+  // ==========================================
+  // TON CODE EXISTANT DU PROFIL
+  // ==========================================
+
+  // Exemple :
+  const balanceEl = document.getElementById("balance");
+  const rankEl = document.getElementById("leagueRank");
+  const pointsEl = document.getElementById("leaguePoints");
+
+  if (balanceEl) {
+    balanceEl.innerText =
+      "💰 Solde : " + (data.balance || 0) + "€";
+  }
+
+  if (rankEl) {
+    rankEl.innerText =
+      "🏆 Rank : " + (data.leagueRank || "Bronze");
+  }
+
+  if (pointsEl) {
+    pointsEl.innerText =
+      "⭐ " + (data.leaguePoints || 0) + " LP";
+  }
+
+  // ==========================================
+  // BRAWL STARS
+  // ==========================================
+
+  const brawlSavedEl =
+    document.getElementById("brawlSaved");
+
+  const linkSectionEl =
+    document.getElementById("linkSection");
+
+  if (data.brawlName && data.brawlTag) {
+
+    if (brawlSavedEl) {
+      brawlSavedEl.innerText =
+        `🎮 ${data.brawlName} (${data.brawlTag}) | 🏆 ${data.brawlTrophies || 0}`;
     }
 
-    // Gestion de l'affichage du Pseudo et du Badge Créateur
-    const pseudoTextEl = document.getElementById("pseudoText");
-    const pseudoFormEl = document.getElementById("pseudoForm");
-    const pseudoDisplayEl = document.getElementById("pseudoDisplay");
+    if (linkSectionEl) {
+      linkSectionEl.style.display = "none";
+    }
 
-    if (data.pseudo) {
-      if (pseudoTextEl) {
-        const creatorBadge = data.isContentCreator ? " <span class='creator-badge'>Content Creator</span>" : "";
-        pseudoTextEl.innerHTML = "🎮 Pseudo : " + data.pseudo + creatorBadge;
+  } else {
+
+    if (brawlSavedEl) {
+      brawlSavedEl.innerText =
+        "Aucun compte Brawl Stars lié.";
+    }
+
+    if (linkSectionEl) {
+      linkSectionEl.style.display = "block";
+    }
+  }
+
+  // ==========================================
+  // FORTNITE
+  // ==========================================
+
+  // Ici on ne regarde PAS data.fortniteName,
+  // car le serveur sauvegarde maintenant Fortnite
+  // dans users/{uid}/games/fortnite.
+
+  try {
+
+    const fortniteDoc = await db
+      .collection("users")
+      .doc(user.uid)
+      .collection("games")
+      .doc("fortnite")
+      .get();
+
+    const fortniteLinkSectionEl =
+      document.getElementById("fortniteLinkSection");
+
+    const fortniteStatusBoxEl =
+      document.getElementById("fortniteStatusBox");
+
+    const fortniteSavedEl =
+      document.getElementById("fortniteSaved");
+
+    if (
+      fortniteDoc.exists &&
+      fortniteDoc.data().verified &&
+      fortniteDoc.data().fortniteAccountId
+    ) {
+
+      const fortniteData = fortniteDoc.data();
+
+      if (fortniteLinkSectionEl) {
+        fortniteLinkSectionEl.style.display = "none";
       }
-      if (pseudoFormEl) pseudoFormEl.style.display = "none";
-      if (pseudoDisplayEl) pseudoDisplayEl.style.display = "block";
-    } else {
-      if (pseudoFormEl) pseudoFormEl.style.display = "block";
-      if (pseudoDisplayEl) pseudoDisplayEl.style.display = "none";
-    }
 
-    // Données financières et ligues
-    const balanceEl = document.getElementById("balance");
-    const rankEl = document.getElementById("leagueRank");
-    const pointsEl = document.getElementById("leaguePoints");
-
-    if (balanceEl) balanceEl.innerText = "💰 Solde : " + (data.balance || 0) + "€";
-    if (rankEl) rankEl.innerText = "🏆 Rank : " + (data.leagueRank || "Bronze");
-    if (pointsEl) pointsEl.innerText = "⭐ " + (data.leaguePoints || 0) + " LP";
-
-    // Statut du compte Brawl Stars lié
-    const brawlSavedEl = document.getElementById("brawlSaved");
-    const linkSectionEl = document.getElementById("linkSection");
-
-    if (data.brawlName && data.brawlTag) {
-      if (brawlSavedEl) {
-        brawlSavedEl.innerText = `🎮 ${data.brawlName} (${data.brawlTag}) | 🏆 ${data.brawlTrophies || 0}`;
+      if (fortniteStatusBoxEl) {
+        fortniteStatusBoxEl.style.display = "block";
       }
-      if (linkSectionEl) linkSectionEl.style.display = "none";
+
+      if (fortniteSavedEl) {
+        fortniteSavedEl.innerText =
+          `🎯 ${fortniteData.fortniteName} • Compte Fortnite vérifié`;
+      }
+
     } else {
-      if (brawlSavedEl) brawlSavedEl.innerText = "Aucun compte Brawl Stars lié.";
-      if (linkSectionEl) linkSectionEl.style.display = "block";
+
+      if (fortniteLinkSectionEl) {
+        fortniteLinkSectionEl.style.display = "block";
+      }
+
+      if (fortniteStatusBoxEl) {
+        fortniteStatusBoxEl.style.display = "none";
+      }
     }
+
+  } catch (error) {
+    console.error(
+      "❌ Erreur chargement compte Fortnite :",
+      error
+    );
   }
 
-  // ======================================================
-// 🎯 STATUT DU COMPTE FORTNITE LIÉ
-// ======================================================
-
-const fortniteLinkSectionEl =
-  document.getElementById("fortniteLinkSection");
-
-const fortniteStatusBoxEl =
-  document.getElementById("fortniteStatusBox");
-
-const fortniteSavedEl =
-  document.getElementById("fortniteSaved");
-
-if (
-  data.fortniteName &&
-  data.fortniteAccountId &&
-  data.fortniteVerified
-) {
-
-  if (fortniteLinkSectionEl) {
-    fortniteLinkSectionEl.style.display = "none";
-  }
-
-  if (fortniteStatusBoxEl) {
-    fortniteStatusBoxEl.style.display = "block";
-  }
-
-  if (fortniteSavedEl) {
-    fortniteSavedEl.innerText =
-      `🎯 ${data.fortniteName} • Compte Fortnite vérifié`;
-  }
-
-} else {
-
-  if (fortniteLinkSectionEl) {
-    fortniteLinkSectionEl.style.display = "block";
-  }
-
-  if (fortniteStatusBoxEl) {
-    fortniteStatusBoxEl.style.display = "none";
-  }
-
-}
-
-  // Chargement de l'historique financier
+  // Historique des gains
   loadRewardsHistory(user);
 });
 
@@ -387,21 +424,12 @@ async function linkBrawl() {
 // ======================================================
 
 async function verifyFortnite() {
+  const inputEl = document.getElementById("fortniteName");
+  const resultEl = document.getElementById("fortniteResult");
+  const buttonEl = document.getElementById("fortniteVerifyBtn");
 
-  const inputEl =
-    document.getElementById("fortniteName");
-
-  const resultEl =
-    document.getElementById("fortniteResult");
-
-  const buttonEl =
-    document.getElementById("fortniteVerifyBtn");
-
-  const name =
-    inputEl ? inputEl.value.trim() : "";
-
-  const user =
-    auth.currentUser;
+  const name = inputEl ? inputEl.value.trim() : "";
+  const user = auth.currentUser;
 
   if (!user) {
     alert("Connecte-toi !");
@@ -409,36 +437,31 @@ async function verifyFortnite() {
   }
 
   if (!name) {
-
     if (resultEl) {
-      resultEl.innerText =
-        "❌ Entre ton nom Epic Games.";
+      resultEl.innerText = "❌ Entre ton nom Epic Games.";
     }
-
     return;
   }
 
-  if (name.length < 2) {
-
+  if (name.length < 3 || name.length > 32) {
     if (resultEl) {
-      resultEl.innerText =
-        "❌ Nom Fortnite invalide.";
+      resultEl.innerText = "❌ Nom Fortnite invalide.";
     }
-
     return;
   }
 
   try {
-
     if (buttonEl) {
       buttonEl.disabled = true;
       buttonEl.innerText = "Vérification...";
     }
 
     if (resultEl) {
-      resultEl.innerText =
-        "🔎 Vérification du compte Fortnite...";
+      resultEl.innerText = "🔎 Vérification du compte Fortnite...";
     }
+
+    // 🔐 Récupération du token Firebase
+    const token = await user.getIdToken(true);
 
     const response = await fetch(
       "https://cash-arena-api.onrender.com/api/fortnite/verify",
@@ -446,7 +469,8 @@ async function verifyFortnite() {
         method: "POST",
 
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
 
         body: JSON.stringify({
@@ -457,72 +481,37 @@ async function verifyFortnite() {
 
     const data = await response.json();
 
-    if (!response.ok || data.error) {
-
+    if (!response.ok || !data.success) {
       if (resultEl) {
         resultEl.innerText =
           "❌ " +
-          (
-            data.message ||
-            "Compte Fortnite introuvable."
-          );
+          (data.message || "Impossible de vérifier le compte Fortnite.");
       }
 
       return;
     }
 
-    // ==============================================
-    // COMPTE FORTNITE VALIDÉ
-    // ==============================================
-
-    await db
-      .collection("users")
-      .doc(user.uid)
-      .set(
-        {
-          fortniteName:
-            data.name || name,
-
-          fortniteAccountId:
-            data.accountId || null,
-
-          fortniteVerified:
-            true,
-
-          fortniteVerifiedAt:
-            firebase.firestore.FieldValue.serverTimestamp(),
-
-          fortniteGame:
-            "fortnite"
-        },
-        {
-          merge: true
-        }
-      );
-
-    // ==============================================
-    // AFFICHAGE
-    // ==============================================
+    console.log("✅ Fortnite vérifié :", data);
 
     if (resultEl) {
       resultEl.innerText =
-        `✅ Compte vérifié : ${data.name || name}`;
+        `✅ Compte vérifié : ${data.account.name}`;
     }
 
+    // Le serveur enregistre déjà le compte dans :
+    // users/{uid}/games/fortnite
+    //
+    // On ne réécrit donc PAS les données Fortnite
+    // côté client.
+
     const linkSectionEl =
-      document.getElementById(
-        "fortniteLinkSection"
-      );
+      document.getElementById("fortniteLinkSection");
 
     const statusBoxEl =
-      document.getElementById(
-        "fortniteStatusBox"
-      );
+      document.getElementById("fortniteStatusBox");
 
     const savedEl =
-      document.getElementById(
-        "fortniteSaved"
-      );
+      document.getElementById("fortniteSaved");
 
     if (linkSectionEl) {
       linkSectionEl.style.display = "none";
@@ -534,19 +523,13 @@ async function verifyFortnite() {
 
     if (savedEl) {
       savedEl.innerText =
-        `🎯 ${data.name || name} • Compte Fortnite vérifié`;
+        `🎯 ${data.account.name} • Compte Fortnite vérifié`;
     }
 
-    alert(
-      "Compte Fortnite vérifié et lié avec succès !"
-    );
+    alert("Compte Fortnite vérifié et lié avec succès !");
 
   } catch (error) {
-
-    console.error(
-      "❌ Erreur vérification Fortnite :",
-      error
-    );
+    console.error("❌ Erreur vérification Fortnite :", error);
 
     if (resultEl) {
       resultEl.innerText =
@@ -554,12 +537,10 @@ async function verifyFortnite() {
     }
 
   } finally {
-
     if (buttonEl) {
       buttonEl.disabled = false;
       buttonEl.innerText = "Vérifier";
     }
-
   }
 }
 
